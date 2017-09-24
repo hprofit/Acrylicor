@@ -13,8 +13,7 @@ class Matrix
 public:
 	int m_rows, m_cols;
 	float ** m_matrix;
-	
-	Matrix();
+
 	Matrix(int rows, int cols);
 	Matrix(const Matrix &other); // Copy Constructor
 	Matrix& operator= (const Matrix &other); // Assignment Operator
@@ -32,7 +31,6 @@ public:
 	Matrix operator* (const Matrix& other);
 	Matrix operator* (const float scalar);
 	Matrix operator/ (const float divisor);
-	float & operator() (int row, int col);
 
 	bool operator== (const  Vector2D& other);
 	bool operator!= (const  Vector2D& other);

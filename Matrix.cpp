@@ -277,12 +277,6 @@ Matrix Matrix::operator/(const float divisor)
 	return result;
 }
 
-float & Matrix::operator()(int row, int col)
-{
-	return m_matrix[row][col];
-	//return m_matrix[row * sizeof(float) + col];
-}
-
 /* Vector2D operations */
 bool Matrix::operator==(const Vector2D& other)
 {

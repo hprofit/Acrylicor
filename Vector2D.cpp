@@ -104,17 +104,6 @@ void Vector2D::Div(const float divisor)
 	m_y /= divisor;
 }
 
-char * Vector2D::asString()
-{
-	char * buffer = (char *)malloc(255);
-	if (!buffer) {
-		printf("Out of memory!");
-		return nullptr;
-	}
-	sprintf(buffer, "(X: %f, Y: %f, W: %f)", m_x, m_y, m_w);
-	return buffer;
-}
-
 void Vector2D::Print()
 {
 	printf("(X: %f, Y: %f, W: %f)\n", m_x, m_y, m_w);

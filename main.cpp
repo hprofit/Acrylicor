@@ -10,6 +10,7 @@
 #include "Matrix.h"
 #include "Matrix2x2.h"
 #include "Matrix3x3.h"
+#include "Math2D.h"
 
 #define PASS "PASS"
 #define FAIL "!!!!! FAIL !!!!!"
@@ -937,6 +938,35 @@ void Matrix3x3Tests()
 void StaticCollisionTests()
 {
 	printf("\n========== Running Static Collision tests ==========\n\n");
+
+	Vector2D v1 = Vector2D(10.0f, 10.0f), 
+			 v2 = Vector2D(11.4f, 11.4f);
+	float radius = 2.0f;
+	
+	//StaticPointToStaticCircle
+	printf("StaticPointToStaticCircle Collision: %s\n", (StaticPointToStaticCircle(v2, v1, radius)) ? PASS : FAIL);
+
+	v2.m_x = 12.f; v2.m_y = 12.f;
+	printf("StaticPointToStaticCircle Non Collision: %s\n\n", (!StaticPointToStaticCircle(v2, v1, radius)) ? PASS : FAIL);
+
+	//StaticPointToStaticRect
+	v1.m_x = 1.0f;	v1.m_y = 1.0f;	//point
+	v2.m_x = 0.0f;	v2.m_y = 0.0f;	//rect
+	printf("StaticPointToStaticRect Collision: %s\n", (StaticPointToStaticRect(v1, v2, 2.0f, 2.0f) ? PASS : FAIL));
+	printf("StaticPointToStaticRect Non Collision: %s\n\n", (!StaticPointToStaticRect(v1, v2, 1.0f, 1.0f) ? PASS : FAIL));
+
+	//StaticCircleToStaticCircle
+	v1.m_x = 2.0f;	v1.m_y = 0.0f;
+	printf("StaticCircleToStaticCircle Collision Touch: %s\n", (StaticCircleToStaticCircle(v1, 1.0f, v2, 1.0f) ? PASS : FAIL));
+	printf("StaticCircleToStaticCircle Collision: %s\n", (StaticCircleToStaticCircle(v1, 2.0f, v2, 1.0f) ? PASS : FAIL));
+	printf("StaticCircleToStaticCircle Non Collision: %s\n\n", (!StaticCircleToStaticCircle(v1, 0.5f, v2, 1.0f) ? PASS : FAIL));
+
+	//StaticRectToStaticRect
+	v1.m_x = 2.0f;	v1.m_y = 2.0f;
+	v2.m_x = 0.0f;	v2.m_y = 0.0f;
+	printf("StaticRectToStaticRect Non Collision: %s\n", (!StaticRectToStaticRect(v1, 1.0f, 1.0f, v2, 1.0f, 1.0f) ? PASS : FAIL));
+	printf("StaticRectToStaticRect Collision Touch: %s\n", (StaticRectToStaticRect(v1, 2.0f, 2.0f, v2, 2.0f, 2.0f) ? PASS : FAIL));
+	printf("StaticRectToStaticRect Collision Intersect: %s\n", (StaticRectToStaticRect(v1, 3.0f, 3.0f, v2, 3.0f, 3.0f) ? PASS : FAIL));
 }
 
 int main(int argc, char ** argv)
@@ -1002,7 +1032,9 @@ int main(int argc, char ** argv)
 		Vector2DTests();
 		Vector3DTests();
 		MatrixTests();
-		//StaticCollisionTests();
+		Matrix2x2Tests();
+		Matrix3x3Tests();
+		StaticCollisionTests();
 	}
 
 	return 0;

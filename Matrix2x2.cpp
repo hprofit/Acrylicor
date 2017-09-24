@@ -17,23 +17,15 @@ Matrix2x2::Matrix2x2(float x1, float y1, float x2, float y2) : Matrix(2, 2)
 Matrix2x2::Matrix2x2(const Matrix2x2 &other) : Matrix(2, 2)
 {
 	for (int row = 0; row < m_rows; row++)
-	{
 		for (int col = 0; col < m_cols; col++)
-		{
 			m_matrix[row][col] = other.m_matrix[row][col];
-		}
-	}
 }
 
 Matrix2x2& Matrix2x2::operator=(const Matrix2x2& other)
 {
 	for (int row = 0; row < m_rows; row++)
-	{
 		for (int col = 0; col < m_cols; col++)
-		{
 			m_matrix[row][col] = other.m_matrix[row][col];
-		}
-	}
 	return *this;
 }
 
@@ -151,7 +143,6 @@ Matrix2x2 Matrix2x2::operator/(const float divisor)
 		m_matrix[1][0] / divisor, m_matrix[1][1] / divisor
 	);
 }
-
 
 /* Vector2D operations */
 Vector2D Matrix2x2::operator*(const Vector2D& other)

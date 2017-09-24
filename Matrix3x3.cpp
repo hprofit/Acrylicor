@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "Matrix3x3.h"
 
 #define EPSILON 0.0001

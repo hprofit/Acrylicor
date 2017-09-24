@@ -28,7 +28,6 @@ public:
 	void Mul(const float scalar);
 	void Div(const float divisor);
 	void Print();
-	char * asString();
 
 	void Zero();
 	void Set(float x, float y);

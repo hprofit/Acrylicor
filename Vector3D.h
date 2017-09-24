@@ -4,6 +4,8 @@
 #define VECTOR3_H
 
 #define _USE_MATH_DEFINES
+#include <stdio.h>
+#include <stdlib.h>
 #include "math.h"
 
 class Vector3D
@@ -28,7 +30,6 @@ public:
 	void Mul(const float scalar);
 	void Div(const float divisor);
 	void Print();
-	char * asString();
 
 	void Zero();
 	void Set(float x, float y, float z);

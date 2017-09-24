@@ -114,17 +114,6 @@ void Vector3D::Div(const float divisor)
 	m_z /= divisor;
 }
 
-char * Vector3D::asString()
-{
-	char * buffer = (char *)malloc(255);
-	if (!buffer) {
-		printf("Out of memory!");
-		return nullptr;
-	}
-	sprintf(buffer, "(X: %f, Y: %f, Z: %f, W: %f)", m_x, m_y, m_z, m_w);
-	return buffer;
-}
-
 void Vector3D::Print()
 {
 	printf("(X: %f, Y: %f, Z: %f, W: %f)\n", m_x, m_y, m_z, m_w);
@@ -209,9 +198,8 @@ Vector3D Vector3D::Cross(const Vector3D& vector0, const Vector3D& vector1)
 
 Vector3D Vector3D::AngleRadians(float radians, Vector3D& axis)
 {
-	char * str = axis.asString();
-	printf("%f, %s", radians, str);
-	free(str);
+	axis.Print();
+	printf("radians: %f", radians);
 	return Vector3D();
 }
 
