@@ -26,7 +26,7 @@ Vector2D::~Vector2D()
 
 bool Vector2D::operator==(const Vector2D& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_x - other.m_x);
 	d += fabs(m_y - other.m_y);
@@ -37,7 +37,7 @@ bool Vector2D::operator==(const Vector2D& other)
 
 bool Vector2D::operator!=(const Vector2D& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_x - other.m_x);
 	d += fabs(m_y - other.m_y);

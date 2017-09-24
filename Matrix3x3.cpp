@@ -58,7 +58,7 @@ Matrix3x3 Matrix3x3::Identity3D()
 /* Matrix3x3 Operations */
 bool Matrix3x3::operator==(const Matrix3x3& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_matrix[0][0] - other.m_matrix[0][0]);
 	d += fabs(m_matrix[0][1] - other.m_matrix[0][1]);
@@ -76,7 +76,7 @@ bool Matrix3x3::operator==(const Matrix3x3& other)
 
 bool Matrix3x3::operator!=(const Matrix3x3& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_matrix[0][0] - other.m_matrix[0][0]);
 	d += fabs(m_matrix[0][1] - other.m_matrix[0][1]);

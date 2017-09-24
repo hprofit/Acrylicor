@@ -74,7 +74,7 @@ Matrix2x2 Matrix2x2::Identity2D()
 /* Matrix2x2 Operations */
 bool Matrix2x2::operator==(const Matrix2x2& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_matrix[0][0] - other.m_matrix[0][0]);
 	d += fabs(m_matrix[0][1] - other.m_matrix[0][1]);
@@ -86,7 +86,7 @@ bool Matrix2x2::operator==(const Matrix2x2& other)
 
 bool Matrix2x2::operator!=(const Matrix2x2& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_matrix[0][0] - other.m_matrix[0][0]);
 	d += fabs(m_matrix[0][1] - other.m_matrix[0][1]);

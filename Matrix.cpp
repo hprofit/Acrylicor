@@ -166,7 +166,7 @@ bool Matrix::operator==(const Matrix& other)
 	}
 	else 
 	{ 
-		float d = 0.0f;
+		double d = 0.0f;
 		for (int row = 0; row < m_rows; row++)
 		{
 			for (int col = 0; col < m_cols; col++)
@@ -186,7 +186,7 @@ bool Matrix::operator!=(const Matrix& other)
 	}
 	else
 	{
-		float d = 0.0f;
+		double d = 0.0f;
 		for (int row = 0; row < m_rows; row++)
 		{
 			for (int col = 0; col < m_cols; col++)
@@ -286,7 +286,7 @@ bool Matrix::operator==(const Vector2D& other)
 	}
 	else
 	{
-		float d = 0.0f;
+		double d = 0.0f;
 		d += fabs(m_matrix[0][0] - other.m_x);
 		d += fabs(m_matrix[1][0] - other.m_y);
 		return d < EPSILON;
@@ -301,7 +301,7 @@ bool Matrix::operator!=(const Vector2D& other)
 	}
 	else
 	{
-		float d = 0.0f;
+		double d = 0.0f;
 		d += fabs(m_matrix[0][0] - other.m_x);
 		d += fabs(m_matrix[1][0] - other.m_y);
 		return d >= EPSILON;
@@ -355,7 +355,7 @@ bool Matrix::operator==(const Vector3D& other)
 	}
 	else
 	{
-		float d = 0.0f;
+		double d = 0.0f;
 		d += fabs(m_matrix[0][0] - other.m_x);
 		d += fabs(m_matrix[1][0] - other.m_y);
 		d += fabs(m_matrix[2][0] - other.m_z);
@@ -371,7 +371,7 @@ bool Matrix::operator!=(const Vector3D& other)
 	}
 	else
 	{
-		float d = 0.0f;
+		double d = 0.0f;
 		d += fabs(m_matrix[0][0] - other.m_x);
 		d += fabs(m_matrix[1][0] - other.m_y);
 		d += fabs(m_matrix[2][0] - other.m_z);

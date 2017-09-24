@@ -26,7 +26,7 @@ Vector3D::~Vector3D()
 
 bool Vector3D::operator==(const Vector3D& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_x - other.m_x);
 	d += fabs(m_y - other.m_y);
@@ -38,7 +38,7 @@ bool Vector3D::operator==(const Vector3D& other)
 
 bool Vector3D::operator!=(const Vector3D& other)
 {
-	float d = 0.0f;
+	double d = 0.0f;
 
 	d += fabs(m_x - other.m_x);
 	d += fabs(m_y - other.m_y);
