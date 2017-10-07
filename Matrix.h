@@ -48,4 +48,6 @@ public:
 	static Matrix Identity(int rows_cols);
 };
 
+void MatrixTests();
+
 #endif

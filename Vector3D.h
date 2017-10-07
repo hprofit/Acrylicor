@@ -1,22 +1,47 @@
+/* Start Header -------------------------------------------------------
+Copyright (C) 2017 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior
+written consent of DigiPen Institute of Technology is prohibited.
+File Name: Vector3D.h
+Purpose: Provides a 3 Dimensional Vector (with w coordinate for Homogeneous uses)
+Language: C++
+Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
+Project: CS529_holdenprofit_
+Author: Holden Profit, holden.profit, 42833
+Creation date: 9/29/17
+- End Header --------------------------------------------------------*/
+
 #pragma once
 
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
 #define _USE_MATH_DEFINES
-#include <stdio.h>
-#include <stdlib.h>
-#include "math.h"
 
 class Vector3D
 {
-public:
+private:
 	float m_x, m_y, m_z, m_w;
+	void swap(Vector3D& other);
 
+public:
 	Vector3D();
 	Vector3D(float x, float y, float z);
 	Vector3D(float x, float y, float z, float w);
+	Vector3D(Vector3D const& rhs);
+	Vector3D& operator= (Vector3D rhs);
 	~Vector3D();
+
+	void Set(float x, float y, float z);
+	void Set(float x, float y, float z, float w);
+	float getX() const;
+	void setX(float x);
+	float getY() const;
+	void setY(float y);
+	float getZ() const;
+	void setZ(float z);
+	float getW() const;
+	void setW(float w);
 
 	bool operator== (const  Vector3D& other);
 	bool operator!= (const  Vector3D& other);
@@ -32,19 +57,20 @@ public:
 	void Print();
 
 	void Zero();
-	void Set(float x, float y, float z);
-	void Set(float x, float y, float z, float w);
 	void Negate();
 	float SquareLength();
 	float Length();
+	void Normalize();
+
 	static float SquareDistance(const Vector3D& vector0, const Vector3D& vector1);
 	static float Distance(const Vector3D& vector0, const Vector3D& vector1);
-	void Normalize();
 	static Vector3D Normalize(Vector3D& vector);
 	static float Dot(const Vector3D& vector0, const Vector3D& vector1);
 	static Vector3D Cross(const Vector3D& vector0, const Vector3D& vector1);
 	static Vector3D AngleRadians(float radians, Vector3D& axis);
 	static Vector3D AngleDegrees(float degrees, Vector3D& axis);
 };
+
+void Vector3DTests();
 
 #endif

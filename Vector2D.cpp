@@ -1,52 +1,93 @@
+#include "Vector2D.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "Vector2D.h"
+#include "math.h"
+#include <algorithm>
 
 #define EPSILON 0.0001
+#define PASS "PASS"
+#define FAIL "!!!!! FAIL !!!!!"
 
-Vector2D::Vector2D() 
+void Vector2D::swap(Vector2D& other)
 {
-	m_x = m_y = 0.0f;	m_w = 1.0f;
+	std::swap(m_x, other.m_x);
+	std::swap(m_y, other.m_y);
+	std::swap(m_w, other.m_w);
 }
 
-Vector2D::Vector2D(float x, float y)
+Vector2D::Vector2D() : m_x(0.f), m_y(0.f), m_w(1.f) { }
+
+Vector2D::Vector2D(float x, float y) : m_x(x), m_y(y), m_w(1.f) { }
+
+Vector2D::Vector2D(float x, float y, float w) : m_x(x), m_y(y), m_w(w) { }
+
+Vector2D::Vector2D(Vector2D const& rhs) : m_x(rhs.m_x), m_y(rhs.m_y), m_w(rhs.m_w) { }
+
+Vector2D& Vector2D::operator=(Vector2D rhs)
 {
-	m_x = x;	m_y = y;	m_w = 1.0f;
+	swap(rhs);
+	return *this;
 }
 
-Vector2D::Vector2D(float x, float y, float w)
+Vector2D::~Vector2D() { }
+
+#pragma region Getters/Setters
+void Vector2D::Set(float x, float y)
 {
-	m_x = x;	m_y = y;	m_w = w;
+	m_x = x;
+	m_y = y;
 }
 
-Vector2D::~Vector2D()
+void Vector2D::Set(float x, float y, float w)
 {
-
+	m_x = x;
+	m_y = y;
+	m_w = w;
 }
 
-bool Vector2D::operator==(const Vector2D& other)
+float Vector2D::getX() const
 {
-	double d = 0.0f;
-
-	d += fabs(m_x - other.m_x);
-	d += fabs(m_y - other.m_y);
-	d += fabs(m_w - other.m_w);
-
-	return d < EPSILON;
+	return m_x;
 }
 
-bool Vector2D::operator!=(const Vector2D& other)
+void Vector2D::setX(float x)
 {
-	double d = 0.0f;
-
-	d += fabs(m_x - other.m_x);
-	d += fabs(m_y - other.m_y);
-	d += fabs(m_w - other.m_w);
-
-	return d >= EPSILON;
+	m_x = x;
 }
 
-Vector2D Vector2D::operator+(const Vector2D& other)
+float Vector2D::getY() const
+{
+	return m_y;
+}
+
+void Vector2D::setY(float y)
+{
+	m_y = y;
+}
+
+float Vector2D::getW() const
+{
+	return m_w;
+}
+
+void Vector2D::setW(float w)
+{
+	m_w = w;
+}
+#pragma endregion
+
+#pragma region Operator Overrides
+bool Vector2D::operator==(const Vector2D& other) const
+{
+	return fabs(m_x - other.m_x) + fabs(m_y - other.m_y) + fabs(m_w - other.m_w) < EPSILON;
+}
+
+bool Vector2D::operator!=(const Vector2D& other) const
+{
+	return fabs(m_x - other.m_x) + fabs(m_y - other.m_y) + fabs(m_w - other.m_w) >= EPSILON;
+}
+
+Vector2D Vector2D::operator+(const Vector2D& other) const
 {
 	return Vector2D(
 		m_x + other.m_x,
@@ -54,7 +95,7 @@ Vector2D Vector2D::operator+(const Vector2D& other)
 	);
 }
 
-Vector2D Vector2D::operator-(const Vector2D& other)
+Vector2D Vector2D::operator-(const Vector2D& other) const
 {
 	return Vector2D(
 		m_x - other.m_x,
@@ -62,7 +103,7 @@ Vector2D Vector2D::operator-(const Vector2D& other)
 	);
 }
 
-Vector2D Vector2D::operator*(const float scalar)
+Vector2D Vector2D::operator*(const float scalar) const
 {
 	return Vector2D(
 		m_x * scalar,
@@ -70,13 +111,14 @@ Vector2D Vector2D::operator*(const float scalar)
 	);
 }
 
-Vector2D Vector2D::operator/(const float divisor)
+Vector2D Vector2D::operator/(const float divisor) const
 {
 	return Vector2D(
 		m_x / divisor,
 		m_y / divisor
 	);
 }
+#pragma endregion
 
 void Vector2D::Add(const Vector2D& other)
 {
@@ -114,19 +156,6 @@ void Vector2D::Zero()
 	m_x = m_y = 0.0f;
 }
 
-void Vector2D::Set(float x, float y)
-{
-	m_x = x;
-	m_y = y;
-}
-
-void Vector2D::Set(float x, float y, float w)
-{
-	m_x = x;
-	m_y = y;
-	m_w = w;
-}
-
 void Vector2D::Negate()
 {
 	m_x = -m_x;
@@ -140,7 +169,7 @@ float Vector2D::SquareLength()
 
 float Vector2D::Length()
 {
-	return sqrt(SquareLength());
+	return sqrtf(SquareLength());
 }
 
 float Vector2D::SquareDistance(const Vector2D& vector0, const Vector2D& vector1)
@@ -152,7 +181,7 @@ float Vector2D::SquareDistance(const Vector2D& vector0, const Vector2D& vector1)
 
 float Vector2D::Distance(const Vector2D& vector0, const Vector2D& vector1)
 {
-	return sqrt(SquareDistance(vector0, vector1));
+	return sqrtf(SquareDistance(vector0, vector1));
 }
 
 void Vector2D::Normalize()
@@ -160,9 +189,24 @@ void Vector2D::Normalize()
 	Div(Length());
 }
 
+float Vector2D::GetRadians()
+{
+	return atan2f(m_y, m_x);
+}
+
+float Vector2D::GetDegrees()
+{
+	return GetRadians() * M_PI / 180.0f;
+}
+
+#pragma region Static Methods
+
 Vector2D Vector2D::Normalize(Vector2D& vector)
 {
-	return vector / vector.Length();
+	float len = vector.Length();
+	if (len == 0.0f)
+		throw "Division by zero error!";
+	return vector / len;
 }
 
 float Vector2D::Dot(const Vector2D& vector0, const Vector2D& vector1)
@@ -172,10 +216,243 @@ float Vector2D::Dot(const Vector2D& vector0, const Vector2D& vector1)
 
 Vector2D Vector2D::AngleRadians(float radians)
 {
-	return Vector2D(cos(radians), sin(radians));
+	return Vector2D(cosf(radians), sinf(radians));
 }
 
 Vector2D Vector2D::AngleDegrees(float degrees)
 {
 	return AngleRadians(degrees * M_PI / 180.0f);
+}
+
+#pragma endregion
+
+void Vector2DTests()
+{
+	printf("\n========== Running Vector2D tests ==========\n\n");
+
+	Vector2D * createdVector = new Vector2D();
+	printf("Created Vector(): %s\n", (createdVector->getX() == 0.0f && createdVector->getY() == 0.0f && createdVector->getW() == 1.0f) ? PASS : FAIL);
+	delete createdVector;
+
+	createdVector = new Vector2D(1.0f, 2.0f);
+	printf("Created Vector(x, y): %s\n", (createdVector->getX() == 1.0f && createdVector->getY() == 2.0f && createdVector->getW() == 1.0f) ? PASS : FAIL);
+	delete createdVector;
+
+	createdVector = new Vector2D(2.0f, 3.0f, 0.0f);
+	printf("Created Vector(x, y, w): %s\n", (createdVector->getX() == 2.0f && createdVector->getY() == 3.0f && createdVector->getW() == 0.0f) ? PASS : FAIL);
+	delete createdVector;
+
+	Vector2D v1, v2, v3, result;
+	float scalar;
+	double angle;
+
+	v1.Set(1.0f, 2.0f);
+	v2.Set(1.0f, 2.0f);
+	printf("Vector2D == equal: %s\n", (v1 == v2) ? PASS : FAIL);
+
+	v2.Set(1.1f, 2.0f);
+	printf("Vector2D == not equal: %s\n", (v1 == v2) ? FAIL : PASS);
+
+	v2.Set(2.0f, 3.0f);
+	printf("Vector2D != not equal: %s\n", (v1 != v2) ? PASS : FAIL);
+
+	v2.Set(1.0f, 2.0f);
+	printf("Vector2D != equal: %s\n", (v1 != v2) ? FAIL : PASS);
+
+	v1.Set(0.1f, 2.0f);
+	v2.Set(1.0f, 3.5f);
+	result.Set(1.1f, 5.5f);
+	printf("Vector2D +: %s\n", (v1 + v2 == result) ? PASS : FAIL);
+
+	v1.Set(-0.1f, 1.0f);
+	v2.Set(1.0f, -2.0f);
+	result.Set(0.9f, -1.0f);
+	printf("Vector2D +: %s\n", (v1 + v2 == result) ? PASS : FAIL);
+
+	v1.Set(1.0f, 2.0f);
+	v2.Set(1.0f, -2.0f);
+	result.Set(0.0f, 4.0f);
+	printf("Vector2D -: %s\n", (v1 - v2 == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 2.5f);
+	v2.Set(-2.0f, 2.0f);
+	result.Set(0.0f, 0.5f);
+	printf("Vector2D -: %s\n", (v1 - v2 == result) ? PASS : FAIL);
+
+	scalar = 2.0f;
+	result.Set(-4.0f, 5.0f);
+	printf("Vector2D *: %s\n", (v1 * scalar == result) ? PASS : FAIL);
+
+	scalar = 2.0f;
+	result.Set(-1.0f, 1.25f);
+	printf("Vector2D *: %s\n", (v1 * scalar == result) ? PASS : FAIL);
+
+	scalar = 2.0f;
+	result.Set(-1.0f, 5.0f);
+	printf("Vector2D /: %s\n", (v1 / scalar == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 10.0f);
+	scalar = 0.5f;
+	result.Set(-4.0f, 20.0f);
+	printf("Vector2D /: %s\n", (v1 / scalar == result) ? PASS : FAIL);
+
+	v1.Set(0.1f, 2.0f);
+	v2.Set(1.0f, 3.5f);
+	result.Set(1.1f, 5.5f);
+	v1.Add(v2);
+	printf("Vector2D Add: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-0.1f, 1.0f);
+	v2.Set(1.0f, -2.0f);
+	result.Set(0.9f, -1.0f);
+	v1.Add(v2);
+	printf("Vector2D Add: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(1.0f, 2.0f);
+	v2.Set(1.0f, -2.0f);
+	result.Set(0.0f, 4.0f);
+	v1.Sub(v2);
+	printf("Vector2D Sub: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 2.5f);
+	v2.Set(-2.0f, 2.0f);
+	result.Set(0.0f, 0.5f);
+	v1.Sub(v2);
+	printf("Vector2D Sub: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 2.5f);
+	scalar = 2.0f;
+	result.Set(-4.0f, 5.0f);
+	v1.Mul(scalar);
+	printf("Vector2D Mul: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 2.5f);
+	scalar = 0.5f;
+	result.Set(-1.0f, 1.25f);
+	v1.Mul(scalar);
+	printf("Vector2D Mul: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 10.0f);
+	scalar = 2.0f;
+	result.Set(-1.0f, 5.0f);
+	v1.Div(scalar);
+	printf("Vector2D Div: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-2.0f, 10.0f);
+	scalar = 0.5f;
+	result.Set(-4.0f, 20.0f);
+	v1.Div(scalar);
+	printf("Vector2D Div: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(1.0f, 1.0f);
+	result.Set(0.0f, 0.0f);
+	v1.Zero();
+	printf("Vector2D Zero: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(1.0f, 0.0f, 1.0f);
+	result.Set(1.0f, 2.0f, 1.0f);
+	v1.Set(1.0f, 2.0f);
+	printf("Vector2D Set(x, y): %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(0.0f, 0.0f, 0.0f);
+	result.Set(1.0f, 2.0f, 1.0f);
+	v1.Set(1.0f, 2.0f, 1.0f);
+	printf("Vector2D Set(x, y, w): %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(1.0f, -1.0f, 1.0f);
+	result.Set(-1.0f, 1.0f, 1.0f);
+	v1.Negate();
+	printf("Vector2D Negate: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-1.0f, 0.0f, 1.0f);
+	result.Set(1.0f, 0.0f, 1.0f);
+	v1.Negate();
+	printf("Vector2D Negate: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(-3.0f, 4.0f);
+	printf("Vector2D SquareLength: %s\n", (v1.SquareLength() == 25.0) ? PASS : FAIL);
+
+	v1.Set(-4.0f, 3.0f);
+	printf("Vector2D Length: %s\n", (v1.Length() == 5.0) ? PASS : FAIL);
+
+	v1.Set(-3.0f, 4.0f);
+	v2.Set(3.0f, -4.0f);
+	printf("Vector2D SquareDistance: %s\n", (Vector2D::SquareDistance(v1, v2) == 100.0f) ? PASS : FAIL);
+
+	printf("Vector2D Distance: %s\n", ((Vector2D::Distance(v1, v2) - 10.0f) < EPSILON) ? PASS : FAIL);
+
+	result.Set(-0.6f, 0.8f);
+	v1.Normalize();
+	printf("Vector2D Normalize: %s\n", (v1 == result) ? PASS : FAIL);
+
+	v1.Set(3.0f, -4.0f);
+	v1.Normalize();
+	printf("Vector2D Normalize Length Check: %s\n", (v1.Length() == 1.0f) ? PASS : FAIL);
+
+	v1.Set(3.0f, -4.0f);
+	result.Set(0.6f, -0.8f);
+	printf("Vector2D Normalize(vector): %s\n", (Vector2D::Normalize(v1) == result) ? PASS : FAIL);
+
+	v1.Set(-3.0f, 4.0f);
+	printf("Vector2D Normalize(vector) Length Check: %s\n", (Vector2D::Normalize(v1).Length() == 1.0f) ? PASS : FAIL);
+
+	v1.Set(2.0f, 3.0f);
+	v2.Set(4.0f, 5.0f);
+	printf("Vector2D Dot: %s\n", ((Vector2D::Dot(v1, v2) - 23.0f) < EPSILON) ? PASS : FAIL);
+
+	result.Set(0.707106f, 0.707106f, 1.0f);
+	angle = M_PI_4;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(0.0f, 1.0f, 1.0f);
+	angle = M_PI_2;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(-1.0f, 0.0f, 1.0f);
+	angle = M_PI;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(-1.0f, 0.0f, 1.0f);
+	angle = -M_PI;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(0.0f, -1.0f, 1.0f);
+	angle = 1.5f * M_PI;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(1.0f, 0.0f, 1.0f);
+	angle = 2.0f * M_PI;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(1.0f, 0.0f, 1.0f);
+	angle = 0.0f;
+	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
+
+	result.Set(0.707106f, 0.707106f, 1.0f);
+	angle = 45.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
+
+	result.Set(0.0f, 1.0f, 1.0f);
+	angle = 90.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
+
+	result.Set(-1.0f, 0.0f, 1.0f);
+	angle = 180.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
+
+	result.Set(-1.0f, 0.0f, 1.0f);
+	angle = -180.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
+
+	result.Set(0.0f, -1.0f, 1.0f);
+	angle = 270.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
+
+	result.Set(1.0f, 0.0f, 1.0f);
+	angle = 360.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
+
+	result.Set(1.0f, 0.0f, 1.0f);
+	angle = 0.0f;
+	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
 }
