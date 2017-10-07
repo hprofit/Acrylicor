@@ -13,10 +13,13 @@ Creation date: 9/29/17
 
 #pragma once
 
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+
 #ifndef MATRIX3X3_H
 #define MATRIX3X3_H
 
-#define _USE_MATH_DEFINES
 #include "Vector2D.h"
 #include "Vector3D.h"
 

@@ -345,7 +345,7 @@ void Vector3DTests()
 	v1.Add(v2);
 	printf("Vector3D Add: %s\n", (v1 == result) ? PASS : FAIL);
 
-	v1.Set(1.0f, 2.5f, -1.0f);
+	v1.Set(1.0f, 2.0f, -1.0f);
 	v2.Set(1.0f, -2.0f, -1.0f);
 	result.Set(0.0f, 4.0f, 0.0f);
 	v1.Sub(v2);

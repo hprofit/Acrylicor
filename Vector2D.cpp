@@ -283,12 +283,12 @@ void Vector2DTests()
 	result.Set(-4.0f, 5.0f);
 	printf("Vector2D *: %s\n", (v1 * scalar == result) ? PASS : FAIL);
 
-	scalar = 2.0f;
+	scalar = 0.5f;
 	result.Set(-1.0f, 1.25f);
 	printf("Vector2D *: %s\n", (v1 * scalar == result) ? PASS : FAIL);
 
 	scalar = 2.0f;
-	result.Set(-1.0f, 5.0f);
+	result.Set(-1.0f, 1.25f);
 	printf("Vector2D /: %s\n", (v1 / scalar == result) ? PASS : FAIL);
 
 	v1.Set(-2.0f, 10.0f);

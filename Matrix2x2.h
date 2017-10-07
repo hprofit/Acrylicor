@@ -13,10 +13,13 @@ Creation date: 9/29/17
 
 #pragma once
 
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+
 #ifndef MATRIX2X2_H
 #define MATRIX2X2_H
 
-#define _USE_MATH_DEFINES
 #include "Vector2D.h"
 
 class Matrix2x2
@@ -51,5 +54,7 @@ public:
 
 	Vector2D operator* (const Vector2D& other);
 };
+
+void Matrix2x2Tests();
 
 #endif

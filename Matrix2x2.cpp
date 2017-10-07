@@ -176,3 +176,131 @@ Vector2D Matrix2x2::operator*(const Vector2D& other)
 		m_matrix[1][0] * other.getX() + m_matrix[1][1] * other.getY()
 	);
 }
+
+
+void Matrix2x2Tests()
+{
+	printf("\n========== Running Matrix2x2 tests ==========\n\n");
+
+#pragma region Methods
+	Matrix2x2 m0 = Matrix2x2();
+	Matrix2x2 m1 = Matrix2x2();
+	long i, j;
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, i * 2 + j);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m1.Set(i, j, i + j * 2);
+
+	m1.Transpose();
+	printf("Matrix2x2 Transpose: %s\n", (m0 == m1) ? PASS : FAIL);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, 0.0f);
+
+	m1.Zero();
+	printf("Matrix2x2 Zero: %s\n", (m0 == m1) ? PASS : FAIL);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, i == j ? 1.0f : 0.0f);
+
+	m1.Identity();
+	printf("Matrix2x2 Identity: %s\n", (m0 == m1) ? PASS : FAIL);
+#pragma endregion Methods
+#pragma region StaticMethods
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, 0.0f);
+
+	Matrix2x2 zero = Matrix2x2::Zero2D();
+	printf("Matrix2x2::Zero: %s\n", (zero == m0) ? PASS : FAIL);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, i == j ? 1.0f : 0.0f);
+
+	Matrix2x2 identity = Matrix2x2::Identity2D();
+	printf("Matrix2x2::Identity: %s\n", (m0 == identity) ? PASS : FAIL);
+#pragma endregion StaticMethods
+#pragma region Operations
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, i + j);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m1.Set(i, j, i - j);
+	printf("Matrix2x2 == Matrix2x2 equal: %s\n", (m0 == m0) ? PASS : FAIL);
+
+	printf("Matrix2x2 == Matrix2x2 not equal: %s\n", (m0 == m1) ? FAIL : PASS);
+
+	printf("Matrix2x2 != Matrix2x2 not equal: %s\n", (m0 != m1) ? PASS : FAIL);
+
+	printf("Matrix2x2 != Matrix2x2 equal: %s\n", (m0 != m0) ? FAIL : PASS);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, i + j);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m1.Set(i, j, -(i + j));
+	printf("Matrix2x2 + Matrix2x2: %s\n", (zero == m0 + m1) ? PASS : FAIL);
+
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m0.Set(i, j, i + j);
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
+			m1.Set(i, j, i + j);
+	printf("Matrix2x2 - Matrix2x2: %s\n", (zero == m0 - m1) ? PASS : FAIL);
+
+	/*for (i = 0; i < 2; i++)
+	for (j = 0; j < 2; j++)
+	m0.Set(i, j, i + j;
+
+	for (i = 0; i < 2; i++)
+	for (j = 0; j < 2; j++)
+	m1.Set(i, j, i + j;
+	Matrix2x2 result = Matrix2x2(1.0f, 2.0f, 5.0f, 11.0f);
+	printf("Matrix2x2 * Matrix2x2: %s\n", (m0 * m1 == result) ? PASS : FAIL);
+
+	for (i = 0; i < 2; i++)
+	for (j = 0; j < 2; j++)
+	m0.Set(i, j, i + j;
+
+	for (i = 0; i < 2; i++)
+	for (j = 0; j < 2; j++)
+	m1.Set(i, j, (i + j) * 2.0f;
+	printf("Matrix2x2 * scalar: %s\n", ((m0 * 2.0f) == m1) ? PASS : FAIL);
+
+	for (i = 0; i < 2; i++)
+	for (j = 0; j < 2; j++)
+	m0.Set(i, j, i + j;
+
+	for (i = 0; i < 2; i++)
+	for (j = 0; j < 2; j++)
+	m1.Set(i, j, (i + j) / 2.0f;
+	printf("Matrix2x2 / divisor: %s\n", ((m0 / 2.0f) == m1) ? PASS : FAIL);
+	#pragma endregion Operations
+	#pragma region Vector2D
+	printf("\n========== Running Matrix2x2 - Vector2D tests ==========\n\n");
+	Matrix2x2 x22 = Matrix2x2();
+	Vector2D v2 = Vector2D(1, 2);
+
+	x22.m_matrix[0][0] = 1.0f;
+	x22.m_matrix[0][1] = 2.0f;
+	x22.m_matrix[1][0] = 3.0f;
+	x22.m_matrix[1][1] = 4.0f;
+	v2.m_x = 2.0f;	v2.m_y = 3.0f;
+
+	Vector2D v2Test = Vector2D(8.0f, 18.0f);
+	printf("Matrix2x2 * Vector2D: %s\n", (v2Test == (x22 * v2)) ? PASS : FAIL);
+	*/
+#pragma endregion Vector2D
+}

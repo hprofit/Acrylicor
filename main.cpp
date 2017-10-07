@@ -1,6 +1,5 @@
-#define _USE_MATH_DEFINES
-#define _USE_SDL_DEFINES
-#define EPSILON 0.0001f
+//#define _USE_SDL_DEFINES
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -85,7 +84,12 @@ int main(int argc, char ** argv)
 			}
 		}
 	}
+	return 0;
+}
 
+/*
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
+{
 	// SDL: initialize and create a window
 	SDL_Init(SDL_INIT_VIDEO);
 	const char *title = "Acrylicor";
@@ -114,22 +118,22 @@ int main(int argc, char ** argv)
 			case SDL_QUIT:
 				done = true;
 				break;
-			//case SDL_KEYDOWN:
-			//	if (event.key.keysym.sym == SDLK_ESCAPE)
-			//		done = true;
-			//	else
-			//		client->keypress(event.key.keysym.sym);
-			//	break;
-			//case SDL_WINDOWEVENT:
-			//	if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-			//		client->resize(event.window.data1, event.window.data2);
-			//	break;
-			//case SDL_MOUSEMOTION:
-			//	if ((event.motion.state&SDL_BUTTON_LMASK) != 0
-			//		|| (event.motion.state&SDL_BUTTON_RMASK) != 0)
-			//		client->mousedrag(event.motion.xrel, event.motion.yrel,
-			//		(event.motion.state&SDL_BUTTON_LMASK) != 0);
-			//	break;
+				//case SDL_KEYDOWN:
+				//	if (event.key.keysym.sym == SDLK_ESCAPE)
+				//		done = true;
+				//	else
+				//		client->keypress(event.key.keysym.sym);
+				//	break;
+				//case SDL_WINDOWEVENT:
+				//	if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+				//		client->resize(event.window.data1, event.window.data2);
+				//	break;
+				//case SDL_MOUSEMOTION:
+				//	if ((event.motion.state&SDL_BUTTON_LMASK) != 0
+				//		|| (event.motion.state&SDL_BUTTON_RMASK) != 0)
+				//		client->mousedrag(event.motion.xrel, event.motion.yrel,
+				//		(event.motion.state&SDL_BUTTON_LMASK) != 0);
+				//	break;
 			}
 		}
 		Uint32 ticks = SDL_GetTicks();
@@ -143,10 +147,7 @@ int main(int argc, char ** argv)
 	//delete client;
 	SDL_GL_DeleteContext(context);
 	SDL_Quit();
-	return 0;
-}
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
-{
 	return 0;
 }
+*/
