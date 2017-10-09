@@ -45,23 +45,23 @@ public:
 	float getW() const;
 	void setW(float w);
 
-	bool operator== (const  Vector3D& other);
-	bool operator!= (const  Vector3D& other);
-	Vector3D operator+ (const Vector3D& other);
-	Vector3D operator- (const Vector3D& other);
-	Vector3D operator* (const float scalar);
-	Vector3D operator/ (const float divisor);
+	bool operator== (const  Vector3D& other) const;
+	bool operator!= (const  Vector3D& other) const;
+	Vector3D operator+ (const Vector3D& other) const;
+	Vector3D operator- (const Vector3D& other) const;
+	Vector3D operator* (const float scalar) const;
+	Vector3D operator/ (const float divisor) const;
 
 	void Add(const Vector3D& other);
 	void Sub(const Vector3D& other);
 	void Mul(const float scalar);
 	void Div(const float divisor);
-	void Print();
+	void Print() const;
 
 	void Zero();
 	void Negate();
-	float SquareLength();
-	float Length();
+	float SquareLength() const;
+	float Length() const;
 	void Normalize();
 
 	static float SquareDistance(const Vector3D& vector0, const Vector3D& vector1);
@@ -72,6 +72,8 @@ public:
 	static Vector3D AngleRadians(float radians, Vector3D& axis);
 	static Vector3D AngleDegrees(float degrees, Vector3D& axis);
 };
+
+Vector3D operator*(const float scalar, const Vector3D& other);
 
 void Vector3DTests();
 

@@ -12,12 +12,16 @@
 #include "Matrix.h"
 #include "Matrix2x2.h"
 #include "Matrix3x3.h"
+#include "Matrix4x4.h"
 #include "Math2D.h"
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <GL/gl.h>
 
+#define TEST_MODE 0
+
+#if TEST_MODE
 int main(int argc, char ** argv)
 {
 	if (argc > 1)
@@ -34,6 +38,7 @@ int main(int argc, char ** argv)
 					//MatrixTests();
 					Matrix2x2Tests();
 					Matrix3x3Tests();
+					Matrix4x4Tests();
 					StaticCollisionTests();
 					break;
 				case 'v':
@@ -62,6 +67,8 @@ int main(int argc, char ** argv)
 							case '3':
 								Matrix3x3Tests();
 								break;
+							case '4':
+								Matrix4x4Tests();
 							default:
 								printf("Unrecognized flag: %s", argv[i]);
 								return 1;
@@ -72,6 +79,7 @@ int main(int argc, char ** argv)
 						//MatrixTests();
 						Matrix2x2Tests();
 						Matrix3x3Tests();
+						Matrix4x4Tests();
 					}
 					break;
 				case 's':
@@ -86,8 +94,9 @@ int main(int argc, char ** argv)
 	}
 	return 0;
 }
+#endif
 
-/*
+#if !TEST_MODE
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
 {
 	// SDL: initialize and create a window
@@ -118,12 +127,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 			case SDL_QUIT:
 				done = true;
 				break;
-				//case SDL_KEYDOWN:
-				//	if (event.key.keysym.sym == SDLK_ESCAPE)
-				//		done = true;
-				//	else
-				//		client->keypress(event.key.keysym.sym);
-				//	break;
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE)
+					done = true;
+				//else
+				//	client->keypress(event.key.keysym.sym);
+				break;
 				//case SDL_WINDOWEVENT:
 				//	if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 				//		client->resize(event.window.data1, event.window.data2);
@@ -150,4 +159,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 	return 0;
 }
-*/
+#endif

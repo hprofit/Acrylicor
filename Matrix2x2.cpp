@@ -36,7 +36,7 @@ Matrix2x2& Matrix2x2::operator=(const Matrix2x2& other) // Copy ctor
 
 Matrix2x2::~Matrix2x2(){}
 
-float Matrix2x2::Get(int row, int col)
+float Matrix2x2::Get(int row, int col) const
 {
 	if (row < 0 || row > 1 || col < 0 || col > 1)
 		throw "Invalid row or column access.";
@@ -74,15 +74,19 @@ void Matrix2x2::Identity()
 	m_matrix[1][1] = 1.0f;
 }
 
-void Matrix2x2::Print()
+float Matrix2x2::Determinant() const
+{
+	return m_matrix[0][0] * m_matrix[1][1] - m_matrix[0][1] * m_matrix[1][0];
+}
+
+void Matrix2x2::Print() const
 {
 	printf("( %f %f )\n", m_matrix[0][0], m_matrix[0][1]);
 	printf("( %f %f )\n", m_matrix[1][0], m_matrix[1][1]);
 	printf("\n");
 }
 
-
-/* Static Matrix2x2 Functions */
+#pragma region Static Methods
 Matrix2x2 Matrix2x2::Zero2D()
 {
 	return Matrix2x2(0.0f, 0.0f, 0.0f, 0.0f);
@@ -96,8 +100,13 @@ Matrix2x2 Matrix2x2::Identity2D()
 	);
 }
 
+float Matrix2x2::Determinant(const Matrix2x2& other)
+{
+	return other.m_matrix[0][0] * other.m_matrix[1][1] - other.m_matrix[0][1] * other.m_matrix[1][0];
+}
+#pragma endregion
 
-/* Matrix2x2 Operations */
+#pragma region Operator Overrides
 bool Matrix2x2::operator==(const Matrix2x2& other)
 {
 	double d = 0.0f;
@@ -176,7 +185,7 @@ Vector2D Matrix2x2::operator*(const Vector2D& other)
 		m_matrix[1][0] * other.getX() + m_matrix[1][1] * other.getY()
 	);
 }
-
+#pragma endregion
 
 void Matrix2x2Tests()
 {

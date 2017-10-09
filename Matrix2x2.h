@@ -34,20 +34,22 @@ public:
 	Matrix2x2& operator= (const Matrix2x2 &other); // Assignment Operator
 	~Matrix2x2();
 
-	float Get(int row, int col);
+	float Get(int row, int col) const;
 	void Set(int row, int col, float val);
-	void Transpose();	//
-	void Zero();		//
-	void Identity();	//
-	void Print();		
+	void Transpose();
+	void Zero();
+	void Identity();
+	float Determinant() const;
+	void Print() const;
 
 	static Matrix2x2 Zero2D();
 	static Matrix2x2 Identity2D();
+	static float Determinant(const Matrix2x2& other);
 
-	bool operator== (const  Matrix2x2& other);		//
-	bool operator!= (const  Matrix2x2& other);		//
-	Matrix2x2 operator+ (const Matrix2x2& other);	//
-	Matrix2x2 operator- (const Matrix2x2& other);	//
+	bool operator== (const  Matrix2x2& other);
+	bool operator!= (const  Matrix2x2& other);
+	Matrix2x2 operator+ (const Matrix2x2& other);
+	Matrix2x2 operator- (const Matrix2x2& other);
 	Matrix2x2 operator* (const Matrix2x2& other);	
 	Matrix2x2 operator* (const float scalar);
 	Matrix2x2 operator/ (const float divisor);

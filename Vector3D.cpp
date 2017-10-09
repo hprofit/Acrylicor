@@ -8,6 +8,8 @@
 #define PASS "PASS"
 #define FAIL "!!!!! FAIL !!!!!"
 
+static const float DEG_TO_RAD = M_PI / 180.0f;
+
 void Vector3D::swap(Vector3D& other)
 {
 	std::swap(m_x, other.m_x);
@@ -89,7 +91,7 @@ void Vector3D::setW(float w)
 #pragma endregion
 
 #pragma region Operator Overrides
-bool Vector3D::operator==(const Vector3D& other)
+bool Vector3D::operator==(const Vector3D& other) const
 {
 	double d = 0.0f;
 
@@ -101,7 +103,7 @@ bool Vector3D::operator==(const Vector3D& other)
 	return d < EPSILON;
 }
 
-bool Vector3D::operator!=(const Vector3D& other)
+bool Vector3D::operator!=(const Vector3D& other) const
 {
 	double d = 0.0f;
 
@@ -113,7 +115,7 @@ bool Vector3D::operator!=(const Vector3D& other)
 	return d >= EPSILON;
 }
 
-Vector3D Vector3D::operator+(const Vector3D& other)
+Vector3D Vector3D::operator+(const Vector3D& other) const
 {
 	return Vector3D(
 		m_x + other.m_x,
@@ -122,7 +124,7 @@ Vector3D Vector3D::operator+(const Vector3D& other)
 	);
 }
 
-Vector3D Vector3D::operator-(const Vector3D& other)
+Vector3D Vector3D::operator-(const Vector3D& other) const
 {
 	return Vector3D(
 		m_x - other.m_x,
@@ -131,7 +133,7 @@ Vector3D Vector3D::operator-(const Vector3D& other)
 	);
 }
 
-Vector3D Vector3D::operator*(const float scalar)
+Vector3D Vector3D::operator*(const float scalar) const
 {
 	return Vector3D(
 		m_x * scalar,
@@ -140,7 +142,7 @@ Vector3D Vector3D::operator*(const float scalar)
 	);
 }
 
-Vector3D Vector3D::operator/(const float divisor)
+Vector3D Vector3D::operator/(const float divisor) const
 {
 	return Vector3D(
 		m_x / divisor,
@@ -180,7 +182,7 @@ void Vector3D::Div(const float divisor)
 	m_z /= divisor;
 }
 
-void Vector3D::Print()
+void Vector3D::Print() const
 {
 	printf("(X: %f, Y: %f, Z: %f, W: %f)\n", m_x, m_y, m_z, m_w);
 }
@@ -197,12 +199,12 @@ void Vector3D::Negate()
 	m_z = -m_z;
 }
 
-float Vector3D::SquareLength()
+float Vector3D::SquareLength() const
 {
 	return m_x * m_x + m_y * m_y + m_z * m_z;
 }
 
-float Vector3D::Length()
+float Vector3D::Length() const
 {
 	return sqrtf(SquareLength());
 }
@@ -236,7 +238,7 @@ Vector3D Vector3D::Normalize(Vector3D& vector)
 
 float Vector3D::Dot(const Vector3D& vector0, const Vector3D& vector1)
 {
-	return vector0.m_x * vector1.m_x + vector0.m_y * vector1.m_y + vector0.m_z * vector1.m_z;
+	return vector0.m_x * vector1.m_x + vector0.m_y * vector1.m_y + vector0.m_z * vector1.m_z + vector0.m_w * vector1.m_w;
 }
 
 Vector3D Vector3D::Cross(const Vector3D& vector0, const Vector3D& vector1)
@@ -257,9 +259,18 @@ Vector3D Vector3D::AngleRadians(float radians, Vector3D& axis)
 
 Vector3D Vector3D::AngleDegrees(float degrees, Vector3D& axis)
 {
-	return AngleRadians(degrees * M_PI / 180.0f, axis);
+	return AngleRadians(degrees * DEG_TO_RAD, axis);
 }
 #pragma endregion
+
+Vector3D operator*(const float scalar, const Vector3D& other)
+{
+	return Vector3D(
+		other.getX() * scalar,
+		other.getY() * scalar,
+		other.getZ() * scalar
+	);
+}
 
 void Vector3DTests()
 {
@@ -412,7 +423,7 @@ void Vector3DTests()
 	v1.Set(-4.0f, 3.0f, -5.0f);
 	printf("Vector3D Length: %s\n", (v1.Length() == 7.0710678f) ? PASS : FAIL);
 
-	v1.Set(-3.0f, 4.0f, -5.0f);
+	v1.Set(-3.0f, 4.0f, 5.0f);
 	v2.Set(3.0f, -4.0f, -5.0f);
 	printf("Vector3D SquareDistance: %s\n", (Vector3D::SquareDistance(v1, v2) == 200.0f) ? PASS : FAIL);
 
@@ -421,7 +432,7 @@ void Vector3DTests()
 	printf("Vector3D Distance: %s\n", ((Vector3D::Distance(v1, v2) - 14.1421356f) < EPSILON) ? PASS : FAIL);
 
 	v1.Set(-3.0f, 4.0f, 5.0f);
-	v2.Set(-0.424264f, 0.565685f, 0.707107f);
+	result.Set(-0.424264f, 0.565685f, 0.707107f);
 	v1.Normalize();
 	printf("Vector3D Normalize: %s\n", (v1 == result) ? PASS : FAIL);
 
@@ -430,7 +441,7 @@ void Vector3DTests()
 	printf("Vector3D Normalize Length Check: %s\n", (v1.Length() == 1.0f) ? PASS : FAIL);
 
 	v1.Set(-3.0f, 4.0f, 5.0f);
-	v2.Set(-0.424264f, 0.565685f, 0.707107f);
+	result.Set(-0.424264f, 0.565685f, 0.707107f);
 	printf("Vector3D Normalize(vector): %s\n", (Vector3D::Normalize(v1) == result) ? PASS : FAIL);
 
 	v1.Set(-3.0f, 4.0f, -5.0f);

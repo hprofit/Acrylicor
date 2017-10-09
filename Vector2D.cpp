@@ -8,6 +8,8 @@
 #define PASS "PASS"
 #define FAIL "!!!!! FAIL !!!!!"
 
+static const float DEG_TO_RAD = M_PI / 180.0f;
+
 void Vector2D::swap(Vector2D& other)
 {
 	std::swap(m_x, other.m_x);
@@ -196,7 +198,7 @@ float Vector2D::GetRadians()
 
 float Vector2D::GetDegrees()
 {
-	return GetRadians() * M_PI / 180.0f;
+	return GetRadians() * DEG_TO_RAD;
 }
 
 #pragma region Static Methods
@@ -221,7 +223,7 @@ Vector2D Vector2D::AngleRadians(float radians)
 
 Vector2D Vector2D::AngleDegrees(float degrees)
 {
-	return AngleRadians(degrees * M_PI / 180.0f);
+	return AngleRadians(degrees * DEG_TO_RAD);
 }
 
 #pragma endregion

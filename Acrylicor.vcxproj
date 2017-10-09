@@ -131,6 +131,11 @@
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="TESTFILES\Client.h" />
+    <ClInclude Include="TESTFILES\Mesh3D.h" />
+    <ClInclude Include="TESTFILES\Plane.h" />
+    <ClInclude Include="TESTFILES\Sphere.h" />
+    <ClInclude Include="TESTFILES\Torus.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
@@ -144,6 +149,10 @@
     <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="TESTFILES\Client.cpp" />
+    <ClCompile Include="TESTFILES\Plane.cpp" />
+    <ClCompile Include="TESTFILES\Sphere.cpp" />
+    <ClCompile Include="TESTFILES\Torus.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>

@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Vector">
       <UniqueIdentifier>{6b4c33b4-bc03-4046-ac38-1b3edd080aa2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\TestFiles">
+      <UniqueIdentifier>{c569f846-dd26-4919-944e-ac2ab9fe70aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TestFiles">
+      <UniqueIdentifier>{afa6493c-f6da-4775-9d80-0e9f6dcdf459}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math2D.h">
@@ -60,6 +66,21 @@
     <ClInclude Include="LineSegment2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TESTFILES\Client.h">
+      <Filter>Header Files\TestFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TESTFILES\Mesh3D.h">
+      <Filter>Header Files\TestFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TESTFILES\Plane.h">
+      <Filter>Header Files\TestFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TESTFILES\Sphere.h">
+      <Filter>Header Files\TestFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TESTFILES\Torus.h">
+      <Filter>Header Files\TestFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +115,18 @@
     </ClCompile>
     <ClCompile Include="LineSegment2D.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TESTFILES\Client.cpp">
+      <Filter>Source Files\TestFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TESTFILES\Plane.cpp">
+      <Filter>Source Files\TestFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TESTFILES\Sphere.cpp">
+      <Filter>Source Files\TestFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TESTFILES\Torus.cpp">
+      <Filter>Source Files\TestFiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

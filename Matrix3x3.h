@@ -35,15 +35,21 @@ public:
 	Matrix3x3& operator= (const Matrix3x3 &other); // Assignment Operator
 	~Matrix3x3();
 
-	float Get(int row, int col);
+	float Get(int row, int col) const;
 	void Set(int row, int col, float val);
 	void Transpose();
 	void Zero();
 	void Identity();
-	void Print();
+	float Determinant() const;
+	void Print() const;
 
 	static Matrix3x3 Zero3D();
 	static Matrix3x3 Identity3D();
+	static float Determinant(const Matrix3x3& other);
+	static Matrix3x3 Translate(float x, float y);
+	static Matrix3x3 Scale(float x, float y);
+	static Matrix3x3 RotateDeg_Z(float degrees);
+	static Matrix3x3 RotateRad_Z(float radians);
 
 	bool operator== (const  Matrix3x3& other);
 	bool operator!= (const  Matrix3x3& other);

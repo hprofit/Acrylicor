@@ -7,9 +7,14 @@
 #define PASS "PASS"
 #define FAIL "!!!!! FAIL !!!!!"
 
+static const float DEG_TO_RAD = M_PI / 180.0f;
+
 Matrix3x3::Matrix3x3() {}
 
-Matrix3x3::Matrix3x3(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3)
+Matrix3x3::Matrix3x3(
+	float x1, float y1, float z1, 
+	float x2, float y2, float z2, 
+	float x3, float y3, float z3)
 {
 	m_matrix[0][0] = x1;
 	m_matrix[0][1] = y1;
@@ -57,7 +62,7 @@ Matrix3x3& Matrix3x3::operator=(const Matrix3x3& other) // Copy ctor
 
 Matrix3x3::~Matrix3x3(){}
 
-float Matrix3x3::Get(int row, int col)
+float Matrix3x3::Get(int row, int col) const
 {
 	if (row < 0 || row > 2 || col < 0 || col > 2)
 		throw "Invalid row or column access.";
@@ -119,7 +124,17 @@ void Matrix3x3::Identity()
 	m_matrix[2][2] = 1.0f;
 }
 
-void Matrix3x3::Print()
+float Matrix3x3::Determinant() const
+{
+	return	m_matrix[0][0] * m_matrix[1][1] * m_matrix[2][2] +
+			m_matrix[0][1] * m_matrix[1][2] * m_matrix[2][0] +
+			m_matrix[0][2] * m_matrix[1][0] * m_matrix[2][1] -
+			m_matrix[2][2] * m_matrix[1][1] * m_matrix[0][2] -
+			m_matrix[2][1] * m_matrix[1][2] * m_matrix[0][0] -
+			m_matrix[2][0] * m_matrix[1][0] * m_matrix[0][1];
+}
+
+void Matrix3x3::Print() const
 {
 	printf("( %f %f %f )\n", m_matrix[0][0], m_matrix[0][1], m_matrix[0][2]);
 	printf("( %f %f %f )\n", m_matrix[1][0], m_matrix[1][1], m_matrix[1][2]);
@@ -127,8 +142,7 @@ void Matrix3x3::Print()
 	printf("\n");
 }
 
-
-/* Static Matrix3x3 Functions */
+#pragma region Static Methods
 Matrix3x3 Matrix3x3::Zero3D()
 {
 	return Matrix3x3(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -143,8 +157,51 @@ Matrix3x3 Matrix3x3::Identity3D()
 	);
 }
 
+float Matrix3x3::Determinant(const Matrix3x3& other)
+{
+	return	other.m_matrix[0][0] * other.m_matrix[1][1] * other.m_matrix[2][2] +
+			other.m_matrix[0][1] * other.m_matrix[1][2] * other.m_matrix[2][0] +
+			other.m_matrix[0][2] * other.m_matrix[1][0] * other.m_matrix[2][1] -
+			other.m_matrix[2][2] * other.m_matrix[1][1] * other.m_matrix[0][2] -
+			other.m_matrix[2][1] * other.m_matrix[1][2] * other.m_matrix[0][0] -
+			other.m_matrix[2][0] * other.m_matrix[1][0] * other.m_matrix[0][1];
+}
 
-/* Matrix3x3 Operations */
+
+Matrix3x3 Matrix3x3::Translate(float x, float y)
+{
+	return Matrix3x3(
+		1.0f, 0.0f, x,
+		0.0f, 1.0f, y,
+		0.0f, 0.0f, 1.0f
+	);
+}
+
+Matrix3x3 Matrix3x3::Scale(float x, float y)
+{
+	return Matrix3x3(
+		x, 0.0f, 0.0f,
+		0.0f, y, 0.0f,
+		0.0f, 0.0f, 1.0f
+	);
+}
+
+Matrix3x3 Matrix3x3::RotateDeg_Z(float degrees)
+{
+	return RotateRad_Z(degrees * DEG_TO_RAD);
+}
+
+Matrix3x3 Matrix3x3::RotateRad_Z(float radians)
+{
+	return Matrix3x3(
+		cosf(radians), -sinf(radians), 0.0f,
+		sinf(radians), cosf(radians), 0.0f,
+		0.0f, 0.0f, 1.0f
+	);
+}
+#pragma endregion
+
+#pragma region Operation Overrides
 bool Matrix3x3::operator==(const Matrix3x3& other)
 {
 	double d = 0.0f;
@@ -238,7 +295,6 @@ Matrix3x3 Matrix3x3::operator/(const float divisor)
 }
 
 
-/* Vector2D operations */
 Vector2D Matrix3x3::operator*(const Vector2D& other)
 {
 	return Vector2D(
@@ -249,7 +305,6 @@ Vector2D Matrix3x3::operator*(const Vector2D& other)
 }
 
 
-/* Vector3D operations */
 Vector3D Matrix3x3::operator*(const Vector3D& other)
 {
 	return Vector3D(
@@ -258,7 +313,7 @@ Vector3D Matrix3x3::operator*(const Vector3D& other)
 		m_matrix[2][0] * other.getX() + m_matrix[2][1] * other.getY() + m_matrix[2][2] * other.getZ()
 	);
 }
-
+#pragma endregion
 
 
 void Matrix3x3Tests()
