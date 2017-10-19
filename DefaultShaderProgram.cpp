@@ -13,7 +13,7 @@ DefaultShaderProgram::~DefaultShaderProgram()
 
 void DefaultShaderProgram::AttachShader(Shader shader)
 {
-	glAttachShader(m_program, shader);
+	glAttachShader(m_programID, shader.GetShaderID());
 }
 
 void DefaultShaderProgram::LinkAttributes()

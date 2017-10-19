@@ -1,5 +1,5 @@
 #include "WindowManager.h"
-#include <GL/glew.h>
+#include <glew.h>
 #include <GL/gl.h>
 #include <stdio.h>
 #include <windows.h>

@@ -18,7 +18,7 @@ Creation date: 9/29/17
 
 #include <vector>
 #include "Vector3D.h"
-#include <GL/glew.h>
+#include <glew.h>
 #include <GL/gl.h>
 
 struct Face {

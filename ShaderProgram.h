@@ -16,7 +16,7 @@ Creation date: 10/16/17
 #ifndef SHADER_PROGRAM_H
 #define SHADER_PROGRAM_H
 
-#include "GL/glew.h"
+#include "glew.h"
 #include "Shader.h"
 
 class ShaderProgram

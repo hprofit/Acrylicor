@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <windows.h>
 
-#include <SDL2/SDL.h>
-#include <GL/glew.h>
+#include <SDL.h>
+#include <glew.h>
 #include <GL/gl.h>
 
 #include "Vector2D.h"

@@ -16,7 +16,7 @@ Creation date: 10/16/17
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <GL/glew.h>
+#include <glew.h>
 
 const enum SHADER_TYPE {
 	VERTEX_SHADER = 0,

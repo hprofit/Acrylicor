@@ -16,7 +16,7 @@ Creation date: 10/13/17
 #ifndef WINDOW_MANAGER_H
 #define WINDOW_MANAGER_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class WindowManager
 {

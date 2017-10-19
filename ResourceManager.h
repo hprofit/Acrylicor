@@ -17,7 +17,7 @@ Creation date: 10/17/17
 #ifndef RESOURCE_MANAGER_H
 #define RESOURCE_MANAGER_H
 
-#include <GL/glew.h>
+#include <glew.h>
 #include <map>
 #include "Mesh.h"
 

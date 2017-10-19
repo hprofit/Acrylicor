@@ -1,6 +1,6 @@
 #include "RenderManager.h"
 #include <stdio.h>
-#include <GL/glew.h>
+#include <glew.h>
 
 #include "Matrix4x4.h"
 
