@@ -40,8 +40,10 @@ void ShaderProgram::LoadShader(const char * shaderPath, SHADER_TYPE type)
 void ShaderProgram::AttachShader(Shader& shader)
 {
 	switch (shader.GetShaderType()) {
-	case VERTEX_SHADER:
-		m_vertexShader = &shader;
+		case VERTEX_SHADER:
+			m_vertexShader = &shader;
+		case FRAGMENT_SHADER:
+			m_fragmentShader = &shader;
 	}
 	glAttachShader(m_programID, shader.GetShaderID());
 }
