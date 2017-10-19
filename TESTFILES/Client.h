@@ -18,14 +18,16 @@ Author: Holden Profit
 
 struct Color {
 	float r, g, b, a;
+	explicit Color(float R = 0.0f, float G = 0.0f, float B = 0.0f, float A = 0.0f)
+		: r(R), g(G), b(B), a(A) {}
 };
 
 class Client {
 public:
-	Client(int which=0);
+	Client();
 	~Client(void);
 	void draw(double dt);
-	void keypress(SDL_Keycode kc, float dt);
+	void keypress(double dt);
 	void resize(int W, int H);
 	void mousedrag(int x, int y, bool lbutton);
 private:
@@ -33,6 +35,9 @@ private:
 	Vector3D cameraLookat;
 	float camXRot, camYRot;
 	float fov;
+	Vector3D lightPosition;
+	Color lightColor;
+	Color ambientColor;
 
 	const static int numberOfUniqueMeshes = 3;
 	GLuint vertex_buffer_arr[numberOfUniqueMeshes],
@@ -46,9 +51,13 @@ private:
 		uview_matrix,
 		umodel_matrix,
 		unormal_matrix,
-		ucolor;
+		ulight_position,
+		ulight_color,
+		udiffuse_color,
+		uambient_color,
+		uspecular_color;
 	int face_count;
-	float time;
+	double time;
 	float aspect;
 
 	void initializeBuffersForMeshAtIndex(Mesh3D& mesh, int index);
@@ -56,7 +65,7 @@ private:
 	Vector3D getCameraRight(void);
 	Vector3D getCameraUp(const Vector3D& forward, const Vector3D& right);
 	Matrix4x4 calculateViewMatrix(void);
-	void renderBuffer(int bufferIndex, Color color, float scalar, const Matrix4x4& rotationM, const Matrix4x4& viewM, Vector3D position);
+	void renderBuffer(int bufferIndex, const Color& diffuseColor, float scalar, const Matrix4x4& rotationM, const Matrix4x4& viewM, const Vector3D& position);
 };
 
 

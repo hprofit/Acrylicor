@@ -10,13 +10,6 @@
 
 static const float DEG_TO_RAD = M_PI / 180.0f;
 
-void Vector2D::swap(Vector2D& other)
-{
-	std::swap(m_x, other.m_x);
-	std::swap(m_y, other.m_y);
-	std::swap(m_w, other.m_w);
-}
-
 Vector2D::Vector2D() : m_x(0.f), m_y(0.f), m_w(1.f) { }
 
 Vector2D::Vector2D(float x, float y) : m_x(x), m_y(y), m_w(1.f) { }
@@ -27,13 +20,14 @@ Vector2D::Vector2D(Vector2D const& rhs) : m_x(rhs.m_x), m_y(rhs.m_y), m_w(rhs.m_
 
 Vector2D& Vector2D::operator=(Vector2D rhs)
 {
-	swap(rhs);
+	m_x = rhs.m_x;
+	m_y = rhs.m_y;
+	m_w = rhs.m_w;
 	return *this;
 }
 
 Vector2D::~Vector2D() { }
 
-#pragma region Getters/Setters
 void Vector2D::Set(float x, float y)
 {
 	m_x = x;
@@ -46,37 +40,6 @@ void Vector2D::Set(float x, float y, float w)
 	m_y = y;
 	m_w = w;
 }
-
-float Vector2D::getX() const
-{
-	return m_x;
-}
-
-void Vector2D::setX(float x)
-{
-	m_x = x;
-}
-
-float Vector2D::getY() const
-{
-	return m_y;
-}
-
-void Vector2D::setY(float y)
-{
-	m_y = y;
-}
-
-float Vector2D::getW() const
-{
-	return m_w;
-}
-
-void Vector2D::setW(float w)
-{
-	m_w = w;
-}
-#pragma endregion
 
 #pragma region Operator Overrides
 bool Vector2D::operator==(const Vector2D& other) const
@@ -97,12 +60,26 @@ Vector2D Vector2D::operator+(const Vector2D& other) const
 	);
 }
 
+Vector2D& Vector2D::operator+=(const Vector2D & other)
+{
+	m_x += other.m_x;
+	m_y += other.m_y;
+	return *this;
+}
+
 Vector2D Vector2D::operator-(const Vector2D& other) const
 {
 	return Vector2D(
 		m_x - other.m_x,
 		m_y - other.m_y
 	);
+}
+
+Vector2D& Vector2D::operator-=(const Vector2D & other)
+{
+	m_x -= other.m_x;
+	m_y -= other.m_y;
+	return *this;
 }
 
 Vector2D Vector2D::operator*(const float scalar) const

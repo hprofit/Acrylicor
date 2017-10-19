@@ -17,29 +17,40 @@ Creation date: 9/29/17
 #define MESH_H
 
 #include <vector>
-#include "Matrix3x3.h"
+#include "Vector3D.h"
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 struct Face {
-	unsigned index[3];
-	unsigned operator[](int i) const { return index[i]; }
-	unsigned& operator[](int i) { return index[i]; }
+	unsigned int index[3];
+	explicit Face(unsigned int v1, unsigned int v2, unsigned int v3) { 
+		index[0] = v1; index[1] = v2; index[2] = v3; 
+	}
+	unsigned int operator[](int i) const { return index[i]; }
+	unsigned int& operator[](int i) { return index[i]; }
 };
 
 class Mesh
 {
 private:
-	std::vector<Matrix3x3> vertices, normals;
-	std::vector<Face> faces;
+	std::vector<Vector3D> m_vertices, m_normals;
+	std::vector<Face> m_faces;
+	GLuint m_vertexBuffer;
 
 public:
-	Mesh(int mesh_size);
+	Mesh();
 	~Mesh();
 
-	int vertextCount(void);
-	Vector3D* vertexArray(void);
-	Vector3D* normalArray(void);
-	int faceCount(void);
-	Face* faceArray(void);
+	void AddTriangle(Vector3D p1, Vector3D p2, Vector3D p3);
+	void AddTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z);
+	void FinishMesh();
+
+	int vertextCount() const;
+	Vector3D* vertexArray();
+	Vector3D* normalArray();
+	int faceCount() const;
+	Face* faceArray();
+	const GLuint& GetVertexBuffer() const { return m_vertexBuffer; }
 };
 
 #endif

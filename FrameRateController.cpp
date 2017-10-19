@@ -1,20 +1,35 @@
 #include "FrameRateController.h"
+#include <algorithm>
+#include "SDL_timer.h"
 
-FrameRateController::FrameRateController()
-{
-	m_now = std::chrono::steady_clock::now();
-	m_deltaTime = MIN_FRAME_TIME;
-}
+#define MIN_FRAME_TIME 0.01666666666666666666666666666667
+
+FrameRateController::FrameRateController(unsigned int maxFrameRate) :
+	m_deltaTime(MIN_FRAME_TIME),
+	m_maxFrameRate(maxFrameRate),
+	m_ticksPerFrame(1000.0f / (float)m_maxFrameRate),
+	m_tickStart(0),
+	m_tickEnd(0)
+{ }
 
 FrameRateController::~FrameRateController() { }
 
-long FrameRateController::GetFrameTime() const
+double FrameRateController::GetFrameTime() const
 {
 	return m_deltaTime;
 }
 
-void FrameRateController::Tick()
+void FrameRateController::FrameStart()
 {
-	std::chrono::steady_clock::time_point newNow = std::chrono::steady_clock::now();
-	m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(newNow - m_now).count();
+	m_tickStart = SDL_GetTicks();
+}
+
+void FrameRateController::FrameEnd()
+{
+	m_tickEnd = SDL_GetTicks();
+
+	while (m_tickEnd - m_tickStart < m_ticksPerFrame)
+		m_tickEnd = SDL_GetTicks();
+
+	m_deltaTime = std::max((float)(m_tickEnd - m_tickStart), m_ticksPerFrame) / 1000.0;
 }

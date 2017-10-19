@@ -13,120 +13,210 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Matrix">
-      <UniqueIdentifier>{4b11e904-c560-4bd5-adeb-43f34d66eea8}</UniqueIdentifier>
+    <Filter Include="Header Files\GameObject">
+      <UniqueIdentifier>{b2652063-95c1-476e-b939-acde62ab0dab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Matrix">
+    <Filter Include="Source Files\GameObject">
+      <UniqueIdentifier>{f6324fa6-841c-4d9a-ac74-e9950fb8ba2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Managers">
+      <UniqueIdentifier>{9b133023-29dc-4b5c-b438-3c773cd724a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Managers">
+      <UniqueIdentifier>{07848937-7fe2-4fe8-8851-38415aaef99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{dfe12d2c-35cf-48bc-9584-0bd98d53dca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Matrix">
       <UniqueIdentifier>{e16bfbc2-71d4-43cf-a26f-2378769eebf7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Vector">
+    <Filter Include="Header Files\Math\Vector">
       <UniqueIdentifier>{2f8e90f7-6543-4123-981f-976277120ef1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Vector">
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{808d0a37-dde5-4136-811d-0284d8688be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Vector">
       <UniqueIdentifier>{6b4c33b4-bc03-4046-ac38-1b3edd080aa2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\TestFiles">
-      <UniqueIdentifier>{c569f846-dd26-4919-944e-ac2ab9fe70aa}</UniqueIdentifier>
+    <Filter Include="Source Files\Math\Matrix">
+      <UniqueIdentifier>{4b11e904-c560-4bd5-adeb-43f34d66eea8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\TestFiles">
-      <UniqueIdentifier>{afa6493c-f6da-4775-9d80-0e9f6dcdf459}</UniqueIdentifier>
+    <Filter Include="Header Files\Shaders">
+      <UniqueIdentifier>{60fe1da4-5a9c-40a0-916f-a356051a6576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{4031c3cd-74b7-4418-ba25-d36038cffefa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject\Components">
+      <UniqueIdentifier>{5d29bcbf-2d36-4ccf-b875-49e236d2d072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject\Components">
+      <UniqueIdentifier>{c724e878-1173-4079-bfa4-3f79b158165e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Math2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix3x3.h">
-      <Filter>Header Files\Matrix</Filter>
+      <Filter>Header Files\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>Header Files\Matrix</Filter>
+      <Filter>Header Files\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Matrix2x2.h">
-      <Filter>Header Files\Matrix</Filter>
+      <Filter>Header Files\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
-      <Filter>Header Files\Vector</Filter>
+      <Filter>Header Files\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Vector3D.h">
-      <Filter>Header Files\Vector</Filter>
+      <Filter>Header Files\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4.h">
-      <Filter>Header Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameRateController.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LineSegment2D.h">
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TESTFILES\Client.h">
-      <Filter>Header Files\TestFiles</Filter>
+    <ClInclude Include="FrameRateController.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TESTFILES\Mesh3D.h">
-      <Filter>Header Files\TestFiles</Filter>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TESTFILES\Plane.h">
-      <Filter>Header Files\TestFiles</Filter>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TESTFILES\Sphere.h">
-      <Filter>Header Files\TestFiles</Filter>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="TESTFILES\Torus.h">
-      <Filter>Header Files\TestFiles</Filter>
+    <ClInclude Include="AcrylicorTypedefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math2D.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="LineSegment2D.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Header Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Header Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsMovementComponent.h">
+      <Filter>Header Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsBodyComponent.h">
+      <Filter>Header Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultShaderProgram.h">
+      <Filter>Header Files\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix3x3.cpp">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Matrix2x2.cpp">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Vector2D.cpp">
-      <Filter>Source Files\Vector</Filter>
+      <Filter>Source Files\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Vector3D.cpp">
-      <Filter>Source Files\Vector</Filter>
+      <Filter>Source Files\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4x4.cpp">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\Math\Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\Managers</Filter>
     </ClCompile>
     <ClCompile Include="FrameRateController.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Math2D.cpp">
+      <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="LineSegment2D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="TESTFILES\Client.cpp">
-      <Filter>Source Files\TestFiles</Filter>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="TESTFILES\Plane.cpp">
-      <Filter>Source Files\TestFiles</Filter>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="TESTFILES\Sphere.cpp">
-      <Filter>Source Files\TestFiles</Filter>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>Source Files\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="TESTFILES\Torus.cpp">
-      <Filter>Source Files\TestFiles</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Source Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsBodyComponent.cpp">
+      <Filter>Source Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsMovementComponent.cpp">
+      <Filter>Source Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultShaderProgram.cpp">
+      <Filter>Source Files\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

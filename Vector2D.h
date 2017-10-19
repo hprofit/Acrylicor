@@ -24,7 +24,6 @@ class Vector2D
 {
 private:
 	float m_x, m_y, m_w;
-	void swap(Vector2D& other);
 
 public:
 	Vector2D();
@@ -36,17 +35,19 @@ public:
 
 	void Set(float x, float y);
 	void Set(float x, float y, float w);
-	float getX() const;
-	void setX(float x);
-	float getY() const;
-	void setY(float y);
-	float getW() const;
-	void setW(float w);
+	float getX() const { return m_x; };
+	void setX(float x) { m_x = x; };
+	float getY() const { return m_y; };
+	void setY(float y) { m_y = y; };
+	float getW() const { return m_w; };
+	void setW(float w) { m_w = w; };
 
 	bool operator== (const  Vector2D& other) const;
 	bool operator!= (const  Vector2D& other) const;
 	Vector2D operator+ (const Vector2D& other) const;
+	Vector2D& operator+= (const Vector2D& other);
 	Vector2D operator- (const Vector2D& other) const;
+	Vector2D& operator-= (const Vector2D& other);
 	Vector2D operator* (const float scalar) const;
 	Vector2D operator/ (const float divisor) const;
 

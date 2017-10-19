@@ -44,7 +44,7 @@ Matrix3x3::Matrix3x3(const Matrix3x3 &other)
 	m_matrix[2][2] = other.m_matrix[2][2];
 }
 
-Matrix3x3& Matrix3x3::operator=(const Matrix3x3& other) // Copy ctor
+Matrix3x3& Matrix3x3::operator=(const Matrix3x3& other)
 {
 	m_matrix[0][0] = other.m_matrix[0][0];
 	m_matrix[0][1] = other.m_matrix[0][1];

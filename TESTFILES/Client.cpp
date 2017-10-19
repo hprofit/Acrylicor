@@ -14,6 +14,8 @@ Author: Holden Profit
 #include "Torus.h"
 #include "Plane.h"
 #include "Sphere.h"
+#include "../InputManager.h"
+#include "../Shader.h"
 
 #include "Client.h"
 using namespace std;
@@ -26,61 +28,67 @@ const int SPHERE_BUFFER_INDEX = 1;
 const int PLANE_BUFFER_INDEX = 2;
 const float RATE = 360.0f / 5.0f;
 
-Client::Client(int which) : 
+Client::Client() : 
 	cameraPosition(0.0f, 0.0f, 0.0f, 1.0f), 
 	cameraLookat(0.0f, 0.0f, -1.0f, 0.0f),
 	camXRot(0.0f), camYRot(0.0f),
-	fov(80.0f)
+	fov(80.0f),
+	lightPosition(0, 10, 0, 0),
+	lightColor(1, 1, 1, 1),
+	ambientColor(0.1f, 0.1f, 0.1f, 1.0f)
 {
 	// (I) create shader program
 	GLint value;
 
-	// (I.A) compile fragment shader
-	const char *fragment_shader_text =
-		"#version 130\n\
-		in vec4 vcolor;\
-		out vec4 frag_color;\
-		void main(void) {\
-		frag_color = vcolor;\
-		}";
-	GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fshader, 1, &fragment_shader_text, 0);
-	glCompileShader(fshader);
-	glGetShaderiv(fshader, GL_COMPILE_STATUS, &value);
-	if (!value) {
-		cerr << "fragment shader failed to compile" << endl;
-		char buffer[1024];
-		glGetShaderInfoLog(fshader, 1024, 0, buffer);
-		cerr << buffer << endl;
-	}
-
-	// (I.B) compile vertex shader
+#pragma region Vertex Shader Definition
 	const char *vertex_shader_text =
 		"#version 130\n\
 		attribute vec4 position;\
 		attribute vec4 normal;\
+		\
 		uniform mat4 persp_matrix;\
 		uniform mat4 view_matrix;\
 		uniform mat4 model_matrix;\
 		uniform mat4 normal_matrix;\
-		uniform vec4 color;\
-		out vec4 vcolor;\
+		uniform vec4 light_position;\
+		\
+		out vec4 normal_vector;\
+		out vec4 light_vector;\
+		\
 		void main() {\
-			gl_Position = persp_matrix * view_matrix * model_matrix * position;\
-			vec4 m = normal_matrix * normal;\
-			float f = max(0,m.z)/length(m);\
-			vcolor = vec4(f*color.xyz,color.w);\
+			vec4 P = model_matrix * position;\
+			gl_Position = persp_matrix * view_matrix * P;\
+			normal_vector = normal_matrix * normal;\
+			light_vector = light_position - P;\
 		}";
-	GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vshader, 1, &vertex_shader_text, 0);
-	glCompileShader(vshader);
-	glGetShaderiv(vshader, GL_COMPILE_STATUS, &value);
-	if (!value) {
-		cerr << "vertex shader failed to compile" << endl;
-		char buffer[1024];
-		glGetShaderInfoLog(vshader, 1024, 0, buffer);
-		cerr << buffer << endl;
-	}
+#pragma endregion
+	Shader vshader = Shader(vertex_shader_text, value, VERTEX_SHADER);
+
+#pragma region Fragment Shader Definition
+	const char *fragment_shader_text =
+		"#version 130\n\
+		uniform vec3 light_color;\
+		uniform vec3 diffuse_color;\
+		uniform vec3 ambient_color;\
+		uniform vec3 specular_color;\
+		\
+		in vec4 normal_vector;\
+		in vec4 light_vector;\
+		\
+		out vec4 frag_color;\
+		\
+		void main(void) {\
+			vec4 m = normalize(normal_vector);\
+			vec4 L = normalize(light_vector);\
+			vec4 v = normalize(m - (m - L));\
+			vec4 H = normalize((v + L));\
+			vec3 diffuse = max(dot(m,L),0) * diffuse_color * light_color;\
+			vec3 specular = pow(dot(m,H), 60) * specular_color * light_color;\
+			vec3 ambient = diffuse_color * ambient_color;\
+			frag_color = vec4(diffuse + specular + ambient,1);\
+		}";
+#pragma endregion
+	Shader fshader = Shader(fragment_shader_text, value, FRAGMENT_SHADER);
 
 	// (I.C) link shaders
 	program = glCreateProgram();
@@ -95,14 +103,20 @@ Client::Client(int which) :
 		cerr << buffer << endl;
 	}
 
-	// (II) get shader variable locations
+#pragma region Link Variables from Shaders
 	aposition = glGetAttribLocation(program, "position");
 	anormal = glGetAttribLocation(program, "normal");
 	upersp_matrix = glGetUniformLocation(program, "persp_matrix");
 	uview_matrix = glGetUniformLocation(program, "view_matrix");
 	umodel_matrix = glGetUniformLocation(program, "model_matrix");
 	unormal_matrix = glGetUniformLocation(program, "normal_matrix");
-	ucolor = glGetUniformLocation(program, "color");
+
+	ulight_color = glGetUniformLocation(program, "light_color");
+	udiffuse_color = glGetUniformLocation(program, "diffuse_color");
+	uambient_color = glGetUniformLocation(program, "ambient_color");
+	uspecular_color = glGetUniformLocation(program, "specular_color");
+	ulight_position = glGetUniformLocation(program, "light_position");
+#pragma endregion
 
 	// Load the meshes into individual buffers
 	initializeBuffersForMeshAtIndex(Torus(THICKNESS, MESH_SIZE), TORUS_BUFFER_INDEX);
@@ -157,28 +171,12 @@ void Client::initializeBuffersForMeshAtIndex(Mesh3D& mesh, int index) {
 
 Matrix4x4 Client::makeMatrixFromCameraVectors(const Vector3D& right, const Vector3D& up, const Vector3D& forward)
 {
-	Matrix4x4 rotationM;
-	rotationM.Set(0, 0, right.getX());
-	rotationM.Set(0, 1, right.getY());
-	rotationM.Set(0, 2, right.getZ());
-	rotationM.Set(0, 3, 0.0f);
-
-	rotationM.Set(1, 0, up.getX());
-	rotationM.Set(1, 1, up.getY());
-	rotationM.Set(1, 2, up.getZ());
-	rotationM.Set(1, 3, 0.0f);
-
-	rotationM.Set(2, 0, -forward.getX());
-	rotationM.Set(2, 1, -forward.getY());
-	rotationM.Set(2, 2, -forward.getZ());
-	rotationM.Set(2, 3, 0.0f);
-
-	rotationM.Set(3, 0, 0.0f);
-	rotationM.Set(3, 1, 0.0f);
-	rotationM.Set(3, 2, 0.0f);
-	rotationM.Set(3, 3, 1.0f);
-
-	return rotationM;
+	return Matrix4x4(
+		right.getX(),		right.getY(),		right.getZ(),		0.0f,
+		up.getX(),			up.getY(),			up.getZ(),			0.0f,
+		-forward.getX(),	-forward.getY(),	-forward.getZ(),	0.0f,
+		0.0f,				0.0f,				0.0f,				1.0f
+	);
 }
 
 Vector3D Client::getCameraRight()
@@ -196,9 +194,6 @@ Vector3D Client::getCameraUp(const Vector3D& forward, const Vector3D& right)
 
 Matrix4x4 Client::calculateViewMatrix()
 {
-	Vector3D globalUp(0, 1, 0, 0);
-	Vector3D lCrossR = Vector3D::Cross(cameraLookat, globalUp);
-	float lenLCrossR = lCrossR.Length();
 	Vector3D forward = Vector3D::Normalize(cameraLookat);
 	Vector3D right = getCameraRight();
 	Vector3D up = getCameraUp(forward, right);
@@ -209,34 +204,26 @@ Matrix4x4 Client::calculateViewMatrix()
 }
 
 void Client::draw(double dt) {
-	// clear frame buffer and z-buffer
-	glClearColor(0.9f, 0.9f, 0.9f, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glClearDepth(1);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	
 	const Vector3D Y_AXIS(0, 1, 0, 0);
 	const Vector3D X_AXIS(1, 0, 0, 0);
 	const Matrix4x4 VIEW_M = calculateViewMatrix();
+	Color color;
 
-	for (int i = 0; i < 20; i++) {
-		Color color; 
-		color.r = 1.0 * i / 20.0f;
-		color.g = 1.0 - 1.0 * i / 20.0f;
-		color.b = 1.0 * i / 20.0f;
+	for (int i = 0; i < 1; i++) {
+		color.r = 1.0f;
+		color.g = 0.0f;
+		color.b = 0.0f;
 		color.a = 1.0f;
-		renderBuffer(TORUS_BUFFER_INDEX, color, 1.0f, Matrix4x4::Rotate(RATE*time, Y_AXIS), VIEW_M, Vector3D(-30 + i * 3, 5, -50, 0));
+		renderBuffer(TORUS_BUFFER_INDEX, color, 1.0f, Matrix4x4::Rotate(0, Y_AXIS), VIEW_M, Vector3D(0, 5.0, -50, 0));
 	}
-	for (int i = 0; i < 40; i++) {
-		Color color;
-		color.r = 1.0 * i / 20.0f;
-		color.g = 1.0 * i / 20.0f;
-		color.b = 1.0 - 1.0 * i / 20.0f;
+	for (int i = 0; i < 1; i++) {
+		color.r = 0.0f;
+		color.g = 1.0f;
+		color.b = 0.0f;
 		color.a = 1.0f;
-		renderBuffer(SPHERE_BUFFER_INDEX, color, 1.0f, Matrix4x4::Rotate(0, Y_AXIS), VIEW_M, Vector3D(-40 + i * 2, -5, -50, 0));
+		renderBuffer(SPHERE_BUFFER_INDEX, color, 1.0f, Matrix4x4::Rotate(0, Y_AXIS), VIEW_M, Vector3D(0, -5, -50, 0));
 	}
 	
-	Color color;
 	color.r = 1.0f;
 	color.g = 0.5f;
 	color.b = 0.5f;
@@ -246,16 +233,17 @@ void Client::draw(double dt) {
 	time += dt;
 }
 
-void Client::renderBuffer(int bufferIndex, Color color, float scalar, const Matrix4x4& rotationM, const Matrix4x4& viewM, Vector3D position) {
+void Client::renderBuffer(int bufferIndex, const Color& diffuseColor, float scalar, const Matrix4x4& rotationM, const Matrix4x4& viewM, const Vector3D& position) {
 	// set shader uniform variable values
 	glUseProgram(program);
+
+	glUniform3f(ulight_color, lightColor.r, lightColor.g, lightColor.b);
+	glUniform3f(uspecular_color, lightColor.r, lightColor.g, lightColor.b);
+	glUniform3f(uambient_color, ambientColor.r, ambientColor.g, ambientColor.b);
+
 	Matrix4x4 P = Matrix4x4::Perspective(fov, aspect, 0.1f);
 	glUniformMatrix4fv(upersp_matrix, 1, true, (float*)&P);
-	//Matrix4x4 V = scale(1);
-	//glUniformMatrix4fv(uview_matrix, 1, true, (float*)&V);
 	glUniformMatrix4fv(uview_matrix, 1, true, (float*)&viewM);
-	const float RATE = 360.0f / 5.0f;
-	const Vector3D AXIS(0, 1, 0, 0);
 	Matrix4x4 M = Matrix4x4::Translate(position)
 				* rotationM
 				* Matrix4x4::Scale(scalar);
@@ -264,7 +252,7 @@ void Client::renderBuffer(int bufferIndex, Color color, float scalar, const Matr
 	glUniformMatrix4fv(unormal_matrix, 1, true, (float*)&N);
 
 	// Generate color for each object
-	glUniform4f(ucolor, color.r, color.g, color.b, color.a);
+	glUniform3f(udiffuse_color, diffuseColor.r, diffuseColor.g, diffuseColor.b);
 
 	// set shader attributes
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_arr[bufferIndex]); // <- select buffer
@@ -279,42 +267,35 @@ void Client::renderBuffer(int bufferIndex, Color color, float scalar, const Matr
 	glDrawElements(GL_TRIANGLES, 3 * face_counts[bufferIndex], GL_UNSIGNED_INT, 0);
 }
 
-void Client::keypress(SDL_Keycode kc, float dt) {
-	// respond to keyboard input
-	//   kc: SDL keycode (e.g., SDLK_SPACE, SDLK_a, SDLK_s
-	float moveSpeed = 1.0;
+void Client::keypress(double dt) {
+	float moveSpeed = 10.0;
 	Vector3D right = getCameraRight();
-	switch (kc) {
-		case SDLK_w:
-		case SDLK_UP:
-			cameraPosition = cameraPosition + (cameraLookat * moveSpeed);
-			break;
-		case SDLK_s:
-		case SDLK_DOWN:
-			cameraPosition = cameraPosition + (cameraLookat * -moveSpeed);
-			break;
-		case SDLK_a:
-		case SDLK_LEFT:
-			cameraPosition = cameraPosition + (right * -moveSpeed);
-			break;
-		case SDLK_d:
-		case SDLK_RIGHT:
-			cameraPosition = cameraPosition + (right * moveSpeed);
-			break;
+	InputManager& iManager = InputManager::GetInstance();
+	if (iManager.IsKeyPressed(ACR_W) || iManager.IsKeyPressed(ACR_UP)) {
+		cameraPosition = cameraPosition + (cameraLookat * moveSpeed * dt);
+	}
 
+	if (iManager.IsKeyPressed(ACR_S) || iManager.IsKeyPressed(ACR_DOWN)) {
+		cameraPosition = cameraPosition + (cameraLookat * -moveSpeed * dt);
+	}
+	
+	if (iManager.IsKeyPressed(ACR_A) || iManager.IsKeyPressed(ACR_LEFT)) {
+		cameraPosition = cameraPosition + (right * -moveSpeed * dt);
+	}
 
-		case SDLK_e:
-			fov += 5.0f;
-			break;
-		case SDLK_q:
-			fov -= 5.0f;
-			break;
+	if (iManager.IsKeyPressed(ACR_D) || iManager.IsKeyPressed(ACR_RIGHT)) {
+		cameraPosition = cameraPosition + (right * moveSpeed * dt);
+	}
 
-		case SDLK_r:
-			cameraPosition = Vector3D(0.0f, 0.0f, 0.0f, 1.0f);
-			cameraLookat = Vector3D(0.0f, 0.0f, -1.0f, 0.0f);
-			camXRot = camYRot = 0.0f;
-			break;
+	if (iManager.IsKeyPressed(ACR_E))
+		fov += 5.0f;
+	else if (iManager.IsKeyPressed(ACR_E))
+		fov -= 5.0f;
+
+	if (iManager.IsKeyPressed(ACR_R)) {
+		cameraPosition = Vector3D(0.0f, 0.0f, 0.0f, 1.0f);
+		cameraLookat = Vector3D(0.0f, 0.0f, -1.0f, 0.0f);
+		camXRot = camYRot = 0.0f;
 	}
 
 	fov = min(fov, 120.0f);

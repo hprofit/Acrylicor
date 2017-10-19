@@ -8,7 +8,8 @@
 #define PASS "PASS"
 #define FAIL "!!!!! FAIL !!!!!"
 
-static const float DEG_TO_RAD = M_PI / 180.0f;
+//static const float DEG_TO_RAD = M_PI / 180.0f;
+static const float DEG_TO_RAD = 4.0f*atan(1.0f) / 180.0f;
 
 Matrix4x4::Matrix4x4() {}
 
@@ -62,7 +63,30 @@ Matrix4x4::Matrix4x4(const Matrix4x4 &other)
 	m_matrix[3][3] = other.m_matrix[3][3];
 }
 
-Matrix4x4& Matrix4x4::operator=(const Matrix4x4& other) // Copy ctor
+Matrix4x4::Matrix4x4(const Matrix3x3 & other)
+{
+	m_matrix[0][0] = other.Get(0, 0);
+	m_matrix[0][1] = other.Get(0, 1);
+	m_matrix[0][2] = other.Get(0, 2);
+	m_matrix[0][3] = 0.0f;
+
+	m_matrix[1][0] = other.Get(1, 0);
+	m_matrix[1][1] = other.Get(1, 1);
+	m_matrix[1][2] = other.Get(1, 2);
+	m_matrix[1][3] = 0.0f;
+
+	m_matrix[2][0] = other.Get(2, 0);
+	m_matrix[2][1] = other.Get(2, 1);
+	m_matrix[2][2] = other.Get(2, 2);
+	m_matrix[2][3] = 0.0f;
+
+	m_matrix[3][0] = 0.0f;
+	m_matrix[3][1] = 0.0f;
+	m_matrix[3][2] = 0.0f;
+	m_matrix[3][3] = 1.0f;
+}
+
+Matrix4x4& Matrix4x4::operator=(const Matrix4x4& other)
 {
 	m_matrix[0][0] = other.m_matrix[0][0];
 	m_matrix[0][1] = other.m_matrix[0][1];
@@ -349,28 +373,77 @@ Matrix4x4 Matrix4x4::Scale(const float scaleX, const float scaleY, const float s
 
 Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const float near, const float far)
 {
-	float topLeft = 1.0f / tan(0.5f * DEG_TO_RAD * fov);
+	//float topLeft = 1.0f / tan(0.5f * DEG_TO_RAD * fov);
+	//return Matrix4x4(
+	//	topLeft, 0.0f, 0.0f, 0.0f,
+	//	0.0f, aspect * topLeft, 0.0f, 0.0f,
+	//	0.0f, 0.0f, (near + far) / (near - far), 2 * near * far / (near - far),
+	//	0.0f, 0.0f, -1.0f, 0.0f
+	//);
+
+	float xymax = near * tan(fov * M_PI / 360.0f);
+	float ymin = -xymax;
+	float xmin = -xymax;
+
+	float width = xymax - xmin;
+	float height = xymax - ymin;
+
+	float depth = far - near;
+	float q = -(far + near) / depth;
+	float qn = -2 * (far * near) / depth;
+
+	float w = 2 * near / width;
+	w = w / aspect;
+	float h = 2 * near / height;
+
 	return Matrix4x4(
-		topLeft, 0.0f, 0.0f, 0.0f,
-		0.0f, aspect * topLeft, 0.0f, 0.0f,
-		0.0f, 0.0f, (near + far) / (near - far), 2 * near * far / (near - far),
-		0.0f, 0.0f, -1.0f, 0.0f
+		w, 0,  0, 0,
+		0, h, 0,  0,
+		0, 0, q, qn,
+		0, 0, -1, 0
 	);
 }
 
 Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const float near)
 {
-	float topLeft = 1.0f / tan(0.5f * DEG_TO_RAD * fov);
+	//float topLeft = 1.0f / tan(0.5f * DEG_TO_RAD * fov);
+	//return Matrix4x4(
+	//	topLeft, 0.0f, 0.0f, 0.0f,
+	//	0.0f, aspect * topLeft, 0.0f, 0.0f,
+	//	0.0f, 0.0f, -1.0f, -2.0f * near,
+	//	0.0f, 0.0f, -1.0f, 0.0f
+	//);
+
+	float xymax = near * tan(fov * M_PI / 360.0f);
+	float ymin = -xymax;
+	float xmin = -xymax;
+
+	float width = xymax - xmin;
+	float height = xymax - ymin;
+
+	float depth = 1 - near;
+	float q = -(1 + near) / depth;
+	float qn = -2 * near / depth;
+
+	float w = 2 * near / width;
+	w = w / aspect;
+	float h = 2 * near / height;
+
 	return Matrix4x4(
-		topLeft, 0.0f, 0.0f, 0.0f,
-		0.0f, aspect * topLeft, 0.0f, 0.0f,
-		0.0f, 0.0f, -1.0f, -2.0f * near,
-		0.0f, 0.0f, -1.0f, 0.0f
+		w, 0, 0, 0,
+		0, h, 0, 0,
+		0, 0, q, qn,
+		0, 0, -1, 0
 	);
 }
 #pragma endregion
 
 #pragma region Operation Overrides
+Matrix4x4::operator float*()
+{
+	return &(m_matrix[0][0]);
+}
+
 bool Matrix4x4::operator==(const Matrix4x4& other)
 {
 	double d = 0.0f;

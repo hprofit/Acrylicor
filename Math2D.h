@@ -139,7 +139,7 @@ This function checks whether an animated point is colliding with a static circle
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedPointToStaticCircle(const Vector2D& Ps, const Vector2D& Pe, Vector2D& Center, const float Radius, Vector2D& Pi);
+float AnimatedPointToStaticCircle(const Vector2D& Ps, const Vector2D& Pe, const Vector2D& Center, const float Radius, Vector2D& Pi);
 
 /*
 This function reflects an animated point on a static circle.
@@ -157,7 +157,7 @@ It should first make sure that the animated point is intersecting with the circl
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float ReflectAnimatedPointOnStaticCircle(const Vector2D& Ps, const Vector2D& Pe, Vector2D& Center, const float Radius, Vector2D& Pi, Vector2D& R);
+float ReflectAnimatedPointOnStaticCircle(const Vector2D& Ps, const Vector2D& Pe, const Vector2D& Center, const float Radius, Vector2D& Pi, Vector2D& R);
 
 /*
 This function checks whether an animated circle is colliding with a static circle
@@ -174,7 +174,7 @@ This function checks whether an animated circle is colliding with a static circl
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedCircleToStaticCircle(const Vector2D& Center0s, const Vector2D& Center0e, const float Radius0, const Vector2D& Center1, const float Radius1, Vector2D& Pi);
+float AnimatedCircleToStaticCircle(const Vector2D& ACenterS, const Vector2D& ACenterE, const float ARadius, const Vector2D& SCenter, const float SRadius, Vector2D& Pi);
 
 /*
 This function reflects an animated circle on a static circle.
@@ -193,7 +193,7 @@ It should first make sure that the animated circle is intersecting with the stat
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float ReflectAnimatedCircleOnStaticCircle(const Vector2D& Center0s, const Vector2D& Center0e, const float Radius0, const Vector2D& Center1, const float Radius1, Vector2D& Pi, Vector2D& R);
+float ReflectAnimatedCircleOnStaticCircle(const Vector2D& ACenterS, const Vector2D& ACenterE, const float ARadius, const Vector2D& SCenter, const float SRadius, Vector2D& Pi, Vector2D& R);
 
 void StaticCollisionTests();
 #endif

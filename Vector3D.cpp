@@ -10,14 +10,7 @@
 
 static const float DEG_TO_RAD = M_PI / 180.0f;
 
-void Vector3D::swap(Vector3D& other)
-{
-	std::swap(m_x, other.m_x);
-	std::swap(m_y, other.m_y);
-	std::swap(m_w, other.m_w);
-}
-
-Vector3D::Vector3D() : m_x(0.f), m_y(0.f), m_w(1.f) { }
+Vector3D::Vector3D() : m_x(0.f), m_y(0.f), m_z(0.f), m_w(1.f) { }
 
 Vector3D::Vector3D(float x, float y, float z) : m_x(x), m_y(y), m_z(z), m_w(1.f) { }
 
@@ -25,15 +18,24 @@ Vector3D::Vector3D(float x, float y, float z, float w) : m_x(x), m_y(y), m_z(z),
 
 Vector3D::Vector3D(Vector3D const& rhs) : m_x(rhs.m_x), m_y(rhs.m_y), m_z(rhs.m_z), m_w(rhs.m_w) { }
 
-Vector3D& Vector3D::operator=(Vector3D rhs)
+Vector3D::Vector3D(Vector2D const & rhs) : m_x(rhs.getX()), m_y(rhs.getY()), m_z(0.0f), m_w(rhs.getW()) { }
+
+Vector3D& Vector3D::operator=(const Vector3D rhs)
 {
-	swap(rhs);
+	m_x = rhs.m_x;
+	m_y = rhs.m_y;
+	m_z = rhs.m_z;
+	m_w = rhs.m_w;
 	return *this;
 }
 
 Vector3D::~Vector3D() { }
 
-#pragma region Getters/Setters
+Vector3D::operator Vector2D() const
+{
+	return Vector2D(m_x, m_y);
+}
+
 void Vector3D::Set(float x, float y, float z)
 {
 	m_x = x;
@@ -48,47 +50,6 @@ void Vector3D::Set(float x, float y, float z, float w)
 	m_z = z;
 	m_w = w;
 }
-
-float Vector3D::getX() const
-{
-	return m_x;
-}
-
-void Vector3D::setX(float x)
-{
-	m_x = x;
-}
-
-float Vector3D::getY() const
-{
-	return m_y;
-}
-
-void Vector3D::setY(float y)
-{
-	m_y = y;
-}
-
-float Vector3D::getZ() const
-{
-	return m_z;
-}
-
-void Vector3D::setZ(float z)
-{
-	m_z = z;
-}
-
-float Vector3D::getW() const
-{
-	return m_w;
-}
-
-void Vector3D::setW(float w)
-{
-	m_w = w;
-}
-#pragma endregion
 
 #pragma region Operator Overrides
 bool Vector3D::operator==(const Vector3D& other) const
@@ -149,6 +110,16 @@ Vector3D Vector3D::operator/(const float divisor) const
 		m_y / divisor,
 		m_z / divisor
 	);
+}
+
+float Vector3D::operator[](const int idx) const
+{
+	return *(&m_x + idx);
+}
+
+float& Vector3D::operator[](const int idx)
+{
+	return *(&m_x + idx);
 }
 #pragma endregion
 

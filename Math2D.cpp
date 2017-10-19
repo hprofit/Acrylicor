@@ -1,5 +1,6 @@
 #include "Math2D.h"
 #include "stdio.h"
+#include <math.h>
 
 #define EPSILON 0.0001
 #define PASS "PASS"
@@ -243,9 +244,39 @@ This function checks whether an animated point is colliding with a static circle
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedPointToStaticCircle(const Vector2D& Ps, const Vector2D& Pe, Vector2D& Center, const float Radius, Vector2D& Pi)
+float AnimatedPointToStaticCircle(const Vector2D& Ps, const Vector2D& Pe, const Vector2D& Center, const float Radius, Vector2D& Pi)
 {
-	return -1.0f;
+	// r' = ARadius
+	// r'' = SRadius + ARadius = r + r'
+	// s^2 = r''^2 - n^2 => s = sqrt(r''^2 - n^2)
+	// v = Pe - Ps
+	// m = (Ps - Center) dot (v / |v|)
+	// ti0 = (m - s)/ |v|
+	// ti1 = (m + s)/ |v|
+	// n^2 = |(ACenter0s - SCenter)|^2 - m^2 => n = sqrt(|(ACenterS - SCenter)|^2 - m^2)
+	// if ti0 > 1.0f, no collision
+
+	Vector2D SCsubACS = Center - Ps, v = Pe - Ps;
+	float vLen = v.Length();
+
+	Vector2D vNorm = v * (1.0f / vLen);
+
+	float m = Vector2D::Dot(SCsubACS, vNorm);
+	if (m < 0.0f)
+		return -1.0f;
+
+	float SCsubACSLength = SCsubACS.Length(),
+		nSquared = SCsubACSLength * SCsubACSLength - m * m,
+		sSquared = Radius * Radius - nSquared,
+		s = sqrtf(sSquared),
+		ti0 = (m - s) / vLen;
+
+	if (ti0 < 0.0f || 1.0f < ti0 || sSquared < 0.0f)
+		return -1.0f;
+
+	Vector2D ti0Vec = vNorm * ti0;
+	Pi = (vNorm * ti0) + Ps;
+	return ti0;
 }
 
 /*
@@ -264,9 +295,27 @@ It should first make sure that the animated point is intersecting with the circl
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float ReflectAnimatedPointOnStaticCircle(const Vector2D& Ps, const Vector2D& Pe, Vector2D& Center, const float Radius, Vector2D& Pi, Vector2D& R)
+float ReflectAnimatedPointOnStaticCircle(const Vector2D& Ps, const Vector2D& Pe, const Vector2D& Center, const float Radius, Vector2D& Pi, Vector2D& R)
 {
-	return -1.0f;
+	float timeOfIntersection = AnimatedPointToStaticCircle(Ps, Pe, Center, Radius, Pi);
+	if (timeOfIntersection < 0.0f)
+		return -1.0f;
+
+	// n = Center - Pi
+	// m = Ps - Pi = u + s
+	// u = (m dot n) * n
+	// s = Ps - u
+	// r = u - s => 2(m dot n) * n - m
+	// k = |PsPe|
+	// R = Pi + k * rNorm * (1 - timeOfIntersection)
+
+	Vector2D v = Pe - Ps, 
+		n = Vector2D::Normalize(Center - Pi),
+		m = Ps - Pi, 
+		u = n * Vector2D::Dot(m, n),
+		r = Vector2D::Normalize((u * 2.0f) - m) * v.Length();
+	R = r * (1.0f - timeOfIntersection);
+	return timeOfIntersection;
 }
 
 
@@ -285,9 +334,9 @@ This function checks whether an animated circle is colliding with a static circl
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedCircleToStaticCircle(const Vector2D& Center0s, const Vector2D& Center0e, const float Radius0, const Vector2D& Center1, const float Radius1, Vector2D& Pi)
+float AnimatedCircleToStaticCircle(const Vector2D& ACenterS, const Vector2D& ACenterE, const float ARadius, const Vector2D& SCenter, const float SRadius, Vector2D& Pi)
 {
-	return -1.0f;
+	return AnimatedPointToStaticCircle(ACenterS, ACenterE, SCenter, ARadius + SRadius, Pi);
 }
 
 
@@ -308,9 +357,9 @@ It should first make sure that the animated circle is intersecting with the stat
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float ReflectAnimatedCircleOnStaticCircle(const Vector2D& Center0s, const Vector2D& Center0e, const float Radius0, const Vector2D& Center1, const float Radius1, Vector2D& Pi, Vector2D& R)
+float ReflectAnimatedCircleOnStaticCircle(const Vector2D& ACenterS, const Vector2D& ACenterE, const float ARadius, const Vector2D& SCenter, const float SRadius, Vector2D& Pi, Vector2D& R)
 {
-	return -1.0f;
+	return ReflectAnimatedPointOnStaticCircle(ACenterS, ACenterE, SCenter, ARadius + SRadius, Pi, R);
 }
 
 // ================================================================================================================================================= //

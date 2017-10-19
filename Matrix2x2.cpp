@@ -25,7 +25,7 @@ Matrix2x2::Matrix2x2(const Matrix2x2 &other)
 	m_matrix[1][1] = other.m_matrix[1][1];
 }
 
-Matrix2x2& Matrix2x2::operator=(const Matrix2x2& other) // Copy ctor
+Matrix2x2& Matrix2x2::operator=(const Matrix2x2& other)
 {
 	m_matrix[0][0] = other.m_matrix[0][0];
 	m_matrix[0][1] = other.m_matrix[0][1];

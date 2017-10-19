@@ -21,6 +21,7 @@ Creation date: 9/29/17
 #define MATRIX4X4_H
 
 #include "Vector3D.h"
+#include "Matrix3x3.h"
 
 class Matrix4x4
 {
@@ -31,6 +32,7 @@ public:
 	Matrix4x4();
 	Matrix4x4(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float x3, float y3, float z3, float w3, float x4, float y4, float z4, float w4);
 	Matrix4x4(const Matrix4x4 &other); // Copy Ctor
+	Matrix4x4(const Matrix3x3 &other); // Copy Ctor
 	Matrix4x4& operator= (const Matrix4x4 &other); // Assignment Operator
 	~Matrix4x4();
 
@@ -56,6 +58,7 @@ public:
 	static Matrix4x4 Perspective(const float fov, const float aspect, const float near, const float far);
 	static Matrix4x4 Perspective(const float fov, const float aspect, const float near);
 
+	operator float*();
 	bool operator== (const  Matrix4x4& other);
 	bool operator!= (const  Matrix4x4& other);
 	Matrix4x4 operator+ (const Matrix4x4& other);

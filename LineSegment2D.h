@@ -29,12 +29,12 @@ public:
 	LineSegment2D(Vector2D Point0, Vector2D Point1);
 	~LineSegment2D();
 
-	Vector2D getP0() const;
+	Vector2D getP0() const { return m_p0; }
 	void setP0(Vector2D p0);
-	Vector2D getP1() const;
+	Vector2D getP1() const { return m_p1; }
 	void setP1(Vector2D p01);
-	Vector2D getNorm() const;
-	float getNDotP0() const;
+	Vector2D getNorm() const { return m_norm; }
+	float getNDotP0() const { return m_nDotP0; }
 };
 
 #endif

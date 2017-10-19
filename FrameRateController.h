@@ -3,7 +3,7 @@ Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
 File Name: FrameRateController.h
-Purpose: Provides timer functionality to the engine
+Purpose: Provides timer functionality to the engine. Singleton class.
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
@@ -16,31 +16,31 @@ Creation date: 10/7/17
 #ifndef FRAMERATECONTROLLER_H
 #define FRAMERATECONTROLLER_H
 
-#define MIN_FRAME_TIME 0.01666666666666666666666666666667
-
-#include <chrono>
-
 class FrameRateController
 {
 private:
-	FrameRateController();
-	~FrameRateController();
+	double m_deltaTime;
+	unsigned int m_maxFrameRate;
+	float m_ticksPerFrame;
+	unsigned int m_tickStart;
+	unsigned int m_tickEnd;
 
-	std::chrono::steady_clock::time_point m_now;
-	long m_deltaTime;
+	FrameRateController(unsigned int maxFrameRate);
+	~FrameRateController();
 public:
 	FrameRateController(FrameRateController const&) = delete;
 	void operator=(FrameRateController const&) = delete;
 
-	static FrameRateController& getInstance()
+	static FrameRateController& GetInstance(unsigned int maxFrameRate = 60)
 	{
-		static FrameRateController instance;
+		static FrameRateController instance(maxFrameRate);
 		return instance;
 	}
 
-	long GetFrameTime() const;
+	double GetFrameTime() const;
 
-	void Tick();
+	void FrameStart();
+	void FrameEnd();
 };
 
 #endif

@@ -20,30 +20,34 @@ Creation date: 9/29/17
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
+#include "Vector2D.h"
+
 class Vector3D
 {
 private:
 	float m_x, m_y, m_z, m_w;
-	void swap(Vector3D& other);
 
 public:
 	Vector3D();
 	Vector3D(float x, float y, float z);
 	Vector3D(float x, float y, float z, float w);
 	Vector3D(Vector3D const& rhs);
+	Vector3D(Vector2D const& rhs);
 	Vector3D& operator= (Vector3D rhs);
 	~Vector3D();
 
+	operator Vector2D() const;
+
 	void Set(float x, float y, float z);
 	void Set(float x, float y, float z, float w);
-	float getX() const;
-	void setX(float x);
-	float getY() const;
-	void setY(float y);
-	float getZ() const;
-	void setZ(float z);
-	float getW() const;
-	void setW(float w);
+	float getX() const { return m_x; };
+	void setX(float x) { m_x = x; };
+	float getY() const { return m_y; };
+	void setY(float y) { m_y = y; };
+	float getZ() const { return m_z; };
+	void setZ(float z) { m_z = z; };
+	float getW() const { return m_w; };
+	void setW(float w) { m_w = w; };
 
 	bool operator== (const  Vector3D& other) const;
 	bool operator!= (const  Vector3D& other) const;
@@ -51,6 +55,8 @@ public:
 	Vector3D operator- (const Vector3D& other) const;
 	Vector3D operator* (const float scalar) const;
 	Vector3D operator/ (const float divisor) const;
+	float operator[](const int idx) const;
+	float& operator[](const int idx);
 
 	void Add(const Vector3D& other);
 	void Sub(const Vector3D& other);
