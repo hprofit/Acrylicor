@@ -22,7 +22,9 @@ Creation date: 10/16/17
 class ShaderProgram
 {
 protected:
-	GLint m_program;
+	GLint m_programID;
+	Shader * m_vertexShader;
+	Shader * m_fragmentShader;
 
 public:
 	ShaderProgram();
@@ -30,7 +32,10 @@ public:
 
 	GLint GetProgram() const;
 	GLint& GetProgramRef();
-	virtual void AttachShader(Shader shader);
+
+	void LoadShader(const char * shaderPath, SHADER_TYPE type);
+
+	virtual void AttachShader(Shader& shader);
 	void LinkShaders();
 
 	GLint GetAttributeLocation(const char * attribute);

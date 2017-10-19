@@ -26,13 +26,18 @@ const enum SHADER_TYPE {
 class Shader
 {
 private:
-	GLuint m_shader;
+	GLuint m_shaderID;
+	SHADER_TYPE m_type;
 
 public:
+	Shader();
 	Shader(const char * shaderText, SHADER_TYPE type);
 	~Shader();
 
-	operator GLuint() const;
+	GLuint GetShaderID() const;
+	SHADER_TYPE GetShaderType() const;
+
+	void LoadShaderFromFile(const char * shaderFilePath, SHADER_TYPE type);
 };
 
 #endif
