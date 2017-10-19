@@ -125,41 +125,6 @@ int Initialize()
 	RenderManager& renderManager = RenderManager::GetInstance();
 	if (!renderManager.Init())
 		return 1;
-	/*
-#pragma region Vertex Shader Definition
-	const char *vertex_shader_text =
-		"#version 130\n\
-		uniform mat4 persp_matrix;\
-		uniform mat4 view_matrix;\
-		uniform mat4 model_matrix;\
-		uniform mat4 normal_matrix;\
-		uniform vec4 color;\
-		\
-		out vec4 vcolor;\
-		void main() {\
-			gl_Position = persp_matrix * view_matrix * model_matrix;\
-			vcolor = vec4(color.xyz,color.w);\
-		}";
-#pragma endregion
-	Shader vertexShader = Shader(vertex_shader_text, VERTEX_SHADER);
-
-#pragma region Fragment Shader Definition
-	const char *fragment_shader_text =
-		"#version 130\n\
-		in vec4 vcolor;\
-		out vec4 frag_color;\
-		void main(void) {\
-			frag_color = vcolor;\
-		}";
-#pragma endregion
-	Shader fragmentShader = Shader(fragment_shader_text, FRAGMENT_SHADER);
-
-	//ShaderProgram * program = renderManager.CreateShaderProgram("Default");
-	program = new DefaultShaderProgram();
-	program->AttachShader(vertexShader);
-	program->AttachShader(fragmentShader);
-	program->LinkShaders();
-	*/
 
 	GLint value;
 #pragma region fshader
@@ -196,7 +161,7 @@ int Initialize()
 		\
 		out vec4 vcolor;\
 		void main() {\
-			gl_Position = persp_matrix * model_matrix * position;\
+			gl_Position = model_matrix * position;\
 			vec4 m = normal_matrix * normal;\
 			float f = max(0,m.z)/length(m);\
 			vcolor = vec4(f*color.xyz,color.w);\
@@ -308,7 +273,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 		player->GetTransformComponent()->BuildModelTransform();
 
 		//camera->Update();
-		renderMgr.RenderGameObject(*camera, *player);
+		//renderMgr.RenderGameObject(*camera, *player);
+
+
+#pragma region Render
+
+		glUseProgram(program);
+		Matrix4x4 M = player->GetTransformComponent()->GetModelTransform();
+		Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
+		glUniformMatrix4fv(umodel_matrix, 1, true, (float*)&M);
+		glUniformMatrix4fv(unormal_matrix, 1, true, (float*)&N);
+
+		// Generate color for each object
+		glUniform4f(ucolor, 1, 0, 1, 1);
+
+		// set shader attributes
+		glEnableVertexAttribArray(aposition);
+		glBindBuffer(GL_ARRAY_BUFFER, player->GetSpriteComponent()->GetMesh().GetVertexBuffer());
+		glVertexAttribPointer(aposition, 4, GL_FLOAT, false, 0, 0); // <- load it to memory
+		glEnableVertexAttribArray(aposition);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		glDisableVertexAttribArray(0);
+
+#pragma endregion
+
 
 		FrameEnd();
 	}
