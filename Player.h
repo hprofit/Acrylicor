@@ -2,34 +2,33 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: Component.h
-Purpose: Base Component class
+File Name: Player.h
+Purpose: Base Player class - For testing
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/13/17
+Creation date: 10/20/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
 
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
-#include "ComponentTypes.h"
+#include "GameObject.h"
+#include "Vector2D.h"
+#include <string>
 
-class GameObject;
-
-class Component
+class Player :
+	public GameObject
 {
 public:
-	GameObject& m_parent;
-	const COMPONENT_TYPE m_type;
+	Player();
+	Player(Player const& rhs);
+	~Player();
 
-	Component(GameObject& parent, COMPONENT_TYPE type) : m_parent(parent), m_type(type) {};
-	Component(Component const& rhs) = delete;
-	virtual ~Component() {};
-
-	virtual void Update() = 0;
+	virtual void Update();
 };
+
 #endif

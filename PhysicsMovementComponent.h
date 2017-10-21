@@ -28,9 +28,11 @@ public:
 	PhysicsMovementComponent(GameObject& parent);
 	PhysicsMovementComponent(GameObject& parent, Vector2D velocity);
 	PhysicsMovementComponent(GameObject& parent, Vector2D velocity, Vector2D acceleration);
-	PhysicsMovementComponent(PhysicsMovementComponent const& rhs) = delete;
 	PhysicsMovementComponent& operator= (PhysicsMovementComponent rhs) = delete;
+	PhysicsMovementComponent(PhysicsMovementComponent const& rhs) = delete;
 	~PhysicsMovementComponent();
+
+	virtual void Update();
 };
 
 #endif

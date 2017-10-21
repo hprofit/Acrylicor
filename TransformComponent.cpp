@@ -1,18 +1,22 @@
 #include "TransformComponent.h"
 
 TransformComponent::TransformComponent(GameObject& parent, Vector2D position) :
-	Component(parent),
+	Component(parent, CT_TRANSFORM),
 	m_position(position),
 	m_angle(0.0f), m_scaleX(1.0f), m_scaleY(1.0f)
 {}
 
 TransformComponent::TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY) :
-	Component(parent),
+	Component(parent, CT_TRANSFORM),
 	m_position(position),
 	m_angle(angle), m_scaleX(scaleX), m_scaleY(scaleY)
 {}
 
 TransformComponent::~TransformComponent()
+{
+}
+
+void TransformComponent::Update()
 {
 }
 
@@ -26,7 +30,7 @@ void TransformComponent::SetPosition(Vector2D pos)
 	m_position = pos; 
 }
 
-void TransformComponent::UpdatePosition(Vector2D amount)
+void TransformComponent::Move(Vector2D amount)
 {
 	m_position += amount;
 }
@@ -51,7 +55,6 @@ void TransformComponent::SetScaleX(float scaleX)
 	m_scaleX = scaleX; 
 }
 
-
 float TransformComponent::GetScaleY() const 
 {
 	return m_scaleY;
@@ -60,6 +63,11 @@ float TransformComponent::GetScaleY() const
 void TransformComponent::SetScaleY(float scaleY) 
 {
 	m_scaleY = scaleY; 
+}
+
+void TransformComponent::SetScale(float scale)
+{
+	m_scaleX = m_scaleY = scale;
 }
 
 Matrix4x4 TransformComponent::GetModelTransform() const {

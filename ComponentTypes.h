@@ -2,34 +2,27 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: Component.h
-Purpose: Base Component class
+File Name: ComponentTypes.h
+Purpose: Provides an enum for all possible component types -- seperating this from Component so Component.h doesn't know about
+other types of Components.
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/13/17
+Creation date: 10/20/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
 
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef COMPONENT_TYPES_H
+#define COMPONENT_TYPES_H
 
-#include "ComponentTypes.h"
-
-class GameObject;
-
-class Component
-{
-public:
-	GameObject& m_parent;
-	const COMPONENT_TYPE m_type;
-
-	Component(GameObject& parent, COMPONENT_TYPE type) : m_parent(parent), m_type(type) {};
-	Component(Component const& rhs) = delete;
-	virtual ~Component() {};
-
-	virtual void Update() = 0;
+const enum COMPONENT_TYPE {
+	CT_PHYSICS_BODY = 0,
+	CT_PHYSICS_MOVEMENT,
+	CT_SPRITE,
+	CT_TRANSFORM,
+	CT_CONTROLLER
 };
+
 #endif

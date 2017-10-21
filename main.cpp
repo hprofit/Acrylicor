@@ -18,13 +18,16 @@
 #include "InputManager.h"
 #include "FrameRateController.h"
 #include "ResourceManager.h"
-#include "GameObject.h"
+#include "ComponentTypes.h"
+#include "TransformComponent.h"
+#include "Player.h"
 #include "Camera.h"
 #include "RenderManager.h"
 #include "DefaultShaderProgram.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include <iostream>
+#include <string>
 
 #include "Mesh.h"
 
@@ -125,41 +128,6 @@ int Initialize()
 	RenderManager& renderManager = RenderManager::GetInstance();
 	if (!renderManager.Init())
 		return 1;
-	/*
-#pragma region Vertex Shader Definition
-	const char *vertex_shader_text =
-		"#version 130\n\
-		uniform mat4 persp_matrix;\
-		uniform mat4 view_matrix;\
-		uniform mat4 model_matrix;\
-		uniform mat4 normal_matrix;\
-		uniform vec4 color;\
-		\
-		out vec4 vcolor;\
-		void main() {\
-			gl_Position = persp_matrix * view_matrix * model_matrix;\
-			vcolor = vec4(color.xyz,color.w);\
-		}";
-#pragma endregion
-	Shader vertexShader = Shader(vertex_shader_text, VERTEX_SHADER);
-
-#pragma region Fragment Shader Definition
-	const char *fragment_shader_text =
-		"#version 130\n\
-		in vec4 vcolor;\
-		out vec4 frag_color;\
-		void main(void) {\
-			frag_color = vcolor;\
-		}";
-#pragma endregion
-	Shader fragmentShader = Shader(fragment_shader_text, FRAGMENT_SHADER);
-
-	//ShaderProgram * program = renderManager.CreateShaderProgram("Default");
-	program = new DefaultShaderProgram();
-	program->AttachShader(vertexShader);
-	program->AttachShader(fragmentShader);
-	program->LinkShaders();
-	*/
 
 	GLint value;
 #pragma region fshader
@@ -282,9 +250,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	bool done = false;
 	double dt = 0.0;
 	Camera * camera = new Camera(Vector3D(0.0f, 0.0f, -10.0f), Vector3D(0, 0, -1));
-	GameObject * player = new GameObject();
-	player->AddSpriteComponent("player");
-	player->AddTransformComponent(Vector2D(0.0f, 0.0f, 1.0f), 0.0f, 0.5f, 0.5f);
+
+	Player * player = new Player();
+	dynamic_cast<TransformComponent*>(player->Get(CT_TRANSFORM))->SetScale(0.5f);
 
 	while (!done) {
 		dt = FrameStart();
@@ -292,22 +260,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 		if (inputMgr.IsKeyPressed(ACR_ESCAPE))
 			done = true;
 
-		if (inputMgr.IsKeyPressed(ACR_W)) {
-			player->GetTransformComponent()->UpdatePosition(Vector2D(0.0f, 1.0f) * dt);
-		}
-		if (inputMgr.IsKeyPressed(ACR_S)) {
-			player->GetTransformComponent()->UpdatePosition(Vector2D(0.0f, -1.0f) * dt);
-		}
-		if (inputMgr.IsKeyPressed(ACR_A)) {
-			player->GetTransformComponent()->UpdatePosition(Vector2D(-1.0f, 0.0f) * dt);
-		}
-		if (inputMgr.IsKeyPressed(ACR_D)) {
-			player->GetTransformComponent()->UpdatePosition(Vector2D(1.0f, 0.0f) * dt);
-		}
+#pragma region Movement
 
-		player->GetTransformComponent()->BuildModelTransform();
+#pragma endregion
 
+		player->Update();
 		//camera->Update();
+
 		renderMgr.RenderGameObject(*camera, *player);
 
 		FrameEnd();

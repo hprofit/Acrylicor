@@ -1,45 +1,32 @@
 #include "GameObject.h"
 
-GameObject::GameObject() :
-	m_compPhysicsBody(NULL),
-	m_compPhysicsMovement(NULL),
-	m_compSprite(NULL),
-	m_compTransform(NULL)
-{}
+GameObject::GameObject(){}
 
-GameObject::GameObject(GameObject const & rhs)
-{
-}
-
-GameObject & GameObject::operator=(GameObject rhs)
-{
-	return *this;
-}
+GameObject::GameObject(GameObject const & rhs){}
 
 GameObject::~GameObject()
 {
-	delete m_compPhysicsBody;
-	delete m_compPhysicsMovement;
-	delete m_compSprite;
-	delete m_compTransform;
+	for (auto comp : m_components)
+		delete comp.second;
+	m_components.clear();
 }
 
-void GameObject::AddPhysicsBodyComponent()
+void GameObject::Activate()
 {
-	m_compPhysicsBody = new PhysicsBodyComponent(*this);
+	m_active |= FLAG_ACTIVE;
 }
 
-void GameObject::AddPhysicsMovementComponent()
+void GameObject::Deactivate()
 {
-	m_compPhysicsMovement = new PhysicsMovementComponent(*this);
+	m_active &= ~(FLAG_ACTIVE);
 }
 
-void GameObject::AddSpriteComponent(char * spriteName)
+bool GameObject::Has(COMPONENT_TYPE type)
 {
-	m_compSprite = new SpriteComponent(*this, spriteName);
+	return m_components[type] != NULL;
 }
 
-void GameObject::AddTransformComponent(Vector2D position, float angle, float scaleX, float scaleY)
+Component * GameObject::Get(COMPONENT_TYPE type)
 {
-	m_compTransform = new TransformComponent(*this, position, angle, scaleX, scaleY);
+	return m_components[type];
 }

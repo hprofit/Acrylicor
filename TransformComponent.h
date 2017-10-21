@@ -23,7 +23,7 @@ Creation date: 10/17/17
 class TransformComponent :
 	public Component
 {
-private:
+protected:
 	Vector2D m_position;
 	float m_angle, m_scaleX, m_scaleY;
 	Matrix4x4 m_transform;
@@ -33,12 +33,13 @@ public:
 	TransformComponent(GameObject& parent, Vector2D position);
 	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY);
 	TransformComponent(TransformComponent const& rhs) = delete;
-	TransformComponent& operator= (TransformComponent rhs) = delete;
 	~TransformComponent();
+
+	virtual void Update();
 
 	Vector2D GetPosition() const;
 	void SetPosition(Vector2D pos);
-	void UpdatePosition(Vector2D amount);
+	void Move(Vector2D amount);
 
 	float GetAngle() const;
 	void SetAngle(float angle);
@@ -48,6 +49,8 @@ public:
 
 	float GetScaleY() const;
 	void SetScaleY(float scaleY);
+
+	void SetScale(float scale);
 
 	Matrix4x4 GetModelTransform() const;
 	void BuildModelTransform();

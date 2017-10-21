@@ -1,8 +1,9 @@
 #include "RenderManager.h"
+#include "Matrix4x4.h"
+#include "TransformComponent.h"
+#include "SpriteComponent.h"
 #include <stdio.h>
 #include <glew.h>
-
-#include "Matrix4x4.h"
 
 #define MAX_SHADER_PROGRAMS 8
 
@@ -34,16 +35,16 @@ void RenderManager::FrameStart()
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void RenderManager::RenderGameObject(const Camera& camera, const GameObject& gameObject)
+void RenderManager::RenderGameObject(const Camera& camera, GameObject& gameObject)
 {
 	// Only attempt to draw if the game object has a sprite component
-	//if (!gameObject || !gameObject.GetSpriteComponent())
-	//	return;
+	if (!gameObject.Has(CT_TRANSFORM) || !gameObject.Has(CT_SPRITE))
+		return;
 	
-	DefaultShaderProgram * program = dynamic_cast<DefaultShaderProgram*>(m_currentProgram);
+	DefaultShaderProgram * program = static_cast<DefaultShaderProgram*>(m_currentProgram);
 
 	glUseProgram(m_currentProgram->GetProgram());
-	Matrix4x4 M = gameObject.GetTransformComponent()->GetModelTransform();
+	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(CT_TRANSFORM))->GetModelTransform();
 	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
 	glUniformMatrix4fv(program->umodel_matrix, 1, true, (float*)&M);
 	glUniformMatrix4fv(program->unormal_matrix, 1, true, (float*)&N);
@@ -53,7 +54,7 @@ void RenderManager::RenderGameObject(const Camera& camera, const GameObject& gam
 
 	// set shader attributes
 	glEnableVertexAttribArray(program->aposition);
-	glBindBuffer(GL_ARRAY_BUFFER, gameObject.GetSpriteComponent()->GetMesh().GetVertexBuffer());
+	glBindBuffer(GL_ARRAY_BUFFER, static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE))->GetMesh().GetVertexBuffer());
 	glVertexAttribPointer(program->aposition, 4, GL_FLOAT, false, 0, 0); // <- load it to memory
 	glEnableVertexAttribArray(program->aposition);
 

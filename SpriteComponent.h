@@ -33,6 +33,8 @@ public:
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
 	~SpriteComponent();
 
+	virtual void Update();
+
 	Mesh& const GetMesh() const { return m_mesh; }
 	void SetMesh(Mesh& mesh) { m_mesh = mesh; }
 };

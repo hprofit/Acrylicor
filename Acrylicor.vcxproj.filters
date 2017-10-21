@@ -49,11 +49,23 @@
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{4031c3cd-74b7-4418-ba25-d36038cffefa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GameObject\Components">
+    <Filter Include="Source Files\TEST_FILES">
+      <UniqueIdentifier>{8d052b99-facf-4304-b0df-2658766c5afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TEST_FILES">
+      <UniqueIdentifier>{9019f753-3cdf-474e-9622-f03f99e90fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
       <UniqueIdentifier>{5d29bcbf-2d36-4ccf-b875-49e236d2d072}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameObject\Components">
+    <Filter Include="Source Files\Components">
       <UniqueIdentifier>{c724e878-1173-4079-bfa4-3f79b158165e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Managers\Events">
+      <UniqueIdentifier>{319b468a-5dfa-4db7-9199-f3232ad3ce34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Managers\Events">
+      <UniqueIdentifier>{15f2c266-6aca-4586-a3e3-f736c17ac2c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,19 +130,19 @@
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Header Files\GameObject\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponent.h">
-      <Filter>Header Files\GameObject\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files\GameObject\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsMovementComponent.h">
-      <Filter>Header Files\GameObject\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsBodyComponent.h">
-      <Filter>Header Files\GameObject\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectManager.h">
       <Filter>Header Files\Managers</Filter>
@@ -140,6 +152,21 @@
     </ClInclude>
     <ClInclude Include="DefaultShaderProgram.h">
       <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTypes.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\TEST_FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\Managers\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -198,16 +225,16 @@
       <Filter>Source Files\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="SpriteComponent.cpp">
-      <Filter>Source Files\GameObject\Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Source Files\GameObject\Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsBodyComponent.cpp">
-      <Filter>Source Files\GameObject\Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsMovementComponent.cpp">
-      <Filter>Source Files\GameObject\Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>Source Files\Managers</Filter>
@@ -217,6 +244,18 @@
     </ClCompile>
     <ClCompile Include="DefaultShaderProgram.cpp">
       <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Managers\Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

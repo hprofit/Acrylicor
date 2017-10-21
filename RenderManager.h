@@ -43,7 +43,7 @@ public:
 
 	bool Init();
 	void FrameStart();
-	void RenderGameObject(const Camera& camera, const GameObject& gameObject);
+	void RenderGameObject(const Camera& camera, GameObject& gameObject);
 	void FrameEnd();
 
 	ShaderProgram * GetShaderProgram(const char * programName);

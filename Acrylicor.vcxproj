@@ -128,7 +128,11 @@
     <ClInclude Include="AcrylicorTypedefs.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentTypes.h" />
+    <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="DefaultShaderProgram.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
@@ -143,6 +147,7 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="PhysicsBodyComponent.h" />
     <ClInclude Include="PhysicsMovementComponent.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -156,7 +161,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="DefaultShaderProgram.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -171,6 +179,7 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="PhysicsBodyComponent.cpp" />
     <ClCompile Include="PhysicsMovementComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Shader.cpp" />
