@@ -25,8 +25,7 @@ private:
 	GameObject * m_gameObjects;
 
 	GameObjectManager() = delete;
-	GameObjectManager(int numObjects) : m_numObjects(numObjects)
-	{ m_gameObjects = new GameObject[numObjects]; }
+	GameObjectManager(int numObjects);
 	~GameObjectManager();
 public:
 	GameObjectManager(GameObjectManager const&) = delete;

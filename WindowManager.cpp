@@ -37,6 +37,14 @@ void WindowManager::Init(const char * title)
 	m_context = SDL_GL_CreateContext(m_window);
 }
 
+void WindowManager::SetWindowSize(int width, int height)
+{
+	m_width = width;
+	m_height = height;
+	SDL_SetWindowSize(m_window, width, height);
+	glViewport(0, 0, width, height);
+}
+
 void WindowManager::FrameStart(){}
 
 void WindowManager::FrameEnd()

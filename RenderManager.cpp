@@ -23,6 +23,7 @@ bool RenderManager::Init()
 		printf("needs OpenGL version 2.0 or better");
 		return false;
 	}
+	glEnable(GL_DEPTH_TEST); // GL_BLEND_TEST <- TODO: for alpha
 	return true;
 }
 
@@ -33,6 +34,34 @@ void RenderManager::FrameStart()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearDepth(1);
 	glClear(GL_DEPTH_BUFFER_BIT);
+}
+
+void RenderManager::RenderGameObject(GameObject & gameObject)
+{
+	// Only attempt to draw if the game object has a sprite component and transform component
+	if (!gameObject.Has(CT_TRANSFORM) || !gameObject.Has(CT_SPRITE))
+		return;
+
+	//DefaultShaderProgram * program = static_cast<DefaultShaderProgram*>(m_currentProgram);
+	//program->LinkAttributes();
+
+	glUseProgram(m_currentProgram->GetProgram());
+	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(CT_TRANSFORM))->GetModelTransform();
+	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
+	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)&M);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)&N);
+
+	// Generate color for each object
+	glUniform4f(m_currentProgram->GetUniform("color"), 1, 1, 1, 1);
+
+	// set shader attributes
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	glBindBuffer(GL_ARRAY_BUFFER, static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE))->GetMesh().GetVertexBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, false, 0, 0); // <- load it to memory
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+
+	glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+	glDisableVertexAttribArray(0);
 }
 
 void RenderManager::RenderGameObject(const Camera& camera, GameObject& gameObject)
@@ -85,13 +114,28 @@ ShaderProgram * RenderManager::CreateShaderProgram(const char * programName)
 	return program;
 }
 
-void RenderManager::CreateVertexShader(const char * vertexShaderText)
+// TODO: Don't like
+DefaultShaderProgram * RenderManager::CreateDefaultShaderProgram(const char * programName)
 {
+	DefaultShaderProgram * program = dynamic_cast<DefaultShaderProgram*>(m_shaderPrograms[programName]);
+	if (program)
+		return program;
 
+	program = new DefaultShaderProgram();
+	if (program)
+		m_shaderPrograms[programName] = program;
+
+	return program;
 }
 
-void RenderManager::CreateFragmentShader(const char * fragmentShaderText)
+Shader * RenderManager::CreateVertexShader(const char * vertexShaderText)
 {
+	return new Shader(vertexShaderText, VERTEX_SHADER);
+}
+
+Shader * RenderManager::CreateFragmentShader(const char * fragmentShaderText)
+{
+	return new Shader(fragmentShaderText, FRAGMENT_SHADER);
 
 }
 

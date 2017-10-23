@@ -17,10 +17,11 @@ Creation date: 10/13/17
 #define GAME_OBJECT_H
 
 #include "ComponentTypes.h"
-#include "Component.h"
 #include <map>
 
 #define FLAG_ACTIVE	0x00000001
+
+class Component;
 
 class GameObject
 {
@@ -31,16 +32,16 @@ protected:
 public:
 	GameObject();
 	GameObject(GameObject const& rhs);
-	~GameObject();
+	virtual ~GameObject();
 
-	void Activate();
-	void Deactivate();
-	unsigned long GetActive() { return m_active; }
+	virtual void Activate();
+	virtual void Deactivate();
+	virtual unsigned long GetActive();
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);
 
-	virtual void Update() = 0;
+	virtual void Update();
 };
 
 #endif

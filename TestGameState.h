@@ -2,30 +2,30 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: DefaultShaderProgram.h
-Purpose: Default Shader program with ties to default shaders. This is for testing.
+File Name: TestGameState.h
+Purpose: Test Game state, for use in testing the engine.
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/16/17
+Creation date: 10/22/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
 
-#ifndef DEFAULT_SHADER_PROGRAM_H
-#define DEFAULT_SHADER_PROGRAM_H
+#ifndef TEST_GAMESTATE_H
+#define TEST_GAMESTATE_H
 
-#include "ShaderProgram.h"
+#include "IGameState.h"
+#include <glew.h>
+#include <GL/gl.h>
 
-class DefaultShaderProgram : 
-	public ShaderProgram
+class TestGameState :
+	public IGameState
 {
-protected:
-	bool m_linked;
-
 public:
-	GLint aposition,
+	GLint	program,
+		aposition,
 		anormal,
 		upersp_matrix,
 		uview_matrix,
@@ -33,12 +33,15 @@ public:
 		unormal_matrix,
 		ucolor;
 
-	DefaultShaderProgram();
-	~DefaultShaderProgram();
+	TestGameState();
+	virtual ~TestGameState();
 
-	virtual void AttachShader(Shader shader);
-
-	virtual void LinkAttributes();
+	virtual void GameStateLoad(void);
+	virtual void GameStateInit(void);
+	virtual void GameStateUpdate(double deltaTime = 0.0);
+	virtual void GameStateDraw(void);
+	virtual void GameStateFree(void);
+	virtual void GameStateUnload(void);
 };
 
 #endif

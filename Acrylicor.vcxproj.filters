@@ -87,9 +87,6 @@
     <ClInclude Include="Matrix4x4.h">
       <Filter>Header Files\Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
@@ -165,7 +162,16 @@
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
+    <ClInclude Include="AcrylicorAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestGameState.h">
+      <Filter>Header Files\TEST_FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="AcryEvent.h">
       <Filter>Header Files\Managers\Events</Filter>
     </ClInclude>
   </ItemGroup>
@@ -254,7 +260,13 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
+    <ClCompile Include="AcrylicorAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestGameState.cpp">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="AcryEvent.cpp">
       <Filter>Source Files\Managers\Events</Filter>
     </ClCompile>
   </ItemGroup>

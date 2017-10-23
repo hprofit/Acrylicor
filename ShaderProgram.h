@@ -18,6 +18,7 @@ Creation date: 10/16/17
 
 #include "glew.h"
 #include "Shader.h"
+#include <map>
 
 class ShaderProgram
 {
@@ -25,6 +26,11 @@ protected:
 	GLint m_programID;
 	Shader * m_vertexShader;
 	Shader * m_fragmentShader;
+	std::map<const char *, GLint> m_attributes;
+	std::map<const char *, GLint> m_uniforms;
+
+	GLint GetAttributeLocation(const char * attribute);
+	GLint GetUniformLocation(const char * uniform);
 
 public:
 	ShaderProgram();
@@ -38,8 +44,11 @@ public:
 	virtual void AttachShader(Shader& shader);
 	void LinkShaders();
 
-	GLint GetAttributeLocation(const char * attribute);
-	GLint GetUniformLocation(const char * uniform);
+	void AddAttribute(const char * name);
+	GLint GetAttribute(const char * name);
+
+	void AddUniform(const char * name);
+	GLint GetUniform(const char * name);
 };
 
 #endif

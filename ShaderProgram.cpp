@@ -42,8 +42,10 @@ void ShaderProgram::AttachShader(Shader& shader)
 	switch (shader.GetShaderType()) {
 		case VERTEX_SHADER:
 			m_vertexShader = &shader;
+			break;
 		case FRAGMENT_SHADER:
 			m_fragmentShader = &shader;
+			break;
 	}
 	glAttachShader(m_programID, shader.GetShaderID());
 }
@@ -71,4 +73,24 @@ GLint ShaderProgram::GetAttributeLocation(const char * attribute)
 GLint ShaderProgram::GetUniformLocation(const char * uniform)
 {
 	return glGetUniformLocation(m_programID, uniform);
+}
+
+void ShaderProgram::AddAttribute(const char * name)
+{
+	m_attributes[name] = GetAttributeLocation(name);
+}
+
+GLint ShaderProgram::GetAttribute(const char * name)
+{
+	return m_attributes[name];
+}
+
+void ShaderProgram::AddUniform(const char * name)
+{
+	m_uniforms[name] = GetUniformLocation(name);
+}
+
+GLint ShaderProgram::GetUniform(const char * name)
+{
+	return m_uniforms[name];
 }

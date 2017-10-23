@@ -21,6 +21,11 @@ void GameObject::Deactivate()
 	m_active &= ~(FLAG_ACTIVE);
 }
 
+unsigned long GameObject::GetActive()
+{
+	return m_active;
+}
+
 bool GameObject::Has(COMPONENT_TYPE type)
 {
 	return m_components[type] != NULL;
@@ -29,4 +34,8 @@ bool GameObject::Has(COMPONENT_TYPE type)
 Component * GameObject::Get(COMPONENT_TYPE type)
 {
 	return m_components[type];
+}
+
+void GameObject::Update()
+{
 }

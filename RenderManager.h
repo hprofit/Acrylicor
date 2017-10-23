@@ -20,8 +20,10 @@ Creation date: 10/17/17
 #include "Camera.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
-#include "DefaultShaderProgram.h"
 #include <map>
+
+// TODO: Don't like
+#include "DefaultShaderProgram.h"
 
 class RenderManager
 {
@@ -43,13 +45,17 @@ public:
 
 	bool Init();
 	void FrameStart();
+	void RenderGameObject(GameObject& gameObject);
 	void RenderGameObject(const Camera& camera, GameObject& gameObject);
 	void FrameEnd();
 
 	ShaderProgram * GetShaderProgram(const char * programName);
 	ShaderProgram * CreateShaderProgram(const char * programName);
-	void CreateVertexShader(const char * vertexShaderText);
-	void CreateFragmentShader(const char * fragmentShaderText);
+	// TODO: Don't like
+	DefaultShaderProgram * CreateDefaultShaderProgram(const char * programName);
+
+	Shader * CreateVertexShader(const char * vertexShaderText);
+	Shader * CreateFragmentShader(const char * fragmentShaderText);
 
 	void SelectShaderProgram(const char * programName);
 };

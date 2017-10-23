@@ -17,8 +17,7 @@ Creation date: 10/13/17
 #define COMPONENT_H
 
 #include "ComponentTypes.h"
-
-class GameObject;
+#include "GameObject.h"
 
 class Component
 {

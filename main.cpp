@@ -1,12 +1,15 @@
-//#define _USE_SDL_DEFINES
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <windows.h>
 
-#include <SDL.h>
-#include <glew.h>
-#include <GL/gl.h>
+#include "InputManager.h"
+#include "AcrylicorAPI.h"
+#include "TestGameState.h"
 
+
+#define TEST_MODE 0
+
+#if TEST_MODE
 #include "Vector2D.h"
 #include "Vector3D.h"
 #include "Matrix.h"
@@ -14,26 +17,6 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 #include "Math2D.h"
-#include "WindowManager.h"
-#include "InputManager.h"
-#include "FrameRateController.h"
-#include "ResourceManager.h"
-#include "ComponentTypes.h"
-#include "TransformComponent.h"
-#include "Player.h"
-#include "Camera.h"
-#include "RenderManager.h"
-#include "DefaultShaderProgram.h"
-#include "ShaderProgram.h"
-#include "Shader.h"
-#include <iostream>
-#include <string>
-
-#include "Mesh.h"
-
-#define TEST_MODE 0
-
-#if TEST_MODE
 int main(int argc, char ** argv)
 {
 	if (argc > 1)
@@ -109,172 +92,32 @@ int main(int argc, char ** argv)
 #endif
 
 #if !TEST_MODE
-
-//static DefaultShaderProgram * program;
-GLint	program,
-		aposition,
-		anormal,
-		upersp_matrix,
-		uview_matrix,
-		umodel_matrix,
-		unormal_matrix,
-		ucolor;
-
-int Initialize()
-{
-	// Init Window
-	WindowManager::GetInstance(800, 800, "My Game");
-
-	RenderManager& renderManager = RenderManager::GetInstance();
-	if (!renderManager.Init())
-		return 1;
-
-	GLint value;
-#pragma region fshader
-	const char *fragment_shader_text =
-		"#version 130\n\
-		in vec4 vcolor;\
-		out vec4 frag_color;\
-		void main(void) {\
-			frag_color = vec4(1,0,1,1);\
-		}";
-	GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fshader, 1, &fragment_shader_text, 0);
-	glCompileShader(fshader);
-	glGetShaderiv(fshader, GL_COMPILE_STATUS, &value);
-	if (!value) {
-		std::cerr << "Fragment shader failed to compile" << std::endl;
-		char buffer[1024];
-		glGetShaderInfoLog(fshader, 1024, 0, buffer);
-		std::cerr << buffer << std::endl;
-	}
-#pragma endregion
-
-#pragma region vshader
-	const char *vertex_shader_text =
-		"#version 130\n\
-		attribute vec4 position;\
-		attribute vec4 normal;\
-		\
-		uniform mat4 persp_matrix;\
-		uniform mat4 view_matrix;\
-		uniform mat4 model_matrix;\
-		uniform mat4 normal_matrix;\
-		uniform vec4 color;\
-		\
-		out vec4 vcolor;\
-		void main() {\
-			gl_Position = persp_matrix * model_matrix * position;\
-			vec4 m = normal_matrix * normal;\
-			float f = max(0,m.z)/length(m);\
-			vcolor = vec4(f*color.xyz,color.w);\
-		}"; //persp_matrix * view_matrix * 
-	GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vshader, 1, &vertex_shader_text, 0);
-	glCompileShader(vshader);
-	glGetShaderiv(vshader, GL_COMPILE_STATUS, &value);
-	if (!value) {
-		std::cerr << "Vertex shader failed to compile" << std::endl;
-		char buffer[1024];
-		glGetShaderInfoLog(vshader, 1024, 0, buffer);
-		std::cerr << buffer << std::endl;
-	}
-#pragma endregion
-
-#pragma region link shaders
-	program = glCreateProgram();
-	glAttachShader(program, fshader);
-	glAttachShader(program, vshader);
-
-	glLinkProgram(program);
-	glGetProgramiv(program, GL_LINK_STATUS, &value);
-
-	if (!value) {
-		std::cerr << "vertex shader failed to compile" << std::endl;
-		char buffer[1024];
-		glGetShaderInfoLog(vshader, 1024, 0, buffer);
-		std::cerr << buffer << std::endl;
-	}
-#pragma endregion
-
-#pragma region Link attributes
-	aposition = glGetAttribLocation(program, "position");
-	anormal = glGetAttribLocation(program, "normal");
-	upersp_matrix = glGetUniformLocation(program, "persp_matrix");
-	uview_matrix = glGetUniformLocation(program, "view_matrix");
-	umodel_matrix = glGetUniformLocation(program, "model_matrix");
-	unormal_matrix = glGetUniformLocation(program, "normal_matrix");
-	ucolor = glGetUniformLocation(program, "color");
-
-	glEnable(GL_DEPTH_TEST);
-#pragma endregion
-
-	ResourceManager& resMgr = ResourceManager::GetInstance();
-	Mesh * mesh = resMgr.LoadMesh("player");
-	mesh->AddTriangle(
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f
-	);
-	mesh->FinishMesh();
-
-	return 0;
-}
-
-double FrameStart()
-{
-	FrameRateController::GetInstance().FrameStart();
-	double dt = FrameRateController::GetInstance().GetFrameTime();
-
-	WindowManager::GetInstance().FrameStart();
-	RenderManager::GetInstance().FrameStart();
-
-	InputManager::GetInstance().Update();
-	return dt;
-}
-
-void FrameEnd()
-{
-	RenderManager::GetInstance().FrameEnd();
-	WindowManager::GetInstance().FrameEnd();
-	FrameRateController::GetInstance().FrameEnd();
-}
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
 {
-	if (Initialize() != 0)
+	if (Acrylicor::Initialize() != 0)
 		return 1;
 
-	RenderManager& renderMgr = RenderManager::GetInstance();
 	InputManager& inputMgr = InputManager::GetInstance();
 	bool done = false;
 	double dt = 0.0;
-	Camera * camera = new Camera(Vector3D(0.0f, 0.0f, -10.0f), Vector3D(0, 0, -1));
-
-	Player * player = new Player();
-	dynamic_cast<TransformComponent*>(player->Get(CT_TRANSFORM))->SetScale(0.5f);
+	TestGameState * gameState = new TestGameState();
+	gameState->GameStateLoad();
+	gameState->GameStateInit();
 
 	while (!done) {
-		dt = FrameStart();
-
+		dt = Acrylicor::FrameStart();
 		if (inputMgr.IsKeyPressed(ACR_ESCAPE))
 			done = true;
 
-#pragma region Movement
+		gameState->GameStateUpdate(dt);
+		gameState->GameStateDraw();
 
-#pragma endregion
-
-		player->Update();
-		//camera->Update();
-
-		renderMgr.RenderGameObject(*camera, *player);
-
-		FrameEnd();
+		Acrylicor::FrameEnd();
 	}
 
-	delete camera;
-	delete player;
-	//delete program;
+	gameState->GameStateFree();
+	gameState->GameStateUnload();
+	delete gameState;
 
 	return 0;
 }

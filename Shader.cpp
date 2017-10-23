@@ -10,6 +10,7 @@ Shader::Shader(const char * shaderText, SHADER_TYPE type) :
 	m_type(type)
 {
 	GLint result;
+	m_shaderID = glCreateShader(type == VERTEX_SHADER ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
 	glShaderSource(m_shaderID, 1, &shaderText, 0);
 	glCompileShader(m_shaderID);
 	glGetShaderiv(m_shaderID, GL_COMPILE_STATUS, &result);

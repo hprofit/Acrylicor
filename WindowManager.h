@@ -40,6 +40,7 @@ public:
 	}
 
 	SDL_Window& GetWindow() { return *m_window; }
+	void SetWindowSize(int width, int height);
 	void FrameStart();
 	void FrameEnd();
 	void Resize(int width, int height);

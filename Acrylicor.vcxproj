@@ -125,17 +125,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AcrylicorAPI.h" />
     <ClInclude Include="AcrylicorTypedefs.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentTypes.h" />
     <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="DefaultShaderProgram.h" />
-    <ClInclude Include="Event.h" />
+    <ClInclude Include="AcryEvent.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameState.h" />
+    <ClInclude Include="IGameState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LineSegment2D.h" />
     <ClInclude Include="Math2D.h" />
@@ -154,16 +155,18 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AcrylicorAPI.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="DefaultShaderProgram.cpp" />
-    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="AcryEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -185,6 +188,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="TestGameState.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
