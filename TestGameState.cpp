@@ -5,16 +5,19 @@
 
 // Don't like
 #include "Mesh.h"
-#include "TransformComponent.h"
+
 #include "RenderManager.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
+#include "SDL.h"
+
+#include "GameObjectFactory.h"
 
 // Test Files
 #include "Player.h"
 
 
-static Player * sgpPlayer;
+static GameObject * sgpPlayer;
 
 TestGameState::TestGameState()
 {
@@ -26,40 +29,34 @@ TestGameState::~TestGameState()
 
 void TestGameState::GameStateLoad(void)
 {
-	GLint value;
-#pragma region fshader
-	//const char *fragment_shader_text =
-	//	"#version 130\n\
-	//	in vec4 vcolor;\
-	//	out vec4 frag_color;\
-	//	void main(void) {\
-	//		frag_color = vec4(1,0,1,1);\
-	//	}";
-	//GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
-	//glShaderSource(fshader, 1, &fragment_shader_text, 0);
-	//glCompileShader(fshader);
-	//glGetShaderiv(fshader, GL_COMPILE_STATUS, &value);
-	//if (!value) {
-	//	std::cerr << "Fragment shader failed to compile" << std::endl;
-	//	char buffer[1024];
-	//	glGetShaderInfoLog(fshader, 1024, 0, buffer);
-	//	std::cerr << buffer << std::endl;
-	//}
-#pragma endregion
+#pragma region Shader Declaration
+#pragma region Fragment Shader Declaration
 	Shader * fShader = RenderManager::GetInstance().CreateFragmentShader(
 		"#version 130\n\
-		in vec4 vcolor;\
+		uniform vec3 light_color;\
+		uniform sampler2D usampler;\
+		\
+		in vec4 normal_vector;\
+		in vec4 light_vector;\
+		in vec2 vtexture_coord;\
+		\
 		out vec4 frag_color;\
+		\
 		void main(void) {\
-			frag_color = vec4(1,0,1,1);\
+			vec3 diffuse_color = texture(usampler, vtexture_coord).xyz;\
+			vec4 m = normalize(normal_vector);\
+			vec4 L = normalize(light_vector);\
+			vec3 r = max(dot(m, L), 0) * diffuse_color * light_color;\
+			frag_color = vec4(r, 1);\
 		}"
 	);
-
-#pragma region vshader
-	/*const char *vertex_shader_text =
+#pragma endregion
+#pragma region Vertex Shader Declaration
+	Shader * vShader = RenderManager::GetInstance().CreateVertexShader(
 		"#version 130\n\
-		attribute vec4 position;\
-		attribute vec4 normal;\
+		in vec4 position;\
+		in vec4 normal;\
+		in vec2 texture_coord;\
 		\
 		uniform mat4 persp_matrix;\
 		uniform mat4 view_matrix;\
@@ -68,43 +65,17 @@ void TestGameState::GameStateLoad(void)
 		uniform vec4 color;\
 		\
 		out vec4 vcolor;\
+		\
 		void main() {\
-			gl_Position = persp_matrix * model_matrix * position;\
+			vec4 P = model_matrix * position;\
+			gl_Position = P;\
 			vec4 m = normal_matrix * normal;\
 			float f = max(0,m.z)/length(m);\
 			vcolor = vec4(f*color.xyz,color.w);\
-		}"; //persp_matrix * view_matrix * 
-	GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vshader, 1, &vertex_shader_text, 0);
-	glCompileShader(vshader);
-	glGetShaderiv(vshader, GL_COMPILE_STATUS, &value);
-	if (!value) {
-		std::cerr << "Vertex shader failed to compile" << std::endl;
-		char buffer[1024];
-		glGetShaderInfoLog(vshader, 1024, 0, buffer);
-		std::cerr << buffer << std::endl;
-	}*/
+			vtexture_coord = texture_coord;\
+		}" 
+	);// gl_Position = persp_matrix * view_matrix * P;\
 #pragma endregion
-	Shader * vShader = RenderManager::GetInstance().CreateVertexShader(
-		"#version 130\n\
-		attribute vec4 position;\
-		attribute vec4 normal;\
-		\
-		uniform mat4 persp_matrix;\
-		uniform mat4 view_matrix;\
-		uniform mat4 model_matrix;\
-		uniform mat4 normal_matrix;\
-		uniform vec4 color;\
-		\
-		out vec4 vcolor;\
-		void main() {\
-			gl_Position = persp_matrix * model_matrix * position;\
-			vec4 m = normal_matrix * normal;\
-			float f = max(0,m.z)/length(m);\
-			vcolor = vec4(color.xyz, color.w);\
-		}" //persp_matrix * view_matrix *
-	); //vcolor = vec4(f*color.xyz,color.w);\
-
 	ShaderProgram * program = RenderManager::GetInstance().CreateShaderProgram("default");
 	program->AttachShader(*fShader);
 	program->AttachShader(*vShader);
@@ -119,35 +90,9 @@ void TestGameState::GameStateLoad(void)
 	program->AddUniform("color");
 
 	RenderManager::GetInstance().SelectShaderProgram("default");
-
-#pragma region link shaders
-	//program = glCreateProgram();
-	//glAttachShader(program, fshader);
-	//glAttachShader(program, vshader);
-
-	//glLinkProgram(program);
-	//glGetProgramiv(program, GL_LINK_STATUS, &value);
-
-	//if (!value) {
-	//	std::cerr << "vertex shader failed to compile" << std::endl;
-	//	char buffer[1024];
-	//	glGetShaderInfoLog(vshader, 1024, 0, buffer);
-	//	std::cerr << buffer << std::endl;
-	//}
 #pragma endregion
 
-
-#pragma region Link attributes
-	//aposition = glGetAttribLocation(program, "position");
-	//anormal = glGetAttribLocation(program, "normal");
-	//upersp_matrix = glGetUniformLocation(program, "persp_matrix");
-	//uview_matrix = glGetUniformLocation(program, "view_matrix");
-	//umodel_matrix = glGetUniformLocation(program, "model_matrix");
-	//unormal_matrix = glGetUniformLocation(program, "normal_matrix");
-	//ucolor = glGetUniformLocation(program, "color");
-#pragma endregion
-
-
+	// TODO: Look into tying this into the API without exposing so many Mesh calls directly
 	Mesh * mesh = Acrylicor::CreateMesh("player");
 	mesh->AddTriangle(
 		-0.5f, -0.5f, 0.0f,
@@ -159,8 +104,13 @@ void TestGameState::GameStateLoad(void)
 
 void TestGameState::GameStateInit(void)
 {
-	sgpPlayer = new Player();
-	static_cast<TransformComponent*>(sgpPlayer->Get(CT_TRANSFORM))->SetScale(0.5f);
+	sgpPlayer = GameObjectFactory::GetInstance().LoadGameObjectFromFile("player.json");
+	//sgpPlayer->AddComponent(new TransformComponent(*sgpPlayer, Vector2D(0, 0, 0), 0.0f, .5f, .5f));
+	//sgpPlayer->AddComponent(new ControllerComponent(*sgpPlayer));
+	//sgpPlayer->AddComponent(new SpriteComponent(*sgpPlayer, "player"));
+
+
+
 	//Camera * camera = new Camera(Vector3D(0.0f, 0.0f, -10.0f), Vector3D(0, 0, -1));
 }
 

@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Matrix.h"
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
+#include "AcrylicorTypedefs.h"
 
 Matrix::Matrix(int rows, int cols)
 {
@@ -452,6 +449,7 @@ Matrix Matrix::Identity(int rows_cols)
 	return identity;
 }
 
+#if TEST_MODE
 void MatrixTests()
 {
 	printf("\n========== Running Matrix tests ==========\n\n");
@@ -746,3 +744,4 @@ void MatrixTests()
 
 #pragma endregion Vector3D
 }
+#endif

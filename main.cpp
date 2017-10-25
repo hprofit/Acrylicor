@@ -1,13 +1,10 @@
-
-//#include <stdio.h>
 #include <windows.h>
 
 #include "InputManager.h"
 #include "AcrylicorAPI.h"
+#include "AcrylicorTypedefs.h"
 #include "TestGameState.h"
 
-
-#define TEST_MODE 0
 
 #if TEST_MODE
 #include "Vector2D.h"
@@ -94,7 +91,12 @@ int main(int argc, char ** argv)
 #if !TEST_MODE
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
 {
-	if (Acrylicor::Initialize() != 0)
+	Acrylicor::AcryProps props;
+	props.windowHeight = 800;
+	props.windowWidth = 800;
+	props.windowTitle = "Test Game";
+
+	if (Acrylicor::Initialize(props) != 0)
 		return 1;
 
 	InputManager& inputMgr = InputManager::GetInstance();

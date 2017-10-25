@@ -70,6 +70,8 @@ public:
 	Vector3D operator* (const Vector3D& other);
 };
 
+#if TEST_MODE
 void Matrix4x4Tests();
+#endif
 
 #endif

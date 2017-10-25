@@ -1,14 +1,9 @@
 #include "Vector2D.h"
+#include "AcrylicorTypedefs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "math.h"
 #include <algorithm>
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
-
-static const float DEG_TO_RAD = M_PI / 180.0f;
 
 Vector2D::Vector2D() : m_x(0.f), m_y(0.f), m_w(1.f) { }
 
@@ -205,6 +200,7 @@ Vector2D Vector2D::AngleDegrees(float degrees)
 
 #pragma endregion
 
+#if TEST_MODE
 void Vector2DTests()
 {
 	printf("\n========== Running Vector2D tests ==========\n\n");
@@ -380,27 +376,27 @@ void Vector2DTests()
 	printf("Vector2D Dot: %s\n", ((Vector2D::Dot(v1, v2) - 23.0f) < EPSILON) ? PASS : FAIL);
 
 	result.Set(0.707106f, 0.707106f, 1.0f);
-	angle = M_PI_4;
+	angle = PI_4;
 	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
 
 	result.Set(0.0f, 1.0f, 1.0f);
-	angle = M_PI_2;
+	angle = PI_2;
 	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
 
 	result.Set(-1.0f, 0.0f, 1.0f);
-	angle = M_PI;
+	angle = PI;
 	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
 
 	result.Set(-1.0f, 0.0f, 1.0f);
-	angle = -M_PI;
+	angle = -PI;
 	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
 
 	result.Set(0.0f, -1.0f, 1.0f);
-	angle = 1.5f * M_PI;
+	angle = 1.5f * PI;
 	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
 
 	result.Set(1.0f, 0.0f, 1.0f);
-	angle = 2.0f * M_PI;
+	angle = 2.0f * PI;
 	printf("Vector2D AngleRadians (%f): %s\n", angle, (Vector2D::AngleRadians(angle) == result) ? PASS : FAIL);
 
 	result.Set(1.0f, 0.0f, 1.0f);
@@ -435,3 +431,4 @@ void Vector2DTests()
 	angle = 0.0f;
 	printf("Vector2D AngleDegrees (%f): %s\n", angle, (Vector2D::AngleDegrees(angle) == result) ? PASS : FAIL);
 }
+#endif

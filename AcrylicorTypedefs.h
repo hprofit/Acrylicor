@@ -16,6 +16,16 @@ Creation date: 10/13/17
 #ifndef ACRYLICOR_TYPEDEFS_H
 #define ACRYLICOR_TYPEDEFS_H
 
+#define TEST_MODE 0
+#define EPSILON 0.0001
+#define PASS "PASS"
+#define FAIL "!!!!! FAIL !!!!!"
+#define PI       3.14159265358979323846f   // pi
+#define PI_2     1.57079632679489661923f   // pi/2
+#define PI_4     0.785398163397448309616f  // pi/4
+
+const float DEG_TO_RAD = 3.14159265358979323846f / 180.0f;
+
 #include <cstdint>
 
 typedef uint8_t u8;

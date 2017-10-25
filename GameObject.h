@@ -17,11 +17,10 @@ Creation date: 10/13/17
 #define GAME_OBJECT_H
 
 #include "ComponentTypes.h"
+#include "Component.h"
 #include <map>
 
 #define FLAG_ACTIVE	0x00000001
-
-class Component;
 
 class GameObject
 {
@@ -40,8 +39,9 @@ public:
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);
+	void AddComponent(Component * component);
 
-	virtual void Update();
+	virtual void Update(double deltaTime);
 };
 
 #endif

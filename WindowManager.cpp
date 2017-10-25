@@ -45,6 +45,11 @@ void WindowManager::SetWindowSize(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+void WindowManager::SetWindowTitle(const char * title)
+{
+	SDL_SetWindowTitle(m_window, title);
+}
+
 void WindowManager::FrameStart(){}
 
 void WindowManager::FrameEnd()

@@ -11,10 +11,29 @@ static RenderManager& renderMngr = RenderManager::GetInstance();
 static InputManager& inputMngr = InputManager::GetInstance();
 static ResourceManager& resourceMngr = ResourceManager::GetInstance();
 
-int Acrylicor::Initialize()
+int Acrylicor::Initialize(AcryProps props)
 {
+	WindowManager::GetInstance().SetWindowSize(props.windowWidth, props.windowHeight);
+	WindowManager::GetInstance().SetWindowTitle(props.windowTitle);
+
 	RenderManager& renderManager = RenderManager::GetInstance();
-	return renderManager.Init() ? 0 : 1;
+	if (!renderManager.Init())
+		return 1;
+
+	Mesh * quad = CreateMesh("quad");
+	quad->AddTriangle(
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f
+	);
+	quad->AddTriangle(
+		-0.5f, 0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f
+	);
+	quad->FinishMesh();
+
+	return 0;
 }
 
 double Acrylicor::FrameStart()

@@ -21,10 +21,17 @@ Creation date: 10/22/17
 #include "Mesh.h"
 
 namespace Acrylicor {
+	struct AcryProps {
+		int windowHeight = 600;
+		int windowWidth = 800;
+		char * windowTitle = "Acrylicor";
+		bool debugMode = false;
+	};
+
 	/*!
 		Start up the Acrylicor engine
 	*/
-	int Initialize();
+	int Initialize(AcryProps props);
 
 	/*!
 	Called at the beginning of every game loop

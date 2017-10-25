@@ -42,10 +42,12 @@ void RenderManager::RenderGameObject(GameObject & gameObject)
 	if (!gameObject.Has(CT_TRANSFORM) || !gameObject.Has(CT_SPRITE))
 		return;
 
-	//DefaultShaderProgram * program = static_cast<DefaultShaderProgram*>(m_currentProgram);
-	//program->LinkAttributes();
-
 	glUseProgram(m_currentProgram->GetProgram());
+	Matrix4x4 P = Matrix4x4::Perspective(80.0f, 1.0f, 0.1f);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)&P);
+	Matrix4x4 V = Matrix4x4::Scale(1.0f);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("pview_matrix"), 1, true, (float*)&V);
+
 	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(CT_TRANSFORM))->GetModelTransform();
 	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
 	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)&M);
@@ -66,26 +68,29 @@ void RenderManager::RenderGameObject(GameObject & gameObject)
 
 void RenderManager::RenderGameObject(const Camera& camera, GameObject& gameObject)
 {
-	// Only attempt to draw if the game object has a sprite component
+	// Only attempt to draw if the game object has a sprite component and transform component
 	if (!gameObject.Has(CT_TRANSFORM) || !gameObject.Has(CT_SPRITE))
 		return;
-	
-	DefaultShaderProgram * program = static_cast<DefaultShaderProgram*>(m_currentProgram);
 
 	glUseProgram(m_currentProgram->GetProgram());
+	Matrix4x4 P = Matrix4x4::Perspective(80.0f, 1.0f, 0.1f);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)&P);
+	Matrix4x4 V = camera.GetViewMatrix();
+	glUniformMatrix4fv(m_currentProgram->GetUniform("pview_matrix"), 1, true, (float*)&V);
+
 	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(CT_TRANSFORM))->GetModelTransform();
 	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
-	glUniformMatrix4fv(program->umodel_matrix, 1, true, (float*)&M);
-	glUniformMatrix4fv(program->unormal_matrix, 1, true, (float*)&N);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)&M);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)&N);
 
 	// Generate color for each object
-	glUniform4f(program->ucolor, 1, 0, 1, 1);
+	glUniform4f(m_currentProgram->GetUniform("color"), 1, 1, 1, 1);
 
 	// set shader attributes
-	glEnableVertexAttribArray(program->aposition);
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
 	glBindBuffer(GL_ARRAY_BUFFER, static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE))->GetMesh().GetVertexBuffer());
-	glVertexAttribPointer(program->aposition, 4, GL_FLOAT, false, 0, 0); // <- load it to memory
-	glEnableVertexAttribArray(program->aposition);
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, false, 0, 0); // <- load it to memory
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	glDisableVertexAttribArray(0);

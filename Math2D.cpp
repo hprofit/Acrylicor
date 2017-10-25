@@ -1,10 +1,7 @@
 #include "Math2D.h"
 #include "stdio.h"
 #include <math.h>
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
+#include "AcrylicorTypedefs.h"
 
 /*
 This function checks if the point P is colliding with the circle whose
@@ -48,8 +45,8 @@ Rectangle1: Center is rect1, width is "width1" and height is "height1"
 */
 bool StaticRectToStaticRect(const Vector2D &rect0, const float width0, const float height0, const Vector2D &rect1, const float width1, const float height1)
 {
-	float	halfwidth0 = width0 / 2.0f, halfheight0 = height0 / 2.0,
-			halfwidth1 = width1 / 2.0f, halfheight1 = height1 / 2.0,
+	float	halfwidth0 = width0 / 2.0f, halfheight0 = height0 / 2.0f,
+			halfwidth1 = width1 / 2.0f, halfheight1 = height1 / 2.0f,
 			left0 = rect0.getX() - halfwidth0,
 			right0 = rect0.getX() + halfwidth0,
 			top0 = rect0.getY() + halfheight0,

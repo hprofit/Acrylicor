@@ -39,7 +39,7 @@ public:
 	PhysicsBodyComponent& operator= (PhysicsBodyComponent rhs) = delete;
 	~PhysicsBodyComponent();
 
-	virtual void Update();
+	virtual void Update(double deltaTime);
 };
 
 #endif

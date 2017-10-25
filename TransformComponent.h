@@ -25,17 +25,22 @@ class TransformComponent :
 {
 protected:
 	Vector2D m_position;
-	float m_angle, m_scaleX, m_scaleY;
+	float m_angle, m_scaleX, m_scaleY, m_scaleZ;
 	Matrix4x4 m_transform;
+
+	void WrapAngle();
 
 public:
 	TransformComponent() = delete;
+	TransformComponent(GameObject& parent);
 	TransformComponent(GameObject& parent, Vector2D position);
 	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY);
-	TransformComponent(TransformComponent const& rhs) = delete;
+	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY, float scaleZ);
+	TransformComponent(TransformComponent const& rhs);
+	TransformComponent& operator=(TransformComponent const& rhs);
 	~TransformComponent();
 
-	virtual void Update();
+	virtual void Update(double deltaTime);
 
 	Vector2D GetPosition() const;
 	void SetPosition(Vector2D pos);
@@ -43,14 +48,24 @@ public:
 
 	float GetAngle() const;
 	void SetAngle(float angle);
+	void Rotate(float amount);
 
 	float GetScaleX() const;
 	void SetScaleX(float scaleX);
+	void ScaleX(float amount);
 
 	float GetScaleY() const;
 	void SetScaleY(float scaleY);
+	void ScaleY(float amount);
 
-	void SetScale(float scale);
+	float GetScaleZ() const;
+	void SetScaleZ(float scaleZ);
+	void ScaleZ(float amount);
+
+	void SetScaleUniform(float amount);
+	void SetScale(float scaleX, float scaleY);
+	void SetScale(float scaleX, float scaleY, float scaleZ);
+	void ScaleUniform(float amount);
 
 	Matrix4x4 GetModelTransform() const;
 	void BuildModelTransform();

@@ -52,7 +52,7 @@ bool InputManager::IsKeyPressed(unsigned int KeyScanCode)
 {
 	if (KeyScanCode >= m_length)
 		return false;
-	return m_currentState[KeyScanCode];
+	return m_currentState[KeyScanCode] ? true : false;
 }
 
 bool InputManager::IsKeyTriggered(unsigned int KeyScanCode)

@@ -21,12 +21,19 @@ Creation date: 10/17/17
 #include <map>
 #include "Mesh.h"
 
-class SDL_Surface;
+// Data captured by stbi_load
+struct STB_Surface {
+	unsigned char * data;
+	int width;
+	int height;
+	int channels;
+};
 
 class ResourceManager
 {
 private:
 	std::map<const char*, Mesh*> m_meshes;
+	std::map<const char*, STB_Surface*> m_textures;
 
 	ResourceManager();
 	~ResourceManager();
@@ -42,6 +49,7 @@ public:
 	}
 
 	Mesh * LoadMesh(const char * meshName);
+	STB_Surface * LoadTexture(const char * fileName, const char * textureName);
 };
 
 #endif

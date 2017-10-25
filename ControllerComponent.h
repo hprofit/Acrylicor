@@ -24,9 +24,8 @@ class ControllerComponent :
 public:
 	ControllerComponent() = delete;
 	ControllerComponent(GameObject& parent);
-	~ControllerComponent();
+	virtual ~ControllerComponent();
 
-	virtual void Update();
 	virtual void Update(double deltaTime);
 };
 

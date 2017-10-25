@@ -1,4 +1,5 @@
 #include "ControllerComponent.h"
+#include "GameObject.h"
 
 // Don't like TODO: Fix
 #include "TransformComponent.h"
@@ -15,14 +16,12 @@ ControllerComponent::~ControllerComponent()
 {
 }
 
-void ControllerComponent::Update()
-{
-}
-
 void ControllerComponent::Update(double deltaTime)
 {
 	InputManager& inputMgr = InputManager::GetInstance();
 	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(CT_TRANSFORM));
+
+	// TODO: Don't like
 	if (inputMgr.IsKeyPressed(ACR_W)) {
 		tComp->Move(Vector2D(0.0f, 1.0f) * deltaTime);
 	}
@@ -34,5 +33,19 @@ void ControllerComponent::Update(double deltaTime)
 	}
 	if (inputMgr.IsKeyPressed(ACR_D)) {
 		tComp->Move(Vector2D(1.0f, 0.0f) * deltaTime);
+	}
+
+	if (inputMgr.IsKeyPressed(ACR_Q)) {
+		tComp->Rotate(100.0f * deltaTime);
+	}
+	if (inputMgr.IsKeyPressed(ACR_E)) {
+		tComp->Rotate(-100.0f * deltaTime);
+	}
+
+	if (inputMgr.IsKeyPressed(ACR_R)) {
+		tComp->ScaleUniform(5.0f * deltaTime);
+	}
+	if (inputMgr.IsKeyPressed(ACR_F)) {
+		tComp->ScaleUniform(-5.0f * deltaTime);
 	}
 }

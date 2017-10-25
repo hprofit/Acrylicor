@@ -51,6 +51,8 @@ public:
 	static Matrix Identity(int rows_cols);
 };
 
+#if TEST_MODE
 void MatrixTests();
+#endif
 
 #endif

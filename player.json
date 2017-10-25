@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "position2D": {
+      "x": 0,
+      "y": 0
+    },
+    "angle2D": 0,
+    "scale2D": {
+      "x": 0.5,
+      "y": 0.5
+    }
+  },
+  "sprite": {
+    "name": "player"
+  },
+  "controller": {}
+}

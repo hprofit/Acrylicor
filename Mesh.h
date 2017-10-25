@@ -36,6 +36,9 @@ private:
 	std::vector<Vector3D> m_vertices, m_normals;
 	std::vector<Face> m_faces;
 	GLuint m_vertexBuffer;
+	GLuint m_normalBuffer;
+	GLuint m_faceBuffer;
+	GLuint m_textureBuffer;
 
 public:
 	Mesh();
@@ -47,10 +50,14 @@ public:
 
 	int vertextCount() const;
 	Vector3D* vertexArray();
+	const GLuint& GetVertexBuffer() const { return m_vertexBuffer; }
+
 	Vector3D* normalArray();
+	const GLuint& GetNormalBuffer() const { return m_normalBuffer; }
+
 	int faceCount() const;
 	Face* faceArray();
-	const GLuint& GetVertexBuffer() const { return m_vertexBuffer; }
+	
 };
 
 #endif

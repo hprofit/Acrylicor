@@ -2,12 +2,14 @@
 
 GameObject::GameObject(){}
 
-GameObject::GameObject(GameObject const & rhs){}
+GameObject::GameObject(GameObject const& rhs) {}
 
 GameObject::~GameObject()
 {
-	for (auto comp : m_components)
-		delete comp.second;
+	for (auto comp : m_components) {
+		if (comp.second)
+			delete comp.second;
+	}
 	m_components.clear();
 }
 
@@ -36,6 +38,15 @@ Component * GameObject::Get(COMPONENT_TYPE type)
 	return m_components[type];
 }
 
-void GameObject::Update()
+void GameObject::AddComponent(Component * component)
 {
+	m_components[component->m_type] = component;
+}
+
+void GameObject::Update(double deltaTime)
+{
+	for (auto comp : m_components) {
+		if (comp.second)
+			comp.second->Update(deltaTime);
+	}
 }

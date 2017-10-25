@@ -67,6 +67,9 @@
     <Filter Include="Source Files\Managers\Events">
       <UniqueIdentifier>{15f2c266-6aca-4586-a3e3-f736c17ac2c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Libraries">
+      <UniqueIdentifier>{e7531623-1cf6-41db-b76d-5ddbf65ffcde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -147,9 +150,6 @@
     <ClInclude Include="RenderManager.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultShaderProgram.h">
-      <Filter>Header Files\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentTypes.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -174,11 +174,20 @@
     <ClInclude Include="AcryEvent.h">
       <Filter>Header Files\Managers\Events</Filter>
     </ClInclude>
+    <ClInclude Include="DefaultShaderProgram.h">
+      <Filter>Header Files\TEST_FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectFactory.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix3x3.cpp">
       <Filter>Source Files\Math\Matrix</Filter>
     </ClCompile>
@@ -248,9 +257,6 @@
     <ClCompile Include="RenderManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultShaderProgram.cpp">
-      <Filter>Source Files\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\TEST_FILES</Filter>
     </ClCompile>
@@ -269,5 +275,19 @@
     <ClCompile Include="AcryEvent.cpp">
       <Filter>Source Files\Managers\Events</Filter>
     </ClCompile>
+    <ClCompile Include="DefaultShaderProgram.cpp">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectFactory.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="player.json">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </None>
   </ItemGroup>
 </Project>

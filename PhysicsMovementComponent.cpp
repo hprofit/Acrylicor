@@ -22,6 +22,6 @@ PhysicsMovementComponent::~PhysicsMovementComponent()
 {
 }
 
-void PhysicsMovementComponent::Update()
+void PhysicsMovementComponent::Update(double deltaTime)
 {
 }

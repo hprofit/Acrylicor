@@ -136,8 +136,10 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectFactory.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="LineSegment2D.h" />
     <ClInclude Include="Math2D.h" />
     <ClInclude Include="Matrix.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Vector2D.h" />
@@ -170,6 +173,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectFactory.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LineSegment2D.cpp" />
     <ClCompile Include="main.cpp" />
@@ -193,6 +197,9 @@
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="WindowManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="player.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

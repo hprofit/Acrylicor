@@ -1,13 +1,8 @@
 #include "Matrix3x3.h"
+#include "AcrylicorTypedefs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "math.h"
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
-
-static const float DEG_TO_RAD = M_PI / 180.0f;
 
 Matrix3x3::Matrix3x3() {}
 
@@ -315,7 +310,7 @@ Vector3D Matrix3x3::operator*(const Vector3D& other)
 }
 #pragma endregion
 
-
+#if TEST_MODE
 void Matrix3x3Tests()
 {
 	printf("\n========== Running Matrix3x3 tests ==========\n\n");
@@ -437,3 +432,4 @@ void Matrix3x3Tests()
 	printf("Matrix3x3 * Vector3D: %s\n", (v3Test == (x33 * v3)) ? PASS : FAIL);
 #pragma endregion
 }
+#endif

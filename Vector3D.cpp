@@ -1,14 +1,9 @@
 #include "Vector3D.h"
+#include "AcrylicorTypedefs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <algorithm>
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
-
-static const float DEG_TO_RAD = M_PI / 180.0f;
 
 Vector3D::Vector3D() : m_x(0.f), m_y(0.f), m_z(0.f), m_w(1.f) { }
 
@@ -243,6 +238,7 @@ Vector3D operator*(const float scalar, const Vector3D& other)
 	);
 }
 
+#if TEST_MODE
 void Vector3DTests()
 {
 	printf("\n========== Running Vector3D tests ==========\n\n");
@@ -496,3 +492,4 @@ void Vector3DTests()
 	//printf("Vector3D AngleDegrees (%f): %s\n", angle, (Vector3D::AngleDegrees(angle) == result) ? PASS : FAIL);
 #pragma endregion
 }
+#endif

@@ -32,7 +32,7 @@ public:
 	PhysicsMovementComponent(PhysicsMovementComponent const& rhs) = delete;
 	~PhysicsMovementComponent();
 
-	virtual void Update();
+	virtual void Update(double deltaTime);
 };
 
 #endif

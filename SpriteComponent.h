@@ -23,19 +23,23 @@ class SpriteComponent :
 	public Component
 {
 private:
-	char * m_meshName;
+	std::string m_spriteName;
 	Mesh& m_mesh;
 
 public:
 	SpriteComponent() = delete;
+	SpriteComponent(GameObject& parent, std::string meshName);
 	SpriteComponent(GameObject& parent, const char * meshName);
 	SpriteComponent(SpriteComponent const& rhs) = delete;
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
 	~SpriteComponent();
 
-	virtual void Update();
+	virtual void Update(double deltaTime);
 
-	Mesh& const GetMesh() const { return m_mesh; }
+	const Mesh& GetMesh() const { 
+		return m_mesh; 
+	}
+
 	void SetMesh(Mesh& mesh) { m_mesh = mesh; }
 };
 

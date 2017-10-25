@@ -9,6 +9,6 @@ PhysicsBodyComponent::PhysicsBodyComponent(GameObject& parent) :
 PhysicsBodyComponent::~PhysicsBodyComponent()
 { }
 
-void PhysicsBodyComponent::Update()
+void PhysicsBodyComponent::Update(double deltaTime)
 {
 }

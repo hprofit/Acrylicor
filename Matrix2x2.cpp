@@ -2,10 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "math.h"
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
+#include "AcrylicorTypedefs.h"
 
 Matrix2x2::Matrix2x2() {}
 
@@ -187,6 +184,7 @@ Vector2D Matrix2x2::operator*(const Vector2D& other)
 }
 #pragma endregion
 
+#if TEST_MODE
 void Matrix2x2Tests()
 {
 	printf("\n========== Running Matrix2x2 tests ==========\n\n");
@@ -313,3 +311,4 @@ void Matrix2x2Tests()
 	*/
 #pragma endregion Vector2D
 }
+#endif

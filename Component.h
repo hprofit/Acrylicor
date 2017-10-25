@@ -17,7 +17,8 @@ Creation date: 10/13/17
 #define COMPONENT_H
 
 #include "ComponentTypes.h"
-#include "GameObject.h"
+
+class GameObject;
 
 class Component
 {
@@ -29,6 +30,6 @@ public:
 	Component(Component const& rhs) = delete;
 	virtual ~Component() {};
 
-	virtual void Update() = 0;
+	virtual void Update(double deltaTime) = 0;
 };
 #endif

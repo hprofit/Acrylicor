@@ -57,6 +57,8 @@ public:
 	Vector2D operator* (const Vector2D& other);
 };
 
+#if TEST_MODE
 void Matrix2x2Tests();
+#endif
 
 #endif

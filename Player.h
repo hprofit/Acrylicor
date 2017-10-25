@@ -17,8 +17,6 @@ Creation date: 10/20/17
 #define PLAYER_H
 
 #include "GameObject.h"
-#include "Vector2D.h"
-#include <string>
 
 class Player :
 	public GameObject

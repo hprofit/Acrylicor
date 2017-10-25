@@ -1,15 +1,9 @@
 #include "Matrix4x4.h"
 #include "Matrix3x3.h"
+#include "AcrylicorTypedefs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "math.h"
-
-#define EPSILON 0.0001
-#define PASS "PASS"
-#define FAIL "!!!!! FAIL !!!!!"
-
-//static const float DEG_TO_RAD = M_PI / 180.0f;
-static const float DEG_TO_RAD = 4.0f*atan(1.0f) / 180.0f;
 
 Matrix4x4::Matrix4x4() {}
 
@@ -328,16 +322,16 @@ Matrix4x4 Matrix4x4::Inverse3x3(const Matrix4x4& other)
 
 Matrix4x4 Matrix4x4::Rotate(const float degrees, const Vector3D& axis)
 {
-	float axisX = axis.getX(), axisY = axis.getY(), axisZ = axis.getZ(),
-		c = cos(degrees * DEG_TO_RAD),
+	float x = axis.getX(), y = axis.getY(), z = axis.getZ(),
+		c = cosf(degrees * DEG_TO_RAD),
 		a = (1 - c) / Vector3D::Dot(axis, axis),
-		b = sin(degrees * DEG_TO_RAD) / axis.Length();
+		b = sinf(degrees * DEG_TO_RAD) / axis.Length();
 
 	return Matrix4x4(
-		c + a*axisX*axisX,			a*axisX*axisY - b*axisZ,	a*axisX*axisZ + b*axisY,	0.0f,
-		a*axisY*axisX,				c + a*axisY*axisY,			a*axisY*axisZ - b*axisX,	0.0f,
-		a*axisZ*axisX - b*axisY,	a*axisZ*axisY + b*axisX,	c + a*axisZ*axisZ,			0.0f,
-		0.0f,						0.0f,						0.0f,						1.0f
+		c + a*x*x, a*x*y - b*z, a*x*z + b*y, 0.0f,
+		a*y*x + b*z, c + a*y*y, a*y*z - b*x, 0.0f,
+		a*z*x - b*y, a*z*y + b*x, c + a*z*z, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
 	);
 }
 
@@ -381,13 +375,13 @@ Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const floa
 	//	0.0f, 0.0f, -1.0f, 0.0f
 	//);
 
-	float xymax = near * tan(fov * M_PI / 360.0f);
+	float xymax = near * tanf(fov * PI / 360.0f);
 	float ymin = -xymax;
 	float xmin = -xymax;
 
 	float width = xymax - xmin;
 	float height = xymax - ymin;
-
+	 
 	float depth = far - near;
 	float q = -(far + near) / depth;
 	float qn = -2 * (far * near) / depth;
@@ -414,27 +408,7 @@ Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const floa
 	//	0.0f, 0.0f, -1.0f, 0.0f
 	//);
 
-	float xymax = near * tan(fov * M_PI / 360.0f);
-	float ymin = -xymax;
-	float xmin = -xymax;
-
-	float width = xymax - xmin;
-	float height = xymax - ymin;
-
-	float depth = 1 - near;
-	float q = -(1 + near) / depth;
-	float qn = -2 * near / depth;
-
-	float w = 2 * near / width;
-	w = w / aspect;
-	float h = 2 * near / height;
-
-	return Matrix4x4(
-		w, 0, 0, 0,
-		0, h, 0, 0,
-		0, 0, q, qn,
-		0, 0, -1, 0
-	);
+	return Perspective(fov, aspect, near, 1000.0f);
 }
 #pragma endregion
 
@@ -576,7 +550,7 @@ Vector3D Matrix4x4::operator*(const Vector3D& other)
 }
 #pragma endregion
 
-
+#if TEST_MODE
 void Matrix4x4Tests()
 {
 	printf("\n========== Running Matrix3x3 tests ==========\n\n");
@@ -694,3 +668,4 @@ void Matrix4x4Tests()
 	printf("Matrix4x4 * Vector3D: %s\n", (v3Test == (x44 * v3)) ? PASS : FAIL);
 #pragma endregion
 }
+#endif
