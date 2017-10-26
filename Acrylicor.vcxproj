@@ -197,7 +197,12 @@
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="player.json" />
+    <None Include="ObjectFiles\config.json" />
+    <None Include="ObjectFiles\defaultShader.json" />
+    <None Include="ObjectFiles\player.json" />
+    <None Include="ObjectFiles\textures.json" />
+    <None Include="Shaders\fragmentShader.frag" />
+    <None Include="Shaders\vertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

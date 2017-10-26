@@ -52,7 +52,7 @@ void Shader::LoadShaderFromFile(String shaderFilePath, SHADER_TYPE type)
 		ShaderStream.close();
 	}
 	else {
-		printf("Faild to open %s.\n", shaderFilePath.c_str());
+		printf("Failed to open %s.\n", shaderFilePath.c_str());
 		getchar();
 		return;
 	}

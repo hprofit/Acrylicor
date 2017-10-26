@@ -1,5 +1,6 @@
 #include "GameObjectFactory.h"
 #include <fstream>
+#include <iostream>
 
 GameObjectFactory::GameObjectFactory()
 {
@@ -9,19 +10,39 @@ GameObjectFactory::~GameObjectFactory()
 {
 }
 
+float GameObjectFactory::ParseFloat(const json j, String comp, String prop)
+{
+	json compJson = j[comp].object();
+	for (json::iterator it = compJson.begin(); it != compJson.end(); ++it) {
+		if (it.key().compare(prop) == 0)
+			return j[comp][prop];
+	}
+	return 0.0f;
+}
+
+float GameObjectFactory::ParseFloat(const json j, String comp, String prop, String coord)
+{
+	json propJson = j[comp][prop].object();
+	for (json::iterator it = propJson.begin(); it != propJson.end(); ++it) {
+		if (it.key().compare(coord) == 0)
+			return j[comp][prop][coord];
+	}
+	return 0.0f;
+}
+
 TransformComponent * GameObjectFactory::LoadTransformComponent(GameObject* gObject, const json j)
 {
 	TransformComponent * tComp = new TransformComponent(*gObject);
 
-	float x = j["transform"]["position2D"]["x"].is_number() ? j["transform"]["position2D"]["x"] : 0.0f;
-	float y = j["transform"]["position2D"]["y"].is_number() ? j["transform"]["position2D"]["y"] : 0.0f;
+	float x = ParseFloat(j, "transform", "position2D", "x");
+	float y = ParseFloat(j, "transform", "position2D", "y");
 	tComp->SetPosition(Vector2D(x, y));
 
-	float angle = j["transform"]["angle2D"].is_number() ? j["transform"]["angle2D"] : 0.0f;
+	float angle = ParseFloat(j, "transform", "angle2D");
 	tComp->SetAngle(angle);
 
-	float sX = j["transform"]["scale2D"]["x"].is_number() ? j["transform"]["scale2D"]["x"] : 0.0f;
-	float sY = j["transform"]["scale2D"]["y"].is_number() ? j["transform"]["scale2D"]["y"] : 0.0f;
+	float sX = ParseFloat(j, "transform", "scale2D", "x");
+	float sY = ParseFloat(j, "transform", "scale2D", "y");
 	tComp->SetScale(sX, sY);
 
 	return tComp;
@@ -29,7 +50,7 @@ TransformComponent * GameObjectFactory::LoadTransformComponent(GameObject* gObje
 
 SpriteComponent * GameObjectFactory::LoadSpriteComponent(GameObject * gObject, const json j)
 {
-	std::string spriteName = j["sprite"]["name"].is_string() ? j["sprite"]["name"] : "";
+	String spriteName = j["sprite"]["name"].is_string() ? j["sprite"]["name"] : "";
 	return new SpriteComponent(*gObject, spriteName);
 }
 
@@ -77,7 +98,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
 		}
 		return gObject;
 	}
-	catch (const std::exception& ex) {
+	catch (const json::parse_error& ex) {
 		std::cerr << ex.what() << std::endl;
 		return nullptr;
 	}

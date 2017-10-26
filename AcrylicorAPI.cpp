@@ -21,16 +21,17 @@ int Acrylicor::Initialize(AcryProps props)
 		return 1;
 
 	Mesh * quad = CreateMesh("quad");
-	quad->AddTriangle(
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
+	quad->AddVertex(
+		-0.5f, -0.5f, 0.0f, .0f, .0f,
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0.0f, .0f, 1.0f
 	);
-	quad->AddTriangle(
-		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
+	quad->AddVertex(
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.0f, .0f, 1.0f
 	);
+
 	quad->FinishMesh();
 
 	return 0;
@@ -73,4 +74,24 @@ Mesh * Acrylicor::CreateMesh(String meshName)
 GLuint Acrylicor::LoadTexture(String fileName, String textureName)
 {
 	return resourceMngr.LoadTexture(fileName, textureName);
+}
+
+void Acrylicor::LoadTexturesFromFile(String fileName)
+{
+	resourceMngr.LoadTexturesFromFile(fileName);
+}
+
+void Acrylicor::UnloadResources()
+{
+	resourceMngr.UnloadAll();
+}
+
+void Acrylicor::LoadShaderProgram(String fileName)
+{
+	renderMngr.LoadShaderProgram(fileName);
+}
+
+void Acrylicor::SelectShaderProgram(String programName)
+{
+	renderMngr.SelectShaderProgram(programName);
 }

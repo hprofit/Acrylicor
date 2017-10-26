@@ -60,12 +60,15 @@ public:
 
 	Mesh * LoadMesh(String meshName);
 	Mesh * GetMesh(String meshName);
+	void UnloadMesh(String meshName);
 
 	GLuint LoadTexture(String fileName, String textureName);
 	GLuint GetTexture(const String textureName);
-
-	void UnloadMesh(String meshName);
 	void UnloadTexture(String textureName);
+
+	void UnloadAll();
+
+	void LoadTexturesFromFile(String fileName);
 };
 
 #endif

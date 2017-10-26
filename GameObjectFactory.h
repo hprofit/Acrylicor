@@ -30,8 +30,13 @@ using json = nlohmann::json;
 class GameObjectFactory
 {
 private:
+	std::map<String, GameObject * > m_gameObjectTypes;
+
 	GameObjectFactory();
 	~GameObjectFactory();
+
+	float ParseFloat(const json j, String comp, String prop);
+	float ParseFloat(const json j, String comp, String prop, String coord);
 
 	TransformComponent * LoadTransformComponent(GameObject* gObject, const json j);
 	SpriteComponent * LoadSpriteComponent(GameObject* gObject, const json j);

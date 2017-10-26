@@ -62,6 +62,22 @@ namespace Acrylicor {
 	Creates a texture buffer from an image file and returns the ID
 	*/
 	GLuint LoadTexture(String fileName, String textureName);
+
+	/*!
+	Parses a json file for key - image file pairs
+	*/
+	void LoadTexturesFromFile(String fileName);
+
+	void UnloadResources();
+
+
+	/*!
+	Parses a json file for a key - program name pair as well as paths to the corresponding 
+	shader files and relevant variables to link
+	*/
+	void LoadShaderProgram(String fileName);
+
+	void SelectShaderProgram(String programName);
 }
 
 #endif

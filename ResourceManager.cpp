@@ -1,8 +1,12 @@
 #include "ResourceManager.h"
 #include "stdio.h"
 #include <iostream>
+#include <fstream>
+#include "json.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+
+using json = nlohmann::json;
 
 ResourceManager::ResourceManager(){}
 
@@ -52,17 +56,13 @@ Mesh * ResourceManager::GetMesh(String meshName)
 
 GLuint ResourceManager::LoadTexture(String fileName, String textureName)
 {
-	//TextureBuffer textureBuffer = m_textures[textureName];
 	SurfaceTextureBuffer * stbuff = m_textures[textureName];
 
-	//if (textureBuffer)
-	//	return textureBuffer->second;
 	if (stbuff)
 		return stbuff->bufferId;
 
 	STB_Surface * surface = new STB_Surface();
 	if (surface) {
-		//surface->data = stbi_load(fileName, &surface->width, &surface->height, &surface->channels, STBI_rgb_alpha);
 		surface->data = stbi_load(fileName.c_str(), &surface->width, &surface->height, &surface->channels, STBI_rgb);
 
 		if (!surface->data) {
@@ -70,7 +70,6 @@ GLuint ResourceManager::LoadTexture(String fileName, String textureName)
 			return -1;
 		}
 		GLuint bufferId = LoadTextureBuffer(surface);
-		//m_textures[textureName] = &std::make_pair(surface, bufferId);
 
 		m_textures[textureName] = new SurfaceTextureBuffer(surface, bufferId);
 		return bufferId;
@@ -83,11 +82,8 @@ GLuint ResourceManager::LoadTexture(String fileName, String textureName)
 
 GLuint ResourceManager::GetTexture(const String textureName)
 {
-	//TextureBuffer textureBuffer = m_textures[textureName];
 	SurfaceTextureBuffer * stbuff = m_textures[textureName];
 
-	//if (textureBuffer)
-	//	return textureBuffer->second;
 	if (stbuff)
 		return stbuff->bufferId;
 	else {
@@ -107,15 +103,47 @@ void ResourceManager::UnloadMesh(String meshName)
 void ResourceManager::UnloadTexture(String textureName)
 {
 	if (m_textures[textureName]) {
-		//stbi_image_free(m_textures[textureName]->first->data);
-		//delete m_textures[textureName]->first;
-		//delete m_textures[textureName];
-
 		stbi_image_free(m_textures[textureName]->surface->data);
 		delete m_textures[textureName]->surface;
 		delete m_textures[textureName];
 
 		m_textures.erase(textureName);
+	}
+}
+
+void ResourceManager::UnloadAll()
+{
+	for (auto comp : m_meshes) {
+		if (comp.second)
+			delete comp.second;
+	}
+	m_meshes.clear();
+
+	for (auto comp : m_textures) {
+		if (comp.second) {
+			stbi_image_free(comp.second->surface->data);
+			delete comp.second->surface;
+			delete comp.second;
+		}
+	}
+	m_textures.clear();
+}
+
+void ResourceManager::LoadTexturesFromFile(String fileName)
+{
+	try {
+		std::ifstream i(fileName);
+		json j;
+		i >> j;
+
+		if (j.is_object()) {
+			for (json::iterator it = j.begin(); it != j.end(); ++it) {
+				LoadTexture(j[it.key()], it.key());
+			}
+		}
+	}
+	catch (const json::parse_error& ex) {
+		std::cerr << ex.what() << std::endl;
 	}
 }
 

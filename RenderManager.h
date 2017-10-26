@@ -50,6 +50,7 @@ public:
 	void RenderGameObject(const Camera& camera, GameObject& gameObject);
 	void FrameEnd();
 
+	void LoadShaderProgram(String fileName);
 	ShaderProgram * GetShaderProgram(String programName);
 	ShaderProgram * CreateShaderProgram(String programName);
 

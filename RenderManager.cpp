@@ -5,28 +5,33 @@
 #include <stdio.h>
 #include <glew.h>
 #include <fstream>
+#include <iostream>
+#include "json.hpp"
 
-#define MAX_SHADER_PROGRAMS 8
+using json = nlohmann::json;
 
 RenderManager::RenderManager()
 {}
 
 RenderManager::~RenderManager()
 {
+	for (auto comp : m_shaderPrograms) {
+		if (comp.second)
+			delete comp.second;
+	}
 	m_shaderPrograms.clear();
 }
 
 String RenderManager::LoadTextFile(String fname)
 {
-	std::string out,
-		line;
+	std::string out, line;
 	std::ifstream in(fname);
 	std::getline(in, line);
 	while (in) {
 		out += line + "\n";
 		std::getline(in, line);
 	}
-	return out.c_str();
+	return out;
 }
 
 bool RenderManager::Init()
@@ -80,7 +85,7 @@ void RenderManager::RenderGameObject(GameObject & gameObject)
 
 	glEnableVertexAttribArray(m_currentProgram->GetAttribute("texture_coord"));
 	glBindBuffer(GL_ARRAY_BUFFER, sComp->GetMesh().GetTextCoordBuffer());
-	glVertexAttribPointer(m_currentProgram->GetAttribute("texture_coord"), 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0); // <- load it to memory
+	glVertexAttribPointer(m_currentProgram->GetAttribute("texture_coord"), 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), 0); // <- load it to memory
 
 
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sComp->GetMesh().GetFaceBuffer());
@@ -127,6 +132,45 @@ void RenderManager::RenderGameObject(const Camera& camera, GameObject& gameObjec
 
 void RenderManager::FrameEnd()
 {
+}
+
+void RenderManager::LoadShaderProgram(String fileName)
+{
+	try {
+		std::ifstream i(fileName);
+		json j;
+		i >> j;
+
+		if (j.is_object()) {
+			for (json::iterator it = j.begin(); it != j.end(); ++it) {
+				String programName = it.key();
+				ShaderProgram * program = CreateShaderProgram(programName);
+				Shader * vShader = CreateVertexShaderFromFile(j[programName]["vertex"]);
+				Shader * fShader = CreateFragmentShaderFromFile(j[programName]["fragment"]);
+
+				program->AttachShader(*vShader);
+				program->AttachShader(*fShader);
+				program->LinkShaders();
+
+				if (j[programName]["uniforms"].is_array()) {
+					int unisLen = j[programName]["uniforms"].size();
+					for (int i = 0; i < unisLen; i++) {
+						program->AddUniform(j[programName]["uniforms"][i]);
+					}
+				}
+
+				if (j[programName]["attributes"].is_array()) {
+					int attrsLen = j[programName]["attributes"].size();
+					for (int i = 0; i < attrsLen; i++) {
+						program->AddAttribute(j[programName]["attributes"][i]);
+					}
+				}
+			}
+		}
+	}
+	catch (const json::parse_error& ex) {
+		std::cerr << ex.what() << std::endl;
+	}
 }
 
 ShaderProgram * RenderManager::GetShaderProgram(String programName)
