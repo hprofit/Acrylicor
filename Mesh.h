@@ -38,7 +38,7 @@ private:
 	GLuint m_vertexBuffer;
 	GLuint m_normalBuffer;
 	GLuint m_faceBuffer;
-	GLuint m_textureBuffer;
+	GLuint m_textCoordBuffer;
 
 public:
 	Mesh();
@@ -48,16 +48,18 @@ public:
 	void AddTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, float p3x, float p3y, float p3z);
 	void FinishMesh();
 
-	int vertextCount() const;
+	int vertexCount() const;
 	Vector3D* vertexArray();
-	const GLuint& GetVertexBuffer() const { return m_vertexBuffer; }
+	const GLuint& GetVertexBuffer() const;
 
 	Vector3D* normalArray();
-	const GLuint& GetNormalBuffer() const { return m_normalBuffer; }
+	const GLuint& GetNormalBuffer() const;
 
 	int faceCount() const;
 	Face* faceArray();
+	const GLuint& GetFaceBuffer() const;
 	
+	const GLuint& GetTextCoordBuffer() const;
 };
 
 #endif

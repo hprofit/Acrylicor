@@ -6,12 +6,13 @@
 
 Shader::Shader() {}
 
-Shader::Shader(const char * shaderText, SHADER_TYPE type) :
+Shader::Shader(String shaderText, SHADER_TYPE type) :
 	m_type(type)
 {
 	GLint result;
+	const char * text = shaderText.c_str();
 	m_shaderID = glCreateShader(type == VERTEX_SHADER ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
-	glShaderSource(m_shaderID, 1, &shaderText, 0);
+	glShaderSource(m_shaderID, 1, &text, 0);
 	glCompileShader(m_shaderID);
 	glGetShaderiv(m_shaderID, GL_COMPILE_STATUS, &result);
 	if (!result) {
@@ -37,7 +38,7 @@ SHADER_TYPE Shader::GetShaderType() const
 	return m_type;
 }
 
-void Shader::LoadShaderFromFile(const char * shaderFilePath, SHADER_TYPE type)
+void Shader::LoadShaderFromFile(String shaderFilePath, SHADER_TYPE type)
 {
 	m_type = type;
 	m_shaderID = glCreateShader(type == VERTEX_SHADER ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
@@ -51,7 +52,7 @@ void Shader::LoadShaderFromFile(const char * shaderFilePath, SHADER_TYPE type)
 		ShaderStream.close();
 	}
 	else {
-		printf("Faild to open %s.\n", shaderFilePath);
+		printf("Faild to open %s.\n", shaderFilePath.c_str());
 		getchar();
 		return;
 	}

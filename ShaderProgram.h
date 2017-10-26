@@ -18,6 +18,7 @@ Creation date: 10/16/17
 
 #include "glew.h"
 #include "Shader.h"
+#include "AcrylicorTypedefs.h"
 #include <map>
 
 class ShaderProgram
@@ -26,11 +27,11 @@ protected:
 	GLint m_programID;
 	Shader * m_vertexShader;
 	Shader * m_fragmentShader;
-	std::map<const char *, GLint> m_attributes;
-	std::map<const char *, GLint> m_uniforms;
+	std::map<String, GLint> m_attributes;
+	std::map<String, GLint> m_uniforms;
 
-	GLint GetAttributeLocation(const char * attribute);
-	GLint GetUniformLocation(const char * uniform);
+	GLint GetAttributeLocation(String attribute);
+	GLint GetUniformLocation(String uniform);
 
 public:
 	ShaderProgram();
@@ -39,16 +40,16 @@ public:
 	GLint GetProgram() const;
 	GLint& GetProgramRef();
 
-	void LoadShader(const char * shaderPath, SHADER_TYPE type);
+	void LoadShader(String shaderPath, SHADER_TYPE type);
 
 	virtual void AttachShader(Shader& shader);
 	void LinkShaders();
 
-	void AddAttribute(const char * name);
-	GLint GetAttribute(const char * name);
+	void AddAttribute(String name);
+	GLint GetAttribute(String name);
 
-	void AddUniform(const char * name);
-	GLint GetUniform(const char * name);
+	void AddUniform(String name);
+	GLint GetUniform(String name);
 };
 
 #endif

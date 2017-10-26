@@ -16,6 +16,7 @@ Creation date: 10/22/17
 #ifndef ACRYLICOR_API_H
 #define ACRYLICOR_API_H
 
+#include "AcrylicorTypedefs.h"
 #include "GameObject.h"
 #include "Camera.h"
 #include "Mesh.h"
@@ -55,7 +56,12 @@ namespace Acrylicor {
 	/*!
 	Creates and returns a Mesh pointer
 	*/
-	Mesh * CreateMesh(const char * meshName);
+	Mesh * CreateMesh(String meshName);
+
+	/*!
+	Creates a texture buffer from an image file and returns the ID
+	*/
+	GLuint LoadTexture(String fileName, String textureName);
 }
 
 #endif

@@ -27,6 +27,7 @@ Creation date: 10/13/17
 const float DEG_TO_RAD = 3.14159265358979323846f / 180.0f;
 
 #include <cstdint>
+#include <string>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -39,5 +40,7 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 typedef intmax_t iMax;
+
+typedef std::string String;
 
 #endif

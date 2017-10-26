@@ -27,9 +27,9 @@ int Acrylicor::Initialize(AcryProps props)
 		-0.5f, 0.5f, 0.0f
 	);
 	quad->AddTriangle(
-		-0.5f, 0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f
+		0.5f, 0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f
 	);
 	quad->FinishMesh();
 
@@ -65,7 +65,12 @@ void Acrylicor::RenderObject(Camera & camera, GameObject & gameObject)
 	renderMngr.RenderGameObject(camera, gameObject);
 }
 
-Mesh * Acrylicor::CreateMesh(const char * meshName)
+Mesh * Acrylicor::CreateMesh(String meshName)
 {
 	return resourceMngr.LoadMesh(meshName);
+}
+
+GLuint Acrylicor::LoadTexture(String fileName, String textureName)
+{
+	return resourceMngr.LoadTexture(fileName, textureName);
 }

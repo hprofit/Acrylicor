@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-WindowManager::WindowManager(int width, int height, const char * title) : m_width(width), m_height(height)
+WindowManager::WindowManager(int width, int height, String title) : m_width(width), m_height(height)
 {
 	Init(title);
 }
@@ -15,7 +15,7 @@ WindowManager::~WindowManager()
 	SDL_Quit();
 }
 
-void WindowManager::Init(const char * title)
+void WindowManager::Init(String title)
 {
 	if (AllocConsole())
 	{
@@ -29,7 +29,7 @@ void WindowManager::Init(const char * title)
 	}
 
 	SDL_Init(SDL_INIT_VIDEO);
-	m_window = SDL_CreateWindow(title, 
+	m_window = SDL_CreateWindow(title.c_str(), 
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, 
 		m_width, m_height,
@@ -45,9 +45,9 @@ void WindowManager::SetWindowSize(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void WindowManager::SetWindowTitle(const char * title)
+void WindowManager::SetWindowTitle(String title)
 {
-	SDL_SetWindowTitle(m_window, title);
+	SDL_SetWindowTitle(m_window, title.c_str());
 }
 
 void WindowManager::FrameStart(){}

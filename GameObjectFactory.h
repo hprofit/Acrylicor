@@ -23,6 +23,7 @@ Creation date: 10/16/17
 #include "PhysicsBodyComponent.h"
 #include "PhysicsMovementComponent.h"
 #include "json.hpp"
+#include "AcrylicorTypedefs.h"
 
 using json = nlohmann::json;
 
@@ -47,8 +48,8 @@ public:
 		return instance;
 	}
 
-	GameObject * LoadGameObjectFromFile(const char * fileName);
-	void LoadLevelFile(const char * fileName);
+	GameObject * LoadGameObjectFromFile(String fileName);
+	void LoadLevelFile(String fileName);
 };
 
 #endif

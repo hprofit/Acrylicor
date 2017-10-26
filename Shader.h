@@ -16,6 +16,7 @@ Creation date: 10/16/17
 #ifndef SHADER_H
 #define SHADER_H
 
+#include "AcrylicorTypedefs.h"
 #include <glew.h>
 
 const enum SHADER_TYPE {
@@ -31,13 +32,13 @@ private:
 
 public:
 	Shader();
-	Shader(const char * shaderText, SHADER_TYPE type);
+	Shader(String shaderText, SHADER_TYPE type);
 	~Shader();
 
 	GLuint GetShaderID() const;
 	SHADER_TYPE GetShaderType() const;
 
-	void LoadShaderFromFile(const char * shaderFilePath, SHADER_TYPE type);
+	void LoadShaderFromFile(String shaderFilePath, SHADER_TYPE type);
 };
 
 #endif

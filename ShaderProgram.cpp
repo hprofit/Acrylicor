@@ -32,7 +32,7 @@ GLint & ShaderProgram::GetProgramRef()
 	return m_programID;
 }
 
-void ShaderProgram::LoadShader(const char * shaderPath, SHADER_TYPE type)
+void ShaderProgram::LoadShader(String shaderPath, SHADER_TYPE type)
 {
 	
 }
@@ -65,32 +65,32 @@ void ShaderProgram::LinkShaders()
 	}
 }
 
-GLint ShaderProgram::GetAttributeLocation(const char * attribute)
+GLint ShaderProgram::GetAttributeLocation(String attribute)
 {
-	return glGetAttribLocation(m_programID, attribute);
+	return glGetAttribLocation(m_programID, attribute.c_str());
 }
 
-GLint ShaderProgram::GetUniformLocation(const char * uniform)
+GLint ShaderProgram::GetUniformLocation(String uniform)
 {
-	return glGetUniformLocation(m_programID, uniform);
+	return glGetUniformLocation(m_programID, uniform.c_str());
 }
 
-void ShaderProgram::AddAttribute(const char * name)
+void ShaderProgram::AddAttribute(String name)
 {
 	m_attributes[name] = GetAttributeLocation(name);
 }
 
-GLint ShaderProgram::GetAttribute(const char * name)
+GLint ShaderProgram::GetAttribute(String name)
 {
 	return m_attributes[name];
 }
 
-void ShaderProgram::AddUniform(const char * name)
+void ShaderProgram::AddUniform(String name)
 {
 	m_uniforms[name] = GetUniformLocation(name);
 }
 
-GLint ShaderProgram::GetUniform(const char * name)
+GLint ShaderProgram::GetUniform(String name)
 {
 	return m_uniforms[name];
 }

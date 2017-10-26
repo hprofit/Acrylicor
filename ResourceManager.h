@@ -19,7 +19,9 @@ Creation date: 10/17/17
 
 #include <glew.h>
 #include <map>
+#include <utility>
 #include "Mesh.h"
+#include "AcrylicorTypedefs.h"
 
 // Data captured by stbi_load
 struct STB_Surface {
@@ -29,15 +31,23 @@ struct STB_Surface {
 	int channels;
 };
 
+struct SurfaceTextureBuffer {
+	explicit SurfaceTextureBuffer(STB_Surface * _surface, GLuint _bufferId) :
+		surface(_surface), bufferId(_bufferId) {};
+	STB_Surface * surface;
+	GLuint bufferId;
+};
+
 class ResourceManager
 {
 private:
-	std::map<const char*, Mesh*> m_meshes;
-	std::map<const char*, STB_Surface*> m_textures;
+	std::map<String, Mesh*> m_meshes;
+	std::map<String, SurfaceTextureBuffer * > m_textures;
 
 	ResourceManager();
 	~ResourceManager();
 
+	GLuint LoadTextureBuffer(const STB_Surface * const stbSurface);
 public:
 	ResourceManager(ResourceManager const&) = delete;
 	void operator=(ResourceManager const&) = delete;
@@ -48,8 +58,14 @@ public:
 		return instance;
 	}
 
-	Mesh * LoadMesh(const char * meshName);
-	STB_Surface * LoadTexture(const char * fileName, const char * textureName);
+	Mesh * LoadMesh(String meshName);
+	Mesh * GetMesh(String meshName);
+
+	GLuint LoadTexture(String fileName, String textureName);
+	GLuint GetTexture(const String textureName);
+
+	void UnloadMesh(String meshName);
+	void UnloadTexture(String textureName);
 };
 
 #endif

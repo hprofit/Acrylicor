@@ -24,23 +24,25 @@ class SpriteComponent :
 {
 private:
 	std::string m_spriteName;
+	GLuint m_textureBuffer;
 	Mesh& m_mesh;
 
 public:
 	SpriteComponent() = delete;
-	SpriteComponent(GameObject& parent, std::string meshName);
-	SpriteComponent(GameObject& parent, const char * meshName);
+	SpriteComponent(GameObject& parent, std::string spriteName);
 	SpriteComponent(SpriteComponent const& rhs) = delete;
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
 	~SpriteComponent();
 
 	virtual void Update(double deltaTime);
 
-	const Mesh& GetMesh() const { 
-		return m_mesh; 
-	}
+	const Mesh& GetMesh() const;
+	void SetMesh(Mesh& mesh);
 
-	void SetMesh(Mesh& mesh) { m_mesh = mesh; }
+	std::string GetSprite() const;
+	void SetSprite(std::string spriteName);
+
+	GLuint GetTextureBuffer() const;
 };
 
 #endif

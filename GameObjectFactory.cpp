@@ -48,7 +48,7 @@ PhysicsMovementComponent * GameObjectFactory::LoadPhysicsMovementComponent(GameO
 	return new PhysicsMovementComponent(*gObject);
 }
 
-GameObject * GameObjectFactory::LoadGameObjectFromFile(const char * fileName)
+GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
 {
 	try {
 		std::ifstream i(fileName);
@@ -79,5 +79,6 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(const char * fileName)
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;
+		return nullptr;
 	}
 }

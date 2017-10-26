@@ -16,23 +16,24 @@ Creation date: 10/17/17
 #ifndef RENDER_MANAGER_H
 #define RENDER_MANAGER_H
 
+#include "AcrylicorTypedefs.h"
 #include "GameObject.h"
 #include "Camera.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include <map>
-
-// TODO: Don't like
-#include "DefaultShaderProgram.h"
+#include <string>
 
 class RenderManager
 {
 private:
-	std::map<const char*, ShaderProgram *> m_shaderPrograms;
+	std::map<String, ShaderProgram *> m_shaderPrograms;
 	ShaderProgram * m_currentProgram;
 
 	RenderManager();
 	~RenderManager();
+
+	String LoadTextFile(String fname);
 public:
 	RenderManager(RenderManager const&) = delete;
 	void operator=(RenderManager const&) = delete;
@@ -49,15 +50,15 @@ public:
 	void RenderGameObject(const Camera& camera, GameObject& gameObject);
 	void FrameEnd();
 
-	ShaderProgram * GetShaderProgram(const char * programName);
-	ShaderProgram * CreateShaderProgram(const char * programName);
-	// TODO: Don't like
-	DefaultShaderProgram * CreateDefaultShaderProgram(const char * programName);
+	ShaderProgram * GetShaderProgram(String programName);
+	ShaderProgram * CreateShaderProgram(String programName);
 
-	Shader * CreateVertexShader(const char * vertexShaderText);
-	Shader * CreateFragmentShader(const char * fragmentShaderText);
+	Shader * CreateVertexShader(String vertexShaderText);
+	Shader * CreateVertexShaderFromFile(String fileName);
+	Shader * CreateFragmentShader(String fragmentShaderText);
+	Shader * CreateFragmentShaderFromFile(String fileName);
 
-	void SelectShaderProgram(const char * programName);
+	void SelectShaderProgram(String programName);
 };
 
 #endif

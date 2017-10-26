@@ -17,6 +17,7 @@ Creation date: 10/13/17
 #define WINDOW_MANAGER_H
 
 #include <SDL.h>
+#include "AcrylicorTypedefs.h"
 
 class WindowManager
 {
@@ -25,15 +26,15 @@ private:
 	SDL_GLContext m_context;
 	SDL_Window * m_window;
 
-	WindowManager(int width, int height, const char * title);
+	WindowManager(int width, int height, String title);
 	~WindowManager();
 
-	void Init(const char * title);
+	void Init(String title);
 public:
 	WindowManager(WindowManager const&) = delete;
 	void operator=(WindowManager const&) = delete;
 
-	static WindowManager& GetInstance(int width = 800, int height = 600, const char * title = "Acrylicor")
+	static WindowManager& GetInstance(int width = 800, int height = 600, String title = "Acrylicor")
 	{
 		static WindowManager instance(width, height, title);
 		return instance;
@@ -41,7 +42,7 @@ public:
 
 	SDL_Window& GetWindow() { return *m_window; }
 	void SetWindowSize(int width, int height);
-	void SetWindowTitle(const char * title);
+	void SetWindowTitle(String title);
 
 	void FrameStart();
 	void FrameEnd();
