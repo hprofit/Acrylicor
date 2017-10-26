@@ -21,15 +21,15 @@ int Acrylicor::Initialize(AcryProps props)
 		return 1;
 
 	Mesh * quad = CreateMesh("quad");
-	quad->AddVertex(
-		-0.5f, -0.5f, 0.0f, .0f, .0f,
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-		-0.5f, 0.5f, 0.0f, .0f, 1.0f
+	quad->AddTriangle(
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f
 	);
-	quad->AddVertex(
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, 0.0f, .0f, 1.0f
+	quad->AddTriangle(
+		0.5f, -0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f
 	);
 
 	quad->FinishMesh();

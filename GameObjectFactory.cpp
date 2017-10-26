@@ -34,15 +34,15 @@ TransformComponent * GameObjectFactory::LoadTransformComponent(GameObject* gObje
 {
 	TransformComponent * tComp = new TransformComponent(*gObject);
 
-	float x = ParseFloat(j, "transform", "position2D", "x");
-	float y = ParseFloat(j, "transform", "position2D", "y");
+	float x = j["transform"]["position2D"]["x"];//ParseFloat(j, "transform", "position2D", "x");
+	float y = j["transform"]["position2D"]["x"]; //ParseFloat(j, "transform", "position2D", "y");
 	tComp->SetPosition(Vector2D(x, y));
 
-	float angle = ParseFloat(j, "transform", "angle2D");
+	float angle = j["transform"]["angle2D"]; //ParseFloat(j, "transform", "angle2D");
 	tComp->SetAngle(angle);
 
-	float sX = ParseFloat(j, "transform", "scale2D", "x");
-	float sY = ParseFloat(j, "transform", "scale2D", "y");
+	float sX = j["transform"]["scale2D"]["x"];//ParseFloat(j, "transform", "scale2D", "x");
+	float sY = j["transform"]["scale2D"]["y"]; //ParseFloat(j, "transform", "scale2D", "y");
 	tComp->SetScale(sX, sY);
 
 	return tComp;
@@ -102,4 +102,8 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
 		std::cerr << ex.what() << std::endl;
 		return nullptr;
 	}
+}
+
+void GameObjectFactory::LoadLevelFile(String fileName)
+{
 }
