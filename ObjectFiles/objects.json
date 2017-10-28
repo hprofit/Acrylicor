@@ -1,0 +1,4 @@
+{
+  "player": "ObjectFiles/player.json",
+  "enemy":  "ObjectFiles/enemy.json"
+}

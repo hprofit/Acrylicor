@@ -26,6 +26,7 @@ private:
 	SDL_GLContext m_context;
 	SDL_Window * m_window;
 
+	WindowManager();
 	WindowManager(int width, int height, String title);
 	~WindowManager();
 

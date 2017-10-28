@@ -199,6 +199,8 @@
   <ItemGroup>
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
+    <None Include="ObjectFiles\enemy.json" />
+    <None Include="ObjectFiles\objects.json" />
     <None Include="ObjectFiles\player.json" />
     <None Include="ObjectFiles\textures.json" />
     <None Include="Shaders\fragmentShader.frag" />

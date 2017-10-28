@@ -298,5 +298,11 @@
     <None Include="ObjectFiles\defaultShader.json">
       <Filter>Source Files\TEST_FILES</Filter>
     </None>
+    <None Include="ObjectFiles\objects.json">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </None>
+    <None Include="ObjectFiles\enemy.json">
+      <Filter>Source Files\TEST_FILES</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -22,11 +22,14 @@ class GameObject;
 
 class Component
 {
+protected:
+	Component(GameObject& parent, COMPONENT_TYPE type) : m_parent(parent), m_type(type) {};
+
 public:
 	GameObject& m_parent;
 	const COMPONENT_TYPE m_type;
 
-	Component(GameObject& parent, COMPONENT_TYPE type) : m_parent(parent), m_type(type) {};
+	Component() = delete;
 	Component(Component const& rhs) = delete;
 	virtual ~Component() {};
 

@@ -12,19 +12,15 @@ GameObjectFactory::~GameObjectFactory()
 
 float GameObjectFactory::ParseFloat(const json j, String comp, String prop)
 {
-	json compJson = j[comp].object();
-	for (json::iterator it = compJson.begin(); it != compJson.end(); ++it) {
-		if (it.key().compare(prop) == 0)
-			return j[comp][prop];
-	}
+	if (j[comp].find(prop) != j[comp].end())
+		return j[comp][prop];
 	return 0.0f;
 }
 
 float GameObjectFactory::ParseFloat(const json j, String comp, String prop, String coord)
 {
-	json propJson = j[comp][prop].object();
-	for (json::iterator it = propJson.begin(); it != propJson.end(); ++it) {
-		if (it.key().compare(coord) == 0)
+	if (j[comp].find(prop) != j[comp].end()) {
+		if (j[comp][prop].find(coord) != j[comp][prop].end())
 			return j[comp][prop][coord];
 	}
 	return 0.0f;
@@ -33,16 +29,15 @@ float GameObjectFactory::ParseFloat(const json j, String comp, String prop, Stri
 TransformComponent * GameObjectFactory::LoadTransformComponent(GameObject* gObject, const json j)
 {
 	TransformComponent * tComp = new TransformComponent(*gObject);
-
-	float x = j["transform"]["position2D"]["x"];//ParseFloat(j, "transform", "position2D", "x");
-	float y = j["transform"]["position2D"]["x"]; //ParseFloat(j, "transform", "position2D", "y");
+	float x = ParseFloat(j, "transform", "position2D", "x");
+	float y = ParseFloat(j, "transform", "position2D", "y");
 	tComp->SetPosition(Vector2D(x, y));
 
-	float angle = j["transform"]["angle2D"]; //ParseFloat(j, "transform", "angle2D");
+	float angle = ParseFloat(j, "transform", "angle2D");
 	tComp->SetAngle(angle);
 
-	float sX = j["transform"]["scale2D"]["x"];//ParseFloat(j, "transform", "scale2D", "x");
-	float sY = j["transform"]["scale2D"]["y"]; //ParseFloat(j, "transform", "scale2D", "y");
+	float sX = ParseFloat(j, "transform", "scale2D", "x");
+	float sY = ParseFloat(j, "transform", "scale2D", "y");
 	tComp->SetScale(sX, sY);
 
 	return tComp;
