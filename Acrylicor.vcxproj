@@ -140,6 +140,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonReader.h" />
+    <ClInclude Include="KeyPressEvent.h" />
     <ClInclude Include="LineSegment2D.h" />
     <ClInclude Include="Math2D.h" />
     <ClInclude Include="Matrix.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="GameObjectFactory.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JsonReader.cpp" />
+    <ClCompile Include="KeyPressEvent.cpp" />
     <ClCompile Include="LineSegment2D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math2D.cpp" />

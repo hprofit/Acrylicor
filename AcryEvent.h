@@ -20,12 +20,14 @@ Creation date: 10/13/17
 
 class AcryEvent
 {
-public:
+protected:
 	unsigned int m_time;
 
-	AcryEvent() = delete;
 	AcryEvent(unsigned int time) : m_time(time) {};
 	~AcryEvent();
+public:
+	AcryEvent() = delete;
+
 
 	bool operator<(const AcryEvent& rhs);
 	bool operator>(const AcryEvent& rhs);
@@ -39,10 +41,6 @@ struct AcryEventComparator {
 	bool operator() (const AcryEvent * left, const AcryEvent * right) const {
 		return left->m_time > right->m_time;
 	}
-
-	//bool operator() (const AcryEvent& left, const AcryEvent& right) const {
-	//	return left.m_time > right.m_time;
-	//}
 };
 
 #endif

@@ -61,14 +61,14 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{c724e878-1173-4079-bfa4-3f79b158165e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Managers\Events">
-      <UniqueIdentifier>{319b468a-5dfa-4db7-9199-f3232ad3ce34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Managers\Events">
-      <UniqueIdentifier>{15f2c266-6aca-4586-a3e3-f736c17ac2c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External Libraries">
       <UniqueIdentifier>{e7531623-1cf6-41db-b76d-5ddbf65ffcde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{319b468a-5dfa-4db7-9199-f3232ad3ce34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Events">
+      <UniqueIdentifier>{15f2c266-6aca-4586-a3e3-f736c17ac2c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +172,7 @@
       <Filter>Header Files\TEST_FILES</Filter>
     </ClInclude>
     <ClInclude Include="AcryEvent.h">
-      <Filter>Header Files\Managers\Events</Filter>
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectFactory.h">
       <Filter>Header Files\GameObject</Filter>
@@ -187,6 +187,9 @@
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="JsonReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyPressEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -276,7 +279,7 @@
       <Filter>Source Files\TEST_FILES</Filter>
     </ClCompile>
     <ClCompile Include="AcryEvent.cpp">
-      <Filter>Source Files\Managers\Events</Filter>
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files\TEST_FILES</Filter>
@@ -288,6 +291,9 @@
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
     <ClCompile Include="JsonReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyPressEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
