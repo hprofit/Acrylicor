@@ -18,29 +18,32 @@ Creation date: 10/17/17
 
 #include "Component.h"
 #include "Mesh.h"
+#include "AcrylicorTypedefs.h"
 
 class SpriteComponent :
 	public Component
 {
 private:
-	std::string m_spriteName;
+	String m_spriteName;
 	GLuint m_textureBuffer;
 	Mesh& m_mesh;
 
 public:
 	SpriteComponent() = delete;
 	SpriteComponent(GameObject& parent, std::string spriteName);
-	SpriteComponent(SpriteComponent const& rhs) = delete;
+	SpriteComponent(const SpriteComponent& rhs) = delete;
+	SpriteComponent(const SpriteComponent& rhs, GameObject& parent);
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
 	~SpriteComponent();
 
 	virtual void Update(double deltaTime);
+	virtual SpriteComponent* Clone(GameObject& parent);
 
 	const Mesh& GetMesh() const;
 	void SetMesh(Mesh& mesh);
 
 	std::string GetSprite() const;
-	void SetSprite(std::string spriteName);
+	void SetSprite(String spriteName);
 
 	GLuint GetTextureBuffer() const;
 };

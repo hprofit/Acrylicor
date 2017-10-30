@@ -71,6 +71,13 @@ namespace Acrylicor {
 	void UnloadResources();
 
 
+
+	GameObject * LoadGameObject(String fileName);
+	void LoadGameObjects(String fileName);
+	GameObject * SpawnGameObject(String objectType);
+	void LoadLevel(String fileName);
+
+
 	/*!
 	Parses a json file for a key - program name pair as well as paths to the corresponding 
 	shader files and relevant variables to link

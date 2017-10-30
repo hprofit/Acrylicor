@@ -23,7 +23,8 @@ class GameObject;
 class Component
 {
 protected:
-	Component(GameObject& parent, COMPONENT_TYPE type) : m_parent(parent), m_type(type) {};
+	Component(GameObject& parent, COMPONENT_TYPE type) :
+		m_parent(parent), m_type(type) {}
 
 public:
 	GameObject& m_parent;
@@ -34,5 +35,6 @@ public:
 	virtual ~Component() {};
 
 	virtual void Update(double deltaTime) = 0;
+	virtual Component* Clone(GameObject& parent) = 0;
 };
 #endif

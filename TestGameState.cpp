@@ -14,6 +14,8 @@
 #include "GameObjectFactory.h"
 
 static GameObject * sgpPlayer;
+static GameObject * sgpEnemy1;
+static GameObject * sgpEnemy2;
 
 TestGameState::TestGameState()
 {
@@ -28,28 +30,35 @@ void TestGameState::GameStateLoad(void)
 	Acrylicor::LoadShaderProgram("ObjectFiles/defaultShader.json");
 	Acrylicor::SelectShaderProgram("default");
 	Acrylicor::LoadTexturesFromFile("ObjectFiles/textures.json");
+	Acrylicor::LoadGameObjects("ObjectFiles/objects.json");
 }
 
 void TestGameState::GameStateInit(void)
 {
-	sgpPlayer = GameObjectFactory::GetInstance().LoadGameObjectFromFile("ObjectFiles/player.json");
+	sgpPlayer = Acrylicor::SpawnGameObject("player");
+	sgpEnemy1 = Acrylicor::SpawnGameObject("enemy");
+	Acrylicor::LoadLevel("LevelFiles/level1.json");
+	
+
 	//Camera * camera = new Camera(Vector3D(0.0f, 0.0f, -10.0f), Vector3D(0, 0, -1));
 }
 
 void TestGameState::GameStateUpdate(double deltaTime)
 {
 	sgpPlayer->Update(deltaTime);
+	sgpEnemy1->Update(deltaTime);
 	//camera->Update();
 }
 
 void TestGameState::GameStateDraw(void)
 {
 	Acrylicor::RenderObject(*sgpPlayer);
+	Acrylicor::RenderObject(*sgpEnemy1);
 }
 
 void TestGameState::GameStateFree(void)
 {
-	delete sgpPlayer;
+	//delete sgpPlayer;
 }
 
 void TestGameState::GameStateUnload(void)

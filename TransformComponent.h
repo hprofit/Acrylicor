@@ -36,11 +36,12 @@ public:
 	TransformComponent(GameObject& parent, Vector2D position);
 	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY);
 	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY, float scaleZ);
-	TransformComponent(TransformComponent const& rhs);
-	TransformComponent& operator=(TransformComponent const& rhs);
+	TransformComponent(const TransformComponent& rhs, GameObject& parent);
+	TransformComponent& operator=(const TransformComponent& rhs);
 	~TransformComponent();
 
 	virtual void Update(double deltaTime);
+	virtual TransformComponent* Clone(GameObject& parent);
 
 	Vector2D GetPosition() const;
 	void SetPosition(Vector2D pos);

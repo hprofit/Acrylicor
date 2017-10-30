@@ -4,12 +4,14 @@
 #include "FrameRateController.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "GameObjectFactory.h"
 
 static FrameRateController& frameRateCtrl = FrameRateController::GetInstance();
 static WindowManager& windowMngr = WindowManager::GetInstance();
 static RenderManager& renderMngr = RenderManager::GetInstance();
 static InputManager& inputMngr = InputManager::GetInstance();
 static ResourceManager& resourceMngr = ResourceManager::GetInstance();
+static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
 
 int Acrylicor::Initialize(AcryProps props)
 {
@@ -84,6 +86,26 @@ void Acrylicor::LoadTexturesFromFile(String fileName)
 void Acrylicor::UnloadResources()
 {
 	resourceMngr.UnloadAll();
+}
+
+GameObject * Acrylicor::LoadGameObject(String fileName)
+{
+	return gameObjectFactory.LoadGameObjectFromFile(fileName);
+}
+
+void Acrylicor::LoadGameObjects(String fileName)
+{
+	gameObjectFactory.LoadGameObjectsFromFile(fileName);
+}
+
+GameObject * Acrylicor::SpawnGameObject(String objectType)
+{
+	return gameObjectFactory.SpawnObject(objectType);
+}
+
+void Acrylicor::LoadLevel(String fileName)
+{
+	gameObjectFactory.LoadLevelFile(fileName);
 }
 
 void Acrylicor::LoadShaderProgram(String fileName)

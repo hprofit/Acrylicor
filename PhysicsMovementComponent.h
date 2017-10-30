@@ -28,11 +28,13 @@ public:
 	PhysicsMovementComponent(GameObject& parent);
 	PhysicsMovementComponent(GameObject& parent, Vector2D velocity);
 	PhysicsMovementComponent(GameObject& parent, Vector2D velocity, Vector2D acceleration);
-	PhysicsMovementComponent& operator= (PhysicsMovementComponent rhs) = delete;
-	PhysicsMovementComponent(PhysicsMovementComponent const& rhs) = delete;
+	PhysicsMovementComponent& operator=(PhysicsMovementComponent rhs) = delete;
+	PhysicsMovementComponent(const PhysicsMovementComponent& rhs) = delete;
+	PhysicsMovementComponent(const PhysicsMovementComponent& rhs, GameObject& parent);
 	~PhysicsMovementComponent();
 
 	virtual void Update(double deltaTime);
+	virtual PhysicsMovementComponent* Clone(GameObject& parent);
 };
 
 #endif

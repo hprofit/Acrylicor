@@ -1,0 +1,38 @@
+{
+  "objects": [
+    {
+      "player": {
+        "transform": {
+          "position2D": {
+            "x": 0,
+            "y": 100
+          },
+          "scale2D": {
+            "x": 0.5,
+            "y": 1.0
+          }
+        }
+      }
+    },
+    {
+      "enemy": {
+        "transform": {
+          "position2D": {
+            "x": 100,
+            "y": 200
+          }
+        }
+      }
+    },
+    {
+      "enemy": {
+        "transform": {
+          "position2D": {
+            "x": 200,
+            "y": -200
+          }
+        }
+      }
+    }
+  ]
+}

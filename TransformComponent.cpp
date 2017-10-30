@@ -31,15 +31,15 @@ TransformComponent::TransformComponent(GameObject & parent, Vector2D position, f
 {
 }
 
-TransformComponent::TransformComponent(TransformComponent const & rhs) :
-	Component(rhs.m_parent, CT_TRANSFORM),
+TransformComponent::TransformComponent(const TransformComponent & rhs, GameObject& parent) :
+	Component(m_parent, CT_TRANSFORM),
 	m_position(rhs.m_position),
 	m_angle(rhs.m_angle),
 	m_scaleX(rhs.m_scaleX), m_scaleY(rhs.m_scaleY), m_scaleZ(rhs.m_scaleZ)
 {
 }
 
-TransformComponent & TransformComponent::operator=(TransformComponent const & rhs)
+TransformComponent & TransformComponent::operator=(const TransformComponent& rhs)
 {
 
 	m_position = rhs.m_position;
@@ -57,6 +57,11 @@ TransformComponent::~TransformComponent()
 void TransformComponent::Update(double deltaTime)
 {
 	BuildModelTransform();
+}
+
+TransformComponent * TransformComponent::Clone(GameObject & parent)
+{
+	return new TransformComponent(*this, parent);
 }
 
 #pragma region Translation
@@ -79,11 +84,6 @@ void TransformComponent::Move(Vector2D amount)
 #pragma region Rotate
 void TransformComponent::WrapAngle()
 {
-	//if (m_angle > 180.0f || m_angle < -180.0f) {
-	//	float offset = round(((m_angle + 190.0f) / 360.0f)) * 360.0f * (m_angle > 0.0f ? -1 : 1);
-	//	m_angle += offset;
-	//}
-
 	if (m_angle > 180.0f) {
 		float over = fmod(m_angle + 180.0f, 360.0f);
 		m_angle = over - 180.0f;

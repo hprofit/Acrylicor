@@ -17,6 +17,9 @@ Creation date: 10/16/17
 #define GAME_OBJECT_FACTORY_H
 
 #include "GameObject.h"
+#include "Component.h"
+
+
 #include "TransformComponent.h"
 #include "ControllerComponent.h"
 #include "SpriteComponent.h"
@@ -30,13 +33,11 @@ using json = nlohmann::json;
 class GameObjectFactory
 {
 private:
-	std::map<String, GameObject * > m_gameObjectTypes;
+	std::map<String, GameObject> m_gameObjectTypes;
+	std::map<String, Component * > m_components;
 
 	GameObjectFactory();
 	~GameObjectFactory();
-
-	float ParseFloat(const json j, String comp, String prop);
-	float ParseFloat(const json j, String comp, String prop, String coord);
 
 	TransformComponent * LoadTransformComponent(GameObject* gObject, const json j);
 	SpriteComponent * LoadSpriteComponent(GameObject* gObject, const json j);
@@ -53,7 +54,13 @@ public:
 		return instance;
 	}
 
+	void AddComponentType(String componentType, Component * component);
+
+	GameObject * SpawnObject(String objectType);
+
 	GameObject * LoadGameObjectFromFile(String fileName);
+	void LoadGameObjectsFromFile(String fileName);
+
 	void LoadLevelFile(String fileName);
 };
 

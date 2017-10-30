@@ -36,10 +36,13 @@ private:
 
 public:
 	PhysicsBodyComponent(GameObject& parent);
+	PhysicsBodyComponent(const PhysicsBodyComponent& rhs) = delete;
+	PhysicsBodyComponent(const PhysicsBodyComponent& rhs, GameObject& parent);
 	PhysicsBodyComponent& operator= (PhysicsBodyComponent rhs) = delete;
 	~PhysicsBodyComponent();
 
 	virtual void Update(double deltaTime);
+	virtual PhysicsBodyComponent* Clone(GameObject& parent);
 };
 
 #endif

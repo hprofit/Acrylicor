@@ -1,8 +1,16 @@
 #include "GameObject.h"
 
-GameObject::GameObject(){}
+GameObject::GameObject() : m_active(0) {}
 
-GameObject::GameObject(GameObject const& rhs) {}
+GameObject::GameObject(GameObject const& rhs) : m_active(0) {
+	Activate();
+
+	for (auto comp : rhs.m_components) {
+		if (comp.second) {
+			m_components[comp.first] = comp.second->Clone(*this);
+		}
+	}
+}
 
 GameObject::~GameObject()
 {

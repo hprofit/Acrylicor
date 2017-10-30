@@ -12,6 +12,11 @@ ControllerComponent::ControllerComponent(GameObject& parent) :
 {
 }
 
+ControllerComponent::ControllerComponent(const ControllerComponent & rhs, GameObject & parent) :
+	Component(parent, CT_CONTROLLER)
+{
+}
+
 ControllerComponent::~ControllerComponent()
 {
 }
@@ -48,4 +53,9 @@ void ControllerComponent::Update(double deltaTime)
 	if (inputMgr.IsKeyPressed(ACR_F)) {
 		tComp->ScaleUniform(-5.0f * deltaTime);
 	}
+}
+
+ControllerComponent * ControllerComponent::Clone(GameObject & parent)
+{
+	return new ControllerComponent(*this, parent);
 }

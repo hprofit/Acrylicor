@@ -1,4 +1,4 @@
 {
   "player": "Textures/airplane.png",
-  "test":  "Textures/test.png"
+  "enemy":  "Textures/enemy_airplane.png"
 }
