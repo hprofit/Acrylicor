@@ -159,6 +159,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="STBSurface.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TransformComponent.h" />
@@ -204,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LevelFiles\level1.json" />
+    <None Include="ObjectFiles\camera.json" />
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\enemy.json" />

@@ -21,6 +21,7 @@ Creation date: 10/17/17
 #include "Camera.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
+#include "STBSurface.h"
 #include <map>
 #include <string>
 
@@ -60,6 +61,8 @@ public:
 	Shader * CreateFragmentShaderFromFile(String fileName);
 
 	void SelectShaderProgram(String programName);
+
+	GLuint CreateTextureBuffer(const STB_Surface * const stbSurface);
 };
 
 #endif

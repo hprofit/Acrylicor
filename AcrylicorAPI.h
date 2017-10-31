@@ -17,6 +17,7 @@ Creation date: 10/22/17
 #define ACRYLICOR_API_H
 
 #include "AcrylicorTypedefs.h"
+#include "STBSurface.h"
 #include "GameObject.h"
 #include "Camera.h"
 #include "Mesh.h"
@@ -59,9 +60,9 @@ namespace Acrylicor {
 	Mesh * CreateMesh(String meshName);
 
 	/*!
-	Creates a texture buffer from an image file and returns the ID
+	Creates a texture buffer from an image file and returns the SurfaceTextureBuffer
 	*/
-	GLuint LoadTexture(String fileName, String textureName);
+	SurfaceTextureBuffer * LoadTexture(String fileName, String textureName);
 
 	/*!
 	Parses a json file for key - image file pairs

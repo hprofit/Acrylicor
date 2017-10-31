@@ -4,23 +4,26 @@
 Camera::Camera() : 
 	m_position(Vector3D(0, 0, 0, 1)), 
 	m_lookat(Vector3D(0, 0, -1, 0)),
-	m_xRot(0.0f), m_yRot(0.0f), m_fov(80.0f) { }
+	m_xRot(0.0f), m_yRot(0.0f), m_fov(80.0f),
+	m_cameraType(CAM_BOTH) { }
 
-Camera::Camera(Vector3D pos, Vector3D lookat) :
+Camera::Camera(Vector3D pos, Vector3D lookat, unsigned short camType) :
 	m_position(pos),
 	m_lookat(lookat),
-	m_xRot(0.0f), m_yRot(0.0f), m_fov(80.0f) { }
+	m_xRot(0.0f), m_yRot(0.0f), m_fov(80.0f),
+	m_cameraType(camType) { }
 
-Camera::Camera(Vector3D pos, Vector3D lookat, float xRot, float yRot) :
+Camera::Camera(Vector3D pos, Vector3D lookat, float xRot, float yRot, unsigned short camType) :
 	m_position(pos),
 	m_lookat(lookat),
-	m_xRot(xRot), m_yRot(yRot), m_fov(80.0f) { }
+	m_xRot(xRot), m_yRot(yRot), m_fov(80.0f),
+	m_cameraType(camType) { }
 
-
-Camera::Camera(Vector3D pos, Vector3D lookat, float xRot, float yRot, float fov) :
+Camera::Camera(Vector3D pos, Vector3D lookat, float xRot, float yRot, float fov, unsigned short camType) :
 	m_position(pos),
 	m_lookat(lookat),
-	m_xRot(xRot), m_yRot(yRot), m_fov(fov) { }
+	m_xRot(xRot), m_yRot(yRot), m_fov(fov),
+	m_cameraType(camType) { }
 
 Camera::Camera(Camera const & rhs) :
 	m_position(rhs.m_position),
@@ -76,14 +79,30 @@ void Camera::CalcViewMatrix()
 
 void Camera::CalcPerspectiveMatrix()
 {
-	m_perspectiveMatrix = Matrix4x4::Perspective(m_fov, m_aspectRatio, 0.1f, 100.0f);
+	m_perspectiveMatrix = Matrix4x4::Perspective(m_fov, m_aspectRatio, 0.1f);
+}
+
+void Camera::CalcOrthographicMatrix()
+{
+	m_orthographicMatrix = Matrix4x4::Orthographic(m_fov, m_aspectRatio, 0.1f);
 }
 
 void Camera::Update()
 {
 	m_aspectRatio = WindowManager::GetInstance().GetAspectRatio();
 	CalcViewMatrix();
-	CalcPerspectiveMatrix();
+	switch (m_cameraType) {
+		case CAM_BOTH:
+			CalcPerspectiveMatrix();
+			CalcOrthographicMatrix();
+			break;
+		case CAM_PERSP:
+			CalcPerspectiveMatrix();
+			break;
+		case CAM_ORTHO:
+			CalcOrthographicMatrix();
+			break;
+	}
 }
 
 void Camera::RotateCamera(float x, float y)
@@ -101,7 +120,7 @@ Vector3D Camera::GetPosition() const
 	return m_position; 
 }
 
-Vector3D Camera::GeLookAt() const
+Vector3D Camera::GetLookAt() const
 { 
 	return m_lookat; 
 }
@@ -134,4 +153,9 @@ Matrix4x4 Camera::GetViewMatrix() const
 Matrix4x4 Camera::GetPerspectiveMatrix() const
 {
 	return m_perspectiveMatrix;
+}
+
+Matrix4x4 Camera::GetOrthographicMatrix() const
+{
+	return m_orthographicMatrix;
 }

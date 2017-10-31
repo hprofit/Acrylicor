@@ -16,13 +16,16 @@ Creation date: 10/13/17
 #ifndef EVENT_MANAGER_H
 #define EVENT_MANAGER_H
 
+#include <map>
 #include <queue>
 #include <functional>
 #include "AcryEvent.h"
+#include "AcrylicorTypedefs.h"
 
 class EventManager
 {
 private:
+	std::map<String, std::vector<void (*)(AcryEvent*)> > m_listeners;
 	std::priority_queue<AcryEvent*, std::vector<AcryEvent*>, AcryEventComparator> m_eventQueue;
 	unsigned int m_time;
 
@@ -40,6 +43,7 @@ public:
 
 	void AddEvent(AcryEvent * newEvent);
 	void RunEvent();
+	void Register(String eventName, void(*callback)(AcryEvent*));
 };
 
 #endif

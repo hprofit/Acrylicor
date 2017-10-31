@@ -1,4 +1,10 @@
 {
-  "player": "Textures/airplane.png",
-  "enemy":  "Textures/enemy_airplane.png"
+  "player": {
+    "filename": "Textures/airplane.png",
+    "alpha":  true
+  },
+  "enemy":  {
+    "filename": "Textures/enemy_airplane.png",
+    "alpha":  true
+  }
 }

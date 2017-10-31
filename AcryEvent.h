@@ -17,21 +17,34 @@ Creation date: 10/13/17
 #define EVENT_H
 
 #include <queue>
+#include "AcrylicorTypedefs.h"
+
+struct AcryEventComparator;
 
 class AcryEvent
 {
 protected:
 	unsigned int m_time;
+	String m_eventName;
 
-	AcryEvent(unsigned int time) : m_time(time) {};
-	~AcryEvent();
+	AcryEvent(unsigned int time, String name) : m_time(time), m_eventName(name) {};
 public:
 	AcryEvent() = delete;
+	~AcryEvent();
 
+	friend AcryEventComparator;
+	friend bool operator<(const AcryEvent& lhs, const AcryEvent& rhs);
+	friend bool operator>(const AcryEvent& lhs, const AcryEvent& rhs);
 
 	bool operator<(const AcryEvent& rhs);
 	bool operator>(const AcryEvent& rhs);
-	virtual void Process() = 0;
+	virtual void Process(std::vector<void(*)(AcryEvent*)> listeners) = 0;
+	unsigned int Time() const {
+		return m_time;
+	}
+	String Name() const {
+		return m_eventName;
+	}
 };
 
 bool operator<(const AcryEvent& lhs, const AcryEvent& rhs);

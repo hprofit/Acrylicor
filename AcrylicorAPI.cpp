@@ -73,9 +73,9 @@ Mesh * Acrylicor::CreateMesh(String meshName)
 	return resourceMngr.LoadMesh(meshName);
 }
 
-GLuint Acrylicor::LoadTexture(String fileName, String textureName)
+SurfaceTextureBuffer * Acrylicor::LoadTexture(String fileName, String textureName)
 {
-	return resourceMngr.LoadTexture(fileName, textureName);
+	return resourceMngr.LoadTexture(textureName, fileName, true);
 }
 
 void Acrylicor::LoadTexturesFromFile(String fileName)

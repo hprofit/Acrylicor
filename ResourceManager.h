@@ -22,21 +22,7 @@ Creation date: 10/17/17
 #include <utility>
 #include "Mesh.h"
 #include "AcrylicorTypedefs.h"
-
-// Data captured by stbi_load
-struct STB_Surface {
-	unsigned char * data;
-	int width;
-	int height;
-	int channels;
-};
-
-struct SurfaceTextureBuffer {
-	explicit SurfaceTextureBuffer(STB_Surface * _surface, GLuint _bufferId) :
-		surface(_surface), bufferId(_bufferId) {};
-	STB_Surface * surface;
-	GLuint bufferId;
-};
+#include "STBSurface.h"
 
 class ResourceManager
 {
@@ -46,8 +32,6 @@ private:
 
 	ResourceManager();
 	~ResourceManager();
-
-	GLuint LoadTextureBuffer(const STB_Surface * const stbSurface);
 public:
 	ResourceManager(ResourceManager const&) = delete;
 	void operator=(ResourceManager const&) = delete;
@@ -62,8 +46,8 @@ public:
 	Mesh * GetMesh(String meshName);
 	void UnloadMesh(String meshName);
 
-	GLuint LoadTexture(String fileName, String textureName);
-	GLuint GetTexture(const String textureName);
+	SurfaceTextureBuffer * LoadTexture(String textureName, String fileName, bool hasAlpha);
+	SurfaceTextureBuffer * GetTexture(const String textureName);
 	void UnloadTexture(String textureName);
 
 	void UnloadAll();

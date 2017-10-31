@@ -1,7 +1,9 @@
 #include "ResourceManager.h"
+#include "RenderManager.h"
 #include "stdio.h"
 #include <iostream>
 #include <fstream>
+#include "JsonReader.h"
 #include "json.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -54,41 +56,46 @@ Mesh * ResourceManager::GetMesh(String meshName)
 	}
 }
 
-GLuint ResourceManager::LoadTexture(String fileName, String textureName)
+SurfaceTextureBuffer * ResourceManager::LoadTexture(String textureName, String fileName, bool hasAlpha)
 {
 	SurfaceTextureBuffer * stbuff = m_textures[textureName];
 
 	if (stbuff)
-		return stbuff->bufferId;
+		return stbuff;
 
 	STB_Surface * surface = new STB_Surface();
 	if (surface) {
-		surface->data = stbi_load(fileName.c_str(), &surface->width, &surface->height, &surface->channels, STBI_rgb);
+		surface->hasAlpha = hasAlpha;
+		surface->data = stbi_load(fileName.c_str(), 
+			&surface->width, &surface->height, 
+			&surface->channels, 
+			hasAlpha ? STBI_rgb_alpha : STBI_rgb);
 
 		if (!surface->data) {
 			std::cerr << "Failed to read file: " << fileName << std::endl;
-			return -1;
+			return nullptr;
 		}
-		GLuint bufferId = LoadTextureBuffer(surface);
+		GLuint bufferId = RenderManager::GetInstance().CreateTextureBuffer(surface);
 
-		m_textures[textureName] = new SurfaceTextureBuffer(surface, bufferId);
-		return bufferId;
+		stbuff = new SurfaceTextureBuffer(surface, bufferId);
+		m_textures[textureName] = stbuff;
+		return stbuff;
 	}
 	else {
 		std::cerr << "Failed to create texture: " << textureName << " : " << fileName << std::endl;
-		return -1;
+		return nullptr;
 	}
 }
 
-GLuint ResourceManager::GetTexture(const String textureName)
+SurfaceTextureBuffer * ResourceManager::GetTexture(const String textureName)
 {
 	SurfaceTextureBuffer * stbuff = m_textures[textureName];
 
 	if (stbuff)
-		return stbuff->bufferId;
+		return stbuff;
 	else {
 		std::cerr << textureName << " has not yet been created." << std::endl;
-		return -1;
+		return nullptr;
 	}
 }
 
@@ -132,31 +139,15 @@ void ResourceManager::UnloadAll()
 void ResourceManager::LoadTexturesFromFile(String fileName)
 {
 	try {
-		std::ifstream i(fileName);
-		json j;
-		i >> j;
+		json j = AcryJson::OpenJsonFile(fileName);
 
 		if (j.is_object()) {
 			for (json::iterator it = j.begin(); it != j.end(); ++it) {
-				LoadTexture(j[it.key()], it.key());
+				LoadTexture(it.key(), j[it.key()]["filename"], j[it.key()]["alpha"]);
 			}
 		}
 	}
 	catch (const json::parse_error& ex) {
 		std::cerr << ex.what() << std::endl;
 	}
-}
-
-GLuint ResourceManager::LoadTextureBuffer(const STB_Surface * const stbSurface)
-{
-	GLuint textureBuffer;
-	glGenTextures(1, &textureBuffer);
-	glBindTexture(GL_TEXTURE_2D, textureBuffer);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, stbSurface->width, stbSurface->height, 0, GL_RGB, GL_UNSIGNED_BYTE, stbSurface->data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	return textureBuffer;
 }

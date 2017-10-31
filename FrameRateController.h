@@ -41,6 +41,7 @@ public:
 
 	void FrameStart();
 	void FrameEnd();
+	unsigned int GetTime();
 };
 
 #endif

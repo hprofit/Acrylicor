@@ -24,7 +24,7 @@ RenderManager::~RenderManager()
 
 String RenderManager::LoadTextFile(String fname)
 {
-	std::string out, line;
+	String out, line;
 	std::ifstream in(fname);
 	std::getline(in, line);
 	while (in) {
@@ -42,7 +42,6 @@ bool RenderManager::Init()
 		printf("needs OpenGL version 2.0 or better");
 		return false;
 	}
-	glEnable(GL_DEPTH_TEST); // GL_BLEND_TEST <- TODO: for alpha
 	return true;
 }
 
@@ -87,12 +86,23 @@ void RenderManager::RenderGameObject(GameObject & gameObject)
 	glBindBuffer(GL_ARRAY_BUFFER, sComp->GetMesh().GetTextCoordBuffer());
 	glVertexAttribPointer(m_currentProgram->GetAttribute("texture_coord"), 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), 0); // <- load it to memory
 
-
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sComp->GetMesh().GetFaceBuffer());
 	//glDrawElements(GL_TRIANGLES, 3 * face_count, GL_UNSIGNED_INT, 0);
-
 	//glDrawArrays(GL_ELEMENT_ARRAY_BUFFER, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	//glDisableVertexAttribArray(0);
+
+	if (sComp->TextureHasAlpha()) {
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.4);
+		glEnable(GL_BLEND);
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	else {
+		glDisable(GL_ALPHA_TEST);
+		glEnable(GL_DEPTH_TEST);
+	}
 
 	// select the texture to use
 	glBindTexture(GL_TEXTURE_2D, sComp->GetTextureBuffer());
@@ -121,13 +131,36 @@ void RenderManager::RenderGameObject(const Camera& camera, GameObject& gameObjec
 	glUniform4f(m_currentProgram->GetUniform("color"), 1, 1, 1, 1);
 
 	// set shader attributes
-	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
-	glBindBuffer(GL_ARRAY_BUFFER, static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE))->GetMesh().GetVertexBuffer());
-	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, false, 0, 0); // <- load it to memory
-	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	SpriteComponent * sComp = static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE));
 
-	glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-	glDisableVertexAttribArray(0);
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	glBindBuffer(GL_ARRAY_BUFFER, sComp->GetMesh().GetVertexBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0); // <- load it to memory
+
+
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("texture_coord"));
+	glBindBuffer(GL_ARRAY_BUFFER, sComp->GetMesh().GetTextCoordBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("texture_coord"), 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), 0); // <- load it to memory
+
+	if (sComp->TextureHasAlpha()) {
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.4);
+		glEnable(GL_BLEND);
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	else {
+		glDisable(GL_ALPHA_TEST);
+		glEnable(GL_DEPTH_TEST);
+	}
+
+	// select the texture to use
+	glBindTexture(GL_TEXTURE_2D, sComp->GetTextureBuffer());
+
+	// draw the mesh
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sComp->GetMesh().GetFaceBuffer());
+	glDrawElements(GL_TRIANGLES, 3 * sComp->GetMesh().faceCount(), GL_UNSIGNED_INT, 0);
 }
 
 void RenderManager::FrameEnd()
@@ -220,4 +253,22 @@ void RenderManager::SelectShaderProgram(String programName)
 		return;
 	}
 	m_currentProgram = m_shaderPrograms[programName];
+}
+
+GLuint RenderManager::CreateTextureBuffer(const STB_Surface * const stbSurface)
+{
+	GLuint textureBuffer;
+	glGenTextures(1, &textureBuffer);
+	glBindTexture(GL_TEXTURE_2D, textureBuffer);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	glTexImage2D(GL_TEXTURE_2D, 0,
+		stbSurface->hasAlpha ? GL_RGBA : GL_RGB,
+		stbSurface->width, stbSurface->height, 0,
+		stbSurface->hasAlpha ? GL_RGBA : GL_RGB,
+		GL_UNSIGNED_BYTE, stbSurface->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	return textureBuffer;
 }

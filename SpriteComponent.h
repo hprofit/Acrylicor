@@ -19,18 +19,20 @@ Creation date: 10/17/17
 #include "Component.h"
 #include "Mesh.h"
 #include "AcrylicorTypedefs.h"
+#include "STBSurface.h"
 
 class SpriteComponent :
 	public Component
 {
 private:
 	String m_spriteName;
-	GLuint m_textureBuffer;
+	SurfaceTextureBuffer * m_texture;
+	//GLuint m_textureBuffer;
 	Mesh& m_mesh;
 
 public:
 	SpriteComponent() = delete;
-	SpriteComponent(GameObject& parent, std::string spriteName);
+	SpriteComponent(GameObject& parent, String spriteName);
 	SpriteComponent(const SpriteComponent& rhs) = delete;
 	SpriteComponent(const SpriteComponent& rhs, GameObject& parent);
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
@@ -42,10 +44,11 @@ public:
 	const Mesh& GetMesh() const;
 	void SetMesh(Mesh& mesh);
 
-	std::string GetSprite() const;
+	String GetSpriteName() const;
 	void SetSprite(String spriteName);
 
 	GLuint GetTextureBuffer() const;
+	bool TextureHasAlpha() const;
 };
 
 #endif

@@ -52,7 +52,9 @@ public:
 	bool operator== (const  Vector3D& other) const;
 	bool operator!= (const  Vector3D& other) const;
 	Vector3D operator+ (const Vector3D& other) const;
+	Vector3D& operator+= (const Vector3D& other);
 	Vector3D operator- (const Vector3D& other) const;
+	Vector3D& operator-= (const Vector3D& other);
 	Vector3D operator* (const float scalar) const;
 	Vector3D operator/ (const float divisor) const;
 	float operator[](const int idx) const;

@@ -17,6 +17,8 @@ static GameObject * sgpPlayer;
 static GameObject * sgpEnemy1;
 static GameObject * sgpEnemy2;
 
+static Camera * sgpCamera;
+
 TestGameState::TestGameState()
 {
 }
@@ -40,25 +42,26 @@ void TestGameState::GameStateInit(void)
 	Acrylicor::LoadLevel("LevelFiles/level1.json");
 	
 
-	//Camera * camera = new Camera(Vector3D(0.0f, 0.0f, -10.0f), Vector3D(0, 0, -1));
+	sgpCamera = new Camera(Vector3D(0.0f, 0.0f, -10.0f), Vector3D(0, 0, -1), CAM_PERSP);
 }
 
 void TestGameState::GameStateUpdate(double deltaTime)
 {
 	sgpPlayer->Update(deltaTime);
 	sgpEnemy1->Update(deltaTime);
-	//camera->Update();
+	sgpCamera->Update();
 }
 
 void TestGameState::GameStateDraw(void)
 {
-	Acrylicor::RenderObject(*sgpPlayer);
-	Acrylicor::RenderObject(*sgpEnemy1);
+	Acrylicor::RenderObject(*sgpCamera, *sgpPlayer);
+	Acrylicor::RenderObject(*sgpCamera, *sgpEnemy1);
 }
 
 void TestGameState::GameStateFree(void)
 {
-	//delete sgpPlayer;
+	delete sgpPlayer;
+	delete sgpEnemy1;
 }
 
 void TestGameState::GameStateUnload(void)

@@ -43,10 +43,10 @@ void Shader::LoadShaderFromFile(String shaderFilePath, SHADER_TYPE type)
 	m_type = type;
 	m_shaderID = glCreateShader(type == VERTEX_SHADER ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
 	// Read the Shader code from the file
-	std::string ShaderCode;
+	String ShaderCode;
 	std::ifstream ShaderStream(shaderFilePath, std::ios::in);
 	if (ShaderStream.is_open()) {
-		std::string Line = "";
+		String Line = "";
 		while (getline(ShaderStream, Line))
 			ShaderCode += "\n" + Line;
 		ShaderStream.close();

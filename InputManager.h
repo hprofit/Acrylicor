@@ -69,7 +69,7 @@ class InputManager
 {
 private:
 	Uint8 * m_prevState;
-	const Uint8 * m_currentState;
+	Uint8 * m_currentState;
 
 	int m_length;
 
@@ -90,6 +90,10 @@ public:
 	bool IsKeyPressed(unsigned int KeyScanCode);
 	bool IsKeyTriggered(unsigned int KeyScanCode);
 	bool IsKeyReleased(unsigned int KeyScanCode);
+
+	void KeyPressed(unsigned int KeyScanCode);
+	void KeyTriggered(unsigned int KeyScanCode);
+	void KeyReleased(unsigned int KeyScanCode);
 };
 
 #endif

@@ -33,3 +33,9 @@ void FrameRateController::FrameEnd()
 
 	m_deltaTime = std::max((float)(m_tickEnd - m_tickStart), m_ticksPerFrame) / 1000.0;
 }
+
+unsigned int FrameRateController::GetTime()
+{
+	//return SDL_GetTicks();
+	return 0;
+}

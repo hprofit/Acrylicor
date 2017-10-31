@@ -17,25 +17,26 @@ Creation date: 10/17/17
 #define TRANSFORM_COMPONENT_H
 
 #include "Component.h"
-#include "Vector2D.h"
+#include "Vector3D.h"
 #include "Matrix4x4.h"
 
 class TransformComponent :
 	public Component
 {
 protected:
-	Vector2D m_position;
-	float m_angle, m_scaleX, m_scaleY, m_scaleZ;
+	Vector3D m_position;
+	float m_angleX, m_angleY, m_angleZ;
+	float m_scaleX, m_scaleY, m_scaleZ;
 	Matrix4x4 m_transform;
 
-	void WrapAngle();
+	void WrapAngle(float & angle);
 
 public:
 	TransformComponent() = delete;
 	TransformComponent(GameObject& parent);
-	TransformComponent(GameObject& parent, Vector2D position);
-	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY);
-	TransformComponent(GameObject& parent, Vector2D position, float angle, float scaleX, float scaleY, float scaleZ);
+	TransformComponent(GameObject& parent, Vector3D position);
+	TransformComponent(GameObject& parent, Vector3D position, float angleZ, float scaleX, float scaleY);
+	TransformComponent(GameObject& parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ);
 	TransformComponent(const TransformComponent& rhs, GameObject& parent);
 	TransformComponent& operator=(const TransformComponent& rhs);
 	~TransformComponent();
@@ -43,9 +44,9 @@ public:
 	virtual void Update(double deltaTime);
 	virtual TransformComponent* Clone(GameObject& parent);
 
-	Vector2D GetPosition() const;
-	void SetPosition(Vector2D pos);
-	void Move(Vector2D amount);
+	Vector3D GetPosition() const;
+	void SetPosition(Vector3D pos);
+	void Move(Vector3D amount);
 
 	float GetAngle() const;
 	void SetAngle(float angle);

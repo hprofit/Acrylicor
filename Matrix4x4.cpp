@@ -367,14 +367,6 @@ Matrix4x4 Matrix4x4::Scale(const float scaleX, const float scaleY, const float s
 
 Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const float near, const float far)
 {
-	//float topLeft = 1.0f / tan(0.5f * DEG_TO_RAD * fov);
-	//return Matrix4x4(
-	//	topLeft, 0.0f, 0.0f, 0.0f,
-	//	0.0f, aspect * topLeft, 0.0f, 0.0f,
-	//	0.0f, 0.0f, (near + far) / (near - far), 2 * near * far / (near - far),
-	//	0.0f, 0.0f, -1.0f, 0.0f
-	//);
-
 	float xymax = near * tanf(fov * PI / 360.0f);
 	float ymin = -xymax;
 	float xmin = -xymax;
@@ -400,15 +392,27 @@ Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const floa
 
 Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const float near)
 {
-	//float topLeft = 1.0f / tan(0.5f * DEG_TO_RAD * fov);
-	//return Matrix4x4(
-	//	topLeft, 0.0f, 0.0f, 0.0f,
-	//	0.0f, aspect * topLeft, 0.0f, 0.0f,
-	//	0.0f, 0.0f, -1.0f, -2.0f * near,
-	//	0.0f, 0.0f, -1.0f, 0.0f
-	//);
-
 	return Perspective(fov, aspect, near, 1000.0f);
+}
+
+Matrix4x4 Matrix4x4::Orthographic(const float width, const float height, const float near, const float far)
+{
+	float w = 2.0f / width,
+		h = 2.0f / height,
+		nf = -2.0f / (far - near),
+		tnf = -((far + near) / (far - near));
+
+	return Matrix4x4(
+		w, 0, 0, 0,
+		0, h, 0, 0,
+		0, 0, nf, tnf,
+		0, 0, 0, 1
+	);
+}
+
+Matrix4x4 Matrix4x4::Orthographic(const float width, const float height, const float near)
+{
+	return Orthographic(width, height, near, 1000.0f);
 }
 #pragma endregion
 

@@ -80,6 +80,14 @@ Vector3D Vector3D::operator+(const Vector3D& other) const
 	);
 }
 
+Vector3D & Vector3D::operator+=(const Vector3D & other)
+{
+	m_x += other.m_x;
+	m_y += other.m_y;
+	m_z += other.m_z;
+	return *this;
+}
+
 Vector3D Vector3D::operator-(const Vector3D& other) const
 {
 	return Vector3D(
@@ -87,6 +95,14 @@ Vector3D Vector3D::operator-(const Vector3D& other) const
 		m_y - other.m_y,
 		m_z - other.m_z
 	);
+}
+
+Vector3D & Vector3D::operator-=(const Vector3D & other)
+{
+	m_x -= other.m_x;
+	m_y -= other.m_y;
+	m_z -= other.m_z;
+	return *this;
 }
 
 Vector3D Vector3D::operator*(const float scalar) const
