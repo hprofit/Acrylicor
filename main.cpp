@@ -92,8 +92,8 @@ int main(int argc, char ** argv)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
 {
 	Acrylicor::AcryProps props;
-	props.windowHeight = 800;
-	props.windowWidth = 800;
+	props.windowHeight = 720;
+	props.windowWidth = 1280;
 	props.windowTitle = "Test Game";
 
 	if (Acrylicor::Initialize(props) != 0)

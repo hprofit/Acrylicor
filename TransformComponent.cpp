@@ -1,4 +1,6 @@
 #include "TransformComponent.h"
+#include "GameObjectFactory.h"
+#include "JsonReader.h"
 #include <cmath>
 
 TransformComponent::TransformComponent(GameObject & parent) :
@@ -61,6 +63,49 @@ void TransformComponent::Update(double deltaTime)
 TransformComponent * TransformComponent::Clone(GameObject & parent)
 {
 	return new TransformComponent(*this, parent);
+}
+
+Component * TransformComponent::Serialize(GameObject& gObject, nlohmann::json j)
+{
+	TransformComponent * tComp = new TransformComponent(gObject);
+	float x = AcryJson::ParseFloat(j, "transform", "position", "x");
+	float y = AcryJson::ParseFloat(j, "transform", "position", "y");
+	float z = AcryJson::ParseFloat(j, "transform", "position", "y");
+	tComp->SetPosition(Vector3D(x, y, z));
+
+	float rX = AcryJson::ParseFloat(j, "transform", "angle", "xRot");
+	float rY = AcryJson::ParseFloat(j, "transform", "angle", "yRot");
+	float rZ = AcryJson::ParseFloat(j, "transform", "angle", "zRot");
+	tComp->SetAngles(rX, rY, rZ);
+
+	float sX = AcryJson::ParseFloat(j, "transform", "scale", "x");
+	float sY = AcryJson::ParseFloat(j, "transform", "scale", "y");
+	float sZ = AcryJson::ParseFloat(j, "transform", "scale", "z");
+	tComp->SetScale(sX, sY);
+
+	return tComp;
+}
+
+void TransformComponent::Override(nlohmann::json j)
+{
+	Vector3D pos = GetPosition();
+	m_position.Set(
+		AcryJson::ValueExists(j, "transform", "position", "x") ? AcryJson::ParseFloat(j, "transform", "position", "x") : pos.getX(),
+		AcryJson::ValueExists(j, "transform", "position", "y") ? AcryJson::ParseFloat(j, "transform", "position", "y") : pos.getY(),
+		AcryJson::ValueExists(j, "transform", "position", "z") ? AcryJson::ParseFloat(j, "transform", "position", "z") : pos.getZ()
+	);
+
+	SetAngles(
+		AcryJson::ValueExists(j, "transform", "angle", "xRot") ? AcryJson::ParseFloat(j, "transform", "angle", "xRot") : m_angleX,
+		AcryJson::ValueExists(j, "transform", "angle", "yRot") ? AcryJson::ParseFloat(j, "transform", "angle", "yRot") : m_angleY,
+		AcryJson::ValueExists(j, "transform", "angle", "zRot") ? AcryJson::ParseFloat(j, "transform", "angle", "zRot") : m_angleZ
+	);
+
+	SetScale(
+		AcryJson::ValueExists(j, "transform", "scale", "x") ? AcryJson::ParseFloat(j, "transform", "scale", "x") : m_scaleX,
+		AcryJson::ValueExists(j, "transform", "scale", "y") ? AcryJson::ParseFloat(j, "transform", "scale", "y") : m_scaleY,
+		AcryJson::ValueExists(j, "transform", "scale", "z") ? AcryJson::ParseFloat(j, "transform", "scale", "z") : m_scaleZ
+	);
 }
 
 #pragma region Translation
@@ -226,3 +271,4 @@ void TransformComponent::BuildModelTransform()
 
 	m_transform = trans * rot * scale;
 }
+

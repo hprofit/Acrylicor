@@ -35,6 +35,8 @@ public:
 
 	virtual void Update(double deltaTime);
 	virtual PhysicsMovementComponent* Clone(GameObject& parent);
+	static Component* Serialize(GameObject& gObject, nlohmann::json j);
+	virtual void Override(nlohmann::json j);
 };
 
 #endif

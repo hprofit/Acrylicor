@@ -374,13 +374,13 @@ Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const floa
 	float width = xymax - xmin;
 	float height = xymax - ymin;
 	 
-	float depth = far - near;
-	float q = -(far + near) / depth;
-	float qn = -2 * (far * near) / depth;
+	float depth = near - far;
+	float q = (near + far) / depth;
+	float qn = (2 * far * near) / depth;
 
-	float w = 2 * near / width;
+	float w = (2 * near) / width;
 	w = w / aspect;
-	float h = 2 * near / height;
+	float h = (2 * near) / height;
 
 	return Matrix4x4(
 		w, 0,  0, 0,

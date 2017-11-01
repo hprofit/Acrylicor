@@ -119,13 +119,14 @@ void RenderManager::RenderGameObject(const Camera& camera, GameObject& gameObjec
 		return;
 
 	glUseProgram(m_currentProgram->GetProgram());
-	glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)&camera.GetPerspectiveMatrix());
-	glUniformMatrix4fv(m_currentProgram->GetUniform("pview_matrix"), 1, true, (float*)&camera.GetViewMatrix());
+	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)&Matrix4x4::Identity4D());
+	glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)camera.GetPerspectiveMatrix());
+	glUniformMatrix4fv(m_currentProgram->GetUniform("view_matrix"), 1, true, (float*)camera.GetViewMatrix());
 
 	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(CT_TRANSFORM))->GetModelTransform();
 	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
-	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)&M);
-	glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)&N);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)M);
+	glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)N);
 
 	// Generate color for each object
 	glUniform4f(m_currentProgram->GetUniform("color"), 1, 1, 1, 1);

@@ -59,3 +59,12 @@ ControllerComponent * ControllerComponent::Clone(GameObject & parent)
 {
 	return new ControllerComponent(*this, parent);
 }
+
+Component * ControllerComponent::Serialize(GameObject & gObject, nlohmann::json j)
+{
+	return new ControllerComponent(gObject);
+}
+
+void ControllerComponent::Override(nlohmann::json j)
+{
+}

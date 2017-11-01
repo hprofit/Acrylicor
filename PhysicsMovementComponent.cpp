@@ -37,3 +37,12 @@ PhysicsMovementComponent * PhysicsMovementComponent::Clone(GameObject & parent)
 {
 	return new PhysicsMovementComponent(*this, parent);
 }
+
+Component * PhysicsMovementComponent::Serialize(GameObject & gObject, nlohmann::json j)
+{
+	return new PhysicsMovementComponent(gObject);
+}
+
+void PhysicsMovementComponent::Override(nlohmann::json j)
+{
+}

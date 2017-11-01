@@ -27,8 +27,8 @@ class SpriteComponent :
 private:
 	String m_spriteName;
 	SurfaceTextureBuffer * m_texture;
-	//GLuint m_textureBuffer;
 	Mesh& m_mesh;
+	float offsetX, offsetY;
 
 public:
 	SpriteComponent() = delete;
@@ -40,6 +40,8 @@ public:
 
 	virtual void Update(double deltaTime);
 	virtual SpriteComponent* Clone(GameObject& parent);
+	static Component* Serialize(GameObject& gObject, nlohmann::json j);
+	virtual void Override(nlohmann::json j);
 
 	const Mesh& GetMesh() const;
 	void SetMesh(Mesh& mesh);

@@ -47,6 +47,8 @@ public:
 
 	virtual void Update(double deltaTime);
 	virtual TransformComponent* Clone(GameObject& parent);
+	static Component* Serialize(GameObject& gObject, nlohmann::json j);
+	virtual void Override(nlohmann::json j);
 
 	Vector3D GetPosition() const;
 	void SetPosition(Vector3D pos);

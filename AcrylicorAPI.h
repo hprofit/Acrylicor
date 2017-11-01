@@ -85,6 +85,9 @@ namespace Acrylicor {
 	void LoadShaderProgram(String fileName);
 
 	void SelectShaderProgram(String programName);
+
+	void UpdateGameObjects(double deltaTime);
+	void RenderGameObjects(Camera & camera);
 }
 
 #endif

@@ -12,6 +12,6 @@ out vec2 vtexture_coord;
 
 void main() {
 	vec4 P = model_matrix * position;
-	gl_Position = P;
+	gl_Position = persp_matrix * view_matrix * P;
 	vtexture_coord = texture_coord;
 }

@@ -133,3 +133,13 @@ void Acrylicor::SelectShaderProgram(String programName)
 {
 	renderMngr.SelectShaderProgram(programName);
 }
+
+void Acrylicor::UpdateGameObjects(double deltaTime)
+{
+	gameObjectMngr.UpdateGameObjects(deltaTime);
+}
+
+void Acrylicor::RenderGameObjects(Camera & camera)
+{
+	gameObjectMngr.RenderGameObjects(camera);
+}

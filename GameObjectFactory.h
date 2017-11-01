@@ -17,14 +17,6 @@ Creation date: 10/20/17
 #define GAME_OBJECT_FACTORY_H
 
 #include "GameObject.h"
-#include "Component.h"
-
-
-#include "TransformComponent.h"
-#include "ControllerComponent.h"
-#include "SpriteComponent.h"
-#include "PhysicsBodyComponent.h"
-#include "PhysicsMovementComponent.h"
 #include "json.hpp"
 #include "AcrylicorTypedefs.h"
 
@@ -36,21 +28,9 @@ class GameObjectFactory
 {
 private:
 	std::map<String, GameObject * > m_gameObjectTypes;
-	std::map<String, Component * > m_components;
 
 	GameObjectFactory();
 	~GameObjectFactory();
-
-	TransformComponent * LoadTransformComponent(GameObject* gObject, const json j);
-	void OverrideComponent(TransformComponent * tComp, const json j);
-	SpriteComponent * LoadSpriteComponent(GameObject* gObject, const json j);
-	void OverrideComponent(SpriteComponent * tComp, const json j);
-	ControllerComponent * LoadControllerComponent(GameObject* gObject, const json j);
-	void OverrideComponent(ControllerComponent * tComp, const json j);
-	PhysicsBodyComponent * LoadPhysicsBodyComponent(GameObject* gObject, const json j);
-	void OverrideComponent(PhysicsBodyComponent * tComp, const json j);
-	PhysicsMovementComponent * LoadPhysicsMovementComponent(GameObject* gObject, const json j);
-	void OverrideComponent(PhysicsMovementComponent * tComp, const json j);
 
 	GameObject * SpawnObjectWithOverrides(String objectType, json j);
 public:
@@ -64,8 +44,6 @@ public:
 		static GameObjectFactory instance;
 		return instance;
 	}
-
-	void AddComponentType(String componentType, Component * component);
 
 	GameObject * GetObjectArchetype(String objectType);
 

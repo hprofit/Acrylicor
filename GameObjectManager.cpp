@@ -1,5 +1,6 @@
 #include "GameObjectManager.h"
 #include "GameObjectFactory.h"
+#include "RenderManager.h"
 #include <iostream>
 
 GameObjectManager::GameObjectManager(int maxObjects) :
@@ -49,4 +50,23 @@ void GameObjectManager::DestroyGameObject(GameObject * gObject)
 {
 	if (gObject->IsActive())
 		gObject->Deactivate();
+}
+
+void GameObjectManager::UpdateGameObjects(double deltaTime)
+{
+	int i = 0;
+	for (i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
+			m_gameObjects[i]->Update(deltaTime);
+	}
+}
+
+void GameObjectManager::RenderGameObjects(Camera & camera)
+{
+	RenderManager& renderMngr = RenderManager::GetInstance();
+	int i = 0;
+	for (i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
+			renderMngr.RenderGameObject(camera, *m_gameObjects[i]);
+	}
 }

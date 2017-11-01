@@ -17,6 +17,7 @@ Creation date: 10/13/17
 #define COMPONENT_H
 
 #include "ComponentTypes.h"
+#include "json.hpp"
 
 class GameObject;
 
@@ -36,5 +37,6 @@ public:
 
 	virtual void Update(double deltaTime) = 0;
 	virtual Component* Clone(GameObject& parent) = 0;
+	virtual void Override(nlohmann::json j) = 0;
 };
 #endif

@@ -79,12 +79,12 @@ void Camera::CalcViewMatrix()
 
 void Camera::CalcPerspectiveMatrix()
 {
-	m_perspectiveMatrix = Matrix4x4::Perspective(m_fov, m_aspectRatio, 0.1f);
+	m_perspectiveMatrix = Matrix4x4::Perspective(m_fov, m_aspectRatio, 1.f);
 }
 
 void Camera::CalcOrthographicMatrix()
 {
-	m_orthographicMatrix = Matrix4x4::Orthographic(m_fov, m_aspectRatio, 0.1f);
+	m_orthographicMatrix = Matrix4x4::Orthographic(m_fov, m_aspectRatio, 1.f);
 }
 
 void Camera::Update()
