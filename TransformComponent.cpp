@@ -93,18 +93,49 @@ void TransformComponent::WrapAngle(float & angle)
 	}
 }
 
-float TransformComponent::GetAngle() const
+void TransformComponent::SetAngles(float angleX, float angleY, float angleZ)
 {
-	return m_angleZ;
+	m_angleX = angleX;
+	WrapAngle(m_angleX);
+
+	m_angleY = angleY;
+	WrapAngle(m_angleY);
+
+	m_angleZ = angleZ;
+	WrapAngle(m_angleZ);
 }
 
-void TransformComponent::SetAngle(float angle) 
+void TransformComponent::SetAngleX(float angle)
+{
+	m_angleX = angle;
+	WrapAngle(m_angleX);
+}
+
+void TransformComponent::SetAngleY(float angle)
+{
+	m_angleY = angle;
+	WrapAngle(m_angleY);
+}
+
+void TransformComponent::SetAngleZ(float angle)
 {
 	m_angleZ = angle;
 	WrapAngle(m_angleZ);
 }
 
-void TransformComponent::Rotate(float amount)
+void TransformComponent::RotateX(float amount)
+{
+	m_angleX += amount;
+	WrapAngle(m_angleX);
+}
+
+void TransformComponent::RotateY(float amount)
+{
+	m_angleY += amount;
+	WrapAngle(m_angleY);
+}
+
+void TransformComponent::RotateZ(float amount)
 {
 	m_angleZ += amount;
 	WrapAngle(m_angleZ);

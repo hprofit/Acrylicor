@@ -1,13 +1,18 @@
 {
   "transform": {
-    "position2D": {
+    "position": {
       "x": 0,
       "y": 0
     },
-    "angle2D": 0,
-    "scale2D": {
+    "angle": {
+      "xRot": 0,
+      "yRot": 0,
+      "zRot": 0
+    },
+    "scale": {
       "x": 0.5,
-      "y": 0.5
+      "y": 0.5,
+      "z": 0
     }
   },
   "sprite": {

@@ -25,21 +25,23 @@ Creation date: 10/13/17
 class GameObject
 {
 protected:
-	unsigned long m_active;
+	unsigned long m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
 
 public:
 	GameObject();
-	GameObject(GameObject const& rhs);
+	GameObject(const GameObject & rhs);
+	GameObject& operator=(const GameObject & rhs);
 	virtual ~GameObject();
 
 	virtual void Activate();
 	virtual void Deactivate();
-	virtual unsigned long GetActive();
+	virtual bool IsActive();
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);
 	void AddComponent(Component * component);
+	void ClearComponents();
 
 	virtual void Update(double deltaTime);
 };

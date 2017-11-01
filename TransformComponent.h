@@ -20,6 +20,10 @@ Creation date: 10/17/17
 #include "Vector3D.h"
 #include "Matrix4x4.h"
 
+#define X_AXIS	0
+#define Y_AXIS	1
+#define Z_AXIS	2
+
 class TransformComponent :
 	public Component
 {
@@ -48,9 +52,17 @@ public:
 	void SetPosition(Vector3D pos);
 	void Move(Vector3D amount);
 
-	float GetAngle() const;
-	void SetAngle(float angle);
-	void Rotate(float amount);
+	void SetAngles(float angleX, float angleY, float angleZ);
+	float GetAngleX() const { return m_angleX; }
+	void SetAngleX(float angle);
+	float GetAngleY() const { return m_angleY; }
+	void SetAngleY(float angle);
+	float GetAngleZ() const { return m_angleZ; }
+	void SetAngleZ(float angle);
+
+	void RotateX(float amount);
+	void RotateY(float amount);
+	void RotateZ(float amount);
 
 	float GetScaleX() const;
 	void SetScaleX(float scaleX);

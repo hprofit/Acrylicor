@@ -17,6 +17,20 @@ float AcryJson::ParseFloat(const json j, String comp, String prop, String coord)
 	return 0.0f;
 }
 
+bool AcryJson::ValueExists(const json j, String comp, String prop)
+{
+	return j[comp].find(prop) != j[comp].end();
+}
+
+bool AcryJson::ValueExists(const json j, String comp, String prop, String coord)
+{
+	if (j[comp].find(prop) != j[comp].end()) {
+		if (j[comp][prop].find(coord) != j[comp][prop].end())
+			return true;
+	}
+	return false;
+}
+
 json AcryJson::OpenJsonFile(String fileName)
 {
 	std::ifstream i(fileName);

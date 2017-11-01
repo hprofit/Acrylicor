@@ -75,7 +75,6 @@ namespace Acrylicor {
 
 	GameObject * LoadGameObject(String fileName);
 	void LoadGameObjects(String fileName);
-	GameObject * SpawnGameObject(String objectType);
 	void LoadLevel(String fileName);
 
 

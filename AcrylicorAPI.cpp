@@ -5,6 +5,10 @@
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "GameObjectFactory.h"
+#include "GameObjectManager.h"
+#include "json.hpp"
+#include <iostream>
+#include "JsonReader.h"
 
 static FrameRateController& frameRateCtrl = FrameRateController::GetInstance();
 static WindowManager& windowMngr = WindowManager::GetInstance();
@@ -12,6 +16,7 @@ static RenderManager& renderMngr = RenderManager::GetInstance();
 static InputManager& inputMngr = InputManager::GetInstance();
 static ResourceManager& resourceMngr = ResourceManager::GetInstance();
 static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
+static GameObjectManager& gameObjectMngr = GameObjectManager::GetInstance();
 
 int Acrylicor::Initialize(AcryProps props)
 {
@@ -98,14 +103,25 @@ void Acrylicor::LoadGameObjects(String fileName)
 	gameObjectFactory.LoadGameObjectsFromFile(fileName);
 }
 
-GameObject * Acrylicor::SpawnGameObject(String objectType)
-{
-	return gameObjectFactory.SpawnObject(objectType);
-}
-
 void Acrylicor::LoadLevel(String fileName)
 {
-	gameObjectFactory.LoadLevelFile(fileName);
+	try {
+		json j = AcryJson::OpenJsonFile(fileName);
+
+		if (j.is_object()) {
+			for (json::iterator it = j.begin(); it != j.end(); ++it) {
+				if (it.key() == "objects") {
+					int numObjs = j[it.key()].size();
+					for (int i = 0; i < numObjs; ++i) {
+						gameObjectMngr.SpawnGameObjectFromFile(j[it.key()][i]);
+					}
+				}
+			}
+		}
+	}
+	catch (const json::parse_error& ex) {
+		std::cerr << ex.what() << std::endl;
+	}
 }
 
 void Acrylicor::LoadShaderProgram(String fileName)

@@ -41,10 +41,10 @@ void ControllerComponent::Update(double deltaTime)
 	}
 
 	if (inputMgr.IsKeyPressed(ACR_Q)) {
-		tComp->Rotate(100.0f * deltaTime);
+		tComp->RotateZ(100.0f * deltaTime);
 	}
 	if (inputMgr.IsKeyPressed(ACR_E)) {
-		tComp->Rotate(-100.0f * deltaTime);
+		tComp->RotateZ(-100.0f * deltaTime);
 	}
 
 	if (inputMgr.IsKeyPressed(ACR_R)) {

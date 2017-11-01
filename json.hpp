@@ -109,6 +109,14 @@ SOFTWARE.
 #define JSON_UNLIKELY(x)    x
 #endif
 
+// cpp language standard detection
+#if (defined(__cplusplus) && __cplusplus >= 201703L) || (defined(_HAS_CXX17) && _HAS_CXX17 == 1) // fix for issue #464
+#define JSON_HAS_CPP_17
+#define JSON_HAS_CPP_14
+#elif (defined(__cplusplus) && __cplusplus >= 201402L) || (defined(_HAS_CXX14) && _HAS_CXX14 == 1)
+#define JSON_HAS_CPP_14
+#endif
+
 /*!
 @brief namespace for Niels Lohmann
 @see https://github.com/nlohmann
@@ -3590,7 +3598,7 @@ namespace nlohmann
 		template<typename IteratorType> class iteration_proxy;
 
 		/*!
-		@brief a template for a random access iterator for the @ref basic_json class
+		@brief a template for a bidirectional iterator for the @ref basic_json class
 
 		This class implements a both iterators (iterator and const_iterator) for the
 		@ref basic_json class.
@@ -3602,14 +3610,15 @@ namespace nlohmann
 
 		@requirement The class satisfies the following concept requirements:
 		-
-		[RandomAccessIterator](http://en.cppreference.com/w/cpp/concept/RandomAccessIterator):
-		The iterator that can be moved to point (forward and backward) to any
-		element in constant time.
+		[BidirectionalIterator](http://en.cppreference.com/w/cpp/concept/BidirectionalIterator):
+		The iterator that can be moved can be moved in both directions (i.e.
+		incremented and decremented).
 
-		@since version 1.0.0, simplified in version 2.0.9
+		@since version 1.0.0, simplified in version 2.0.9, change to bidirectional
+		iterators in version 3.0.0 (see https://github.com/nlohmann/json/issues/593)
 		*/
 		template<typename BasicJsonType>
-		class iter_impl : public std::iterator<std::random_access_iterator_tag, BasicJsonType>
+		class iter_impl : public std::iterator<std::bidirectional_iterator_tag, BasicJsonType>
 		{
 			/// allow basic_json to access private members
 			friend iter_impl<typename std::conditional<std::is_const<BasicJsonType>::value, typename std::remove_const<BasicJsonType>::type, const BasicJsonType>::type>;
@@ -3636,8 +3645,6 @@ namespace nlohmann
 				typename std::conditional<std::is_const<BasicJsonType>::value,
 				typename BasicJsonType::const_reference,
 				typename BasicJsonType::reference>::type;
-			/// the category of the iterator
-			using iterator_category = std::bidirectional_iterator_tag;
 
 			/// default constructor
 			iter_impl() = default;
@@ -4270,9 +4277,9 @@ namespace nlohmann
 
 		@requirement The class satisfies the following concept requirements:
 		-
-		[RandomAccessIterator](http://en.cppreference.com/w/cpp/concept/RandomAccessIterator):
-		The iterator that can be moved to point (forward and backward) to any
-		element in constant time.
+		[BidirectionalIterator](http://en.cppreference.com/w/cpp/concept/BidirectionalIterator):
+		The iterator that can be moved can be moved in both directions (i.e.
+		incremented and decremented).
 		- [OutputIterator](http://en.cppreference.com/w/cpp/concept/OutputIterator):
 		It is possible to write to the pointed-to element (only if @a Base is
 		@ref iterator).
@@ -6781,7 +6788,7 @@ namespace nlohmann
 			{}
 
 			template <class... Args>
-			json_ref(Args... args)
+			json_ref(Args&& ... args)
 				: owned_value(std::forward<Args>(args)...),
 				value_ref(&owned_value),
 				is_rvalue(true)
@@ -7566,9 +7573,17 @@ namespace nlohmann
 		7159](http://rfc7159.net/rfc7159), because any order implements the
 		specified "unordered" nature of JSON objects.
 		*/
+
+#if defined(JSON_HAS_CPP_14)
+		// Use transparent comparator if possible, combined with perfect forwarding
+		// on find() and count() calls prevents unnecessary string construction.
+		using object_comparator_t = std::less<>;
+#else
+		using object_comparator_t = std::less<StringType>;
+#endif
 		using object_t = ObjectType<StringType,
 			basic_json,
-			std::less<StringType>,
+			object_comparator_t,
 			AllocatorType<std::pair<const StringType,
 			basic_json>>>;
 
@@ -8144,13 +8159,11 @@ namespace nlohmann
 		@brief per-element parser callback type
 
 		With a parser callback function, the result of parsing a JSON text can be
-		influenced. When passed to @ref parse(std::istream&, const
-		parser_callback_t) or @ref parse(const CharT, const parser_callback_t),
-		it is called on certain events (passed as @ref parse_event_t via parameter
-		@a event) with a set recursion depth @a depth and context JSON value
-		@a parsed. The return value of the callback function is a boolean
-		indicating whether the element that emitted the callback shall be kept or
-		not.
+		influenced. When passed to @ref parse, it is called on certain events
+		(passed as @ref parse_event_t via parameter @a event) with a set recursion
+		depth @a depth and context JSON value @a parsed. The return value of the
+		callback function is a boolean indicating whether the element that emitted
+		the callback shall be kept or not.
 
 		We distinguish six scenarios (determined by the event type) in which the
 		callback function can be called. The following table describes the values
@@ -8187,8 +8200,7 @@ namespace nlohmann
 		should be kept (`true`) or not (`false`). In the latter case, it is either
 		skipped completely or replaced by an empty discarded object.
 
-		@sa @ref parse(std::istream&, parser_callback_t) or
-		@ref parse(const CharT, const parser_callback_t) for examples
+		@sa @ref parse for examples
 
 		@since version 1.0.0
 		*/
@@ -9819,7 +9831,7 @@ namespace nlohmann
 #ifndef _MSC_VER  // fix for issue #167 operator<< ambiguity under VS2015
 			and not std::is_same<ValueType, std::initializer_list<typename string_t::value_type>>::value
 #endif
-#if (defined(__cplusplus) && __cplusplus >= 201703L) || (defined(_MSC_VER) && _MSC_VER >1900 && defined(_HAS_CXX17) && _HAS_CXX17 == 1) // fix for issue #464
+#if defined(JSON_HAS_CPP_17)
 			and not std::is_same<ValueType, typename std::string_view>::value
 #endif
 			, int >::type = 0 >
@@ -10845,7 +10857,7 @@ namespace nlohmann
 		@note This method always returns @ref end() when executed on a JSON type
 		that is not an object.
 
-		@param[in] key key value of the element to search for
+		@param[in] key key value of the element to search for.
 
 		@return Iterator to an element with key equivalent to @a key. If no such
 		element is found or the JSON value is not an object, past-the-end (see
@@ -10857,13 +10869,14 @@ namespace nlohmann
 
 		@since version 1.0.0
 		*/
-		iterator find(typename object_t::key_type key)
+		template<typename KeyT>
+		iterator find(KeyT&& key)
 		{
 			auto result = end();
 
 			if (is_object())
 			{
-				result.m_it.object_iterator = m_value.object->find(key);
+				result.m_it.object_iterator = m_value.object->find(std::forward<KeyT>(key));
 			}
 
 			return result;
@@ -10871,15 +10884,16 @@ namespace nlohmann
 
 		/*!
 		@brief find an element in a JSON object
-		@copydoc find(typename object_t::key_type)
+		@copydoc find(KeyT&&)
 		*/
-		const_iterator find(typename object_t::key_type key) const
+		template<typename KeyT>
+		const_iterator find(KeyT&& key) const
 		{
 			auto result = cend();
 
 			if (is_object())
 			{
-				result.m_it.object_iterator = m_value.object->find(key);
+				result.m_it.object_iterator = m_value.object->find(std::forward<KeyT>(key));
 			}
 
 			return result;
@@ -10906,10 +10920,11 @@ namespace nlohmann
 
 		@since version 1.0.0
 		*/
-		size_type count(typename object_t::key_type key) const
+		template<typename KeyT>
+		size_type count(KeyT&& key) const
 		{
 			// return 0 for all nonobject types
-			return is_object() ? m_value.object->count(key) : 0;
+			return is_object() ? m_value.object->count(std::forward<KeyT>(key)) : 0;
 		}
 
 		/// @}
@@ -12929,6 +12944,8 @@ namespace nlohmann
 		@param[in] cb  a parser callback function of type @ref parser_callback_t
 		which is used to control the deserialization by filtering unwanted values
 		(optional)
+		@param[in] allow_exceptions  whether to throw exceptions in case of a
+		parse error (optional, true by default)
 
 		@return result of the deserialization
 
