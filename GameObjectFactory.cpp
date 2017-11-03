@@ -9,6 +9,7 @@
 #include "PhysicsMovementComponent.h"
 #include "ControllerComponent.h"
 #include "AISwayComponent.h"
+#include "AIRushComponent.h"
 #include "CameraComponent.h"
 
 GameObjectFactory::GameObjectFactory()
@@ -41,6 +42,8 @@ GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json
 			gObject->Get(CT_PHYSICS_MOVEMENT)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSway"))
 			gObject->Get(CT_AI_SWAY)->Override(j);
+		else if (AcryJson::KeyIs(it, "aiRush"))
+			gObject->Get(CT_AI_RUSH)->Override(j);
 		else if (AcryJson::KeyIs(it, "camera"))
 			gObject->Get(CT_CAMERA)->Override(j);
 	}
@@ -78,6 +81,8 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
 					gObject->AddComponent(PhysicsMovementComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiSway"))
 					gObject->AddComponent(AISwayComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "aiRush"))
+					gObject->AddComponent(AIRushComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "camera"))
 					gObject->AddComponent(CameraComponent::Serialize(*gObject, j));
 			}

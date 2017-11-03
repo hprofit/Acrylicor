@@ -13,6 +13,6 @@ out vec4 frag_color;
 
 void main(void) {
 	vec2 scroll_offset = vec2(vscroll_offset_x, vscroll_offset_y);
-	vec2 offsetCoords = vec2(vtexture_coord.x * vtile_x, vtexture_coord.y * vtile_y);
+	vec2 offsetCoords = vec2(vtexture_coord.x * vtile_x, vtexture_coord.y * vtile_y) + scroll_offset;
 	frag_color = texture(usampler, offsetCoords) * vcolor;
 }

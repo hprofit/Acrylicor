@@ -20,8 +20,9 @@ Creation date: 11/02/17
 class ScrollingSpriteComponent :
 	public SpriteComponent
 {
-private:
+protected:
 	float m_speedX, m_speedY;
+	float m_offsetU, m_offsetV;
 public:
 	ScrollingSpriteComponent() = delete;
 	ScrollingSpriteComponent(GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f, float speedX = 1.f, float speedY = 1.f);
@@ -40,6 +41,8 @@ public:
 	void SetSpeed(float speedX, float speedY);
 	void SetSpeedX(float speedX);
 	void SetSpeedY(float speedY);
+	float U() const { return m_offsetU; }
+	float V() const { return m_offsetV; }
 };
 
 #endif

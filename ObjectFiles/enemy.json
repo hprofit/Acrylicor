@@ -21,6 +21,10 @@
     "frameY": 0
   },
   "aiSway": {
-    "amount": 5
+    "amount": 10
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 5
   }
 }

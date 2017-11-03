@@ -72,8 +72,8 @@ void RenderManager::_RenderSprite(SpriteComponent * sComp)
 
 void RenderManager::_RenderScrollingSprite(ScrollingSpriteComponent * sComp)
 {
-	glUniform1f(m_currentProgram->GetUniform("scroll_offset_x"), sComp->TileX());
-	glUniform1f(m_currentProgram->GetUniform("scroll_offset_y"), sComp->TileY());
+	glUniform1f(m_currentProgram->GetUniform("scroll_offset_x"), sComp->U());
+	glUniform1f(m_currentProgram->GetUniform("scroll_offset_y"), sComp->V());
 	
 	_RenderSprite(sComp);
 }

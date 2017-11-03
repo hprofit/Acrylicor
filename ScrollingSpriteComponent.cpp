@@ -4,19 +4,22 @@
 ScrollingSpriteComponent::ScrollingSpriteComponent(GameObject & parent, String spriteName, int frameX, int frameY, 
 	String shader, float tileX, float tileY, float speedX, float speedY) :
 	SpriteComponent(CT_SCROLLING_SPRITE, parent, spriteName, frameX, frameY, shader, tileX, tileY),
-	m_speedX(speedX), m_speedY(speedY)
+	m_speedX(speedX), m_speedY(speedY), m_offsetU(0.f), m_offsetV(0.f)
 {}
 
 ScrollingSpriteComponent::ScrollingSpriteComponent(const ScrollingSpriteComponent & rhs, GameObject & parent) :
 	SpriteComponent(CT_SCROLLING_SPRITE, rhs, parent),
-	m_speedX(rhs.m_speedX), m_speedY(rhs.m_speedY)
+	m_speedX(rhs.m_speedX), m_speedY(rhs.m_speedY), m_offsetU(rhs.m_offsetU), m_offsetV(rhs.m_offsetV)
 {}
 
 ScrollingSpriteComponent::~ScrollingSpriteComponent()
 {}
 
 void ScrollingSpriteComponent::Update(double deltaTime)
-{}
+{
+	m_offsetU += m_speedX * deltaTime;
+	m_offsetV += m_speedY * deltaTime;
+}
 
 ScrollingSpriteComponent * ScrollingSpriteComponent::Clone(GameObject & parent)
 {

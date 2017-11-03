@@ -1,6 +1,6 @@
 #include "AISwayComponent.h"
 #include "JsonReader.h"
-#include <iostream>
+//#include <iostream>
 
 // Don't like TODO: Fim_currX
 #include "GameObject.h"
@@ -52,5 +52,5 @@ Component * AISwayComponent::Serialize(GameObject & gObject, nlohmann::json j)
 
 void AISwayComponent::Override(nlohmann::json j)
 {
-
+	m_swayAmount = AcryJson::ValueExists(j, "aiSway", "amount") ? AcryJson::ParseFloat(j, "aiSway", "amount") : m_swayAmount;
 }
