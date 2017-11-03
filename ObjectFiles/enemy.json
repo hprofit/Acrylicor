@@ -7,15 +7,20 @@
     "angle": {
       "xRot": 0,
       "yRot": 0,
-      "zRot": 0
+      "zRot": 180
     },
     "scale": {
-      "x": 0.5,
-      "y": 0.5,
+      "x": 5,
+      "y": 5,
       "z": 0
     }
   },
   "sprite": {
-    "name": "enemy"
+    "name": "enemy",
+    "frameX": 0,
+    "frameY": 0
+  },
+  "aiSway": {
+    "amount": 5
   }
 }

@@ -37,6 +37,11 @@ void Vector2D::Set(float x, float y, float w)
 }
 
 #pragma region Operator Overrides
+Vector2D::operator float*()
+{
+	return &(m_x);
+}
+
 bool Vector2D::operator==(const Vector2D& other) const
 {
 	return fabs(m_x - other.m_x) + fabs(m_y - other.m_y) + fabs(m_w - other.m_w) < EPSILON;

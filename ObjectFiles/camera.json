@@ -3,13 +3,17 @@
     "position": {
       "x": 0,
       "y": 0,
-      "z": 0
+      "z": 10
     },
     "angle": {
-      "xRot": 0,
+      "xRot": -90,
       "yRot": 0,
       "zRot": 0
-    }
+    },
+    "2D": false
   },
-  "controller": {}
+  "camera": {
+    "fov": 105,
+    "type": "persp"
+  }
 }

@@ -9,3 +9,5 @@ testFlags :
 		-m2: Run all Matrix2x2 tests
 		-m3: Run all Matrix3x3 tests
 	-s: Run all Static Collision tests
+	
+	

@@ -30,17 +30,20 @@ class TransformComponent :
 protected:
 	Vector3D m_position;
 	float m_angleX, m_angleY, m_angleZ;
+	Vector3D m_lookAt;
 	float m_scaleX, m_scaleY, m_scaleZ;
 	Matrix4x4 m_transform;
+	bool m_2d;
 
 	void WrapAngle(float & angle);
-
+	void UpdateLookAt();
+	void Set2D(bool is2D);
 public:
 	TransformComponent() = delete;
-	TransformComponent(GameObject& parent);
-	TransformComponent(GameObject& parent, Vector3D position);
-	TransformComponent(GameObject& parent, Vector3D position, float angleZ, float scaleX, float scaleY);
-	TransformComponent(GameObject& parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ);
+	TransformComponent(GameObject& parent, bool is2D = true);
+	TransformComponent(GameObject& parent, Vector3D position, bool is2D = true);
+	TransformComponent(GameObject& parent, Vector3D position, float angleZ, float scaleX, float scaleY, bool is2D = true);
+	TransformComponent(GameObject& parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ, bool is2D = true);
 	TransformComponent(const TransformComponent& rhs, GameObject& parent);
 	TransformComponent& operator=(const TransformComponent& rhs);
 	~TransformComponent();
@@ -65,6 +68,12 @@ public:
 	void RotateX(float amount);
 	void RotateY(float amount);
 	void RotateZ(float amount);
+
+	Vector3D Forward() const;
+	Vector3D Right() const;
+	Vector3D Up() const;
+
+	Vector3D LookAt() const;
 
 	float GetScaleX() const;
 	void SetScaleX(float scaleX);

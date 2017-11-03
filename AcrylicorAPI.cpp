@@ -28,14 +28,15 @@ int Acrylicor::Initialize(AcryProps props)
 		return 1;
 
 	Mesh * quad = CreateMesh("quad");
+
 	quad->AddVertex(
-		-0.5f, -0.5f, 0.0f, .0f, 1.0f, 0xFFFFFFFF,
-		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0xFFFFFFFF,
+		-0.5f, -0.5f, 0.0f, .0f, 1.f, 0xFFFFFFFF,
+		0.5f, -0.5f, 0.0f, 1.f, 1.f, 0xFFFFFFFF,
 		-0.5f, 0.5f, 0.0f, .0f, .0f, 0xFFFFFFFF
 	);
 	quad->AddVertex(
-		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0xFFFFFFFF,
-		0.5f, 0.5f, 0.0f, 1.0f, .0f, 0xFFFFFFFF,
+		0.5f, -0.5f, 0.0f, 1.f, 1.f, 0xFFFFFFFF,
+		0.5f, 0.5f, 0.0f, 1.f, .0f, 0xFFFFFFFF,
 		-0.5f, 0.5f, 0.0f, .0f, .0f, 0xFFFFFFFF
 	);
 
@@ -68,11 +69,6 @@ void Acrylicor::RenderObject(GameObject & gameObject)
 	renderMngr.RenderGameObject(gameObject);
 }
 
-void Acrylicor::RenderObject(Camera & camera, GameObject & gameObject)
-{
-	renderMngr.RenderGameObject(camera, gameObject);
-}
-
 Mesh * Acrylicor::CreateMesh(String meshName)
 {
 	return resourceMngr.LoadMesh(meshName);
@@ -80,7 +76,8 @@ Mesh * Acrylicor::CreateMesh(String meshName)
 
 SurfaceTextureBuffer * Acrylicor::LoadTexture(String fileName, String textureName)
 {
-	return resourceMngr.LoadTexture(textureName, fileName, true);
+	return nullptr;
+	//return resourceMngr.LoadTexture(textureName, fileName, true);
 }
 
 void Acrylicor::LoadTexturesFromFile(String fileName)
@@ -139,7 +136,7 @@ void Acrylicor::UpdateGameObjects(double deltaTime)
 	gameObjectMngr.UpdateGameObjects(deltaTime);
 }
 
-void Acrylicor::RenderGameObjects(Camera & camera)
+void Acrylicor::RenderGameObjects()
 {
-	gameObjectMngr.RenderGameObjects(camera);
+	gameObjectMngr.RenderGameObjects();
 }

@@ -1,0 +1,21 @@
+{
+  "scrollingTileShader": {
+    "vertex": "Shaders/scrollingTileVertShader.vert",
+    "fragment": "Shaders/scrollingTileFragShader.frag",
+    "attributes": [
+      "position",
+      "texture_coord"
+    ],
+    "uniforms": [
+      "persp_matrix",
+      "view_matrix",
+      "model_matrix",
+      "normal_matrix",
+      "color",
+      "tile_x",
+      "tile_y",
+      "scroll_offset_x",
+      "scroll_offset_y"
+    ]
+  }
+}

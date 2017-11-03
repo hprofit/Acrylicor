@@ -25,8 +25,10 @@ struct STB_Surface {
 	int height;
 	int channels;
 	bool hasAlpha;
-	int tileX; // How many pixels wide is a single sprite on this sprite sheet
-	int tileY; // How many pixels tall is a single sprite on this sprite sheet
+	float frameWidth; 
+	float frameHeight;
+	int rows;
+	int columns;
 };
 
 struct SurfaceTextureBuffer {

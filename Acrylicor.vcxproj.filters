@@ -70,6 +70,12 @@
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{15f2c266-6aca-4586-a3e3-f736c17ac2c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json">
+      <UniqueIdentifier>{7fa5cb91-9ce0-49db-9cc2-778267d6c6b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TEST_FILES\Shaders">
+      <UniqueIdentifier>{bafc42fe-f81e-49d6-8a93-e8a305db5534}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -153,9 +159,6 @@
     <ClInclude Include="ComponentTypes.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\TEST_FILES</Filter>
-    </ClInclude>
     <ClInclude Include="ControllerComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -194,6 +197,15 @@
     </ClInclude>
     <ClInclude Include="STBSurface.h">
       <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AISwayComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollingSpriteComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +278,6 @@
     <ClCompile Include="RenderManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\TEST_FILES</Filter>
-    </ClCompile>
     <ClCompile Include="ControllerComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -299,37 +308,67 @@
     <ClCompile Include="KeyPressEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
+    <ClCompile Include="AISwayComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollingSpriteComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ObjectFiles\camera.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
+    </None>
     <None Include="ObjectFiles\config.json">
-      <Filter>Source Files\TEST_FILES</Filter>
-    </None>
-    <None Include="ObjectFiles\player.json">
-      <Filter>Source Files\TEST_FILES</Filter>
-    </None>
-    <None Include="ObjectFiles\textures.json">
-      <Filter>Source Files\TEST_FILES</Filter>
-    </None>
-    <None Include="Shaders\fragmentShader.frag">
-      <Filter>Source Files\TEST_FILES</Filter>
-    </None>
-    <None Include="Shaders\vertexShader.vert">
-      <Filter>Source Files\TEST_FILES</Filter>
+      <Filter>Source Files\TEST_FILES\Json</Filter>
     </None>
     <None Include="ObjectFiles\defaultShader.json">
-      <Filter>Source Files\TEST_FILES</Filter>
-    </None>
-    <None Include="ObjectFiles\objects.json">
-      <Filter>Source Files\TEST_FILES</Filter>
+      <Filter>Source Files\TEST_FILES\Json</Filter>
     </None>
     <None Include="ObjectFiles\enemy.json">
-      <Filter>Source Files\TEST_FILES</Filter>
+      <Filter>Source Files\TEST_FILES\Json</Filter>
+    </None>
+    <None Include="ObjectFiles\objects.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
+    </None>
+    <None Include="ObjectFiles\player.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
     </None>
     <None Include="LevelFiles\level1.json">
-      <Filter>Source Files\TEST_FILES</Filter>
+      <Filter>Source Files\TEST_FILES\Json</Filter>
     </None>
-    <None Include="ObjectFiles\camera.json">
-      <Filter>Source Files\TEST_FILES</Filter>
+    <None Include="ObjectFiles\textures.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
+    </None>
+    <None Include="Shaders\defaultFragShader.frag">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="Shaders\defaultVertShader.vert">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="ObjectFiles\background.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
+    </None>
+    <None Include="ObjectFiles\tileShader.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
+    </None>
+    <None Include="Shaders\tileVertShader.vert">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="Shaders\tileFragShader.frag">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="Shaders\scrollingTileFragShader.frag">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="Shaders\scrollingTileVertShader.vert">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="ObjectFiles\scrollingTileShader.json">
+      <Filter>Source Files\TEST_FILES\Json</Filter>
     </None>
   </ItemGroup>
 </Project>

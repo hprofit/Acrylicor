@@ -49,6 +49,7 @@ public:
 	float getW() const { return m_w; };
 	void setW(float w) { m_w = w; };
 
+	operator float*();
 	bool operator== (const  Vector3D& other) const;
 	bool operator!= (const  Vector3D& other) const;
 	Vector3D operator+ (const Vector3D& other) const;
@@ -74,7 +75,7 @@ public:
 
 	static float SquareDistance(const Vector3D& vector0, const Vector3D& vector1);
 	static float Distance(const Vector3D& vector0, const Vector3D& vector1);
-	static Vector3D Normalize(Vector3D& vector);
+	static Vector3D Normalize(const Vector3D& vector);
 	static float Dot(const Vector3D& vector0, const Vector3D& vector1);
 	static Vector3D Cross(const Vector3D& vector0, const Vector3D& vector1);
 	static Vector3D AngleRadians(float radians, Vector3D& axis);

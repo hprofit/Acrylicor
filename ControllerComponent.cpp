@@ -1,8 +1,10 @@
 #include "ControllerComponent.h"
-#include "GameObject.h"
+//#include "JsonReader.h"
 
 // Don't like TODO: Fix
+#include "GameObject.h"
 #include "TransformComponent.h"
+#include "SpriteComponent.h"
 #include "InputManager.h"
 #include "ComponentTypes.h"
 #include "Vector2D.h"
@@ -25,19 +27,26 @@ void ControllerComponent::Update(double deltaTime)
 {
 	InputManager& inputMgr = InputManager::GetInstance();
 	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(CT_TRANSFORM));
+	SpriteComponent* sComp = static_cast<SpriteComponent*>(m_parent.Get(CT_SPRITE));
 
 	// TODO: Don't like
+	sComp->SetFrame(2, 2);
 	if (inputMgr.IsKeyPressed(ACR_W)) {
-		tComp->Move(Vector2D(0.0f, 1.0f) * deltaTime);
+		tComp->Move(Vector2D(0.0f, 10.0f) * deltaTime);
+		sComp->SetFrame(2, 1);
 	}
 	if (inputMgr.IsKeyPressed(ACR_S)) {
-		tComp->Move(Vector2D(0.0f, -1.0f) * deltaTime);
+		tComp->Move(Vector2D(0.0f, -10.0f) * deltaTime);
+		sComp->SetFrame(2, 3);
 	}
+
 	if (inputMgr.IsKeyPressed(ACR_A)) {
-		tComp->Move(Vector2D(-1.0f, 0.0f) * deltaTime);
+		tComp->Move(Vector2D(-10.0f, 0.0f) * deltaTime);
+		sComp->PrevFrame();
 	}
 	if (inputMgr.IsKeyPressed(ACR_D)) {
-		tComp->Move(Vector2D(1.0f, 0.0f) * deltaTime);
+		tComp->Move(Vector2D(10.0f, 0.0f) * deltaTime);
+		sComp->NextFrame();
 	}
 
 	if (inputMgr.IsKeyPressed(ACR_Q)) {

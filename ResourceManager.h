@@ -32,6 +32,12 @@ private:
 
 	ResourceManager();
 	~ResourceManager();
+
+	struct TextureInfo {
+		bool hasAlpha;
+		float frameWidth, frameHeight;
+		int rows, cols;
+	};
 public:
 	ResourceManager(ResourceManager const&) = delete;
 	void operator=(ResourceManager const&) = delete;
@@ -46,13 +52,13 @@ public:
 	Mesh * GetMesh(String meshName);
 	void UnloadMesh(String meshName);
 
-	SurfaceTextureBuffer * LoadTexture(String textureName, String fileName, bool hasAlpha);
+	SurfaceTextureBuffer * LoadTexture(String textureName, String fileName, TextureInfo info);
 	SurfaceTextureBuffer * GetTexture(const String textureName);
 	void UnloadTexture(String textureName);
 
-	void UnloadAll();
-
 	void LoadTexturesFromFile(String fileName);
+
+	void UnloadAll();
 };
 
 #endif

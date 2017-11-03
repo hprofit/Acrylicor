@@ -42,6 +42,7 @@ public:
 	float getW() const { return m_w; };
 	void setW(float w) { m_w = w; };
 
+	operator float*();
 	bool operator== (const  Vector2D& other) const;
 	bool operator!= (const  Vector2D& other) const;
 	Vector2D operator+ (const Vector2D& other) const;

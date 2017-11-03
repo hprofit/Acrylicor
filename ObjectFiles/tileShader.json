@@ -1,7 +1,7 @@
 {
-  "default": {
-    "vertex": "Shaders/defaultVertShader.vert",
-    "fragment": "Shaders/defaultFragShader.frag",
+  "tileShader": {
+    "vertex": "Shaders/tileVertShader.vert",
+    "fragment": "Shaders/tileFragShader.frag",
     "attributes": [
       "position",
       "texture_coord"
@@ -12,8 +12,8 @@
       "model_matrix",
       "normal_matrix",
       "color",
-      "frame_offset",
-      "frame_size"
+      "tile_x",
+      "tile_y"
     ]
   }
 }

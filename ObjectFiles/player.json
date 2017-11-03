@@ -10,13 +10,15 @@
       "zRot": 0
     },
     "scale": {
-      "x": 0.5,
-      "y": 0.5,
+      "x": 1,
+      "y": 1,
       "z": 0
     }
   },
   "sprite": {
-    "name": "player"
+    "name": "player",
+    "frameX": 2,
+    "frameY": 2
   },
   "controller": {}
 }

@@ -1,0 +1,22 @@
+{
+  "transform": {
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "scale": {
+      "x": 50,
+      "y": 50
+    }
+  },
+  "scrollingSprite": {
+    "name": "forestBG",
+    "frameX": 0,
+    "frameY": 0,
+    "tileX": 5,
+    "tileY": 5,
+    "scrollSpeedX": 5,
+    "scrollSpeedY": 0,
+    "shader":  "scrollingTileShader"
+  }
+}

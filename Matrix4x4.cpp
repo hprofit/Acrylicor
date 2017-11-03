@@ -323,9 +323,10 @@ Matrix4x4 Matrix4x4::Inverse3x3(const Matrix4x4& other)
 Matrix4x4 Matrix4x4::Rotate(const float degrees, const Vector3D& axis)
 {
 	float x = axis.getX(), y = axis.getY(), z = axis.getZ(),
-		c = cosf(degrees * DEG_TO_RAD),
+		rad = degrees * DEG_TO_RAD,
+		c = cosf(rad),
 		a = (1 - c) / Vector3D::Dot(axis, axis),
-		b = sinf(degrees * DEG_TO_RAD) / axis.Length();
+		b = sinf(rad) / axis.Length();
 
 	return Matrix4x4(
 		c + a*x*x, a*x*y - b*z, a*x*z + b*y, 0.0f,

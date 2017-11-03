@@ -15,17 +15,25 @@ GameObjectManager::~GameObjectManager()
 	}
 }
 
+void GameObjectManager::SetActiveCamera(GameObject * gObject)
+{
+	if (gObject->Has(CT_CAMERA))
+		m_activeCamera = gObject;
+}
+
 void GameObjectManager::SpawnGameObject(String objectType)
 {
+	GameObject * newGameObject = GameObjectFactory::GetInstance().GetObjectArchetype(objectType);
+	SetActiveCamera(newGameObject);
 	int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
-			m_gameObjects[i] = GameObjectFactory::GetInstance().GetObjectArchetype(objectType);
+			m_gameObjects[i] = newGameObject;
 			return;
 		}
 	}
 	if (i < m_maxObjects)
-		m_gameObjects.push_back(GameObjectFactory::GetInstance().GetObjectArchetype(objectType));
+		m_gameObjects.push_back(newGameObject);
 	else
 		std::cerr << "Out of memory for GameObjects!" << std::endl;
 }
@@ -33,6 +41,7 @@ void GameObjectManager::SpawnGameObject(String objectType)
 void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 {
 	GameObject * newGameObject = GameObjectFactory::GetInstance().SpawnObjectWithOverrides(j.begin().key(), j[j.begin().key()]);
+	SetActiveCamera(newGameObject);
 	int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
@@ -61,12 +70,12 @@ void GameObjectManager::UpdateGameObjects(double deltaTime)
 	}
 }
 
-void GameObjectManager::RenderGameObjects(Camera & camera)
+void GameObjectManager::RenderGameObjects()
 {
 	RenderManager& renderMngr = RenderManager::GetInstance();
 	int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
-			renderMngr.RenderGameObject(camera, *m_gameObjects[i]);
+			renderMngr.RenderGameObject(*m_activeCamera, *m_gameObjects[i]);
 	}
 }

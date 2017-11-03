@@ -24,15 +24,20 @@ Creation date: 10/17/17
 class SpriteComponent :
 	public Component
 {
-private:
+protected:
 	String m_spriteName;
 	SurfaceTextureBuffer * m_texture;
 	Mesh& m_mesh;
-	float offsetX, offsetY;
+	int m_frameX, m_frameY;
+	float m_tileX, m_tileY;
+	String m_shader;
 
+	SpriteComponent(COMPONENT_TYPE type, GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f);
+	SpriteComponent(COMPONENT_TYPE type, const SpriteComponent& rhs, GameObject& parent);
 public:
 	SpriteComponent() = delete;
 	SpriteComponent(GameObject& parent, String spriteName);
+	SpriteComponent(GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f);
 	SpriteComponent(const SpriteComponent& rhs) = delete;
 	SpriteComponent(const SpriteComponent& rhs, GameObject& parent);
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
@@ -51,6 +56,25 @@ public:
 
 	GLuint GetTextureBuffer() const;
 	bool TextureHasAlpha() const;
+
+	void SetFrame(int frameNum);
+	void SetFrame(int x, int y);
+	void NextFrame();
+	void PrevFrame();
+	int GetFrame() const;
+	void GetFrame(int &x, int &y) const;
+	float GetFrameUOffset() const;
+	float GetFrameVOffset() const;
+
+	float FrameHeight() const;
+	float FrameWidth() const;
+
+	float TileX() const;
+	float TileY() const;
+
+	String Shader() const;
+
+	SurfaceTextureBuffer * GetTexture() const;
 };
 
 #endif

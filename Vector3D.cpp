@@ -47,6 +47,11 @@ void Vector3D::Set(float x, float y, float z, float w)
 }
 
 #pragma region Operator Overrides
+Vector3D::operator float*()
+{
+	return &(m_x);
+}
+
 bool Vector3D::operator==(const Vector3D& other) const
 {
 	double d = 0.0f;
@@ -210,7 +215,7 @@ float Vector3D::Distance(const Vector3D& vector0, const Vector3D& vector1)
 	return sqrtf(SquareDistance(vector0, vector1));
 }
 
-Vector3D Vector3D::Normalize(Vector3D& vector)
+Vector3D Vector3D::Normalize(const Vector3D& vector)
 {
 	float length = vector.Length();
 	if (length == 0.0f)

@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "AcrylicorAPI.h"
 #include "AcrylicorTypedefs.h"
+#include "IGameState.h"
 #include "TestGameState.h"
 
 
@@ -102,7 +103,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	InputManager& inputMgr = InputManager::GetInstance();
 	bool done = false;
 	double dt = 0.0;
-	TestGameState * gameState = new TestGameState();
+	IGameState * gameState = new TestGameState();
 	gameState->GameStateLoad();
 	gameState->GameStateInit();
 

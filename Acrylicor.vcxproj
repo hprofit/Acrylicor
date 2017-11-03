@@ -127,7 +127,9 @@
   <ItemGroup>
     <ClInclude Include="AcrylicorAPI.h" />
     <ClInclude Include="AcrylicorTypedefs.h" />
+    <ClInclude Include="AISwayComponent.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentTypes.h" />
     <ClInclude Include="ControllerComponent.h" />
@@ -152,10 +154,10 @@
     <ClInclude Include="PhysicsBodyComponent.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsMovementComponent.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ScrollingSpriteComponent.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="SpriteComponent.h" />
@@ -169,7 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AcrylicorAPI.cpp" />
+    <ClCompile Include="AISwayComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="AcryEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
@@ -191,9 +195,9 @@
     <ClCompile Include="PhysicsBodyComponent.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsMovementComponent.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="ScrollingSpriteComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
@@ -205,15 +209,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LevelFiles\level1.json" />
+    <None Include="ObjectFiles\background.json" />
     <None Include="ObjectFiles\camera.json" />
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\enemy.json" />
     <None Include="ObjectFiles\objects.json" />
     <None Include="ObjectFiles\player.json" />
+    <None Include="ObjectFiles\scrollingTileShader.json" />
     <None Include="ObjectFiles\textures.json" />
-    <None Include="Shaders\fragmentShader.frag" />
-    <None Include="Shaders\vertexShader.vert" />
+    <None Include="ObjectFiles\tileShader.json" />
+    <None Include="Shaders\defaultFragShader.frag" />
+    <None Include="Shaders\defaultVertShader.vert" />
+    <None Include="Shaders\scrollingTileFragShader.frag" />
+    <None Include="Shaders\scrollingTileVertShader.vert" />
+    <None Include="Shaders\tileFragShader.frag" />
+    <None Include="Shaders\tileVertShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

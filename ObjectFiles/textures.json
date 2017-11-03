@@ -1,10 +1,24 @@
 {
   "player": {
     "filename": "Textures/airplane.png",
-    "alpha":  true
+    "alpha": true,
+    "frameWidth": 200,
+    "frameHeight": 200,
+    "rows": 5,
+    "columns": 5
   },
-  "enemy":  {
+  "enemy": {
     "filename": "Textures/enemy_airplane.png",
-    "alpha":  true
+    "alpha": true,
+    "frameWidth": 256,
+    "frameHeight": 250,
+    "rows": 1,
+    "columns": 3
+  },
+  "forestBG": {
+    "filename": "Textures/forest.png",
+    "alpha": true,
+    "frameWidth": 512,
+    "frameHeight": 512
   }
 }

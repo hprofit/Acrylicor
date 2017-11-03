@@ -30,6 +30,7 @@ ResourceManager::~ResourceManager()
 	m_textures.clear();
 }
 
+
 Mesh * ResourceManager::LoadMesh(String meshName)
 {
 	Mesh * mesh = m_meshes[meshName];
@@ -56,7 +57,16 @@ Mesh * ResourceManager::GetMesh(String meshName)
 	}
 }
 
-SurfaceTextureBuffer * ResourceManager::LoadTexture(String textureName, String fileName, bool hasAlpha)
+void ResourceManager::UnloadMesh(String meshName)
+{
+	if (m_meshes[meshName]) {
+		delete m_meshes[meshName];
+		m_meshes.erase(meshName);
+	}
+}
+
+
+SurfaceTextureBuffer * ResourceManager::LoadTexture(String textureName, String fileName, TextureInfo info)
 {
 	SurfaceTextureBuffer * stbuff = m_textures[textureName];
 
@@ -65,16 +75,20 @@ SurfaceTextureBuffer * ResourceManager::LoadTexture(String textureName, String f
 
 	STB_Surface * surface = new STB_Surface();
 	if (surface) {
-		surface->hasAlpha = hasAlpha;
+		surface->hasAlpha = info.hasAlpha;
 		surface->data = stbi_load(fileName.c_str(), 
 			&surface->width, &surface->height, 
 			&surface->channels, 
-			hasAlpha ? STBI_rgb_alpha : STBI_rgb);
+			info.hasAlpha ? STBI_rgb_alpha : STBI_rgb);
 
 		if (!surface->data) {
 			std::cerr << "Failed to read file: " << fileName << std::endl;
 			return nullptr;
 		}
+		surface->frameWidth = info.frameWidth / surface->width;
+		surface->frameHeight = info.frameHeight / surface->height;
+		surface->rows = info.rows;
+		surface->columns = info.cols;
 		GLuint bufferId = RenderManager::GetInstance().CreateTextureBuffer(surface);
 
 		stbuff = new SurfaceTextureBuffer(surface, bufferId);
@@ -99,14 +113,6 @@ SurfaceTextureBuffer * ResourceManager::GetTexture(const String textureName)
 	}
 }
 
-void ResourceManager::UnloadMesh(String meshName)
-{
-	if (m_meshes[meshName]) {
-		delete m_meshes[meshName];
-		m_meshes.erase(meshName);
-	}
-}
-
 void ResourceManager::UnloadTexture(String textureName)
 {
 	if (m_textures[textureName]) {
@@ -117,6 +123,30 @@ void ResourceManager::UnloadTexture(String textureName)
 		m_textures.erase(textureName);
 	}
 }
+
+void ResourceManager::LoadTexturesFromFile(String fileName)
+{
+	try {
+		json j = AcryJson::OpenJsonFile(fileName);
+
+		if (j.is_object()) {
+			for (json::iterator it = j.begin(); it != j.end(); ++it) {
+				String key = it.key();
+				TextureInfo info;
+				info.frameWidth = AcryJson::ParseFloat(j, key, "frameWidth");
+				info.frameHeight = AcryJson::ParseFloat(j, key, "frameHeight");
+				info.rows = AcryJson::ParseInt(j, key, "rows");
+				info.cols = AcryJson::ParseInt(j, key, "columns");
+				info.hasAlpha = j[key]["alpha"];
+				LoadTexture(key, j[key]["filename"], info);
+			}
+		}
+	}
+	catch (const json::parse_error& ex) {
+		std::cerr << ex.what() << std::endl;
+	}
+}
+
 
 void ResourceManager::UnloadAll()
 {
@@ -134,20 +164,4 @@ void ResourceManager::UnloadAll()
 		}
 	}
 	m_textures.clear();
-}
-
-void ResourceManager::LoadTexturesFromFile(String fileName)
-{
-	try {
-		json j = AcryJson::OpenJsonFile(fileName);
-
-		if (j.is_object()) {
-			for (json::iterator it = j.begin(); it != j.end(); ++it) {
-				LoadTexture(it.key(), j[it.key()]["filename"], j[it.key()]["alpha"]);
-			}
-		}
-	}
-	catch (const json::parse_error& ex) {
-		std::cerr << ex.what() << std::endl;
-	}
 }

@@ -19,7 +19,6 @@ Creation date: 10/22/17
 #include "AcrylicorTypedefs.h"
 #include "STBSurface.h"
 #include "GameObject.h"
-#include "Camera.h"
 #include "Mesh.h"
 
 namespace Acrylicor {
@@ -50,11 +49,6 @@ namespace Acrylicor {
 	void RenderObject(GameObject& gameObject);
 
 	/*!
-	Will render a single gameObject with a given camera
-	*/
-	void RenderObject(Camera& camera, GameObject& gameObject);
-
-	/*!
 	Creates and returns a Mesh pointer
 	*/
 	Mesh * CreateMesh(String meshName);
@@ -71,12 +65,9 @@ namespace Acrylicor {
 
 	void UnloadResources();
 
-
-
 	GameObject * LoadGameObject(String fileName);
 	void LoadGameObjects(String fileName);
 	void LoadLevel(String fileName);
-
 
 	/*!
 	Parses a json file for a key - program name pair as well as paths to the corresponding 
@@ -87,7 +78,7 @@ namespace Acrylicor {
 	void SelectShaderProgram(String programName);
 
 	void UpdateGameObjects(double deltaTime);
-	void RenderGameObjects(Camera & camera);
+	void RenderGameObjects();
 }
 
 #endif

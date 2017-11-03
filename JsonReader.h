@@ -24,6 +24,12 @@ using json = nlohmann::json;
 namespace AcryJson {
 	float ParseFloat(const json j, String comp, String prop);
 	float ParseFloat(const json j, String comp, String prop, String coord);
+	int ParseInt(const json j, String comp, String prop);
+	int ParseInt(const json j, String comp, String prop, String coord);
+	String ParseString(const json j, String comp, String prop);
+	String ParseString(const json j, String comp, String prop, String coord);
+	bool ParseBool(const json j, String comp, String prop);
+	bool ParseBool(const json j, String comp, String prop, String coord);
 	bool ValueExists(const json j, String comp, String prop);
 	bool ValueExists(const json j, String comp, String prop, String coord);
 	json OpenJsonFile(String fileName);

@@ -18,7 +18,8 @@ Creation date: 10/17/17
 
 #include "AcrylicorTypedefs.h"
 #include "GameObject.h"
-#include "Camera.h"
+#include "SpriteComponent.h"
+#include "ScrollingSpriteComponent.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "STBSurface.h"
@@ -35,6 +36,10 @@ private:
 	~RenderManager();
 
 	String LoadTextFile(String fname);
+	void _RenderSprite(SpriteComponent* sComp);
+	void _RenderScrollingSprite(ScrollingSpriteComponent* sComp);
+	void _RenderGameObject(GameObject& gameObject);
+	void _SelectShaderProgram(GameObject& gameObject);
 public:
 	RenderManager(RenderManager const&) = delete;
 	void operator=(RenderManager const&) = delete;
@@ -48,7 +53,7 @@ public:
 	bool Init();
 	void FrameStart();
 	void RenderGameObject(GameObject& gameObject);
-	void RenderGameObject(const Camera& camera, GameObject& gameObject);
+	void RenderGameObject(GameObject& camera, GameObject& gameObject);
 	void FrameEnd();
 
 	void LoadShaderProgram(String fileName);
