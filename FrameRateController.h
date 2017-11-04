@@ -28,8 +28,8 @@ private:
 	FrameRateController(unsigned int maxFrameRate);
 	~FrameRateController();
 public:
-	FrameRateController(FrameRateController const&) = delete;
-	void operator=(FrameRateController const&) = delete;
+	FrameRateController(const FrameRateController &) = delete;
+	void operator=(const FrameRateController &) = delete;
 
 	static FrameRateController& GetInstance(unsigned int maxFrameRate = 60)
 	{

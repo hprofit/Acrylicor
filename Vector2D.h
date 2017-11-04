@@ -29,7 +29,7 @@ public:
 	Vector2D();
 	Vector2D(float x, float y);
 	Vector2D(float x, float y, float w);
-	Vector2D(Vector2D const& rhs);
+	Vector2D(const Vector2D & rhs);
 	Vector2D& operator= (Vector2D rhs);
 	~Vector2D();
 
@@ -43,8 +43,8 @@ public:
 	void setW(float w) { m_w = w; };
 
 	operator float*();
-	bool operator== (const  Vector2D& other) const;
-	bool operator!= (const  Vector2D& other) const;
+	bool operator== (const Vector2D& other) const;
+	bool operator!= (const Vector2D& other) const;
 	Vector2D operator+ (const Vector2D& other) const;
 	Vector2D& operator+= (const Vector2D& other);
 	Vector2D operator- (const Vector2D& other) const;

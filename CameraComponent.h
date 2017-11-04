@@ -50,6 +50,7 @@ public:
 	virtual CameraComponent* Clone(GameObject& parent);
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
+	virtual void RegisterWithManager();
 
 	float GetFOV() const;
 	float GetAspect() const;

@@ -35,6 +35,7 @@ public:
 	virtual ScrollingSpriteComponent* Clone(GameObject& parent);
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
+	virtual void RegisterWithManager() {};
 
 	float SpeedX() const { return m_speedX; }
 	float SpeedY() const { return m_speedY; }

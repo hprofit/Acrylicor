@@ -18,8 +18,7 @@ Creation date: 10/27/17
 
 #include "AcrylicorTypedefs.h"
 #include "GameObject.h"
-#include "PhysicsBodyComponent.h"
-#include "PhysicsMovementComponent.h"
+#include "PhysicsComponent.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -27,14 +26,14 @@ Creation date: 10/27/17
 class PhysicsManager
 {
 private:
-	std::vector<Component *> m_physicsComponents;
+	std::vector<Component *> m_components;
 
 	PhysicsManager();
 	~PhysicsManager();
 
 public:
-	PhysicsManager(PhysicsManager const&) = delete;
-	void operator=(PhysicsManager const&) = delete;
+	PhysicsManager(const PhysicsManager &) = delete;
+	void operator=(const PhysicsManager &) = delete;
 
 	static PhysicsManager& GetInstance()
 	{
@@ -44,6 +43,8 @@ public:
 
 	void AddComponent(Component * comp);
 	void RemoveComponent(Component * comp);
+
+	void UpdatePhysics(double deltaTime);
 };
 
 #endif

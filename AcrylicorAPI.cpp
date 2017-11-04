@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "GameObjectFactory.h"
 #include "GameObjectManager.h"
+#include "PhysicsManager.h"
 #include "json.hpp"
 #include <iostream>
 #include "JsonReader.h"
@@ -17,6 +18,7 @@ static InputManager& inputMngr = InputManager::GetInstance();
 static ResourceManager& resourceMngr = ResourceManager::GetInstance();
 static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
 static GameObjectManager& gameObjectMngr = GameObjectManager::GetInstance();
+static PhysicsManager& physicsMngr = PhysicsManager::GetInstance();
 
 int Acrylicor::Initialize(AcryProps props)
 {
@@ -134,6 +136,8 @@ void Acrylicor::SelectShaderProgram(String programName)
 void Acrylicor::UpdateGameObjects(double deltaTime)
 {
 	gameObjectMngr.UpdateGameObjects(deltaTime);
+	physicsMngr.UpdatePhysics(deltaTime);
+	gameObjectMngr.UpdateCameraObjects(deltaTime);
 }
 
 void Acrylicor::RenderGameObjects()

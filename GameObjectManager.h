@@ -17,6 +17,7 @@ Creation date: 10/17/17
 #define GAME_OBJECT_MANAGER_H
 
 #include "GameObject.h"
+#include "Component.h"
 #include "AcrylicorTypedefs.h"
 #include <vector>
 #include "json.hpp"
@@ -26,6 +27,7 @@ class GameObjectManager
 private:
 	int m_maxObjects;
 	std::vector<GameObject * > m_gameObjects;
+	std::vector<Component * > m_cameras;
 	GameObject * m_activeCamera;
 
 	GameObjectManager() = delete;
@@ -34,8 +36,8 @@ private:
 
 	void SetActiveCamera(GameObject* gObject);
 public:
-	GameObjectManager(GameObjectManager const&) = delete;
-	void operator=(GameObjectManager const&) = delete;
+	GameObjectManager(const GameObjectManager &) = delete;
+	void operator=(const GameObjectManager &) = delete;
 
 	static GameObjectManager& GetInstance(int maxObjects = 1024)
 	{
@@ -48,8 +50,11 @@ public:
 	void DestroyGameObject(GameObject * gObject);
 
 	void UpdateGameObjects(double deltaTime);
-	//void RenderGameObjects(Camera & camera);
 	void RenderGameObjects();
+
+	void RegisterCamera(Component * cameraComp);
+
+	void UpdateCameraObjects(double deltaTime);
 };
 
 #endif

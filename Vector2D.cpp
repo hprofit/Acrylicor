@@ -11,7 +11,7 @@ Vector2D::Vector2D(float x, float y) : m_x(x), m_y(y), m_w(1.f) { }
 
 Vector2D::Vector2D(float x, float y, float w) : m_x(x), m_y(y), m_w(w) { }
 
-Vector2D::Vector2D(Vector2D const& rhs) : m_x(rhs.m_x), m_y(rhs.m_y), m_w(rhs.m_w) { }
+Vector2D::Vector2D(const Vector2D & rhs) : m_x(rhs.m_x), m_y(rhs.m_y), m_w(rhs.m_w) { }
 
 Vector2D& Vector2D::operator=(Vector2D rhs)
 {

@@ -79,3 +79,17 @@ void GameObjectManager::RenderGameObjects()
 			renderMngr.RenderGameObject(*m_activeCamera, *m_gameObjects[i]);
 	}
 }
+
+void GameObjectManager::RegisterCamera(Component * cameraComp)
+{
+	m_cameras.push_back(cameraComp);
+}
+
+void GameObjectManager::UpdateCameraObjects(double deltaTime)
+{
+	int i = 0;
+	for (i = 0; i < m_cameras.size(); ++i) {
+		if (m_cameras[i] && m_cameras[i]->m_parent.IsActive())
+			m_cameras[i]->Update(deltaTime);
+	}
+}

@@ -5,8 +5,7 @@
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "ScrollingSpriteComponent.h"
-#include "PhysicsBodyComponent.h"
-#include "PhysicsMovementComponent.h"
+#include "PhysicsComponent.h"
 #include "ControllerComponent.h"
 #include "AISwayComponent.h"
 #include "AIRushComponent.h"
@@ -36,10 +35,8 @@ GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json
 			gObject->Get(CT_SCROLLING_SPRITE)->Override(j);
 		else if (AcryJson::KeyIs(it, "controller"))
 			gObject->Get(CT_CONTROLLER)->Override(j);
-		else if (AcryJson::KeyIs(it, "physicsBody"))
-			gObject->Get(CT_PHYSICS_BODY)->Override(j);
-		else if (AcryJson::KeyIs(it, "physicsMovement"))
-			gObject->Get(CT_PHYSICS_MOVEMENT)->Override(j);
+		else if (AcryJson::KeyIs(it, "physics"))
+			gObject->Get(CT_PHYSICS)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSway"))
 			gObject->Get(CT_AI_SWAY)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiRush"))
@@ -75,10 +72,8 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
 					gObject->AddComponent(ScrollingSpriteComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "controller"))
 					gObject->AddComponent(ControllerComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "physicsBody"))
-					gObject->AddComponent(PhysicsBodyComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "physicsMovement"))
-					gObject->AddComponent(PhysicsMovementComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "physics"))
+					gObject->AddComponent(PhysicsComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiSway"))
 					gObject->AddComponent(AISwayComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiRush"))

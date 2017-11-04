@@ -34,8 +34,8 @@ private:
 
 	GameObject * SpawnObjectWithOverrides(String objectType, json j);
 public:
-	GameObjectFactory(GameObjectFactory const&) = delete;
-	void operator=(GameObjectFactory const&) = delete;
+	GameObjectFactory(const GameObjectFactory&) = delete;
+	void operator=(const GameObjectFactory&) = delete;
 
 	friend GameObjectManager;
 

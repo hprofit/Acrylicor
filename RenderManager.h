@@ -41,8 +41,8 @@ private:
 	void _RenderGameObject(GameObject& gameObject);
 	void _SelectShaderProgram(GameObject& gameObject);
 public:
-	RenderManager(RenderManager const&) = delete;
-	void operator=(RenderManager const&) = delete;
+	RenderManager(const RenderManager &) = delete;
+	void operator=(const RenderManager &) = delete;
 
 	static RenderManager& GetInstance()
 	{

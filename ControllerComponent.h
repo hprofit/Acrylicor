@@ -31,6 +31,7 @@ public:
 	virtual ControllerComponent* Clone(GameObject& parent);
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
+	virtual void RegisterWithManager() {};
 };
 
 #endif

@@ -32,8 +32,8 @@ private:
 	EventManager();
 	~EventManager();
 public:
-	EventManager(EventManager const&) = delete;
-	void operator=(EventManager const&) = delete;
+	EventManager(const EventManager &) = delete;
+	void operator=(const EventManager &) = delete;
 
 	static EventManager& GetInstance()
 	{

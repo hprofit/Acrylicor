@@ -20,5 +20,11 @@
     "alpha": true,
     "frameWidth": 512,
     "frameHeight": 512
+  },
+  "bullet": {
+    "filename": "Textures/forest.png",
+    "alpha": true,
+    "frameWidth": 512,
+    "frameHeight": 512
   }
 }

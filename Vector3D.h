@@ -31,8 +31,8 @@ public:
 	Vector3D();
 	Vector3D(float x, float y, float z);
 	Vector3D(float x, float y, float z, float w);
-	Vector3D(Vector3D const& rhs);
-	Vector3D(Vector2D const& rhs);
+	Vector3D(const Vector3D & rhs);
+	Vector3D(const Vector2D & rhs);
 	Vector3D& operator= (Vector3D rhs);
 	~Vector3D();
 

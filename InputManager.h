@@ -77,8 +77,8 @@ private:
 	~InputManager();
 
 public:
-	InputManager(InputManager const&) = delete;
-	void operator=(InputManager const&) = delete;
+	InputManager(const InputManager &) = delete;
+	void operator=(const InputManager &) = delete;
 
 	static InputManager& GetInstance()
 	{

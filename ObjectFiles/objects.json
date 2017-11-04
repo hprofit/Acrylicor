@@ -2,5 +2,6 @@
   "camera": "ObjectFiles/camera.json",
   "player": "ObjectFiles/player.json",
   "enemy": "ObjectFiles/enemy.json",
-  "background": "ObjectFiles/background.json"
+  "background": "ObjectFiles/background.json",
+  "bullet": "ObjectFiles/bullets/bullet.json"
 }

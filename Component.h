@@ -24,19 +24,23 @@ class GameObject;
 class Component
 {
 protected:
-	Component(GameObject& parent, COMPONENT_TYPE type) :
-		m_parent(parent), m_type(type) {}
+	Component(GameObject& parent, COMPONENT_TYPE type, bool priority = false) :
+		m_parent(parent), m_type(type), m_priority(priority) {}
 
 public:
 	GameObject& m_parent;
 	const COMPONENT_TYPE m_type;
+	const bool m_priority;
 
 	Component() = delete;
-	Component(Component const& rhs) = delete;
+	Component(const Component & rhs) = delete;
 	virtual ~Component() {};
 
 	virtual void Update(double deltaTime) = 0;
 	virtual Component* Clone(GameObject& parent) = 0;
 	virtual void Override(nlohmann::json j) = 0;
+	virtual void RegisterWithManager() = 0;
+
+	bool IsPriorityComp() const { return m_priority; }
 };
 #endif

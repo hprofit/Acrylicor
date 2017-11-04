@@ -3,19 +3,20 @@
 #include "WindowManager.h"
 #include "TransformComponent.h"
 
+#include "GameObjectManager.h"
 #include "GameObject.h"
 
 CameraComponent::CameraComponent(GameObject & parent) :
-	Component(parent, CT_CAMERA)
+	Component(parent, CT_CAMERA, true)
 {}
 
 CameraComponent::CameraComponent(GameObject & parent, float fov, unsigned short camType) :
-	Component(parent, CT_CAMERA),
+	Component(parent, CT_CAMERA, true),
 	m_fov(fov), m_cameraType(camType)
 {}
 
 CameraComponent::CameraComponent(const CameraComponent & rhs, GameObject & parent) :
-	Component(parent, CT_CAMERA),
+	Component(parent, CT_CAMERA, true),
 	m_fov(rhs.m_fov), m_cameraType(rhs.m_cameraType)
 {}
 
@@ -72,7 +73,9 @@ void CameraComponent::Update(double deltaTime)
 
 CameraComponent * CameraComponent::Clone(GameObject & parent)
 {
-	return new CameraComponent(*this, parent);
+	CameraComponent* cComp = new CameraComponent(*this, parent);
+	cComp->RegisterWithManager();
+	return cComp;
 }
 
 Component * CameraComponent::Serialize(GameObject & gObject, nlohmann::json j)
@@ -103,6 +106,11 @@ void CameraComponent::Override(nlohmann::json j)
 		else if (typeString.compare("both"))
 			m_cameraType = CAM_BOTH;
 	}
+}
+
+void CameraComponent::RegisterWithManager()
+{
+	GameObjectManager::GetInstance().RegisterCamera(this);
 }
 
 float CameraComponent::GetFOV() const

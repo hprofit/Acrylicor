@@ -32,8 +32,8 @@ private:
 
 	void Init(String title);
 public:
-	WindowManager(WindowManager const&) = delete;
-	void operator=(WindowManager const&) = delete;
+	WindowManager(const WindowManager &) = delete;
+	void operator=(const WindowManager &) = delete;
 
 	static WindowManager& GetInstance(int width = 800, int height = 600, String title = "Acrylicor")
 	{

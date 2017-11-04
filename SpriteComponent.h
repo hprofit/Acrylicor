@@ -47,6 +47,7 @@ public:
 	virtual SpriteComponent* Clone(GameObject& parent);
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
+	virtual void RegisterWithManager() {};
 
 	const Mesh& GetMesh() const;
 	void SetMesh(Mesh& mesh);

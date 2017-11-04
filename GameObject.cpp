@@ -77,7 +77,7 @@ void GameObject::ClearComponents()
 void GameObject::Update(double deltaTime)
 {
 	for (auto comp : m_components) {
-		if (comp.second)
+		if (comp.second && !comp.second->IsPriorityComp())
 			comp.second->Update(deltaTime);
 	}
 }

@@ -39,8 +39,8 @@ private:
 		int rows, cols;
 	};
 public:
-	ResourceManager(ResourceManager const&) = delete;
-	void operator=(ResourceManager const&) = delete;
+	ResourceManager(const ResourceManager &) = delete;
+	void operator=(const ResourceManager &) = delete;
 
 	static ResourceManager& GetInstance()
 	{
