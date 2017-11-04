@@ -92,13 +92,7 @@ int main(int argc, char ** argv)
 #if !TEST_MODE
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nShowCmd)
 {
-	Acrylicor::AcryProps props;
-	props.windowHeight = 900;
-	props.windowWidth = 1600;
-	props.windowTitle = "Test Game";
-	// TODO: Add config parsing here
-
-	if (Acrylicor::Initialize(props) != 0)
+	if (Acrylicor::Initialize("ObjectFiles/config.json") != 0)
 		return 1;
 
 	InputManager& inputMgr = InputManager::GetInstance();

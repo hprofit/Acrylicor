@@ -93,10 +93,7 @@ Component * TransformComponent::Serialize(GameObject& gObject, nlohmann::json j)
 
 	TransformComponent * tComp = new TransformComponent(gObject, is2D);
 
-	float x = AcryJson::ParseFloat(j, "transform", "position", "x");
-	float y = AcryJson::ParseFloat(j, "transform", "position", "y");
-	float z = AcryJson::ParseFloat(j, "transform", "position", "z");
-	tComp->SetPosition(Vector3D(x, y, z));
+	tComp->SetPosition(AcryJson::ParseVector3D(j, "transform", "position"));
 
 	float rX = AcryJson::ParseFloat(j, "transform", "angle", "xRot");
 	float rY = AcryJson::ParseFloat(j, "transform", "angle", "yRot");
@@ -106,7 +103,7 @@ Component * TransformComponent::Serialize(GameObject& gObject, nlohmann::json j)
 	float sX = AcryJson::ParseFloat(j, "transform", "scale", "x");
 	float sY = AcryJson::ParseFloat(j, "transform", "scale", "y");
 	float sZ = AcryJson::ParseFloat(j, "transform", "scale", "z");
-	tComp->SetScale(sX, sY);
+	tComp->SetScale(sX, sY, sZ);
 
 	return tComp;
 }

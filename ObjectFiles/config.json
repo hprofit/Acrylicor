@@ -1,5 +1,6 @@
 {
-  "height": 900,
-  "width": 1600,
-  "windowTitle":  "My Game"
+  "WINDOW_HEIGHT": 900,
+  "WINDOW_WIDTH": 1600,
+  "WINDOW_TITLE": "My Game",
+  "DEBUG_MODE": false
 }

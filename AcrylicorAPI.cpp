@@ -20,6 +20,33 @@ static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
 static GameObjectManager& gameObjectMngr = GameObjectManager::GetInstance();
 static PhysicsManager& physicsMngr = PhysicsManager::GetInstance();
 
+int Acrylicor::Initialize(String configFileName)
+{
+	Acrylicor::AcryProps props;
+
+	try {
+		json j = AcryJson::OpenJsonFile(configFileName);
+
+		if (j.is_object()) {
+			for (json::iterator it = j.begin(); it != j.end(); ++it) {
+				if (AcryJson::KeyIs(it, "WINDOW_WIDTH"))
+					props.windowWidth = AcryJson::ParseInt(j, "WINDOW_WIDTH");
+				else if (AcryJson::KeyIs(it, "WINDOW_HEIGHT"))
+					props.windowHeight = AcryJson::ParseInt(j, "WINDOW_HEIGHT");
+				else if (AcryJson::KeyIs(it, "WINDOW_TITLE"))
+					props.windowTitle = AcryJson::ParseString(j, "WINDOW_TITLE");
+				else if (AcryJson::KeyIs(it, "DEBUG_MODE"))
+					props.debugMode = AcryJson::ParseBool(j, "DEBUG_MODE");
+			}
+		}
+	}
+	catch (const json::parse_error& ex) {
+		std::cerr << ex.what() << std::endl;
+	}
+
+	return Initialize(props);
+}
+
 int Acrylicor::Initialize(AcryProps props)
 {
 	WindowManager::GetInstance().SetWindowSize(props.windowWidth, props.windowHeight);

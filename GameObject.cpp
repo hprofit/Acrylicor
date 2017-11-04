@@ -1,10 +1,12 @@
 #include "GameObject.h"
 
 GameObject::GameObject() : 
+	m_parent(nullptr),
 	m_objectFlags(0)
 {}
 
 GameObject::GameObject(const GameObject& rhs) :
+	m_parent(nullptr),
 	m_objectFlags(0) 
 {
 	Activate();
@@ -32,6 +34,7 @@ GameObject & GameObject::operator=(const GameObject & rhs)
 GameObject::~GameObject()
 {
 	ClearComponents();
+
 }
 
 void GameObject::Activate()

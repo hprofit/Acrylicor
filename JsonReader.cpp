@@ -17,6 +17,13 @@ float AcryJson::ParseFloat(const json j, String comp, String prop, String coord)
 	return 0.0f;
 }
 
+int AcryJson::ParseInt(const json j, String first)
+{
+	if (j.find(first) != j.end())
+		return j[first];
+	return 0;
+}
+
 int AcryJson::ParseInt(const json j, String comp, String prop)
 {
 	if (j[comp].find(prop) != j[comp].end())
@@ -31,6 +38,13 @@ int AcryJson::ParseInt(const json j, String comp, String prop, String coord)
 			return j[comp][prop][coord];
 	}
 	return 0;
+}
+
+String AcryJson::ParseString(const json j, String first)
+{
+	if (j.find(first) != j.end())
+		return j[first];
+	return "";
 }
 
 String AcryJson::ParseString(const json j, String comp, String prop)
@@ -49,6 +63,13 @@ String AcryJson::ParseString(const json j, String comp, String prop, String coor
 	return "";
 }
 
+bool AcryJson::ParseBool(const json j, String first)
+{
+	if (j.find(first) != j.end())
+		return j[first];
+	return false;
+}
+
 bool AcryJson::ParseBool(const json j, String comp, String prop)
 {
 	if (j[comp].find(prop) != j[comp].end())
@@ -63,6 +84,29 @@ bool AcryJson::ParseBool(const json j, String comp, String prop, String coord)
 			return j[comp][prop][coord];
 	}
 	return false;
+}
+
+Vector2D AcryJson::ParseVector2D(const json j, String first, String second)
+{
+	if (j[first].find(second) != j[first].end()) {
+		return Vector2D(
+			ParseFloat(j, first, second, "x"),
+			ParseFloat(j, first, second, "y")
+		);
+	}
+	return Vector2D();
+}
+
+Vector3D AcryJson::ParseVector3D(const json j, String first, String second)
+{
+	if (j[first].find(second) != j[first].end()) {
+		return Vector3D(
+			ParseFloat(j, first, second, "x"),
+			ParseFloat(j, first, second, "y"),
+			ParseFloat(j, first, second, "z")
+		);
+	}
+	return Vector3D();
 }
 
 bool AcryJson::ValueExists(const json j, String comp, String prop)

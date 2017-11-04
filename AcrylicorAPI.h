@@ -25,9 +25,11 @@ namespace Acrylicor {
 	struct AcryProps {
 		int windowHeight = 600;
 		int windowWidth = 800;
-		char * windowTitle = "Acrylicor";
+		String windowTitle = "Acrylicor";
 		bool debugMode = false;
 	};
+
+	int Initialize(String configFileName);
 
 	/*!
 		Start up the Acrylicor engine

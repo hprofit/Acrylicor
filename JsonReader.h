@@ -18,20 +18,30 @@ Creation date: 10/29/17
 
 #include "json.hpp"
 #include "AcrylicorTypedefs.h"
+#include "Vector2D.h"
+#include "Vector3D.h"
 
 using json = nlohmann::json;
 
 namespace AcryJson {
-	float ParseFloat(const json j, String comp, String prop);
-	float ParseFloat(const json j, String comp, String prop, String coord);
-	int ParseInt(const json j, String comp, String prop);
-	int ParseInt(const json j, String comp, String prop, String coord);
-	String ParseString(const json j, String comp, String prop);
-	String ParseString(const json j, String comp, String prop, String coord);
-	bool ParseBool(const json j, String comp, String prop);
-	bool ParseBool(const json j, String comp, String prop, String coord);
-	bool ValueExists(const json j, String comp, String prop);
-	bool ValueExists(const json j, String comp, String prop, String coord);
+	float ParseFloat(const json j, String, String);
+	float ParseFloat(const json j, String, String, String);
+	int ParseInt(const json j, String);
+	int ParseInt(const json j, String, String);
+	int ParseInt(const json j, String, String, String);
+	String ParseString(const json j, String);
+	String ParseString(const json j, String, String);
+	String ParseString(const json j, String, String, String);
+	bool ParseBool(const json j, String);
+	bool ParseBool(const json j, String, String);
+	bool ParseBool(const json j, String, String, String);
+
+	Vector2D ParseVector2D(const json j, String, String);
+	Vector3D ParseVector3D(const json j, String, String);
+
+	bool ValueExists(const json j, String, String);
+	bool ValueExists(const json j, String, String, String);
+	
 	json OpenJsonFile(String fileName);
 	bool KeyIs(json::iterator it, String key);
 }

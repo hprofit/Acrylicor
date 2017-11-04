@@ -137,6 +137,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentTypes.h" />
+    <ClInclude Include="Contact.h" />
     <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="AcryEvent.h" />
     <ClInclude Include="EventManager.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="RenderManager.h" />
@@ -179,6 +181,7 @@
     <ClCompile Include="AISwayComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="Contact.cpp" />
     <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="AcryEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
@@ -197,6 +200,7 @@
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />

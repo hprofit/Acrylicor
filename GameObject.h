@@ -25,6 +25,8 @@ Creation date: 10/13/17
 class GameObject
 {
 protected:
+	GameObject * m_parent;
+	
 	unsigned long m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
 

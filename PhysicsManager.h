@@ -19,6 +19,7 @@ Creation date: 10/27/17
 #include "AcrylicorTypedefs.h"
 #include "GameObject.h"
 #include "PhysicsComponent.h"
+#include "Contact.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -26,10 +27,21 @@ Creation date: 10/27/17
 class PhysicsManager
 {
 private:
-	std::vector<Component *> m_components;
+	std::vector<Component *> m_physicsBodies;
+	std::vector<Component *> m_transforms;
+	std::vector<Contact *> m_contacts;
+
+	std::vector< std::vector< bool(*)(PhysicsBody & lhs, Vector3D lhsPos, PhysicsBody & rhs, Vector3D rhsPos) > > m_collisionFunctions;
 
 	PhysicsManager();
 	~PhysicsManager();
+
+	void RemoveBody(Component * comp);
+	void RemoveTransform(Component * comp);
+
+	void CreateContact(PhysicsBody* lhs, PhysicsBody* rhs);
+	void ResetContacts();
+	bool CheckCollision(PhysicsBody & lhs, Vector3D lhsPos, PhysicsBody & rhs, Vector3D rhsPos);
 
 public:
 	PhysicsManager(const PhysicsManager &) = delete;

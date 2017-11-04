@@ -20,5 +20,12 @@
     "frameX": 2,
     "frameY": 2
   },
-  "controller": {}
+  "controller": { },
+  "physics": {
+    "mass": 1,
+    "body": {
+      "type": "circle",
+      "radius": 5
+    }
+  }
 }
