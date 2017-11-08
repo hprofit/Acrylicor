@@ -1,5 +1,4 @@
 #include "TransformComponent.h"
-#include "GameObjectFactory.h"
 #include "JsonReader.h"
 #include <cmath>
 #include "PhysicsManager.h"

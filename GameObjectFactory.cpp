@@ -26,7 +26,7 @@ GameObjectFactory::~GameObjectFactory()
 
 GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json j)
 {
-	GameObject * gObject = new GameObject(*GetObjectArchetype(objectType));
+	GameObject * gObject = NewObjectFromArchetype(objectType);
 	for (json::iterator it = j.begin(); it != j.end(); ++it) {
 		if (AcryJson::KeyIs(it, "transform"))
 			gObject->Get(CT_TRANSFORM)->Override(j);
@@ -54,6 +54,16 @@ GameObject * GameObjectFactory::GetObjectArchetype(String objectType)
 {
 	if (m_gameObjectTypes.find(objectType) != m_gameObjectTypes.end())
 		return m_gameObjectTypes[objectType];
+	else {
+		std::cerr << "Game object of type: " << objectType << " does not exist." << std::endl;
+		return nullptr;
+	}
+}
+
+GameObject * GameObjectFactory::NewObjectFromArchetype(String objectType)
+{
+	if (m_gameObjectTypes.find(objectType) != m_gameObjectTypes.end())
+		return new GameObject(*m_gameObjectTypes[objectType]);
 	else {
 		std::cerr << "Game object of type: " << objectType << " does not exist." << std::endl;
 		return nullptr;

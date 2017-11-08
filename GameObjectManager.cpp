@@ -23,7 +23,7 @@ void GameObjectManager::SetActiveCamera(GameObject * gObject)
 
 GameObject * GameObjectManager::SpawnGameObject(String objectType)
 {
-	GameObject * newGameObject = new GameObject(*GameObjectFactory::GetInstance().GetObjectArchetype(objectType));
+	GameObject * newGameObject = GameObjectFactory::GetInstance().NewObjectFromArchetype(objectType);
 	SetActiveCamera(newGameObject);
 	int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {

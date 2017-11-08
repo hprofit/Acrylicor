@@ -4,8 +4,8 @@
 #include "FrameRateController.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
-#include "GameObjectFactory.h"
 #include "GameObjectManager.h"
+#include "GameObjectFactory.h"
 #include "PhysicsManager.h"
 #include "json.hpp"
 #include <iostream>

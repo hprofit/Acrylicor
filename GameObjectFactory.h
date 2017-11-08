@@ -33,6 +33,11 @@ private:
 	~GameObjectFactory();
 
 	GameObject * SpawnObjectWithOverrides(String objectType, json j);
+	/*!
+	Returns the archetype instance of the specified game object.
+	*/
+	GameObject * GetObjectArchetype(String objectType);
+
 public:
 	GameObjectFactory(const GameObjectFactory&) = delete;
 	void operator=(const GameObjectFactory&) = delete;
@@ -45,7 +50,10 @@ public:
 		return instance;
 	}
 
-	GameObject * GetObjectArchetype(String objectType);
+	/*!
+	Returns a new instance of the specified game object archetype
+	*/
+	GameObject * NewObjectFromArchetype(String objectType);
 
 	GameObject * LoadGameObjectFromFile(String fileName);
 	void LoadGameObjectsFromFile(String fileName);
