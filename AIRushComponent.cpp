@@ -1,7 +1,7 @@
 #include "AIRushComponent.h"
 #include "JsonReader.h"
 
-// Don't like TODO: Fim_currX
+// Don't like TODO: fix
 #include "GameObject.h"
 #include "TransformComponent.h"
 

@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "SpriteComponent.h"
+#include "WeaponComponent.h"
 #include "InputManager.h"
 #include "ComponentTypes.h"
 #include "Vector2D.h"
@@ -28,8 +29,9 @@ void ControllerComponent::Update(double deltaTime)
 	InputManager& inputMgr = InputManager::GetInstance();
 	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(CT_PHYSICS));
 	SpriteComponent* sComp = static_cast<SpriteComponent*>(m_parent.Get(CT_SPRITE));
+	WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.Get(CT_WEAPON));
 
-	if (!pComp || !sComp)
+	if (!pComp || !sComp || !wComp)
 		return;
 
 	// TODO: Don't like
@@ -52,6 +54,9 @@ void ControllerComponent::Update(double deltaTime)
 		pComp->AddForce(Vector3D(force, 0.f, 0.f));
 		//sComp->NextFrame();
 	}
+
+	if (inputMgr.IsKeyPressed(ACR_SPACE))
+		wComp->Fire();
 
 	//if (inputMgr.IsKeyPressed(ACR_Q)) {
 	//	tComp->RotateZ(100.0f * deltaTime);

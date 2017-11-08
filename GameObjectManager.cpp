@@ -21,21 +21,25 @@ void GameObjectManager::SetActiveCamera(GameObject * gObject)
 		m_activeCamera = gObject;
 }
 
-void GameObjectManager::SpawnGameObject(String objectType)
+GameObject * GameObjectManager::SpawnGameObject(String objectType)
 {
-	GameObject * newGameObject = GameObjectFactory::GetInstance().GetObjectArchetype(objectType);
+	GameObject * newGameObject = new GameObject(*GameObjectFactory::GetInstance().GetObjectArchetype(objectType));
 	SetActiveCamera(newGameObject);
 	int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
 			m_gameObjects[i] = newGameObject;
-			return;
+			return newGameObject;
 		}
 	}
-	if (i < m_maxObjects)
+	if (i < m_maxObjects) {
 		m_gameObjects.push_back(newGameObject);
-	else
+		return newGameObject;
+	}
+	else {
 		std::cerr << "Out of memory for GameObjects!" << std::endl;
+		return nullptr;
+	}
 }
 
 void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)

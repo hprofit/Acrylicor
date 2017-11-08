@@ -45,7 +45,7 @@ public:
 		return instance;
 	}
 
-	void SpawnGameObject(String objectType);
+	GameObject * SpawnGameObject(String objectType);
 	void SpawnGameObjectFromFile( nlohmann::json j);
 	void DestroyGameObject(GameObject * gObject);
 

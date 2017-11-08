@@ -27,5 +27,10 @@
       "type": "circle",
       "radius": 5
     }
+  },
+  "weapon": {
+    "rateOfFire": 0.125,
+    "bullet": "bullet",
+    "burst": 1
   }
 }

@@ -225,8 +225,11 @@
     <ClInclude Include="Math3D.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
     <ClInclude Include="LineSegment3D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -344,10 +347,13 @@
     <ClCompile Include="Contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LineSegment3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math3D.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LineSegment3D.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
   </ItemGroup>
