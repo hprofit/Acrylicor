@@ -10,13 +10,19 @@
     }
   },
   "scrollingSprite": {
-    "name": "forestBG",
+    "name": "motherBoardBG",
     "frameX": 0,
     "frameY": 0,
-    "tileX": 5,
-    "tileY": 5,
+    "tileX": 10,
+    "tileY": 10,
     "scrollSpeedX": 0,
-    "scrollSpeedY": -0.6,
-    "shader":  "scrollingTileShader"
+    "scrollSpeedY": -0.5,
+    "shader": "scrollingTileShader",
+    "color": {
+      "r": 0.8,
+      "g": 0,
+      "b": 0.8,
+      "a": 1
+    }
   }
 }

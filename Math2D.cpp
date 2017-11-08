@@ -111,7 +111,6 @@ float AnimatedPointToStaticLineSegment(const Vector2D& Ps, const Vector2D& Pe, c
 		return -1.0f;
 
 	Pi = collisionPoint;
-	//Pi.Set(collisionPoint.getX(), collisionPoint.getY());
 	return t;
 }
 
@@ -151,7 +150,6 @@ float AnimatedCircleToStaticLineSegment(const Vector2D& Ps, const Vector2D& Pe, 
 		return -1.0f;
 
 	Pi = collisionPoint;
-	//Pi.Set(collisionPoint.getX(), collisionPoint.getY());
 	return t;
 }
 

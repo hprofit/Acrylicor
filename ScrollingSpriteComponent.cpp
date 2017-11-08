@@ -2,8 +2,8 @@
 #include "JsonReader.h"
 
 ScrollingSpriteComponent::ScrollingSpriteComponent(GameObject & parent, String spriteName, int frameX, int frameY, 
-	String shader, float tileX, float tileY, float speedX, float speedY) :
-	SpriteComponent(CT_SCROLLING_SPRITE, parent, spriteName, frameX, frameY, shader, tileX, tileY),
+	String shader, float tileX, float tileY, float speedX, float speedY, Vector3D color) :
+	SpriteComponent(CT_SCROLLING_SPRITE, parent, spriteName, frameX, frameY, shader, tileX, tileY, color),
 	m_speedX(speedX), m_speedY(speedY), m_offsetU(0.f), m_offsetV(0.f)
 {}
 
@@ -35,21 +35,23 @@ Component * ScrollingSpriteComponent::Serialize(GameObject & gObject, nlohmann::
 	float tileY = AcryJson::ValueExists(j, "scrollingSprite", "tileY") ? AcryJson::ParseFloat(j, "scrollingSprite", "tileY") : 1.f;
 	float speedX = AcryJson::ParseFloat(j, "scrollingSprite", "scrollSpeedX");
 	float speedY = AcryJson::ParseFloat(j, "scrollingSprite", "scrollSpeedY");
-	String shader = AcryJson::ParseString(j, "scrollingSprite", "shader");
-	return new ScrollingSpriteComponent(gObject, spriteName, frameX, frameY, shader, tileX, tileY, speedX, speedY);
+	String shader = AcryJson::ParseString(j, "scrollingSprite", "shader"); 
+	Vector3D color = AcryJson::ParseColor(j, "scrollingSprite", "color");
+	return new ScrollingSpriteComponent(gObject, spriteName, frameX, frameY, shader, tileX, tileY, speedX, speedY, color);
 }
 
 void ScrollingSpriteComponent::Override(nlohmann::json j)
 {
-	SetSprite(AcryJson::ValueExists(j, "sprite", "name") ? j["sprite"]["name"] : GetSpriteName());
+	SetSprite(AcryJson::ValueExists(j, "scrollingSprite", "name") ? j["scrollingSprite"]["name"] : GetSpriteName());
 	SetFrame(
-		AcryJson::ValueExists(j, "sprite", "frameX") ? AcryJson::ParseInt(j, "sprite", "frameX") : m_frameX,
-		AcryJson::ValueExists(j, "sprite", "frameY") ? AcryJson::ParseInt(j, "sprite", "frameY") : m_frameY
+		AcryJson::ValueExists(j, "scrollingSprite", "frameX") ? AcryJson::ParseInt(j, "scrollingSprite", "frameX") : m_frameX,
+		AcryJson::ValueExists(j, "scrollingSprite", "frameY") ? AcryJson::ParseInt(j, "scrollingSprite", "frameY") : m_frameY
 	);
 	SetSpeed(
-		AcryJson::ValueExists(j, "sprite", "scrollSpeedX") ? AcryJson::ParseInt(j, "sprite", "scrollSpeedX") : m_speedX,
-		AcryJson::ValueExists(j, "sprite", "scrollSpeedY") ? AcryJson::ParseInt(j, "sprite", "scrollSpeedY") : m_speedY
+		AcryJson::ValueExists(j, "scrollingSprite", "scrollSpeedX") ? AcryJson::ParseInt(j, "scrollingSprite", "scrollSpeedX") : m_speedX,
+		AcryJson::ValueExists(j, "scrollingSprite", "scrollSpeedY") ? AcryJson::ParseInt(j, "scrollingSprite", "scrollSpeedY") : m_speedY
 	);
+	m_color = AcryJson::ValueExists(j, "scrollingSprite", "color") ? AcryJson::ParseColor(j, "scrollingSprite", "color") : m_color;
 }
 
 void ScrollingSpriteComponent::SetSpeed(float speedX, float speedY)

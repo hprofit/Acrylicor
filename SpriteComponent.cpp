@@ -2,14 +2,15 @@
 #include "ResourceManager.h"
 #include "JsonReader.h"
 
-SpriteComponent::SpriteComponent(COMPONENT_TYPE type, GameObject & parent, String spriteName, int frameX, int frameY, String shader, float tileX, float tileY) :
+SpriteComponent::SpriteComponent(COMPONENT_TYPE type, GameObject & parent, String spriteName, int frameX, int frameY, String shader, float tileX, float tileY, Vector3D color) :
 	Component(parent, type),
 	m_spriteName(spriteName),
 	m_texture(ResourceManager::GetInstance().GetTexture(spriteName)),
 	m_mesh(*ResourceManager::GetInstance().LoadMesh("quad")),
 	m_frameX(frameX), m_frameY(frameY),
 	m_tileX(tileX), m_tileY(tileY),
-	m_shader(shader)
+	m_shader(shader),
+	m_color(color)
 {}
 
 SpriteComponent::SpriteComponent(COMPONENT_TYPE type, const SpriteComponent & rhs, GameObject & parent) :
@@ -19,7 +20,8 @@ SpriteComponent::SpriteComponent(COMPONENT_TYPE type, const SpriteComponent & rh
 	m_mesh(rhs.m_mesh),
 	m_frameX(rhs.m_frameX), m_frameY(rhs.m_frameY),
 	m_tileX(rhs.m_tileX), m_tileY(rhs.m_tileY),
-	m_shader(rhs.m_shader)
+	m_shader(rhs.m_shader),
+	m_color(rhs.m_color)
 {}
 
 SpriteComponent::SpriteComponent(GameObject & parent, String spriteName) :
@@ -29,17 +31,19 @@ SpriteComponent::SpriteComponent(GameObject & parent, String spriteName) :
 	m_mesh(*ResourceManager::GetInstance().LoadMesh("quad")),
 	m_frameX(0), m_frameY(0),
 	m_tileX(1.f), m_tileY(1.f),
-	m_shader("")
+	m_shader(""),
+	m_color(Vector3D(1, 1, 1, 1))
 {}
 
-SpriteComponent::SpriteComponent(GameObject & parent, String spriteName, int frameX, int frameY, String shader, float tileX, float tileY) :
+SpriteComponent::SpriteComponent(GameObject & parent, String spriteName, int frameX, int frameY, String shader, float tileX, float tileY, Vector3D color) :
 	Component(parent, CT_SPRITE),
 	m_spriteName(spriteName),
 	m_texture(ResourceManager::GetInstance().GetTexture(spriteName)),
 	m_mesh(*ResourceManager::GetInstance().LoadMesh("quad")),
 	m_frameX(frameX), m_frameY(frameY),
 	m_tileX(tileX), m_tileY(tileY),
-	m_shader(shader)
+	m_shader(shader),
+	m_color(color)
 {}
 
 SpriteComponent::SpriteComponent(const SpriteComponent& rhs, GameObject& parent) :
@@ -49,7 +53,8 @@ SpriteComponent::SpriteComponent(const SpriteComponent& rhs, GameObject& parent)
 	m_mesh(rhs.m_mesh),
 	m_frameX(rhs.m_frameX), m_frameY(rhs.m_frameY),
 	m_tileX(rhs.m_tileX), m_tileY(rhs.m_tileY),
-	m_shader(rhs.m_shader)
+	m_shader(rhs.m_shader),
+	m_color(rhs.m_color)
 {}
 
 SpriteComponent::~SpriteComponent()
@@ -73,7 +78,8 @@ Component * SpriteComponent::Serialize(GameObject & gObject, nlohmann::json j)
 	float tileX = AcryJson::ValueExists(j, "sprite", "tileX") ? AcryJson::ParseFloat(j, "sprite", "tileX") : 1.f;
 	float tileY = AcryJson::ValueExists(j, "sprite", "tileY") ? AcryJson::ParseFloat(j, "sprite", "tileY") : 1.f;
 	String shader = AcryJson::ParseString(j, "sprite", "shader");
-	return new SpriteComponent(gObject, spriteName, frameX, frameY, shader, tileX, tileY);
+	Vector3D color = AcryJson::ParseColor(j, "sprite", "color");
+	return new SpriteComponent(gObject, spriteName, frameX, frameY, shader, tileX, tileY, color);
 }
 
 void SpriteComponent::Override(nlohmann::json j)
@@ -83,6 +89,7 @@ void SpriteComponent::Override(nlohmann::json j)
 		AcryJson::ValueExists(j, "sprite", "frameX") ? AcryJson::ParseInt(j, "sprite", "frameX") : m_frameX,
 		AcryJson::ValueExists(j, "sprite", "frameY") ? AcryJson::ParseInt(j, "sprite", "frameY") : m_frameY
 	);
+	m_color = AcryJson::ValueExists(j, "sprite", "color") ? AcryJson::ParseColor(j, "sprite", "color") : m_color;
 }
 
 const Mesh & SpriteComponent::GetMesh() const {

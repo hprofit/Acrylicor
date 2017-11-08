@@ -36,8 +36,6 @@ public:
 	Vector3D& operator= (Vector3D rhs);
 	~Vector3D();
 
-	operator Vector2D() const;
-
 	void Set(float x, float y, float z);
 	void Set(float x, float y, float z, float w);
 	float getX() const { return m_x; };

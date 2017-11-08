@@ -1,11 +1,41 @@
 #include "PhysicsManager.h"
 #include <algorithm>
 #include "Math2D.h"
+#include "Math3D.h"
+
+#pragma region Circle on X
+static bool CircleOnCircle(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	Circle* lhsC = static_cast<Circle*>(lhs);
+	Circle* rhsC = static_cast<Circle*>(rhs);
+	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
+}
+
+static bool CircleOnAABB(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	Circle* lhsC = static_cast<Circle*>(lhs);
+	AABB* rhsC = static_cast<AABB*>(rhs);
+	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_diagonal);
+}
+#pragma endregion
+
+#pragma region AABB on X
+static bool AABBOnCircle(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	return CircleOnAABB(rhs, rhsPos0, rhsPos1, lhs, lhsPos0, lhsPos1);
+}
+
+static bool AABBOnAABB(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	AABB* lhsC = static_cast<AABB*>(lhs);
+	AABB* rhsC = static_cast<AABB*>(rhs);
+	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_diagonal, rhsPos0, rhsPos1, rhsC->m_diagonal);
+}
+#pragma endregion
 
 PhysicsManager::PhysicsManager()
 {
-	// TODO: Hook up collision functions
-	
+	m_collisionFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_CIRCLE] = CircleOnCircle;
+	m_collisionFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_AABB] = CircleOnAABB;
+
+	m_collisionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_CIRCLE] = AABBOnCircle;
+	m_collisionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_AABB] = AABBOnAABB;
 }
 
 PhysicsManager::~PhysicsManager()
@@ -52,11 +82,13 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive())
 			m_physicsBodies[i]->Update(deltaTime);
 	}
+
 	// Update Transforms
 	for (i = 0; i < m_transforms.size(); ++i) {
 		if (m_transforms[i] && m_transforms[i]->m_parent.IsActive())
 			m_transforms[i]->Update(deltaTime);
 	}
+
 	// Check for collisions
 	for (i = 0; i < m_physicsBodies.size(); ++i) {
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive()) {
@@ -69,7 +101,7 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 				if (m_physicsBodies[j] && m_physicsBodies[j]->m_parent.IsActive()) {
 					PhysicsComponent* rhs = static_cast<PhysicsComponent*>(m_physicsBodies[j]);
 					
-					if (CheckCollision(lhs->Body(), lhs->GetPosition(), rhs->Body(), rhs->GetPosition()))
+					if (CheckCollision(*lhs, *rhs))
 						CreateContact(&lhs->Body(), &rhs->Body());
 				}
 			}
@@ -91,9 +123,11 @@ void PhysicsManager::ResetContacts()
 	m_contacts.clear();
 }
 
-bool PhysicsManager::CheckCollision(PhysicsBody & lhs, Vector3D lhsPos, PhysicsBody & rhs, Vector3D rhsPos)
+bool PhysicsManager::CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
 {
-	return m_collisionFunctions[lhs.m_type][rhs.m_type](lhs, lhsPos, rhs, rhsPos);
+	return m_collisionFunctions[lhs.Body().m_type][rhs.Body().m_type](
+		&lhs.Body(), lhs.GetPreviousPosition(), lhs.GetPosition(),
+		&rhs.Body(), rhs.GetPreviousPosition(), rhs.GetPosition());
 }
 
 

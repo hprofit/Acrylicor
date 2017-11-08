@@ -4,7 +4,16 @@
       "camera": { }
     },
     {
-      "background": { }
+      "background": {
+        "scrollingSprite": {
+          "color": {
+            "r": 0.2,
+            "g": 0,
+            "b": 0.2,
+            "a": 1
+          }
+        }
+      }
     },
     {
       "player": {
@@ -12,10 +21,6 @@
           "position": {
             "x": 0,
             "y": -8
-          },
-          "scale": {
-            "x": 5.0,
-            "y": 5.0
           }
         },
         "physics": {
@@ -29,8 +34,8 @@
       "enemy": {
         "transform": {
           "position": {
-            "x": 4,
-            "y": 14
+            "x": 2,
+            "y": 46
           }
         }
       }
@@ -39,8 +44,8 @@
       "enemy": {
         "transform": {
           "position": {
-            "x": -4,
-            "y": 16
+            "x": -2,
+            "y": 40
           }
         }
       }

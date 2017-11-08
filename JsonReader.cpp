@@ -91,7 +91,8 @@ Vector2D AcryJson::ParseVector2D(const json j, String first, String second)
 	if (j[first].find(second) != j[first].end()) {
 		return Vector2D(
 			ParseFloat(j, first, second, "x"),
-			ParseFloat(j, first, second, "y")
+			ParseFloat(j, first, second, "y"),
+			ParseFloat(j, first, second, "w")
 		);
 	}
 	return Vector2D();
@@ -103,10 +104,24 @@ Vector3D AcryJson::ParseVector3D(const json j, String first, String second)
 		return Vector3D(
 			ParseFloat(j, first, second, "x"),
 			ParseFloat(j, first, second, "y"),
-			ParseFloat(j, first, second, "z")
+			ParseFloat(j, first, second, "z"),
+			ParseFloat(j, first, second, "w")
 		);
 	}
 	return Vector3D();
+}
+
+Vector3D AcryJson::ParseColor(const json j, String first, String second)
+{
+	if (j[first].find(second) != j[first].end()) {
+		return Vector3D(
+			ValueExists(j, first, second) ? ParseFloat(j, first, second, "r") : 1.0f,
+			ValueExists(j, first, second) ? ParseFloat(j, first, second, "g") : 1.0f,
+			ValueExists(j, first, second) ? ParseFloat(j, first, second, "b") : 1.0f,
+			ValueExists(j, first, second) ? ParseFloat(j, first, second, "a") : 1.0f
+		);
+	}
+	return Vector3D(1,1,1,1);
 }
 
 bool AcryJson::ValueExists(const json j, String comp, String prop)

@@ -49,6 +49,9 @@ void RenderManager::_RenderSprite(SpriteComponent * sComp)
 	glUniform1f(m_currentProgram->GetUniform("tile_x"), sComp->TileX());
 	glUniform1f(m_currentProgram->GetUniform("tile_y"), sComp->TileY());
 
+	Vector3D color = sComp->GetColor();
+	glUniform4f(m_currentProgram->GetUniform("color"), color[0], color[1], color[2], color[3]);
+
 	if (sComp->TextureHasAlpha()) {
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_ALPHA_TEST);
@@ -88,10 +91,6 @@ void RenderManager::_RenderGameObject(GameObject & gameObject)
 	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
 	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)M);
 	glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)N);
-
-	// Generate color for each object
-	// TODO: Sprite color
-	glUniform4f(m_currentProgram->GetUniform("color"), 1, 1, 1, 1);
 
 	// set shader attributes
 	if(gameObject.Has(CT_SPRITE))

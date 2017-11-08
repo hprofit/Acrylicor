@@ -150,7 +150,9 @@
     <ClInclude Include="JsonReader.h" />
     <ClInclude Include="KeyPressEvent.h" />
     <ClInclude Include="LineSegment2D.h" />
+    <ClInclude Include="LineSegment3D.h" />
     <ClInclude Include="Math2D.h" />
+    <ClInclude Include="Math3D.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix2x2.h" />
     <ClInclude Include="Matrix3x3.h" />
@@ -192,8 +194,10 @@
     <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="KeyPressEvent.cpp" />
     <ClCompile Include="LineSegment2D.cpp" />
+    <ClCompile Include="LineSegment3D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math2D.cpp" />
+    <ClCompile Include="Math3D.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix2x2.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
@@ -238,4 +242,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

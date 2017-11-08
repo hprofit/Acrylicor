@@ -31,7 +31,7 @@ private:
 	std::vector<Component *> m_transforms;
 	std::vector<Contact *> m_contacts;
 
-	std::vector< std::vector< bool(*)(PhysicsBody & lhs, Vector3D lhsPos, PhysicsBody & rhs, Vector3D rhsPos) > > m_collisionFunctions;
+	bool (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(PhysicsBody *, Vector3D, Vector3D, PhysicsBody *, Vector3D, Vector3D);
 
 	PhysicsManager();
 	~PhysicsManager();
@@ -41,7 +41,7 @@ private:
 
 	void CreateContact(PhysicsBody* lhs, PhysicsBody* rhs);
 	void ResetContacts();
-	bool CheckCollision(PhysicsBody & lhs, Vector3D lhsPos, PhysicsBody & rhs, Vector3D rhsPos);
+	bool CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs);
 
 public:
 	PhysicsManager(const PhysicsManager &) = delete;

@@ -20,6 +20,7 @@ Creation date: 10/17/17
 #include "Mesh.h"
 #include "AcrylicorTypedefs.h"
 #include "STBSurface.h"
+#include "Vector3D.h"
 
 class SpriteComponent :
 	public Component
@@ -31,13 +32,14 @@ protected:
 	int m_frameX, m_frameY;
 	float m_tileX, m_tileY;
 	String m_shader;
+	Vector3D m_color;
 
-	SpriteComponent(COMPONENT_TYPE type, GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f);
+	SpriteComponent(COMPONENT_TYPE type, GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f, Vector3D color = Vector3D(1, 1, 1, 1));
 	SpriteComponent(COMPONENT_TYPE type, const SpriteComponent& rhs, GameObject& parent);
 public:
 	SpriteComponent() = delete;
 	SpriteComponent(GameObject& parent, String spriteName);
-	SpriteComponent(GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f);
+	SpriteComponent(GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f, Vector3D color = Vector3D(1, 1, 1, 1));
 	SpriteComponent(const SpriteComponent& rhs) = delete;
 	SpriteComponent(const SpriteComponent& rhs, GameObject& parent);
 	SpriteComponent& operator= (SpriteComponent rhs) = delete;
@@ -76,6 +78,8 @@ public:
 	String Shader() const;
 
 	SurfaceTextureBuffer * GetTexture() const;
+
+	Vector3D GetColor() const { return m_color; }
 };
 
 #endif

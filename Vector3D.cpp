@@ -26,11 +26,6 @@ Vector3D& Vector3D::operator=(const Vector3D rhs)
 
 Vector3D::~Vector3D() { }
 
-Vector3D::operator Vector2D() const
-{
-	return Vector2D(m_x, m_y);
-}
-
 void Vector3D::Set(float x, float y, float z)
 {
 	m_x = x;

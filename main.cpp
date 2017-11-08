@@ -1,3 +1,11 @@
+#define PROFILE_MODE false
+
+#if PROFILE_MODE
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
+#include <crtdbg.h>  
+#endif
+
 #include <windows.h>
 
 #include "InputManager.h"
@@ -116,6 +124,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	gameState->GameStateFree();
 	gameState->GameStateUnload();
 	delete gameState;
+
+	#if PROFILE_MODE
+	_CrtDumpMemoryLeaks();
+	#endif
 
 	return 0;
 }

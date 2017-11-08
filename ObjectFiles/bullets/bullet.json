@@ -1,8 +1,8 @@
 {
   "transform": {
     "scale": {
-      "x": 5,
-      "y": 5,
+      "x": 0.5,
+      "y": 0.5,
       "z": 0
     }
   },
@@ -13,6 +13,6 @@
   },
   "aiRush": {
     "direction": "forward",
-    "speed": 20
+    "speed": 30
   }
 }

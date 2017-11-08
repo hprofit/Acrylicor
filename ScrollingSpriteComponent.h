@@ -25,7 +25,7 @@ protected:
 	float m_offsetU, m_offsetV;
 public:
 	ScrollingSpriteComponent() = delete;
-	ScrollingSpriteComponent(GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f, float speedX = 1.f, float speedY = 1.f);
+	ScrollingSpriteComponent(GameObject& parent, String spriteName, int frameX, int frameY, String shader, float tileX = 1.f, float tileY = 1.f, float speedX = 1.f, float speedY = 1.f, Vector3D color = Vector3D(1, 1, 1, 1));
 	ScrollingSpriteComponent(const ScrollingSpriteComponent& rhs) = delete;
 	ScrollingSpriteComponent(const ScrollingSpriteComponent& rhs, GameObject& parent);
 	ScrollingSpriteComponent& operator= (ScrollingSpriteComponent rhs) = delete;

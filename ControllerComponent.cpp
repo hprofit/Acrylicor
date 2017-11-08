@@ -37,20 +37,20 @@ void ControllerComponent::Update(double deltaTime)
 	float force = 10.0f;
 	if (inputMgr.IsKeyPressed(ACR_W)) {
 		pComp->AddForce(Vector3D(0.f, force, 0.f));
-		sComp->SetFrame(2, 1);
+		//sComp->SetFrame(2, 1);
 	}
 	if (inputMgr.IsKeyPressed(ACR_S)) {
 		pComp->AddForce(Vector3D(0.f, -force, 0.f));
-		sComp->SetFrame(2, 3);
+		//sComp->SetFrame(2, 3);
 	}
 
 	if (inputMgr.IsKeyPressed(ACR_A)) {
 		pComp->AddForce(Vector3D(-force, 0.f, 0.f));
-		sComp->PrevFrame();
+		//sComp->PrevFrame();
 	}
 	if (inputMgr.IsKeyPressed(ACR_D)) {
 		pComp->AddForce(Vector3D(force, 0.f, 0.f));
-		sComp->NextFrame();
+		//sComp->NextFrame();
 	}
 
 	//if (inputMgr.IsKeyPressed(ACR_Q)) {

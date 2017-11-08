@@ -17,12 +17,13 @@ Creation date: 11/03/17
 #define PHYSICS_BODY_H
 
 #include "Vector3D.h"
-
-const int NUM_BODIES = 2;
+#include <math.h>
 
 enum BODY_TYPE {
 	BT_CIRCLE = 0,
-	BT_AABB
+	BT_AABB,
+
+	NUM
 };
 
 class PhysicsBody
@@ -36,10 +37,9 @@ public:
 
 class Circle : 
 	public PhysicsBody {
-protected:
+public:
 	float m_radius;
 
-public:
 	Circle() : PhysicsBody(BT_CIRCLE), m_radius(0.f) {};
 	Circle(float radius) : PhysicsBody(BT_CIRCLE), m_radius(radius) {};
 	virtual ~Circle() {}
@@ -47,14 +47,31 @@ public:
 
 class AABB : 
 	public PhysicsBody {
-protected:
-	float m_width;
-	float m_height;
-
 public:
-	AABB() : PhysicsBody(BT_AABB), m_width(0.f), m_height(0.f) {}
-	AABB(float dim) : PhysicsBody(BT_AABB), m_width(dim), m_height(dim) {}
-	AABB(float width, float height) : PhysicsBody(BT_AABB), m_width(width), m_height(height) {}
+	float m_width;
+	float m_halfWidth;
+	float m_height;
+	float m_halfHeight;
+	float m_diagonal;
+
+	AABB() : 
+		PhysicsBody(BT_AABB), 
+		m_width(0.f), m_halfWidth(0.f), 
+		m_height(0.f), m_halfHeight(0.f), 
+		m_diagonal(0.f) {}
+
+	AABB(float dim) : 
+		PhysicsBody(BT_AABB), 
+		m_width(dim), m_halfWidth(dim / 2.f), 
+		m_height(dim), m_halfHeight(dim / 2.f), 
+		m_diagonal(  sqrtf(((dim / 2.f) * (dim / 2.f)) + ((dim / 2.f) * (dim / 2.f))) ) {}
+
+	AABB(float width, float height) : 
+		PhysicsBody(BT_AABB), 
+		m_width(width), m_halfWidth(width / 2.f), 
+		m_height(height), m_halfHeight(height / 2.f), 
+		m_diagonal( sqrtf(((width / 2.f) * (width / 2.f)) + ((height / 2.f) * (height / 2.f))) ) {}
+
 	virtual ~AABB() {}
 };
 
