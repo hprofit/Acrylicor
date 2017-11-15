@@ -1,6 +1,8 @@
 #include "ControllerComponent.h"
 //#include "JsonReader.h"
 
+#include "KeyPressEvent.h"
+
 // Don't like TODO: Fix
 #include "GameObject.h"
 #include "PhysicsComponent.h"
@@ -11,12 +13,12 @@
 #include "Vector2D.h"
 
 ControllerComponent::ControllerComponent(GameObject& parent) :
-	Component(parent, CT_CONTROLLER)
+	Component(parent, COMPONENT_TYPE::CONTROLLER)
 {
 }
 
 ControllerComponent::ControllerComponent(const ControllerComponent & rhs, GameObject & parent) :
-	Component(parent, CT_CONTROLLER)
+	Component(parent, COMPONENT_TYPE::CONTROLLER)
 {
 }
 
@@ -27,16 +29,16 @@ ControllerComponent::~ControllerComponent()
 void ControllerComponent::Update(double deltaTime)
 {
 	InputManager& inputMgr = InputManager::GetInstance();
-	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(CT_PHYSICS));
-	SpriteComponent* sComp = static_cast<SpriteComponent*>(m_parent.Get(CT_SPRITE));
-	WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.Get(CT_WEAPON));
+	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	SpriteComponent* sComp = static_cast<SpriteComponent*>(m_parent.Get(COMPONENT_TYPE::SPRITE));
+	WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.Get(COMPONENT_TYPE::WEAPON));
 
 	if (!pComp || !sComp || !wComp)
 		return;
 
 	// TODO: Don't like
 	sComp->SetFrame(2, 2);
-	float force = 10.0f;
+	float force = 10000.0f;
 	if (inputMgr.IsKeyPressed(ACR_W)) {
 		pComp->AddForce(Vector3D(0.f, force, 0.f));
 		//sComp->SetFrame(2, 1);
@@ -85,4 +87,15 @@ Component * ControllerComponent::Serialize(GameObject & gObject, nlohmann::json 
 
 void ControllerComponent::Override(nlohmann::json j)
 {
+}
+
+void ControllerComponent::HandleEvent(AcryEvent * aEvent)
+{
+	switch (aEvent->Type()) {
+		case EventType::KEY_PRESS:
+		{
+			KeyPressEvent * kpEvent = static_cast<KeyPressEvent*>(aEvent);
+		}
+			break;
+	}
 }

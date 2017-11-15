@@ -37,7 +37,7 @@ void Mesh::AddTriangle(float p1x, float p1y, float p1z, float p2x, float p2y, fl
 	);
 }
 
-void Mesh::AddVertex(Vector3D p1, TexCoords uv1, Vector3D p2, TexCoords uv2, Vector3D p3, TexCoords uv3)
+void Mesh::AddTriangle(Vector3D p1, TexCoords uv1, Vector3D p2, TexCoords uv2, Vector3D p3, TexCoords uv3)
 {
 	AddTriangle(p1, p2, p3);
 
@@ -51,27 +51,27 @@ void Mesh::AddVertex(Vector3D p1, TexCoords uv1, Vector3D p2, TexCoords uv2, Vec
 	m_texCoords.push_back(uv3.v);
 }
 
-void Mesh::AddVertex(Vector3D p1, TexCoords uv1, unsigned long c1, Vector3D p2, TexCoords uv2, unsigned long c2, Vector3D p3, TexCoords uv3, unsigned long c3)
+void Mesh::AddTriangle(Vector3D p1, TexCoords uv1, unsigned long c1, Vector3D p2, TexCoords uv2, unsigned long c2, Vector3D p3, TexCoords uv3, unsigned long c3)
 {
-	AddVertex(p1, uv1, p2, uv2, p3, uv3);
+	AddTriangle(p1, uv1, p2, uv2, p3, uv3);
 
 	m_vertColors.push_back(c1);
 	m_vertColors.push_back(c2);
 	m_vertColors.push_back(c3);
 }
 
-void Mesh::AddVertex(float p1x, float p1y, float p1z, float uv1u, float uv1v, float p2x, float p2y, float p2z, float uv2u, float uv2v, float p3x, float p3y, float p3z, float uv3u, float uv3v)
+void Mesh::AddTriangle(float p1x, float p1y, float p1z, float uv1u, float uv1v, float p2x, float p2y, float p2z, float uv2u, float uv2v, float p3x, float p3y, float p3z, float uv3u, float uv3v)
 {
-	AddVertex(
+	AddTriangle(
 		Vector3D(p1x, p1y, p1z), TexCoords(uv1u, uv1v),
 		Vector3D(p2x, p2y, p2z), TexCoords(uv2u, uv2v),
 		Vector3D(p3x, p3y, p3z), TexCoords(uv3u, uv3v)
 	);
 }
 
-void Mesh::AddVertex(float p1x, float p1y, float p1z, float uv1u, float uv1v, unsigned long c1, float p2x, float p2y, float p2z, float uv2u, float uv2v, unsigned long c2, float p3x, float p3y, float p3z, float uv3u, float uv3v, unsigned long c3)
+void Mesh::AddTriangle(float p1x, float p1y, float p1z, float uv1u, float uv1v, unsigned long c1, float p2x, float p2y, float p2z, float uv2u, float uv2v, unsigned long c2, float p3x, float p3y, float p3z, float uv3u, float uv3v, unsigned long c3)
 {
-	AddVertex(
+	AddTriangle(
 		Vector3D(p1x, p1y, p1z), TexCoords(uv1u, uv1v), c1,
 		Vector3D(p2x, p2y, p2z), TexCoords(uv2u, uv2v), c2,
 		Vector3D(p3x, p3y, p3z), TexCoords(uv3u, uv3v), c3

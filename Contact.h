@@ -16,17 +16,21 @@ Creation date: 11/03/17
 #ifndef CONTACT_H
 #define CONTACT_H
 
-#include "PhysicsBody.h"
+class PhysicsBody;
+class GameObject;
 
 class Contact
 {
 protected:
-	PhysicsBody * m_lhs;
-	PhysicsBody * m_rhs;
+	GameObject * m_lhsGO;
+	GameObject * m_rhsGO;
 public:
-	Contact(PhysicsBody* lhs, PhysicsBody* rhs) :
-		m_lhs(lhs), m_rhs(rhs) {};
-	virtual ~Contact();
+	Contact(GameObject* lhsGO, GameObject* rhsGO) :
+		m_lhsGO(lhsGO), m_rhsGO(rhsGO) {};
+	virtual ~Contact() {};
+
+	GameObject * LHS_GO() const { return m_lhsGO; }
+	GameObject * RHS_GO() const { return m_rhsGO; }
 };
 
 #endif

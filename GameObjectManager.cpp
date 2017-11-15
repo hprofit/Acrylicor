@@ -9,7 +9,7 @@ GameObjectManager::GameObjectManager(int maxObjects) :
 
 GameObjectManager::~GameObjectManager()
 {
-	for (int i = 0; i < m_gameObjects.size(); ++i) {
+	for (unsigned int i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i])
 			delete m_gameObjects[i];
 	}
@@ -17,7 +17,7 @@ GameObjectManager::~GameObjectManager()
 
 void GameObjectManager::SetActiveCamera(GameObject * gObject)
 {
-	if (gObject->Has(CT_CAMERA))
+	if (gObject->Has(COMPONENT_TYPE::CAMERA))
 		m_activeCamera = gObject;
 }
 
@@ -25,7 +25,7 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType)
 {
 	GameObject * newGameObject = GameObjectFactory::GetInstance().NewObjectFromArchetype(objectType);
 	SetActiveCamera(newGameObject);
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
 			m_gameObjects[i] = newGameObject;
@@ -46,7 +46,7 @@ void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 {
 	GameObject * newGameObject = GameObjectFactory::GetInstance().SpawnObjectWithOverrides(j.begin().key(), j[j.begin().key()]);
 	SetActiveCamera(newGameObject);
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
 			m_gameObjects[i] = newGameObject;
@@ -61,13 +61,14 @@ void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 
 void GameObjectManager::DestroyGameObject(GameObject * gObject)
 {
-	if (gObject->IsActive())
-		gObject->Deactivate();
+	if (gObject->IsActive()) {
+		gObject->ResetFlags();
+	}
 }
 
 void GameObjectManager::UpdateGameObjects(double deltaTime)
 {
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
 			m_gameObjects[i]->Update(deltaTime);
@@ -77,10 +78,19 @@ void GameObjectManager::UpdateGameObjects(double deltaTime)
 void GameObjectManager::RenderGameObjects()
 {
 	RenderManager& renderMngr = RenderManager::GetInstance();
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
 			renderMngr.RenderGameObject(*m_activeCamera, *m_gameObjects[i]);
+	}
+}
+
+void GameObjectManager::CleanUpGameObjects()
+{
+	unsigned int i = 0;
+	for (i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i] && m_gameObjects[i]->IsDead())
+			DestroyGameObject(m_gameObjects[i]);
 	}
 }
 
@@ -91,7 +101,7 @@ void GameObjectManager::RegisterCamera(Component * cameraComp)
 
 void GameObjectManager::UpdateCameraObjects(double deltaTime)
 {
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < m_cameras.size(); ++i) {
 		if (m_cameras[i] && m_cameras[i]->m_parent.IsActive())
 			m_cameras[i]->Update(deltaTime);

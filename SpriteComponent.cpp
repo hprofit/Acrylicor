@@ -25,7 +25,7 @@ SpriteComponent::SpriteComponent(COMPONENT_TYPE type, const SpriteComponent & rh
 {}
 
 SpriteComponent::SpriteComponent(GameObject & parent, String spriteName) :
-	Component(parent, CT_SPRITE),
+	Component(parent, COMPONENT_TYPE::SPRITE),
 	m_spriteName(spriteName),
 	m_texture(ResourceManager::GetInstance().GetTexture(spriteName)),
 	m_mesh(*ResourceManager::GetInstance().LoadMesh("quad")),
@@ -36,7 +36,7 @@ SpriteComponent::SpriteComponent(GameObject & parent, String spriteName) :
 {}
 
 SpriteComponent::SpriteComponent(GameObject & parent, String spriteName, int frameX, int frameY, String shader, float tileX, float tileY, Vector3D color) :
-	Component(parent, CT_SPRITE),
+	Component(parent, COMPONENT_TYPE::SPRITE),
 	m_spriteName(spriteName),
 	m_texture(ResourceManager::GetInstance().GetTexture(spriteName)),
 	m_mesh(*ResourceManager::GetInstance().LoadMesh("quad")),
@@ -47,7 +47,7 @@ SpriteComponent::SpriteComponent(GameObject & parent, String spriteName, int fra
 {}
 
 SpriteComponent::SpriteComponent(const SpriteComponent& rhs, GameObject& parent) :
-	Component(parent, CT_SPRITE),
+	Component(parent, COMPONENT_TYPE::SPRITE),
 	m_spriteName(rhs.m_spriteName),
 	m_texture(rhs.m_texture),
 	m_mesh(rhs.m_mesh),

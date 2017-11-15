@@ -5,7 +5,7 @@
 
 #pragma region Ctor/Dtor
 TransformComponent::TransformComponent(GameObject & parent, bool is2D) :
-	Component(parent, CT_TRANSFORM, true),
+	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
 	m_position(Vector3D(0.f, 0.f, 0.f)),
 	m_angleX(0.f), m_angleY(0.f), m_angleZ(0.f),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
@@ -14,7 +14,7 @@ TransformComponent::TransformComponent(GameObject & parent, bool is2D) :
 {}
 
 TransformComponent::TransformComponent(GameObject& parent, Vector3D position, bool is2D) :
-	Component(parent, CT_TRANSFORM, true),
+	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
 	m_position(position),
 	m_angleX(0.f), m_angleY(0.f), m_angleZ(0.f),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
@@ -26,7 +26,7 @@ TransformComponent::TransformComponent(GameObject& parent, Vector3D position, bo
 Default interpretation of the TransformComponent is a 2D component, only the Z rotation and X-Y scales are taken into account.
 */
 TransformComponent::TransformComponent(GameObject& parent, Vector3D position, float angleZ, float scaleX, float scaleY, bool is2D) :
-	Component(parent, CT_TRANSFORM, true),
+	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
 	m_position(position),
 	m_angleX(0.f), m_angleY(0.f), m_angleZ(angleZ),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
@@ -35,7 +35,7 @@ TransformComponent::TransformComponent(GameObject& parent, Vector3D position, fl
 {}
 
 TransformComponent::TransformComponent(GameObject & parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ, bool is2D) :
-	Component(parent, CT_TRANSFORM, true),
+	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
 	m_position(position),
 	m_angleX(angleX), m_angleY(angleY), m_angleZ(angleZ),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
@@ -44,7 +44,7 @@ TransformComponent::TransformComponent(GameObject & parent, Vector3D position, f
 {}
 
 TransformComponent::TransformComponent(const TransformComponent & rhs, GameObject& parent) :
-	Component(parent, CT_TRANSFORM, true),
+	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
 	m_position(rhs.m_position),
 	m_angleX(rhs.m_angleX), m_angleY(rhs.m_angleY), m_angleZ(rhs.m_angleZ),
 	m_lookAt(rhs.m_lookAt),

@@ -141,9 +141,6 @@
     <ClInclude Include="ShaderProgram.h">
       <Filter>Header Files\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -219,9 +216,6 @@
     <ClInclude Include="PhysicsBody.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Contact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Math3D.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
@@ -230,6 +224,15 @@
     </ClInclude>
     <ClInclude Include="LineSegment3D.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="AcryDebugLine.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CollideEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>Header Files\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,9 +283,6 @@
     </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
       <Filter>Source Files\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="SpriteComponent.cpp">
       <Filter>Source Files\Components</Filter>
@@ -344,9 +344,6 @@
     <ClCompile Include="PhysicsBody.cpp">
       <Filter>Source Files\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Contact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math3D.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
@@ -355,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="LineSegment3D.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="AcryDebugLine.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CollideEvent.cpp">
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +414,18 @@
     </None>
     <None Include="LevelFiles\level1.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
+    </None>
+    <None Include="ObjectFiles\drone.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="Shaders\lineShader.frag">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="Shaders\lineShader.vert">
+      <Filter>Source Files\TEST_FILES\Shaders</Filter>
+    </None>
+    <None Include="ObjectFiles\lineShader.json">
+      <Filter>Source Files\TEST_FILES\Json\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

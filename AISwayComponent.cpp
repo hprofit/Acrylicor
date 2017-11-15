@@ -2,18 +2,19 @@
 #include "JsonReader.h"
 //#include <iostream>
 
-// Don't like TODO: Fim_currX
+// Don't like TODO: Fix
 #include "GameObject.h"
+#include "PhysicsComponent.h"
 #include "TransformComponent.h"
 
 AISwayComponent::AISwayComponent(GameObject & parent, float swayAmount) :
-	Component(parent, CT_AI_SWAY),
+	Component(parent, COMPONENT_TYPE::AI_SWAY),
 	m_swayAmount(swayAmount),
 	m_currX(-1.f), m_direction(1.f)
 {}
 
 AISwayComponent::AISwayComponent(const AISwayComponent & rhs, GameObject & parent) :
-	Component(parent, CT_AI_SWAY),
+	Component(parent, COMPONENT_TYPE::AI_SWAY),
 	m_swayAmount(rhs.m_swayAmount),
 	m_currX(-1.f), m_direction(1.f)
 {}
@@ -22,8 +23,9 @@ AISwayComponent::~AISwayComponent(){}
 
 void AISwayComponent::Update(double deltaTime)
 {
-	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(CT_TRANSFORM));
-	if (!tComp)
+	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	if (!tComp || !pComp)
 		return;
 
 	m_currX += deltaTime * m_direction;
@@ -36,7 +38,7 @@ void AISwayComponent::Update(double deltaTime)
 		m_direction = 1.f;
 	}
 
-	tComp->Move(tComp->Right() * asinf(m_currX) * deltaTime * m_swayAmount);
+	pComp->InterpolateVelocity(tComp->Right() * asinf(m_currX) * m_swayAmount, .5f);
 }
 
 AISwayComponent * AISwayComponent::Clone(GameObject & parent)

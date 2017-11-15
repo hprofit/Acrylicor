@@ -23,7 +23,10 @@ class AIRushComponent :
 {
 protected:
 	enum {
-		FORWARD = 0
+		FORWARD = 0,
+		LEFT,
+		RIGHT,
+		BACKWARD
 	};
 
 	unsigned short m_moveType;

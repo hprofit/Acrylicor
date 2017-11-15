@@ -5,6 +5,7 @@
 #include <fstream>
 #include "JsonReader.h"
 #include "json.hpp"
+#include "AcryDebugLine.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -30,6 +31,11 @@ ResourceManager::~ResourceManager()
 	m_textures.clear();
 }
 
+
+void ResourceManager::CreateDebugLine()
+{
+	m_debugLine = new AcryDebugLine(.5f, .0f, .0f, COLOR::WHITE, -.5f, .0f, .0f, COLOR::WHITE);
+}
 
 Mesh * ResourceManager::LoadMesh(String meshName)
 {

@@ -3,12 +3,12 @@
 
 ScrollingSpriteComponent::ScrollingSpriteComponent(GameObject & parent, String spriteName, int frameX, int frameY, 
 	String shader, float tileX, float tileY, float speedX, float speedY, Vector3D color) :
-	SpriteComponent(CT_SCROLLING_SPRITE, parent, spriteName, frameX, frameY, shader, tileX, tileY, color),
+	SpriteComponent(COMPONENT_TYPE::SCROLLING_SPRITE, parent, spriteName, frameX, frameY, shader, tileX, tileY, color),
 	m_speedX(speedX), m_speedY(speedY), m_offsetU(0.f), m_offsetV(0.f)
 {}
 
 ScrollingSpriteComponent::ScrollingSpriteComponent(const ScrollingSpriteComponent & rhs, GameObject & parent) :
-	SpriteComponent(CT_SCROLLING_SPRITE, rhs, parent),
+	SpriteComponent(COMPONENT_TYPE::SCROLLING_SPRITE, rhs, parent),
 	m_speedX(rhs.m_speedX), m_speedY(rhs.m_speedY), m_offsetU(rhs.m_offsetU), m_offsetV(rhs.m_offsetV)
 {}
 

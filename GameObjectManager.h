@@ -22,6 +22,7 @@ Creation date: 10/17/17
 #include <vector>
 #include "json.hpp"
 
+class EventManager;
 class GameObjectManager
 {
 private:
@@ -29,6 +30,8 @@ private:
 	std::vector<GameObject * > m_gameObjects;
 	std::vector<Component * > m_cameras;
 	GameObject * m_activeCamera;
+
+	friend EventManager;
 
 	GameObjectManager() = delete;
 	GameObjectManager(int maxObjects);
@@ -51,7 +54,9 @@ public:
 
 	void UpdateGameObjects(double deltaTime);
 	void RenderGameObjects();
+	void CleanUpGameObjects();
 
+	GameObject* GetActiveCamera() { return m_activeCamera; }
 	void RegisterCamera(Component * cameraComp);
 
 	void UpdateCameraObjects(double deltaTime);

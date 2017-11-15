@@ -27,6 +27,7 @@ public:
 	virtual void GameStateInit(void) = 0;
 	virtual void GameStateUpdate(double deltaTime = 0.0) = 0;
 	virtual void GameStateDraw(void) = 0;
+	virtual void GameStatePostUpdate(void) = 0;
 	virtual void GameStateFree(void) = 0;
 	virtual void GameStateUnload(void) = 0;
 };

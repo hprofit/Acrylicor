@@ -5,9 +5,10 @@
 // Don't like TODO: fix
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "PhysicsComponent.h"
 
 WeaponComponent::WeaponComponent(GameObject & parent, float rateOfFire, String bulletType, unsigned int burstAmount) :
-	Component(parent, CT_WEAPON),
+	Component(parent, COMPONENT_TYPE::WEAPON),
 	m_rateOfFire(rateOfFire),
 	m_bulletType(bulletType),
 	m_burstAmount(burstAmount),
@@ -15,7 +16,7 @@ WeaponComponent::WeaponComponent(GameObject & parent, float rateOfFire, String b
 {}
 
 WeaponComponent::WeaponComponent(const WeaponComponent & rhs, GameObject & parent) :
-	Component(parent, CT_WEAPON),
+	Component(parent, COMPONENT_TYPE::WEAPON),
 	m_rateOfFire(rhs.m_rateOfFire),
 	m_bulletType(rhs.m_bulletType),
 	m_burstAmount(rhs.m_burstAmount),
@@ -58,11 +59,19 @@ void WeaponComponent::Fire()
 	if (m_timeSinceLastFired >= m_rateOfFire) {
 		m_timeSinceLastFired = 0.f;
 		GameObject * bullet = GameObjectManager::GetInstance().SpawnGameObject(m_bulletType);
-		TransformComponent * bulletTComp = static_cast<TransformComponent*>(bullet->Get(CT_TRANSFORM));
-		TransformComponent * playerTComp = static_cast<TransformComponent*>(m_parent.Get(CT_TRANSFORM));
-		if (!bulletTComp || !playerTComp)
+
+		TransformComponent * bulletTComp = static_cast<TransformComponent*>(bullet->Get(COMPONENT_TYPE::TRANSFORM));
+		PhysicsComponent * bulletPComp = static_cast<PhysicsComponent*>(bullet->Get(COMPONENT_TYPE::PHYSICS));
+
+		TransformComponent * playerTComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+		PhysicsComponent * playerPComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+
+		if (!bulletTComp || !bulletPComp || !playerTComp || !playerPComp)
 			return;
 		bulletTComp->SetPosition(playerTComp->GetPosition());
 		bulletTComp->SetAngles(playerTComp->GetAngleX(), playerTComp->GetAngleY(), playerTComp->GetAngleZ());
+
+		bulletPComp->SetPosition(playerPComp->GetPosition());
+		bulletPComp->SetPrevPosition(playerPComp->GetPrevPosition());
 	}
 }

@@ -31,12 +31,15 @@ protected:
 	Vector3D m_force;
 	float m_mass;
 	float m_InvMass;
+	bool m_weightless;
+	float m_maxSpeed;
+	float m_capRate;
 	PhysicsBody * m_body;
 public:
 	PhysicsComponent(GameObject& parent);
 	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity);
 	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity, Vector3D acceleration);
-	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float invMass);
+	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity, Vector3D acceleration, float mass, float invMass, bool weightless, float maxSpeed, float capRate);
 	PhysicsComponent& operator=(PhysicsComponent rhs) = delete;
 	PhysicsComponent(const PhysicsComponent& rhs) = delete;
 	PhysicsComponent(const PhysicsComponent& rhs, GameObject& parent);
@@ -48,11 +51,17 @@ public:
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager();
+	virtual void HandleEvent(AcryEvent * aEvent);
 
 	void AddForce(Vector3D force);
+	void SetVelocity(Vector3D vel);
+	void InterpolateVelocity(Vector3D vel, float weight);
 	PhysicsBody& Body() const { return *m_body; };
+	PhysicsBody* GetBodyPtr() { return m_body; }
 	Vector3D GetPosition() const { return m_position; };
-	Vector3D GetPreviousPosition() const { return m_prevPosition; };
+	void SetPosition(Vector3D position);
+	Vector3D GetPrevPosition() const { return m_prevPosition; };
+	void SetPrevPosition(Vector3D position);
 };
 
 #endif

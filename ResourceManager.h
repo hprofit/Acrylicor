@@ -24,9 +24,12 @@ Creation date: 10/17/17
 #include "AcrylicorTypedefs.h"
 #include "STBSurface.h"
 
+class AcryDebugLine;
+
 class ResourceManager
 {
 private:
+	AcryDebugLine* m_debugLine;
 	std::map<String, Mesh*> m_meshes;
 	std::map<String, SurfaceTextureBuffer * > m_textures;
 
@@ -47,6 +50,9 @@ public:
 		static ResourceManager instance;
 		return instance;
 	}
+
+	void CreateDebugLine();
+	AcryDebugLine* DebugLine() const { return m_debugLine; }
 
 	Mesh * LoadMesh(String meshName);
 	Mesh * GetMesh(String meshName);

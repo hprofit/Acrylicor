@@ -32,6 +32,7 @@ public:
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
+	virtual void HandleEvent(AcryEvent * aEvent);
 };
 
 #endif

@@ -19,18 +19,26 @@ Creation date: 10/13/17
 #include <queue>
 #include "AcrylicorTypedefs.h"
 
+enum class EventType {
+	COLLIDE,
+	KEY_PRESS
+};
+
 struct AcryEventComparator;
 
 class AcryEvent
 {
 protected:
-	unsigned int m_time;
-	String m_eventName;
+	double m_time;
+	EventType m_type;
+	// Payload
+	// Message specific data
 
-	AcryEvent(unsigned int time, String name) : m_time(time), m_eventName(name) {};
+	AcryEvent(double time) : m_time(time) {};
 public:
+	AcryEvent(EventType type, unsigned int time);
 	AcryEvent() = delete;
-	~AcryEvent();
+	virtual ~AcryEvent();
 
 	friend AcryEventComparator;
 	friend bool operator<(const AcryEvent& lhs, const AcryEvent& rhs);
@@ -38,12 +46,14 @@ public:
 
 	bool operator<(const AcryEvent& rhs);
 	bool operator>(const AcryEvent& rhs);
-	virtual void Process(std::vector<void(*)(AcryEvent*)> listeners) = 0;
 	unsigned int Time() const {
 		return m_time;
 	}
-	String Name() const {
-		return m_eventName;
+	EventType Type() const {
+		return m_type;
+	}
+	void DecrementTime(double amt) {
+		m_time -= amt;
 	}
 };
 

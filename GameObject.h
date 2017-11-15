@@ -19,15 +19,20 @@ Creation date: 10/13/17
 #include "ComponentTypes.h"
 #include "Component.h"
 #include <map>
+#include <vector>
 
-#define FLAG_ACTIVE	0x00000001
+const unsigned char FLAG_ACTIVE = 0x1;
+const unsigned char FLAG_READY_TO_DIE = 0x2;
+
+class AcryEvent;
 
 class GameObject
 {
 protected:
 	GameObject * m_parent;
+	std::vector<GameObject *> m_children;
 	
-	unsigned long m_objectFlags;
+	unsigned char m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
 
 public:
@@ -36,9 +41,12 @@ public:
 	GameObject& operator=(const GameObject & rhs);
 	virtual ~GameObject();
 
+	virtual void ResetFlags();
 	virtual void Activate();
 	virtual void Deactivate();
 	virtual bool IsActive();
+	virtual void Kill();
+	virtual bool IsDead();
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);
@@ -46,6 +54,8 @@ public:
 	void ClearComponents();
 
 	virtual void Update(double deltaTime);
+
+	void HandleEvent(AcryEvent * aEvent);
 };
 
 #endif

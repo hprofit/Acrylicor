@@ -16,8 +16,10 @@ Creation date: 11/03/17
 #ifndef PHYSICS_BODY_H
 #define PHYSICS_BODY_H
 
+#include "AcrylicorTypedefs.h"
 #include "Vector3D.h"
 #include <math.h>
+#include <list>
 
 enum BODY_TYPE {
 	BT_CIRCLE = 0,
@@ -29,10 +31,32 @@ enum BODY_TYPE {
 class PhysicsBody
 {
 protected:
+	std::list<String> m_tags;
+
+	PhysicsBody(BODY_TYPE type) : m_type(type) {};
+	PhysicsBody(const PhysicsBody& rhs) : m_tags(rhs.m_tags), m_type(rhs.m_type) {};
 public:
 	const BODY_TYPE m_type;
-	PhysicsBody(BODY_TYPE type) : m_type(type) {};
+
+	PhysicsBody() = delete;
 	virtual ~PhysicsBody();
+
+	void AddTag(String tag) {
+		m_tags.push_back(tag);
+	};
+	bool HasTag(String tag) const {
+		for (auto mTag : m_tags) {
+			if (mTag.compare(tag) == 0)
+				return true;
+		}
+		return false;
+	};
+	void RemoveTag(String tag) {
+		m_tags.remove(tag);
+	};
+	void SetTags(std::list<String> tags) {
+		m_tags = tags;
+	}
 };
 
 class Circle : 
@@ -40,8 +64,12 @@ class Circle :
 public:
 	float m_radius;
 
-	Circle() : PhysicsBody(BT_CIRCLE), m_radius(0.f) {};
-	Circle(float radius) : PhysicsBody(BT_CIRCLE), m_radius(radius) {};
+	Circle() : PhysicsBody(BODY_TYPE::BT_CIRCLE), m_radius(0.f) {};
+	Circle(float radius) : PhysicsBody(BODY_TYPE::BT_CIRCLE), m_radius(radius) {};
+	Circle(const Circle& rhs) : PhysicsBody(rhs), m_radius(rhs.m_radius) {};
+	Circle& operator=(const Circle& rhs) {
+		m_radius = rhs.m_radius;
+	};
 	virtual ~Circle() {}
 };
 
@@ -55,22 +83,36 @@ public:
 	float m_diagonal;
 
 	AABB() : 
-		PhysicsBody(BT_AABB), 
+		PhysicsBody(BODY_TYPE::BT_AABB),
 		m_width(0.f), m_halfWidth(0.f), 
 		m_height(0.f), m_halfHeight(0.f), 
 		m_diagonal(0.f) {}
 
 	AABB(float dim) : 
-		PhysicsBody(BT_AABB), 
+		PhysicsBody(BODY_TYPE::BT_AABB),
 		m_width(dim), m_halfWidth(dim / 2.f), 
 		m_height(dim), m_halfHeight(dim / 2.f), 
 		m_diagonal(  sqrtf(((dim / 2.f) * (dim / 2.f)) + ((dim / 2.f) * (dim / 2.f))) ) {}
 
 	AABB(float width, float height) : 
-		PhysicsBody(BT_AABB), 
+		PhysicsBody(BODY_TYPE::BT_AABB),
 		m_width(width), m_halfWidth(width / 2.f), 
 		m_height(height), m_halfHeight(height / 2.f), 
 		m_diagonal( sqrtf(((width / 2.f) * (width / 2.f)) + ((height / 2.f) * (height / 2.f))) ) {}
+
+	AABB(const AABB& rhs) : 
+		PhysicsBody(rhs),
+		m_width(rhs.m_width), m_halfWidth(rhs.m_halfWidth),
+		m_height(rhs.m_height), m_halfHeight(rhs.m_halfHeight),
+		m_diagonal(rhs.m_diagonal) {}
+
+	AABB& operator=(const AABB& rhs) {
+		m_width = rhs.m_width;
+		m_halfWidth = rhs.m_halfWidth;
+		m_height = rhs.m_height;
+		m_halfHeight = rhs.m_halfHeight;
+		m_diagonal = rhs.m_diagonal;
+	};
 
 	virtual ~AABB() {}
 };

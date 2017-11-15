@@ -19,7 +19,8 @@ Creation date: 10/22/17
 #include "AcrylicorTypedefs.h"
 #include "STBSurface.h"
 #include "GameObject.h"
-#include "Mesh.h"
+
+class Mesh;
 
 namespace Acrylicor {
 	struct AcryProps {
@@ -27,6 +28,7 @@ namespace Acrylicor {
 		int windowWidth = 800;
 		String windowTitle = "Acrylicor";
 		bool debugMode = false;
+		String debugShader = "lineShader";
 	};
 
 	int Initialize(String configFileName);
@@ -56,11 +58,6 @@ namespace Acrylicor {
 	Mesh * CreateMesh(String meshName);
 
 	/*!
-	Creates a texture buffer from an image file and returns the SurfaceTextureBuffer
-	*/
-	SurfaceTextureBuffer * LoadTexture(String fileName, String textureName);
-
-	/*!
 	Parses a json file for key - image file pairs
 	*/
 	void LoadTexturesFromFile(String fileName);
@@ -81,6 +78,7 @@ namespace Acrylicor {
 
 	void UpdateGameObjects(double deltaTime);
 	void RenderGameObjects();
+	void CleanUpGameObjects();
 }
 
 #endif

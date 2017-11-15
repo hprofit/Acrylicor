@@ -40,6 +40,7 @@ public:
 	virtual void GameStateInit(void);
 	virtual void GameStateUpdate(double deltaTime = 0.0);
 	virtual void GameStateDraw(void);
+	virtual void GameStatePostUpdate(void);
 	virtual void GameStateFree(void);
 	virtual void GameStateUnload(void);
 };

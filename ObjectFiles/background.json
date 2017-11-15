@@ -5,18 +5,18 @@
       "y": 0
     },
     "scale": {
-      "x": 50,
-      "y": 50
+      "x": 1600,
+      "y": 900
     }
   },
   "scrollingSprite": {
     "name": "motherBoardBG",
     "frameX": 0,
     "frameY": 0,
-    "tileX": 10,
-    "tileY": 10,
+    "tileX": 8,
+    "tileY": 5,
     "scrollSpeedX": 0,
-    "scrollSpeedY": -0.5,
+    "scrollSpeedY": -0.4,
     "shader": "scrollingTileShader",
     "color": {
       "r": 0.8,

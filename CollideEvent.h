@@ -2,13 +2,13 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: KeyPressEvent.h
-Purpose: Event that indicates a specific key was pressed.
+File Name: CollideEvent.h
+Purpose: Event that indicates a collision between GameObjects
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/29/17
+Creation date: 11/09/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
@@ -17,19 +17,22 @@ Creation date: 10/29/17
 #define KEY_PRESS_EVENT_H
 
 #include "AcryEvent.h"
-#include "SDL_keycode.h"
 
-class KeyPressEvent :
+class GameObject;
+
+class CollideEvent :
 	public AcryEvent
 {
 private:
-	Uint8 m_keyCode;
+	GameObject * lhs;
+	GameObject * rhs;
 
 public:
-	KeyPressEvent(double time, Uint8 keyCode);
-	~KeyPressEvent();
+	CollideEvent(double time, GameObject * _lhs, GameObject * _rhs);
+	virtual ~CollideEvent();
 
-	Uint8 GetKey() { return m_keyCode; }
+	GameObject* LHS() { return lhs; }
+	GameObject* RHS() { return rhs; }
 };
 
 #endif

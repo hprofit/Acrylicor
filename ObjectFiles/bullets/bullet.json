@@ -1,8 +1,8 @@
 {
   "transform": {
     "scale": {
-      "x": 0.5,
-      "y": 0.5,
+      "x": 16,
+      "y": 16,
       "z": 0
     }
   },
@@ -13,6 +13,18 @@
   },
   "aiRush": {
     "direction": "forward",
-    "speed": 30
+    "speed": 1000
+  },
+  "physics": {
+    "mass": 1,
+    "body": {
+      "type": "circle",
+      "radius": 6,
+      "tags": [
+        "playerBullet"
+      ]
+    },
+    "weightless": true,
+    "maxSpeed": 1000
   }
 }

@@ -1,0 +1,15 @@
+{
+  "lineShader": {
+    "vertex": "Shaders/lineShader.vert",
+    "fragment": "Shaders/lineShader.frag",
+    "attributes": [
+      "position"
+    ],
+    "uniforms": [
+      "cam_matrix",
+      "view_matrix",
+      "model_matrix",
+      "color"
+    ]
+  }
+}

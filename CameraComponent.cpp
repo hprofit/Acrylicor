@@ -7,16 +7,16 @@
 #include "GameObject.h"
 
 CameraComponent::CameraComponent(GameObject & parent) :
-	Component(parent, CT_CAMERA, true)
+	Component(parent, COMPONENT_TYPE::CAMERA, true)
 {}
 
 CameraComponent::CameraComponent(GameObject & parent, float fov, unsigned short camType) :
-	Component(parent, CT_CAMERA, true),
+	Component(parent, COMPONENT_TYPE::CAMERA, true),
 	m_fov(fov), m_cameraType(camType)
 {}
 
 CameraComponent::CameraComponent(const CameraComponent & rhs, GameObject & parent) :
-	Component(parent, CT_CAMERA, true),
+	Component(parent, COMPONENT_TYPE::CAMERA, true),
 	m_fov(rhs.m_fov), m_cameraType(rhs.m_cameraType)
 {}
 
@@ -36,7 +36,7 @@ Matrix4x4 CameraComponent::MatrixFromCameraVectors(const Vector3D & right, const
 
 void CameraComponent::CalcViewMatrix()
 {
-	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(CT_TRANSFORM));
+	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
 
 	Matrix4x4 rotationM = MatrixFromCameraVectors(tComp->Right(), tComp->Up(), tComp->Forward());
 
@@ -50,12 +50,15 @@ void CameraComponent::CalcPerspectiveMatrix()
 
 void CameraComponent::CalcOrthographicMatrix()
 {
-	m_orthographicMatrix = Matrix4x4::Orthographic(m_fov, m_aspectRatio, 1.f);
+	m_orthographicMatrix = Matrix4x4::Orthographic(m_screenWidth, m_screenHeight, 0.1f);
 }
 
 void CameraComponent::Update(double deltaTime)
 {
-	m_aspectRatio = WindowManager::GetInstance().GetAspectRatio();
+	WindowManager& winMngr = WindowManager::GetInstance();
+	m_aspectRatio = winMngr.GetAspectRatio();
+	m_screenWidth = winMngr.WindowWidth();
+	m_screenHeight = winMngr.WindowHeight();
 	CalcViewMatrix();
 	switch (m_cameraType) {
 	case CAM_BOTH:

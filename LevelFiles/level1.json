@@ -7,9 +7,9 @@
       "background": {
         "scrollingSprite": {
           "color": {
-            "r": 0.2,
+            "r": 0.3,
             "g": 0,
-            "b": 0.2,
+            "b": 0.3,
             "a": 1
           }
         }
@@ -17,38 +17,123 @@
     },
     {
       "player": {
-        "transform": {
-          "position": {
-            "x": 0,
-            "y": -8
-          }
-        },
         "physics": {
           "position": {
-            "y": -8
+            "y": -240
           }
         }
       }
     },
     {
       "enemy": {
-        "transform": {
+        "physics": {
           "position": {
-            "x": 2,
-            "y": 46
+            "x": 300, "y": 600
           }
         }
       }
     },
     {
       "enemy": {
-        "transform": {
+        "physics": {
           "position": {
-            "x": -2,
-            "y": 40
+            "x": -200,
+            "y": 560
+          }
+        }
+      }
+    },
+
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -400,
+            "y": 800
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 750
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 700
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 650
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 600
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 550
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 500
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 450
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 400,
+            "y": 400
           }
         }
       }
     }
+
   ]
 }

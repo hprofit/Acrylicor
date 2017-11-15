@@ -30,6 +30,7 @@ class CameraComponent :
 {
 protected:
 	float m_fov, m_aspectRatio;
+	unsigned int m_screenWidth, m_screenHeight;
 	Matrix4x4 m_viewMatrix, m_perspectiveMatrix, m_orthographicMatrix;
 	unsigned short m_cameraType;
 

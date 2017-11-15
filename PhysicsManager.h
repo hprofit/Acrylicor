@@ -24,12 +24,16 @@ Creation date: 10/27/17
 #include <string>
 #include <vector>
 
+class EventManager;
+
 class PhysicsManager
 {
 private:
 	std::vector<Component *> m_physicsBodies;
 	std::vector<Component *> m_transforms;
 	std::vector<Contact *> m_contacts;
+
+	EventManager& _EventManager;
 
 	bool (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(PhysicsBody *, Vector3D, Vector3D, PhysicsBody *, Vector3D, Vector3D);
 
@@ -39,7 +43,7 @@ private:
 	void RemoveBody(Component * comp);
 	void RemoveTransform(Component * comp);
 
-	void CreateContact(PhysicsBody* lhs, PhysicsBody* rhs);
+	void CreateContact(GameObject* lhsGO, GameObject* rhsGO);
 	void ResetContacts();
 	bool CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs);
 

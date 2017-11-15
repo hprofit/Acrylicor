@@ -16,16 +16,9 @@
     }
   },
   "sprite": {
-    "name": "enemy",
+    "name": "drone",
     "frameX": 0,
     "frameY": 0
-  },
-  "aiSway": {
-    "amount": 500
-  },
-  "aiRush": {
-    "direction": "forward",
-    "speed": 200
   },
   "physics": {
     "mass": 1,
@@ -36,6 +29,10 @@
         "enemy"
       ]
     },
-    "maxSpeed": 300
+    "maxSpeed": 10000
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 150
   }
 }

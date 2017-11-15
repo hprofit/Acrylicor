@@ -22,12 +22,16 @@ Creation date: 10/13/17
 #include "AcryEvent.h"
 #include "AcrylicorTypedefs.h"
 
+class GameObjectManager;
+class GameObject;
+
 class EventManager
 {
 private:
-	std::map<String, std::vector<void (*)(AcryEvent*)> > m_listeners;
+	std::map<EventType, std::vector<GameObject*> > m_listeners;
 	std::priority_queue<AcryEvent*, std::vector<AcryEvent*>, AcryEventComparator> m_eventQueue;
 	unsigned int m_time;
+	GameObjectManager& _GameObjectManager;
 
 	EventManager();
 	~EventManager();
@@ -41,9 +45,13 @@ public:
 		return instance;
 	}
 
+	void Update();
 	void AddEvent(AcryEvent * newEvent);
 	void RunEvent();
-	void Register(String eventName, void(*callback)(AcryEvent*));
+	void Subscribe(EventType eType, GameObject* gObject);
+
+	void BroadcastEvent(AcryEvent * aEvent);
+	void BroadcastEventToSubscribers(AcryEvent * aEvent);
 };
 
 #endif

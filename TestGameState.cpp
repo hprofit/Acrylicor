@@ -14,8 +14,7 @@ void TestGameState::GameStateLoad(void)
 	Acrylicor::LoadShaderProgram("ObjectFiles/defaultShader.json");
 	Acrylicor::LoadShaderProgram("ObjectFiles/tileShader.json");
 	Acrylicor::LoadShaderProgram("ObjectFiles/scrollingTileShader.json");
-
-	Acrylicor::SelectShaderProgram("default");
+	Acrylicor::LoadShaderProgram("ObjectFiles/lineShader.json");
 
 	Acrylicor::LoadTexturesFromFile("ObjectFiles/textures.json");
 
@@ -35,6 +34,11 @@ void TestGameState::GameStateUpdate(double deltaTime)
 void TestGameState::GameStateDraw(void)
 {
 	Acrylicor::RenderGameObjects();
+}
+
+void TestGameState::GameStatePostUpdate(void)
+{
+	Acrylicor::CleanUpGameObjects();
 }
 
 void TestGameState::GameStateFree(void)

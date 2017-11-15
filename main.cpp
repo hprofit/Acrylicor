@@ -117,6 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 		gameState->GameStateUpdate(dt);
 		gameState->GameStateDraw();
+		gameState->GameStatePostUpdate();
 
 		Acrylicor::FrameEnd();
 	}

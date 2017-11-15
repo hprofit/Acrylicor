@@ -24,6 +24,8 @@ Creation date: 10/17/17
 #define Y_AXIS	1
 #define Z_AXIS	2
 
+class PhysicsComponent;
+
 class TransformComponent :
 	public Component
 {
@@ -39,6 +41,8 @@ protected:
 	void UpdateLookAt();
 	void Set2D(bool is2D);
 public:
+	friend PhysicsComponent;
+
 	TransformComponent() = delete;
 	TransformComponent(GameObject& parent, bool is2D = true);
 	TransformComponent(GameObject& parent, Vector3D position, bool is2D = true);
@@ -46,7 +50,7 @@ public:
 	TransformComponent(GameObject& parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ, bool is2D = true);
 	TransformComponent(const TransformComponent& rhs, GameObject& parent);
 	TransformComponent& operator=(const TransformComponent& rhs);
-	~TransformComponent();
+	virtual ~TransformComponent();
 
 	virtual void Update(double deltaTime);
 	virtual TransformComponent* Clone(GameObject& parent);

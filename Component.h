@@ -20,6 +20,7 @@ Creation date: 10/13/17
 #include "json.hpp"
 
 class GameObject;
+class AcryEvent;
 
 class Component
 {
@@ -40,6 +41,7 @@ public:
 	virtual Component* Clone(GameObject& parent) = 0;
 	virtual void Override(nlohmann::json j) = 0;
 	virtual void RegisterWithManager() = 0;
+	virtual void HandleEvent(AcryEvent * aEvent) {};
 
 	bool IsPriorityComp() const { return m_priority; }
 };

@@ -1,5 +1,9 @@
 #include "AcryEvent.h"
 
+AcryEvent::AcryEvent(EventType type, unsigned int time) :
+	m_time(time), m_type(type)
+{}
+
 AcryEvent::~AcryEvent()
 {
 }

@@ -1,15 +1,31 @@
 #include "RenderManager.h"
+#include "ResourceManager.h"
+
 #include "Matrix4x4.h"
+
+#include "SpriteComponent.h"
+#include "ScrollingSpriteComponent.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
+#include "PhysicsComponent.h"
+#include "PhysicsBody.h"
+
+#include "AcryDebugLine.h"
+
+#include <cmath>
 #include <glew.h>
 #include <fstream>
 #include <iostream>
 #include "json.hpp"
 
+
 using json = nlohmann::json;
 
-RenderManager::RenderManager()
+RenderManager::RenderManager() :
+	resourceMngr(ResourceManager::GetInstance()),
+	m_currentProgram(nullptr),
+	m_debugShaderName(""),
+	m_debugMode(false)
 {}
 
 RenderManager::~RenderManager()
@@ -31,6 +47,28 @@ String RenderManager::LoadTextFile(String fname)
 		std::getline(in, line);
 	}
 	return out;
+}
+
+void RenderManager::_RenderPhysicsBody(GameObject & camera, GameObject & gameObject)
+{
+	PhysicsComponent * pComp = static_cast<PhysicsComponent*>(gameObject.Get(COMPONENT_TYPE::PHYSICS));
+	TransformComponent * tComp = static_cast<TransformComponent*>(gameObject.Get(COMPONENT_TYPE::TRANSFORM));
+	Vector3D pos = tComp->GetPosition();
+
+	switch (pComp->Body().m_type) {
+		case BODY_TYPE::BT_CIRCLE:
+		{
+			Circle * circleBody = static_cast<Circle*>(pComp->GetBodyPtr());
+			RenderCircle(camera, circleBody->m_radius, pos.getX(), pos.getY());
+		}
+			break;
+		case BODY_TYPE::BT_AABB:
+		{
+			AABB * aabbBody = static_cast<AABB*>(pComp->GetBodyPtr());
+			RenderSquare(camera, aabbBody->m_width, aabbBody->m_height, tComp->GetAngleZ(), pos.getX(), pos.getY());
+		}
+			break;
+	}
 }
 
 void RenderManager::_RenderSprite(SpriteComponent * sComp)
@@ -84,29 +122,29 @@ void RenderManager::_RenderScrollingSprite(ScrollingSpriteComponent * sComp)
 void RenderManager::_RenderGameObject(GameObject & gameObject)
 {
 	// Only attempt to draw if the game object has a sprite component and transform component
-	if (!gameObject.Has(CT_TRANSFORM) || (!gameObject.Has(CT_SPRITE) && !gameObject.Has(CT_SCROLLING_SPRITE)))
+	if (!gameObject.Has(COMPONENT_TYPE::TRANSFORM) || (!gameObject.Has(COMPONENT_TYPE::SPRITE) && !gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE)))
 		return;
 
-	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(CT_TRANSFORM))->GetModelTransform();
+	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(COMPONENT_TYPE::TRANSFORM))->GetModelTransform();
 	Matrix4x4 N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
 	glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)M);
 	glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)N);
 
 	// set shader attributes
-	if(gameObject.Has(CT_SPRITE))
-		_RenderSprite(static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE)));
-	else if (gameObject.Has(CT_SCROLLING_SPRITE))
-		_RenderScrollingSprite(static_cast<ScrollingSpriteComponent*>(gameObject.Get(CT_SCROLLING_SPRITE)));
+	if(gameObject.Has(COMPONENT_TYPE::SPRITE))
+		_RenderSprite(static_cast<SpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SPRITE)));
+	else if (gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE))
+		_RenderScrollingSprite(static_cast<ScrollingSpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SCROLLING_SPRITE)));
 }
 
 void RenderManager::_SelectShaderProgram(GameObject & gameObject)
 {
 	String shader = "";
 
-	if (gameObject.Has(CT_SPRITE))
-		shader = static_cast<SpriteComponent*>(gameObject.Get(CT_SPRITE))->Shader();
-	else if (gameObject.Has(CT_SCROLLING_SPRITE))
-		shader = static_cast<ScrollingSpriteComponent*>(gameObject.Get(CT_SCROLLING_SPRITE))->Shader();
+	if (gameObject.Has(COMPONENT_TYPE::SPRITE))
+		shader = static_cast<SpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SPRITE))->Shader();
+	else if (gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE))
+		shader = static_cast<ScrollingSpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SCROLLING_SPRITE))->Shader();
 
 	SelectShaderProgram(shader.compare("") == 0 ? "default" : shader);
 }
@@ -147,15 +185,114 @@ void RenderManager::RenderGameObject(GameObject & gameObject)
 
 void RenderManager::RenderGameObject(GameObject & camera, GameObject & gameObject)
 {
-	if (!camera.Has(CT_CAMERA) || gameObject.Has(CT_CAMERA))
+	if (!camera.Has(COMPONENT_TYPE::CAMERA) || gameObject.Has(COMPONENT_TYPE::CAMERA))
 		return;
-	CameraComponent * cComp = static_cast<CameraComponent*>(camera.Get(CT_CAMERA));
+	CameraComponent * cComp = static_cast<CameraComponent*>(camera.Get(COMPONENT_TYPE::CAMERA));
 	_SelectShaderProgram(gameObject);
 	glUseProgram(m_currentProgram->GetProgram());
-	glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
+
+	// TODO: FIX
+	glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetOrthographicMatrix());
+	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
 	glUniformMatrix4fv(m_currentProgram->GetUniform("view_matrix"), 1, true, (float*)cComp->GetViewMatrix());
 
 	_RenderGameObject(gameObject);
+
+	if (m_debugMode && gameObject.Has(COMPONENT_TYPE::PHYSICS))
+		_RenderPhysicsBody(camera, gameObject);
+}
+
+void RenderManager::RenderSquare(GameObject & camera, float width, float height, float rotate, float x, float y)
+{
+	if (!camera.Has(COMPONENT_TYPE::CAMERA))
+		return;
+	CameraComponent * cComp = static_cast<CameraComponent*>(camera.Get(COMPONENT_TYPE::CAMERA));
+	SelectShaderProgram(m_debugShaderName);
+	glUseProgram(m_currentProgram->GetProgram());
+
+	// TODO: FIX
+	glUniformMatrix4fv(m_currentProgram->GetUniform("cam_matrix"), 1, true, (float*)cComp->GetOrthographicMatrix());
+	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
+	glUniformMatrix4fv(m_currentProgram->GetUniform("view_matrix"), 1, true, (float*)cComp->GetViewMatrix());
+
+	AcryDebugLine* dbLine = resourceMngr.DebugLine();
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	glBindBuffer(GL_ARRAY_BUFFER, dbLine->GetVertexBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0); // <- load it to memory
+
+	float halfWidth = width / 2.f,
+		halfHeight = height / 2.f;
+
+	// square base matrix
+	Matrix4x4 Base = Matrix4x4::Translate(Vector3D(x, y, 0)) * Matrix4x4::Rotate(rotate, Vector3D(0, 0, 1, 0));
+	Matrix4x4 SideBase = Matrix4x4::Rotate(90.f, Vector3D(0, 0, 1, 0)) * Matrix4x4::Scale(height, 0.f, 0.f);
+	Matrix4x4 TopBotScale = Matrix4x4::Scale(width, 0.f, 0.f);
+
+	Matrix4x4 Left = Base
+		* Matrix4x4::Translate(Vector3D(-halfWidth, 0, 0))
+		* SideBase;
+	GLint modelMatrix = m_currentProgram->GetUniform("model_matrix");
+	glUniformMatrix4fv(modelMatrix, 1, true, (float*)Left);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+
+	Matrix4x4 Right = Base
+		* Matrix4x4::Translate(Vector3D(halfWidth, 0, 0))
+		* SideBase;
+	glUniformMatrix4fv(modelMatrix, 1, true, (float*)Right);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+
+	Matrix4x4 Top = Base
+		* Matrix4x4::Translate(Vector3D(0, halfHeight, 0)) 
+		* TopBotScale;
+	glUniformMatrix4fv(modelMatrix, 1, true, (float*)Top);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+
+	Matrix4x4 Bottom = Base
+		* Matrix4x4::Translate(Vector3D(0, -halfHeight, 0))
+		* TopBotScale;
+	glUniformMatrix4fv(modelMatrix, 1, true, (float*)Bottom);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+}
+
+void RenderManager::RenderCircle(GameObject & camera, float radius, float x, float y)
+{
+	if (!camera.Has(COMPONENT_TYPE::CAMERA))
+		return;
+	CameraComponent * cComp = static_cast<CameraComponent*>(camera.Get(COMPONENT_TYPE::CAMERA));
+	SelectShaderProgram(m_debugShaderName);
+	glUseProgram(m_currentProgram->GetProgram());
+
+	// TODO: FIX
+	glUniformMatrix4fv(m_currentProgram->GetUniform("cam_matrix"), 1, true, (float*)cComp->GetOrthographicMatrix());
+	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
+	glUniformMatrix4fv(m_currentProgram->GetUniform("view_matrix"), 1, true, (float*)cComp->GetViewMatrix());
+
+	AcryDebugLine* dbLine = resourceMngr.DebugLine();
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	glBindBuffer(GL_ARRAY_BUFFER, dbLine->GetVertexBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0); // <- load it to memory
+
+	Matrix4x4 ArcMatrix;
+	GLint modelMatrix = m_currentProgram->GetUniform("model_matrix");
+	float max = 180.0;
+	float degreeAmt = 360.f / max;
+	Vector3D AXIS_Z = Vector3D(0, 0, 1);
+	Vector3D a = Vector3D(x, y, 0) + Vector3D(radius, 0, 0);
+	Vector3D b = Matrix4x4::Rotate(degreeAmt, AXIS_Z) * a;
+	float lineLength = Vector3D::Distance(a, b);
+	// circle base matrix
+	Matrix4x4 Base = Matrix4x4::Translate(Vector3D(radius, 0, 0))
+		* Matrix4x4::Rotate(90.f, Vector3D(0, 0, 1))
+		* Matrix4x4::Scale(lineLength, 0, 0);
+	Matrix4x4 Position = Matrix4x4::Translate(Vector3D(x, y, 0));
+	for (int i = 0; i < (int)max; ++i) {
+		ArcMatrix = Position
+			* Matrix4x4::Rotate(degreeAmt * (float)i, AXIS_Z)
+			* Base;
+
+		glUniformMatrix4fv(modelMatrix, 1, true, (float*)ArcMatrix);
+		glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+	}
 }
 
 void RenderManager::FrameEnd()

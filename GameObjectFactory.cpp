@@ -29,23 +29,23 @@ GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json
 	GameObject * gObject = NewObjectFromArchetype(objectType);
 	for (json::iterator it = j.begin(); it != j.end(); ++it) {
 		if (AcryJson::KeyIs(it, "transform"))
-			gObject->Get(CT_TRANSFORM)->Override(j);
+			gObject->Get(COMPONENT_TYPE::TRANSFORM)->Override(j);
 		else if (AcryJson::KeyIs(it, "sprite"))
-			gObject->Get(CT_SPRITE)->Override(j);
+			gObject->Get(COMPONENT_TYPE::SPRITE)->Override(j);
 		else if (AcryJson::KeyIs(it, "scrollingSprite"))
-			gObject->Get(CT_SCROLLING_SPRITE)->Override(j);
+			gObject->Get(COMPONENT_TYPE::SCROLLING_SPRITE)->Override(j);
 		else if (AcryJson::KeyIs(it, "controller"))
-			gObject->Get(CT_CONTROLLER)->Override(j);
+			gObject->Get(COMPONENT_TYPE::CONTROLLER)->Override(j);
 		else if (AcryJson::KeyIs(it, "physics"))
-			gObject->Get(CT_PHYSICS)->Override(j);
+			gObject->Get(COMPONENT_TYPE::PHYSICS)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSway"))
-			gObject->Get(CT_AI_SWAY)->Override(j);
+			gObject->Get(COMPONENT_TYPE::AI_SWAY)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiRush"))
-			gObject->Get(CT_AI_RUSH)->Override(j);
+			gObject->Get(COMPONENT_TYPE::AI_RUSH)->Override(j);
 		else if (AcryJson::KeyIs(it, "weapon"))
-			gObject->Get(CT_WEAPON)->Override(j);
+			gObject->Get(COMPONENT_TYPE::WEAPON)->Override(j);
 		else if (AcryJson::KeyIs(it, "camera"))
-			gObject->Get(CT_CAMERA)->Override(j);
+			gObject->Get(COMPONENT_TYPE::CAMERA)->Override(j);
 	}
 	return gObject;
 }

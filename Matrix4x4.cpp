@@ -396,7 +396,7 @@ Matrix4x4 Matrix4x4::Perspective(const float fov, const float aspect, const floa
 	return Perspective(fov, aspect, near, 1000.0f);
 }
 
-Matrix4x4 Matrix4x4::Orthographic(const float width, const float height, const float near, const float far)
+Matrix4x4 Matrix4x4::Orthographic(const int width, const int height, const float near, const float far)
 {
 	float w = 2.0f / width,
 		h = 2.0f / height,
@@ -411,7 +411,7 @@ Matrix4x4 Matrix4x4::Orthographic(const float width, const float height, const f
 	);
 }
 
-Matrix4x4 Matrix4x4::Orthographic(const float width, const float height, const float near)
+Matrix4x4 Matrix4x4::Orthographic(const int width, const int height, const float near)
 {
 	return Orthographic(width, height, near, 1000.0f);
 }

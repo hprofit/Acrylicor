@@ -3,15 +3,16 @@
 
 // Don't like TODO: fix
 #include "GameObject.h"
+#include "PhysicsComponent.h"
 #include "TransformComponent.h"
 
 AIRushComponent::AIRushComponent(GameObject & parent, unsigned short moveType, float speed) :
-	Component(parent, CT_AI_RUSH),
+	Component(parent, COMPONENT_TYPE::AI_RUSH),
 	m_moveType(moveType), m_speed(speed)
 {}
 
 AIRushComponent::AIRushComponent(const AIRushComponent & rhs, GameObject & parent) :
-	Component(parent, CT_AI_RUSH),
+	Component(parent, COMPONENT_TYPE::AI_RUSH),
 	m_moveType(rhs.m_moveType), m_speed(rhs.m_speed)
 {}
 
@@ -20,11 +21,12 @@ AIRushComponent::~AIRushComponent()
 
 void AIRushComponent::Update(double deltaTime)
 {
-	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(CT_TRANSFORM));
-	if (!tComp)
+	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	if (!tComp || !pComp)
 		return;
 
-	tComp->Move(tComp->Forward() * deltaTime * m_speed);
+	pComp->InterpolateVelocity(tComp->Forward() * m_speed, .5f);
 }
 
 AIRushComponent * AIRushComponent::Clone(GameObject & parent)

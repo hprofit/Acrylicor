@@ -37,6 +37,11 @@ GameObject::~GameObject()
 
 }
 
+void GameObject::ResetFlags()
+{
+	m_objectFlags = 0;
+}
+
 void GameObject::Activate()
 {
 	m_objectFlags |= FLAG_ACTIVE;
@@ -50,7 +55,17 @@ void GameObject::Deactivate()
 
 bool GameObject::IsActive()
 {
-	return (m_objectFlags & FLAG_ACTIVE) == 1;
+	return m_objectFlags & FLAG_ACTIVE;
+}
+
+void GameObject::Kill()
+{
+	m_objectFlags |= FLAG_READY_TO_DIE;
+}
+
+bool GameObject::IsDead()
+{
+	return m_objectFlags & FLAG_READY_TO_DIE;
 }
 
 bool GameObject::Has(COMPONENT_TYPE type)
@@ -82,5 +97,13 @@ void GameObject::Update(double deltaTime)
 	for (auto comp : m_components) {
 		if (comp.second && !comp.second->IsPriorityComp())
 			comp.second->Update(deltaTime);
+	}
+}
+
+void GameObject::HandleEvent(AcryEvent * aEvent)
+{
+	for (auto comp : m_components) {
+		if (comp.second)
+			comp.second->HandleEvent(aEvent);
 	}
 }

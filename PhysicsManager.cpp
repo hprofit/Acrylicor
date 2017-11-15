@@ -2,6 +2,8 @@
 #include <algorithm>
 #include "Math2D.h"
 #include "Math3D.h"
+#include "EventManager.h"
+#include "CollideEvent.h"
 
 #pragma region Circle on X
 static bool CircleOnCircle(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
@@ -29,7 +31,8 @@ static bool AABBOnAABB(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, Ph
 }
 #pragma endregion
 
-PhysicsManager::PhysicsManager()
+PhysicsManager::PhysicsManager() :
+	_EventManager(EventManager::GetInstance())
 {
 	m_collisionFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_CIRCLE] = CircleOnCircle;
 	m_collisionFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_AABB] = CircleOnAABB;
@@ -58,17 +61,17 @@ void PhysicsManager::RemoveTransform(Component * comp)
 
 void PhysicsManager::AddComponent(Component * comp)
 {
-	if (comp->m_type == CT_PHYSICS)
+	if (comp->m_type == COMPONENT_TYPE::PHYSICS)
 		m_physicsBodies.push_back(comp);
-	else if (comp->m_type == CT_TRANSFORM)
+	else if (comp->m_type ==COMPONENT_TYPE::TRANSFORM)
 		m_transforms.push_back(comp);
 }
 
 void PhysicsManager::RemoveComponent(Component * comp)
 {
-	if (comp->m_type == CT_PHYSICS)
+	if (comp->m_type == COMPONENT_TYPE::PHYSICS)
 		RemoveBody(comp);
-	else if (comp->m_type == CT_TRANSFORM)
+	else if (comp->m_type ==COMPONENT_TYPE::TRANSFORM)
 		RemoveTransform(comp);
 }
 
@@ -76,7 +79,7 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 {
 	ResetContacts();
 
-	int i = 0;
+	unsigned int i = 0;
 	// Update Physics Bodies
 	for (i = 0; i < m_physicsBodies.size(); ++i) {
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive())
@@ -94,7 +97,7 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive()) {
 			PhysicsComponent* lhs = static_cast<PhysicsComponent*>(m_physicsBodies[i]);
 
-			int j = 0;
+			unsigned int j = 0;
 			for (j = 0; j < m_physicsBodies.size(); ++j) {
 				if (i == j)
 					continue;
@@ -102,21 +105,28 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 					PhysicsComponent* rhs = static_cast<PhysicsComponent*>(m_physicsBodies[j]);
 					
 					if (CheckCollision(*lhs, *rhs))
-						CreateContact(&lhs->Body(), &rhs->Body());
+						CreateContact(&lhs->m_parent, &rhs->m_parent);
 				}
 			}
 		}
 	}
+
+	// Process contacts
+	for (i = 0; i < m_contacts.size(); ++i) {
+		CollideEvent * cEvent = new CollideEvent(0.0, m_contacts[i]->LHS_GO(), m_contacts[i]->RHS_GO());
+		m_contacts[i]->LHS_GO()->HandleEvent(cEvent);
+		m_contacts[i]->RHS_GO()->HandleEvent(cEvent);
+	}
 }
 
-void PhysicsManager::CreateContact(PhysicsBody * lhs, PhysicsBody * rhs)
+void PhysicsManager::CreateContact(GameObject* lhsGO, GameObject* rhsGO)
 {
-	m_contacts.push_back(new Contact(lhs, rhs));
+	m_contacts.push_back(new Contact(lhsGO, rhsGO));
 }
 
 void PhysicsManager::ResetContacts()
 {
-	for (int i = 0; i < m_contacts.size(); ++i) {
+	for (unsigned int i = 0; i < m_contacts.size(); ++i) {
 		if (m_contacts[i])
 			delete m_contacts[i];
 	}
@@ -126,8 +136,8 @@ void PhysicsManager::ResetContacts()
 bool PhysicsManager::CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
 {
 	return m_collisionFunctions[lhs.Body().m_type][rhs.Body().m_type](
-		&lhs.Body(), lhs.GetPreviousPosition(), lhs.GetPosition(),
-		&rhs.Body(), rhs.GetPreviousPosition(), rhs.GetPosition());
+		&lhs.Body(), lhs.GetPrevPosition(), lhs.GetPosition(),
+		&rhs.Body(), rhs.GetPrevPosition(), rhs.GetPosition());
 }
 
 

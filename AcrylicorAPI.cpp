@@ -10,6 +10,7 @@
 #include "json.hpp"
 #include <iostream>
 #include "JsonReader.h"
+#include "Mesh.h"
 
 static FrameRateController& frameRateCtrl = FrameRateController::GetInstance();
 static WindowManager& windowMngr = WindowManager::GetInstance();
@@ -37,6 +38,8 @@ int Acrylicor::Initialize(String configFileName)
 					props.windowTitle = AcryJson::ParseString(j, "WINDOW_TITLE");
 				else if (AcryJson::KeyIs(it, "DEBUG_MODE"))
 					props.debugMode = AcryJson::ParseBool(j, "DEBUG_MODE");
+				else if (AcryJson::KeyIs(it, "DEBUG_SHADER"))
+					props.debugShader = AcryJson::ParseString(j, "DEBUG_SHADER");
 			}
 		}
 	}
@@ -56,20 +59,28 @@ int Acrylicor::Initialize(AcryProps props)
 	if (!renderManager.Init())
 		return 1;
 
+	if (props.debugMode) {
+		renderManager.SetDebugShaderName(props.debugShader);
+		renderManager.SetDebugMode(props.debugMode);
+	}
+
 	Mesh * quad = CreateMesh("quad");
 
-	quad->AddVertex(
+	quad->AddTriangle(
 		-0.5f, -0.5f, 0.0f, .0f, 1.f, 0xFFFFFFFF,
 		0.5f, -0.5f, 0.0f, 1.f, 1.f, 0xFFFFFFFF,
 		-0.5f, 0.5f, 0.0f, .0f, .0f, 0xFFFFFFFF
 	);
-	quad->AddVertex(
+	quad->AddTriangle(
 		0.5f, -0.5f, 0.0f, 1.f, 1.f, 0xFFFFFFFF,
 		0.5f, 0.5f, 0.0f, 1.f, .0f, 0xFFFFFFFF,
 		-0.5f, 0.5f, 0.0f, .0f, .0f, 0xFFFFFFFF
 	);
 
 	quad->FinishMesh();
+
+	if (props.debugMode)
+		resourceMngr.CreateDebugLine();
 
 	return 0;
 }
@@ -101,12 +112,6 @@ void Acrylicor::RenderObject(GameObject & gameObject)
 Mesh * Acrylicor::CreateMesh(String meshName)
 {
 	return resourceMngr.LoadMesh(meshName);
-}
-
-SurfaceTextureBuffer * Acrylicor::LoadTexture(String fileName, String textureName)
-{
-	return nullptr;
-	//return resourceMngr.LoadTexture(textureName, fileName, true);
 }
 
 void Acrylicor::LoadTexturesFromFile(String fileName)
@@ -170,4 +175,9 @@ void Acrylicor::UpdateGameObjects(double deltaTime)
 void Acrylicor::RenderGameObjects()
 {
 	gameObjectMngr.RenderGameObjects();
+}
+
+void Acrylicor::CleanUpGameObjects()
+{
+	gameObjectMngr.CleanUpGameObjects();
 }

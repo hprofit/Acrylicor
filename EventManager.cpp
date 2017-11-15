@@ -1,14 +1,25 @@
 #include "EventManager.h"
+#include "GameObjectManager.h"
 
 
-
-EventManager::EventManager()
-{
-}
+EventManager::EventManager() :
+	_GameObjectManager(GameObjectManager::GetInstance())
+{}
 
 
 EventManager::~EventManager()
 {
+	while (!m_eventQueue.empty()) {
+		AcryEvent * nextEvent = m_eventQueue.top();
+		m_eventQueue.pop();
+		delete nextEvent;
+	}
+	m_eventQueue.empty();
+}
+
+void EventManager::Update()
+{
+
 }
 
 void EventManager::AddEvent(AcryEvent * newEvent)
@@ -22,12 +33,34 @@ void EventManager::RunEvent()
 		AcryEvent * nextEvent = m_eventQueue.top();
 		m_eventQueue.pop();
 		m_time = nextEvent->Time();
-		nextEvent->Process(m_listeners[nextEvent->Name()] );
+		//nextEvent->Process(m_listeners[nextEvent->Type()] );
 		delete nextEvent;
 	}
 }
 
-void EventManager::Register(String eventName, void(*callback)(AcryEvent *))
+void EventManager::Subscribe(EventType eType, GameObject * gObject)
 {
-	m_listeners[eventName].push_back(callback);
+	unsigned int i = 0;
+	for (i = 0; i < m_listeners[eType].size(); ++i) {
+		if (m_listeners[eType][i] == gObject)
+			return;
+	}
+	m_listeners[eType].push_back(gObject);
+}
+
+void EventManager::BroadcastEvent(AcryEvent * aEvent)
+{
+	unsigned int i = 0;
+	for (i = 0; i < _GameObjectManager.m_gameObjects.size(); ++i) {
+		if (_GameObjectManager.m_gameObjects[i] && _GameObjectManager.m_gameObjects[i]->IsActive())
+			_GameObjectManager.m_gameObjects[i]->HandleEvent(aEvent);
+	}
+}
+
+void EventManager::BroadcastEventToSubscribers(AcryEvent * aEvent)
+{
+	unsigned int i = 0;
+	for (i = 0; i < m_listeners[aEvent->Type()].size(); ++i) {
+		m_listeners[aEvent->Type()][i]->HandleEvent(aEvent);
+	}
 }

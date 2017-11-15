@@ -18,24 +18,32 @@ Creation date: 10/17/17
 
 #include "AcrylicorTypedefs.h"
 #include "GameObject.h"
-#include "SpriteComponent.h"
-#include "ScrollingSpriteComponent.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "STBSurface.h"
 #include <map>
 #include <string>
+#include "Matrix4x4.h"
+
+class ResourceManager;
+class SpriteComponent;
+class ScrollingSpriteComponent;
+class PhysicsComponent;
 
 class RenderManager
 {
 private:
+	ResourceManager& resourceMngr;
 	std::map<String, ShaderProgram *> m_shaderPrograms;
 	ShaderProgram * m_currentProgram;
+	String m_debugShaderName;
+	bool m_debugMode;
 
 	RenderManager();
 	~RenderManager();
 
 	String LoadTextFile(String fname);
+	void _RenderPhysicsBody(GameObject & camera, GameObject & gameObject);
 	void _RenderSprite(SpriteComponent* sComp);
 	void _RenderScrollingSprite(ScrollingSpriteComponent* sComp);
 	void _RenderGameObject(GameObject& gameObject);
@@ -54,8 +62,14 @@ public:
 	void FrameStart();
 	void RenderGameObject(GameObject& gameObject);
 	void RenderGameObject(GameObject& camera, GameObject& gameObject);
+
+	void RenderSquare(GameObject & camera, float width, float height, float rotate, float x, float y);
+	void RenderCircle(GameObject & camera, float radius, float x, float y);
+
 	void FrameEnd();
 
+	void SetDebugShaderName(String shaderName) { m_debugShaderName = shaderName; }
+	void SetDebugMode(bool debugMode) { m_debugMode = debugMode; }
 	void LoadShaderProgram(String fileName);
 	ShaderProgram * GetShaderProgram(String programName);
 	ShaderProgram * CreateShaderProgram(String programName);
