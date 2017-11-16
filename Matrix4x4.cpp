@@ -3,7 +3,7 @@
 #include "AcrylicorTypedefs.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "math.h"
+#include <math.h>
 
 Matrix4x4::Matrix4x4() {}
 

@@ -17,6 +17,22 @@ float AcryJson::ParseFloat(const json j, String comp, String prop, String coord)
 	return 0.0f;
 }
 
+double AcryJson::ParseDouble(const json j, String first, String second)
+{
+	if (j[first].find(second) != j[first].end())
+		return j[first][second];
+	return 0.0;
+}
+
+double AcryJson::ParseDouble(const json j, String first, String second, String third)
+{
+	if (j[first].find(second) != j[first].end()) {
+		if (j[first][second].find(third) != j[first][second].end())
+			return j[first][second][third];
+	}
+	return 0.0;
+}
+
 int AcryJson::ParseInt(const json j, String first)
 {
 	if (j.find(first) != j.end())

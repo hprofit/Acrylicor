@@ -26,7 +26,7 @@ class EventManager;
 class GameObjectManager
 {
 private:
-	int m_maxObjects;
+	unsigned int m_maxObjects;
 	std::vector<GameObject * > m_gameObjects;
 	std::vector<Component * > m_cameras;
 	GameObject * m_activeCamera;
@@ -34,21 +34,23 @@ private:
 	friend EventManager;
 
 	GameObjectManager() = delete;
-	GameObjectManager(int maxObjects);
+	GameObjectManager(unsigned int maxObjects);
 	~GameObjectManager();
 
-	void SetActiveCamera(GameObject* gObject);
+	void _SetActiveCamera(GameObject* gObject);
+	GameObject * _SpawnObject(GameObject* gameObject);
 public:
 	GameObjectManager(const GameObjectManager &) = delete;
 	void operator=(const GameObjectManager &) = delete;
 
-	static GameObjectManager& GetInstance(int maxObjects = 1024)
+	static GameObjectManager& GetInstance(unsigned int maxObjects = 2048)
 	{
 		static GameObjectManager instance(maxObjects);
 		return instance;
 	}
 
 	GameObject * SpawnGameObject(String objectType);
+	GameObject * SpawnGameObject(String objectType, GameObject * parent);
 	void SpawnGameObjectFromFile( nlohmann::json j);
 	void DestroyGameObject(GameObject * gObject);
 

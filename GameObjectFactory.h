@@ -37,6 +37,7 @@ private:
 	Returns the archetype instance of the specified game object.
 	*/
 	GameObject * GetObjectArchetype(String objectType);
+	void AttachGameObjectToParentGameObjectArchetype(String parentName, GameObject * child);
 
 public:
 	GameObjectFactory(const GameObjectFactory&) = delete;
@@ -55,7 +56,7 @@ public:
 	*/
 	GameObject * NewObjectFromArchetype(String objectType);
 
-	GameObject * LoadGameObjectFromFile(String fileName);
+	GameObject * LoadGameObjectFromFile(String fileName, String objectName);
 	void LoadGameObjectsFromFile(String fileName);
 };
 

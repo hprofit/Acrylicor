@@ -7,6 +7,22 @@
     "rows": 0,
     "columns": 0
   },
+  "playerDrone": {
+    "filename": "Textures/playerDrone.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "gun": {
+    "filename": "Textures/gun.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
   "enemy": {
     "filename": "Textures/evilShip.png",
     "alpha": true,

@@ -7,7 +7,7 @@
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 
-WeaponComponent::WeaponComponent(GameObject & parent, float rateOfFire, String bulletType, unsigned int burstAmount) :
+WeaponComponent::WeaponComponent(GameObject & parent, double rateOfFire, String bulletType, unsigned int burstAmount) :
 	Component(parent, COMPONENT_TYPE::WEAPON),
 	m_rateOfFire(rateOfFire),
 	m_bulletType(bulletType),
@@ -41,7 +41,7 @@ WeaponComponent * WeaponComponent::Clone(GameObject & parent)
 Component * WeaponComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
 	return new WeaponComponent(gObject,
-		AcryJson::ParseFloat(j, "weapon", "rateOfFire"),
+		AcryJson::ParseDouble(j, "weapon", "rateOfFire"),
 		AcryJson::ParseString(j, "weapon", "bullet"),
 		AcryJson::ValueExists(j, "weapon", "burst") ? AcryJson::ParseInt(j, "weapon", "burst") : 1
 	);
@@ -49,7 +49,7 @@ Component * WeaponComponent::Serialize(GameObject & gObject, nlohmann::json j)
 
 void WeaponComponent::Override(nlohmann::json j)
 {
-	m_rateOfFire = AcryJson::ValueExists(j, "weapon", "rateOfFire") ? AcryJson::ParseFloat(j, "weapon", "rateOfFire") : m_rateOfFire;
+	m_rateOfFire = AcryJson::ValueExists(j, "weapon", "rateOfFire") ? AcryJson::ParseDouble(j, "weapon", "rateOfFire") : m_rateOfFire;
 	m_bulletType = AcryJson::ValueExists(j, "weapon", "bullet") ? AcryJson::ParseString(j, "weapon", "bullet") : m_bulletType;
 	m_burstAmount = AcryJson::ValueExists(j, "weapon", "burst") ? AcryJson::ParseInt(j, "weapon", "burst") : m_burstAmount;
 }
@@ -63,15 +63,22 @@ void WeaponComponent::Fire()
 		TransformComponent * bulletTComp = static_cast<TransformComponent*>(bullet->Get(COMPONENT_TYPE::TRANSFORM));
 		PhysicsComponent * bulletPComp = static_cast<PhysicsComponent*>(bullet->Get(COMPONENT_TYPE::PHYSICS));
 
-		TransformComponent * playerTComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
-		PhysicsComponent * playerPComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+		TransformComponent * gunTComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+		PhysicsComponent * gunPComp = static_cast<PhysicsComponent*>(m_parent.GetImmediate(COMPONENT_TYPE::PHYSICS));
 
-		if (!bulletTComp || !bulletPComp || !playerTComp || !playerPComp)
+		if (!bulletTComp || !bulletPComp || !gunTComp)
 			return;
-		bulletTComp->SetPosition(playerTComp->GetPosition());
-		bulletTComp->SetAngles(playerTComp->GetAngleX(), playerTComp->GetAngleY(), playerTComp->GetAngleZ());
 
-		bulletPComp->SetPosition(playerPComp->GetPosition());
-		bulletPComp->SetPrevPosition(playerPComp->GetPrevPosition());
+		bulletTComp->SetPosition(gunTComp->GetPosition());
+		bulletTComp->SetAngles(gunTComp->GetAngleX(), gunTComp->GetAngleY(), gunTComp->GetAngleZ());
+
+		if (gunPComp) {
+			bulletPComp->SetPosition(gunPComp->GetPosition());
+			bulletPComp->SetPrevPosition(gunPComp->GetPrevPosition());
+		}
+		else {
+			bulletPComp->SetPosition(gunTComp->GetPosition());
+			bulletPComp->SetPrevPosition(gunTComp->GetPosition());
+		}
 	}
 }

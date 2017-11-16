@@ -1,6 +1,6 @@
 #include "AcryEvent.h"
 
-AcryEvent::AcryEvent(EventType type, unsigned int time) :
+AcryEvent::AcryEvent(EventType type, double time) :
 	m_time(time), m_type(type)
 {}
 

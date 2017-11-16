@@ -30,7 +30,7 @@ class EventManager
 private:
 	std::map<EventType, std::vector<GameObject*> > m_listeners;
 	std::priority_queue<AcryEvent*, std::vector<AcryEvent*>, AcryEventComparator> m_eventQueue;
-	unsigned int m_time;
+	double m_time;
 	GameObjectManager& _GameObjectManager;
 
 	EventManager();

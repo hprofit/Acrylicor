@@ -1,0 +1,14 @@
+{
+  "parent": "player",
+  "transform": {
+    "position": {
+      "x": 0,
+      "y": 32
+    }
+  },
+  "weapon": {
+    "rateOfFire": 0.125,
+    "bullet": "bullet",
+    "burst": 1
+  }
+}

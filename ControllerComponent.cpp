@@ -31,7 +31,7 @@ void ControllerComponent::Update(double deltaTime)
 	InputManager& inputMgr = InputManager::GetInstance();
 	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
 	SpriteComponent* sComp = static_cast<SpriteComponent*>(m_parent.Get(COMPONENT_TYPE::SPRITE));
-	WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.Get(COMPONENT_TYPE::WEAPON));
+	WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("gun")->Get(COMPONENT_TYPE::WEAPON));
 
 	if (!pComp || !sComp || !wComp)
 		return;

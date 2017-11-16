@@ -17,8 +17,8 @@ ScrollingSpriteComponent::~ScrollingSpriteComponent()
 
 void ScrollingSpriteComponent::Update(double deltaTime)
 {
-	m_offsetU += m_speedX * deltaTime;
-	m_offsetV += m_speedY * deltaTime;
+	m_offsetU += m_speedX * (float)deltaTime;
+	m_offsetV += m_speedY * (float)deltaTime;
 }
 
 ScrollingSpriteComponent * ScrollingSpriteComponent::Clone(GameObject & parent)

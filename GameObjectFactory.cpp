@@ -11,6 +11,8 @@
 #include "AIRushComponent.h"
 #include "WeaponComponent.h"
 #include "CameraComponent.h"
+#include "HealthComponent.h"
+#include "DamageComponent.h"
 
 GameObjectFactory::GameObjectFactory()
 {}
@@ -46,6 +48,10 @@ GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json
 			gObject->Get(COMPONENT_TYPE::WEAPON)->Override(j);
 		else if (AcryJson::KeyIs(it, "camera"))
 			gObject->Get(COMPONENT_TYPE::CAMERA)->Override(j);
+		else if (AcryJson::KeyIs(it, "health"))
+			gObject->Get(COMPONENT_TYPE::HEALTH)->Override(j);
+		else if (AcryJson::KeyIs(it, "damage"))
+			gObject->Get(COMPONENT_TYPE::DAMAGE)->Override(j);
 	}
 	return gObject;
 }
@@ -55,9 +61,20 @@ GameObject * GameObjectFactory::GetObjectArchetype(String objectType)
 	if (m_gameObjectTypes.find(objectType) != m_gameObjectTypes.end())
 		return m_gameObjectTypes[objectType];
 	else {
-		std::cerr << "Game object of type: " << objectType << " does not exist." << std::endl;
+		std::cerr << "Game object of type <" << objectType << "> does not exist." << std::endl;
 		return nullptr;
 	}
+}
+
+void GameObjectFactory::AttachGameObjectToParentGameObjectArchetype(String parentName, GameObject * child)
+{
+	GameObject * parent = GetObjectArchetype(parentName);
+	if (!parent) {
+		std::cout << "No such parent object <" << parentName << "> exists!" << std::endl;
+		return;
+	}
+	child->SetParent(parent);
+	parent->AddChild(child);
 }
 
 GameObject * GameObjectFactory::NewObjectFromArchetype(String objectType)
@@ -65,19 +82,19 @@ GameObject * GameObjectFactory::NewObjectFromArchetype(String objectType)
 	if (m_gameObjectTypes.find(objectType) != m_gameObjectTypes.end())
 		return new GameObject(*m_gameObjectTypes[objectType]);
 	else {
-		std::cerr << "Game object of type: " << objectType << " does not exist." << std::endl;
+		std::cerr << "Game object of type <" << objectType << "> does not exist." << std::endl;
 		return nullptr;
 	}
 }
 
-GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
+GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String objectName)
 {
 	try {
 		json j = AcryJson::OpenJsonFile(fileName);
-		GameObject * gObject = new GameObject();
+		GameObject * gObject = new GameObject(objectName);
 		if (j.is_object()) {
 			for (json::iterator it = j.begin(); it != j.end(); ++it) {
-				if(AcryJson::KeyIs(it, "transform"))
+				if (AcryJson::KeyIs(it, "transform"))
 					gObject->AddComponent(TransformComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "sprite"))
 					gObject->AddComponent(SpriteComponent::Serialize(*gObject, j));
@@ -95,6 +112,15 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName)
 					gObject->AddComponent(WeaponComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "camera"))
 					gObject->AddComponent(CameraComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "health"))
+					gObject->AddComponent(HealthComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "damage"))
+					gObject->AddComponent(DamageComponent::Serialize(*gObject, j));
+
+				// Special case, hook up to parent from here
+				else if (AcryJson::KeyIs(it, "parent")) {
+					AttachGameObjectToParentGameObjectArchetype(j["parent"], gObject);
+				}
 			}
 		}
 		return gObject;
@@ -110,9 +136,12 @@ void GameObjectFactory::LoadGameObjectsFromFile(String fileName)
 	try {
 		json j = AcryJson::OpenJsonFile(fileName);
 
-		if (j.is_object()) {
-			for (json::iterator it = j.begin(); it != j.end(); ++it) {
-				m_gameObjectTypes[it.key()] = LoadGameObjectFromFile(j[it.key()]);
+		if (j.is_array()) {
+			int numObjs = j.size();
+			for (int i = 0; i < numObjs; ++i) {
+				json::iterator it = j[i].begin();
+				String objectName = it.key();
+				m_gameObjectTypes[objectName] = LoadGameObjectFromFile(j[i][objectName], objectName);
 			}
 		}
 	}

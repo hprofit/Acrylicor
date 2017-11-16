@@ -16,6 +16,7 @@ Creation date: 10/13/17
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
+#include "AcrylicorTypedefs.h"
 #include "ComponentTypes.h"
 #include "Component.h"
 #include <map>
@@ -25,19 +26,26 @@ const unsigned char FLAG_ACTIVE = 0x1;
 const unsigned char FLAG_READY_TO_DIE = 0x2;
 
 class AcryEvent;
+class GameObjectManager;
 
 class GameObject
 {
 protected:
+	String m_type;
 	GameObject * m_parent;
 	std::vector<GameObject *> m_children;
 	
 	unsigned char m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
 
+	void CloneChildren(const GameObject & rhs);
+
 public:
-	GameObject();
+	friend GameObjectManager;
+
+	GameObject(String type);
 	GameObject(const GameObject & rhs);
+	GameObject(const GameObject & rhs, GameObject * parent);
 	GameObject& operator=(const GameObject & rhs);
 	virtual ~GameObject();
 
@@ -48,8 +56,22 @@ public:
 	virtual void Kill();
 	virtual bool IsDead();
 
+	void SetParent(GameObject * parent);
+	void AddChild(GameObject * child);
+	bool HasParent() const {
+		return m_parent != nullptr;
+	}
+	bool HasChildren() const {
+		return m_children.size() != 0;
+	}
+	GameObject * Parent() const {
+		return m_parent;
+	}
+	GameObject * GetChildOfType(String type) const;
+
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);
+	Component* GetImmediate(COMPONENT_TYPE type);
 	void AddComponent(Component * component);
 	void ClearComponents();
 

@@ -26,5 +26,8 @@
     },
     "weightless": true,
     "maxSpeed": 1000
+  },
+  "damage": {
+    "amount": 1
   }
 }

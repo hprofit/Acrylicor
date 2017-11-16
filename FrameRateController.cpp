@@ -1,6 +1,7 @@
 #include "FrameRateController.h"
 #include <algorithm>
 #include "SDL_timer.h"
+#include <math.h>
 
 #define MIN_FRAME_TIME 0.01666666666666666666666666666667
 

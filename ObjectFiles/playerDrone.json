@@ -16,21 +16,24 @@
     }
   },
   "sprite": {
-    "name": "player",
+    "name": "playerDrone",
     "frameX": 0,
     "frameY": 0
   },
-  "controller": { },
   "physics": {
     "mass": 1,
     "body": {
       "type": "circle",
-      "radius": 32,
+      "radius": 16,
       "tags": [
-        "player"
+        "playerDrone"
       ]
     },
-    "maxSpeed": 300,
-    "capRate": 0.9
+    "maxSpeed": 10000
+  },
+  "weapon": {
+    "rateOfFire": 0.25,
+    "bullet": "bullet",
+    "burst": 1
   }
 }

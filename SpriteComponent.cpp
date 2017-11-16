@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "JsonReader.h"
 
+#pragma region Ctor/Dtor
 SpriteComponent::SpriteComponent(COMPONENT_TYPE type, GameObject & parent, String spriteName, int frameX, int frameY, String shader, float tileX, float tileY, Vector3D color) :
 	Component(parent, type),
 	m_spriteName(spriteName),
@@ -60,6 +61,7 @@ SpriteComponent::SpriteComponent(const SpriteComponent& rhs, GameObject& parent)
 SpriteComponent::~SpriteComponent()
 {
 }
+#pragma endregion
 
 void SpriteComponent::Update(double deltaTime)
 {

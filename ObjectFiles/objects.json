@@ -1,8 +1,10 @@
-{
-  "camera": "ObjectFiles/camera.json",
-  "player": "ObjectFiles/player.json",
-  "enemy": "ObjectFiles/enemy.json",
-  "drone": "ObjectFiles/drone.json",
-  "background": "ObjectFiles/background.json",
-  "bullet": "ObjectFiles/bullets/bullet.json"
-}
+[
+  { "camera": "ObjectFiles/camera.json" },
+  { "player": "ObjectFiles/player.json" },
+  { "playerDrone": "ObjectFiles/playerDrone.json" },
+  { "gun": "ObjectFiles/gun.json" },
+  { "enemy": "ObjectFiles/enemy.json" },
+  { "drone": "ObjectFiles/drone.json" },
+  { "background": "ObjectFiles/background.json" },
+  { "bullet": "ObjectFiles/bullets/bullet.json" }
+]

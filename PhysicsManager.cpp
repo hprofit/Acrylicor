@@ -97,8 +97,8 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive()) {
 			PhysicsComponent* lhs = static_cast<PhysicsComponent*>(m_physicsBodies[i]);
 
-			unsigned int j = 0;
-			for (j = 0; j < m_physicsBodies.size(); ++j) {
+			unsigned int j = i;
+			for (j = i; j < m_physicsBodies.size(); ++j) {
 				if (i == j)
 					continue;
 				if (m_physicsBodies[j] && m_physicsBodies[j]->m_parent.IsActive()) {

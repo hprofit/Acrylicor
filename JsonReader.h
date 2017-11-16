@@ -26,6 +26,8 @@ using json = nlohmann::json;
 namespace AcryJson {
 	float ParseFloat(const json j, String, String);
 	float ParseFloat(const json j, String, String, String);
+	double ParseDouble(const json j, String, String);
+	double ParseDouble(const json j, String, String, String);
 	int ParseInt(const json j, String);
 	int ParseInt(const json j, String, String);
 	int ParseInt(const json j, String, String, String);

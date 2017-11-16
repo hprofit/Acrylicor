@@ -3,9 +3,11 @@
 #include "JsonReader.h"
 
 #include "CollideEvent.h"
+#include "DamageEvent.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "DamageComponent.h"
 
 #include <iostream>
 
@@ -99,14 +101,14 @@ void PhysicsComponent::Update(double deltaTime, float gravity)
 
 		m_acceleration = m_force * m_InvMass;
 
-		m_velocity = ((m_acceleration * deltaTime) + m_velocity) * m_capRate;
+		m_velocity = ((m_acceleration * (float)deltaTime) + m_velocity) * m_capRate;
 	}
 
 	if (m_velocity.SquareLength() > (m_maxSpeed * m_maxSpeed)) {
 		m_velocity = Vector3D::Normalize(m_velocity) * m_maxSpeed;
 	}
 
-	m_position += m_velocity * deltaTime;
+	m_position += m_velocity * (float)deltaTime;
 
 	m_force = Vector3D();
 
@@ -204,9 +206,11 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			other->Kill();
 		}
 		if (m_body->HasTag("playerBullet") && otherPComp->Body().HasTag("enemy")) {
-			// Introduce health component or fire event
+			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
+			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
+
+			// TODO: Bullet burst here
 			m_parent.Kill();
-			other->Kill();
 		}
 		if (m_body->HasTag("player") && otherPComp->Body().HasTag("enemyBullet")) {
 			m_parent.Kill();

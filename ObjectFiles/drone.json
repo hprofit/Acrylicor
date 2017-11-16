@@ -34,5 +34,8 @@
   "aiRush": {
     "direction": "forward",
     "speed": 150
+  },
+  "health": {
+    "hp": 3
   }
 }

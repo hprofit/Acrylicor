@@ -1,7 +1,7 @@
 #include "Matrix2x2.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "math.h"
+#include <math.h>
 #include "AcrylicorTypedefs.h"
 
 Matrix2x2::Matrix2x2() {}

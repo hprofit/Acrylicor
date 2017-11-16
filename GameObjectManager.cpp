@@ -3,7 +3,7 @@
 #include "RenderManager.h"
 #include <iostream>
 
-GameObjectManager::GameObjectManager(int maxObjects) :
+GameObjectManager::GameObjectManager(unsigned int maxObjects) :
 	m_maxObjects(maxObjects)
 {}
 
@@ -15,26 +15,25 @@ GameObjectManager::~GameObjectManager()
 	}
 }
 
-void GameObjectManager::SetActiveCamera(GameObject * gObject)
+void GameObjectManager::_SetActiveCamera(GameObject * gObject)
 {
 	if (gObject->Has(COMPONENT_TYPE::CAMERA))
 		m_activeCamera = gObject;
 }
 
-GameObject * GameObjectManager::SpawnGameObject(String objectType)
+GameObject * GameObjectManager::_SpawnObject(GameObject * gameObject)
 {
-	GameObject * newGameObject = GameObjectFactory::GetInstance().NewObjectFromArchetype(objectType);
-	SetActiveCamera(newGameObject);
+	_SetActiveCamera(gameObject);
 	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
-			m_gameObjects[i] = newGameObject;
-			return newGameObject;
+			m_gameObjects[i] = gameObject;
+			return gameObject;
 		}
 	}
 	if (i < m_maxObjects) {
-		m_gameObjects.push_back(newGameObject);
-		return newGameObject;
+		m_gameObjects.push_back(gameObject);
+		return gameObject;
 	}
 	else {
 		std::cerr << "Out of memory for GameObjects!" << std::endl;
@@ -42,21 +41,38 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType)
 	}
 }
 
+GameObject * GameObjectManager::SpawnGameObject(String objectType)
+{
+	GameObjectFactory& gameObjFactory = GameObjectFactory::GetInstance();
+	GameObject * gameObjArchetype = gameObjFactory.GetObjectArchetype(objectType);
+
+	GameObject * newGameObject = new GameObject(*gameObjArchetype);
+	newGameObject->CloneChildren(*gameObjArchetype);
+
+	return _SpawnObject(newGameObject);
+}
+
+GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * parent)
+{
+	GameObjectFactory& gameObjFactory = GameObjectFactory::GetInstance();
+	GameObject * gameObjArchetype = gameObjFactory.GetObjectArchetype(objectType);
+
+	GameObject * newGameObject = new GameObject(*gameObjArchetype, parent);
+	newGameObject->CloneChildren(*gameObjArchetype);
+
+	return _SpawnObject(newGameObject);
+}
+
 void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 {
-	GameObject * newGameObject = GameObjectFactory::GetInstance().SpawnObjectWithOverrides(j.begin().key(), j[j.begin().key()]);
-	SetActiveCamera(newGameObject);
-	unsigned int i = 0;
-	for (i = 0; i < m_gameObjects.size(); ++i) {
-		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
-			m_gameObjects[i] = newGameObject;
-			return;
-		}
-	}
-	if (i < m_maxObjects)
-		m_gameObjects.push_back(newGameObject);
-	else
-		std::cerr << "Out of memory for GameObjects!" << std::endl;
+	String objectType = j.begin().key();
+	GameObjectFactory& gameObjFactory = GameObjectFactory::GetInstance();
+
+	GameObject * gameObjArchetype = gameObjFactory.GetObjectArchetype(objectType);
+	GameObject * newGameObject = gameObjFactory.SpawnObjectWithOverrides(objectType, j[objectType]);
+	newGameObject->CloneChildren(*gameObjArchetype);
+
+	_SpawnObject(newGameObject);
 }
 
 void GameObjectManager::DestroyGameObject(GameObject * gObject)

@@ -23,14 +23,14 @@ class WeaponComponent :
 	public Component
 {
 protected:
-	float m_rateOfFire;
+	double m_rateOfFire;
 	String m_bulletType;	// Type of bullet to call GameObjectManager to spawn
 	unsigned int m_burstAmount;
-	float m_timeSinceLastFired;
+	double m_timeSinceLastFired;
 
 public:
 	WeaponComponent() = delete;
-	WeaponComponent(GameObject& parent, float rateOfFire, String bulletType, unsigned int burstAmount = 1);
+	WeaponComponent(GameObject& parent, double rateOfFire, String bulletType, unsigned int burstAmount = 1);
 	WeaponComponent(const WeaponComponent& rhs) = delete;
 	WeaponComponent(const WeaponComponent& rhs, GameObject& parent);
 	WeaponComponent& operator= (WeaponComponent rhs) = delete;

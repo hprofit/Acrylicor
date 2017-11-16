@@ -234,6 +234,15 @@
     <ClInclude Include="Contact.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -359,6 +368,15 @@
     <ClCompile Include="CollideEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -426,6 +444,12 @@
     </None>
     <None Include="ObjectFiles\lineShader.json">
       <Filter>Source Files\TEST_FILES\Json\Shaders</Filter>
+    </None>
+    <None Include="ObjectFiles\gun.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="ObjectFiles\playerDrone.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
   </ItemGroup>
 </Project>

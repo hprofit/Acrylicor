@@ -59,7 +59,6 @@ void InputManager::Update()
 		*/
 	}
 
-
 	memcpy(m_prevState, m_currentState, m_length * sizeof(Uint8));
 	memcpy(m_currentState, SDL_GetKeyboardState(&m_length), m_length * sizeof(Uint8));
 }

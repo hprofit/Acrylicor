@@ -2,7 +2,7 @@
 #include "AcrylicorTypedefs.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "math.h"
+#include <math.h>
 #include <algorithm>
 
 Vector2D::Vector2D() : m_x(0.f), m_y(0.f), m_w(1.f) { }

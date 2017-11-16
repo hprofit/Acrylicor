@@ -1,11 +1,10 @@
 #include "AISwayComponent.h"
 #include "JsonReader.h"
-//#include <iostream>
 
-// Don't like TODO: Fix
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
+#include <math.h>
 
 AISwayComponent::AISwayComponent(GameObject & parent, float swayAmount) :
 	Component(parent, COMPONENT_TYPE::AI_SWAY),
@@ -28,7 +27,7 @@ void AISwayComponent::Update(double deltaTime)
 	if (!tComp || !pComp)
 		return;
 
-	m_currX += deltaTime * m_direction;
+	m_currX += (float)deltaTime * m_direction;
 	if (m_currX >= 1.f) {
 		m_currX = 1.f;
 		m_direction = -1.f;

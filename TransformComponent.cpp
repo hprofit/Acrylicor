@@ -3,54 +3,79 @@
 #include <cmath>
 #include "PhysicsManager.h"
 
+const Vector3D XAXIS = Vector3D(1, 0, 0, 0);
+const Vector3D YAXIS = Vector3D(0, 1, 0, 0);
+const Vector3D ZAXIS = Vector3D(0, 0, 1, 0);
+
+void TransformComponent::SetParentTransform()
+{
+	if (m_parent.HasParent())
+		m_parentTransform = static_cast<TransformComponent*>(m_parent.Parent()->Get(COMPONENT_TYPE::TRANSFORM));
+}
+
 #pragma region Ctor/Dtor
 TransformComponent::TransformComponent(GameObject & parent, bool is2D) :
 	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
+	m_parentTransform(nullptr),
 	m_position(Vector3D(0.f, 0.f, 0.f)),
 	m_angleX(0.f), m_angleY(0.f), m_angleZ(0.f),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
 	m_scaleX(0.f), m_scaleY(0.f), m_scaleZ(0.f),
 	m_2d(is2D)
-{}
+{
+	SetParentTransform();
+}
 
 TransformComponent::TransformComponent(GameObject& parent, Vector3D position, bool is2D) :
 	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
+	m_parentTransform(nullptr),
 	m_position(position),
 	m_angleX(0.f), m_angleY(0.f), m_angleZ(0.f),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
 	m_scaleX(1.f), m_scaleY(1.f), m_scaleZ(0.f),
 	m_2d(is2D)
-{}
+{
+	SetParentTransform();
+}
 
 /*!
 Default interpretation of the TransformComponent is a 2D component, only the Z rotation and X-Y scales are taken into account.
 */
 TransformComponent::TransformComponent(GameObject& parent, Vector3D position, float angleZ, float scaleX, float scaleY, bool is2D) :
 	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
+	m_parentTransform(nullptr),
 	m_position(position),
 	m_angleX(0.f), m_angleY(0.f), m_angleZ(angleZ),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
 	m_scaleX(scaleX), m_scaleY(scaleY), m_scaleZ(0.f),
 	m_2d(is2D)
-{}
+{
+	SetParentTransform();
+}
 
 TransformComponent::TransformComponent(GameObject & parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ, bool is2D) :
 	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
+	m_parentTransform(nullptr),
 	m_position(position),
 	m_angleX(angleX), m_angleY(angleY), m_angleZ(angleZ),
 	m_lookAt(Vector3D(0.f, 1.f, 0.f)),
 	m_scaleX(scaleX), m_scaleY(scaleY), m_scaleZ(scaleZ),
 	m_2d(is2D)
-{}
+{
+	SetParentTransform();
+}
 
 TransformComponent::TransformComponent(const TransformComponent & rhs, GameObject& parent) :
 	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
+	m_parentTransform(nullptr),
 	m_position(rhs.m_position),
 	m_angleX(rhs.m_angleX), m_angleY(rhs.m_angleY), m_angleZ(rhs.m_angleZ),
 	m_lookAt(rhs.m_lookAt),
 	m_scaleX(rhs.m_scaleX), m_scaleY(rhs.m_scaleY), m_scaleZ(rhs.m_scaleZ),
 	m_2d(rhs.m_2d)
-{}
+{
+	SetParentTransform();
+}
 
 TransformComponent & TransformComponent::operator=(const TransformComponent& rhs)
 {
@@ -83,6 +108,7 @@ TransformComponent * TransformComponent::Clone(GameObject & parent)
 {
 	TransformComponent* tComp = new TransformComponent(*this, parent);
 	tComp->RegisterWithManager();
+
 	return tComp;
 }
 
@@ -139,7 +165,7 @@ void TransformComponent::RegisterWithManager()
 #pragma region Translation
 Vector3D TransformComponent::GetPosition() const
 { 
-	return m_position; 
+	return m_position + (m_parentTransform ? m_parentTransform->GetPosition() : Vector3D());
 }
 
 void TransformComponent::SetPosition(Vector3D pos)
@@ -168,9 +194,9 @@ void TransformComponent::WrapAngle(float & angle)
 
 void TransformComponent::UpdateLookAt()
 {
-	m_lookAt =	Matrix4x4::Rotate(m_angleX, Vector3D(1.0f, 0.0f, 0.0f, 0.0f)) *
-				Matrix4x4::Rotate(m_angleY, Vector3D(0.0f, 1.0f, 0.0f, 0.0f)) *
-				Matrix4x4::Rotate(m_angleZ, Vector3D(0.0f, 0.0f, 1.0f, 0.0f)) *
+	m_lookAt =	Matrix4x4::Rotate(GetAngleX(), Vector3D(1.0f, 0.0f, 0.0f, 0.0f)) *
+				Matrix4x4::Rotate(GetAngleY(), Vector3D(0.0f, 1.0f, 0.0f, 0.0f)) *
+				Matrix4x4::Rotate(GetAngleZ(), Vector3D(0.0f, 0.0f, 1.0f, 0.0f)) *
 				Vector3D(0.0f, 1.0f, 0.0f, 0.0f);
 }
 
@@ -192,11 +218,21 @@ void TransformComponent::SetAngles(float angleX, float angleY, float angleZ)
 	UpdateLookAt();
 }
 
+float TransformComponent::GetAngleX() const
+{
+	return m_angleX + (m_parentTransform ? m_parentTransform->GetAngleX() : .0f);
+}
+
 void TransformComponent::SetAngleX(float angle)
 {
 	m_angleX = angle;
 	WrapAngle(m_angleX);
 	UpdateLookAt();
+}
+
+float TransformComponent::GetAngleY() const
+{
+	return m_angleY + (m_parentTransform ? m_parentTransform->GetAngleY() : .0f);
 }
 
 void TransformComponent::SetAngleY(float angle)
@@ -206,6 +242,10 @@ void TransformComponent::SetAngleY(float angle)
 	UpdateLookAt();
 }
 
+float TransformComponent::GetAngleZ() const
+{
+	return m_angleZ + (m_parentTransform ? m_parentTransform->GetAngleZ() : .0f);
+}
 void TransformComponent::SetAngleZ(float angle)
 {
 	m_angleZ = angle;
@@ -261,7 +301,7 @@ Vector3D TransformComponent::LookAt() const
 #pragma region Scale
 float TransformComponent::GetScaleX() const
 {
-	return m_scaleX;
+	return m_scaleX * (m_parentTransform ? m_parentTransform->GetScaleX() : 1.f);
 }
 
 void TransformComponent::SetScaleX(float scaleX) 
@@ -276,7 +316,7 @@ void TransformComponent::ScaleX(float amount)
 
 float TransformComponent::GetScaleY() const 
 {
-	return m_scaleY;
+	return m_scaleY * (m_parentTransform ? m_parentTransform->GetScaleY() : 1.f);
 }
 
 void TransformComponent::SetScaleY(float scaleY) 
@@ -291,7 +331,7 @@ void TransformComponent::ScaleY(float amount)
 
 float TransformComponent::GetScaleZ() const
 {
-	return m_scaleZ;
+	return m_scaleZ * (m_parentTransform ? m_parentTransform->GetScaleY() : 1.f);
 }
 
 void TransformComponent::SetScaleZ(float scaleZ)
@@ -336,9 +376,24 @@ Matrix4x4 TransformComponent::GetModelTransform() const {
 
 void TransformComponent::BuildModelTransform()
 {
-	Matrix4x4 trans = Matrix4x4::Translate(Vector3D(m_position)),
-		rot = Matrix4x4::Rotate(m_angleX, Vector3D(1,0,0,0)) * Matrix4x4::Rotate(m_angleY, Vector3D(0, 1, 0, 0)) * Matrix4x4::Rotate(m_angleZ, Vector3D(0, 0, 1, 0)),
+	Matrix4x4 trans, rot, scale;
+
+	if (!m_parentTransform) {
+		trans = Matrix4x4::Translate(m_position);
+		rot = Matrix4x4::Rotate(m_angleX, XAXIS) * Matrix4x4::Rotate(m_angleY, YAXIS) * Matrix4x4::Rotate(m_angleZ, ZAXIS);
 		scale = Matrix4x4::Scale(m_scaleX, m_scaleY, m_scaleZ);
+	}
+	else {
+		trans = Matrix4x4::Translate(m_position + m_parentTransform->GetPosition());
+		rot = Matrix4x4::Rotate(m_angleX + m_parentTransform->GetAngleX(), XAXIS) 
+			* Matrix4x4::Rotate(m_angleY + m_parentTransform->GetAngleY(), YAXIS)
+			* Matrix4x4::Rotate(m_angleZ + m_parentTransform->GetAngleZ(), ZAXIS);
+		scale = Matrix4x4::Scale(
+			m_scaleX * m_parentTransform->GetScaleX(),
+			m_scaleY * m_parentTransform->GetScaleY(),
+			m_scaleZ * m_parentTransform->GetScaleZ()
+		);
+	}
 
 	m_transform = trans * rot * scale;
 }

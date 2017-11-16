@@ -21,7 +21,8 @@ Creation date: 10/13/17
 
 enum class EventType {
 	COLLIDE,
-	KEY_PRESS
+	KEY_PRESS,
+	DAMAGE
 };
 
 struct AcryEventComparator;
@@ -36,7 +37,7 @@ protected:
 
 	AcryEvent(double time) : m_time(time) {};
 public:
-	AcryEvent(EventType type, unsigned int time);
+	AcryEvent(EventType type, double time);
 	AcryEvent() = delete;
 	virtual ~AcryEvent();
 
@@ -46,7 +47,7 @@ public:
 
 	bool operator<(const AcryEvent& rhs);
 	bool operator>(const AcryEvent& rhs);
-	unsigned int Time() const {
+	double Time() const {
 		return m_time;
 	}
 	EventType Type() const {

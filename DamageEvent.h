@@ -2,36 +2,32 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: ComponentTypes.h
-Purpose: Provides an enum for all possible component types -- seperating this from Component so Component.h doesn't know about
-other types of Components.
+File Name: DamageEvent.h
+Purpose: Event containing damage amount to be applied to a game object
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/20/17
+Creation date: 11/15/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
 
-#ifndef COMPONENT_TYPES_H
-#define COMPONENT_TYPES_H
+#ifndef DAMAGE_EVENT_H
+#define DAMAGE_EVENT_H
 
-const enum class COMPONENT_TYPE {
-	PHYSICS = 0,
-	SPRITE,
-	SCROLLING_SPRITE,
-	TRANSFORM,
-	CONTROLLER,
-	AI_SWAY,
-	AI_RUSH,
-	WEAPON,
-	CAMERA,
+#include "AcryEvent.h"
 
-	HEALTH,
-	DAMAGE,
+class DamageEvent :
+	public AcryEvent
+{
+private:
+	int damageAmt;
+public:
+	DamageEvent(double time, int dmgAmt);
+	virtual ~DamageEvent();
 
-	NUM_COMPONENTS
+	int Amount() { return damageAmt; }
 };
 
 #endif

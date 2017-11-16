@@ -1,13 +1,39 @@
 #include "GameObject.h"
+#include "GameObjectManager.h"
 
-GameObject::GameObject() : 
+void GameObject::CloneChildren(const GameObject & rhs)
+{
+	GameObjectManager& gameObjMngr = GameObjectManager::GetInstance();
+	for (GameObject * child : rhs.m_children) {
+		GameObject * childClone = gameObjMngr.SpawnGameObject(child->m_type, this);
+		AddChild(childClone);
+	}
+}
+
+GameObject::GameObject(String type) :
+	m_type(type),
 	m_parent(nullptr),
 	m_objectFlags(0)
 {}
 
 GameObject::GameObject(const GameObject& rhs) :
+	m_type(rhs.m_type),
 	m_parent(nullptr),
 	m_objectFlags(0) 
+{
+	Activate();
+
+	for (auto comp : rhs.m_components) {
+		if (comp.second) {
+			m_components[comp.first] = comp.second->Clone(*this);
+		}
+	}
+}
+
+GameObject::GameObject(const GameObject & rhs, GameObject * parent) :
+	m_type(rhs.m_type),
+	m_parent(parent),
+	m_objectFlags(0)
 {
 	Activate();
 
@@ -55,7 +81,7 @@ void GameObject::Deactivate()
 
 bool GameObject::IsActive()
 {
-	return m_objectFlags & FLAG_ACTIVE;
+	return static_cast<bool>(m_objectFlags & FLAG_ACTIVE);
 }
 
 void GameObject::Kill()
@@ -65,7 +91,26 @@ void GameObject::Kill()
 
 bool GameObject::IsDead()
 {
-	return m_objectFlags & FLAG_READY_TO_DIE;
+	return static_cast<bool>(m_objectFlags & FLAG_READY_TO_DIE);
+}
+
+void GameObject::SetParent(GameObject * parent)
+{
+	m_parent = parent;
+}
+
+void GameObject::AddChild(GameObject * child)
+{
+	m_children.push_back(child);
+}
+
+GameObject * GameObject::GetChildOfType(String type) const
+{
+	for (GameObject* child : m_children) {
+		if (child->m_type.compare(type) == 0)
+			return child;
+	}
+	return nullptr;
 }
 
 bool GameObject::Has(COMPONENT_TYPE type)
@@ -74,6 +119,13 @@ bool GameObject::Has(COMPONENT_TYPE type)
 }
 
 Component * GameObject::Get(COMPONENT_TYPE type)
+{
+	if (!m_components[type] && m_parent)
+		return m_parent->Get(type);
+	return m_components[type];
+}
+
+Component * GameObject::GetImmediate(COMPONENT_TYPE type)
 {
 	return m_components[type];
 }

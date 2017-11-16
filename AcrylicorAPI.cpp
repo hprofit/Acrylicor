@@ -126,7 +126,8 @@ void Acrylicor::UnloadResources()
 
 GameObject * Acrylicor::LoadGameObject(String fileName)
 {
-	return gameObjectFactory.LoadGameObjectFromFile(fileName);
+	//return gameObjectFactory.LoadGameObjectFromFile(fileName);
+	return nullptr;
 }
 
 void Acrylicor::LoadGameObjects(String fileName)

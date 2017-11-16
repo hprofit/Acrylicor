@@ -30,6 +30,8 @@ class TransformComponent :
 	public Component
 {
 protected:
+	TransformComponent* m_parentTransform;
+
 	Vector3D m_position;
 	float m_angleX, m_angleY, m_angleZ;
 	Vector3D m_lookAt;
@@ -37,6 +39,7 @@ protected:
 	Matrix4x4 m_transform;
 	bool m_2d;
 
+	void SetParentTransform();
 	void WrapAngle(float & angle);
 	void UpdateLookAt();
 	void Set2D(bool is2D);
@@ -63,11 +66,11 @@ public:
 	void Move(Vector3D amount);
 
 	void SetAngles(float angleX, float angleY, float angleZ);
-	float GetAngleX() const { return m_angleX; }
+	float GetAngleX() const;
 	void SetAngleX(float angle);
-	float GetAngleY() const { return m_angleY; }
+	float GetAngleY() const;
 	void SetAngleY(float angle);
-	float GetAngleZ() const { return m_angleZ; }
+	float GetAngleZ() const;
 	void SetAngleZ(float angle);
 
 	void RotateX(float amount);
