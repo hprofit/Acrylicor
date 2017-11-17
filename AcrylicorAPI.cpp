@@ -160,11 +160,6 @@ void Acrylicor::LoadShaderProgram(String fileName)
 	renderMngr.LoadShaderProgram(fileName);
 }
 
-void Acrylicor::SelectShaderProgram(String programName)
-{
-	renderMngr.SelectShaderProgram(programName);
-}
-
 void Acrylicor::UpdateGameObjects(double deltaTime)
 {
 	gameObjectMngr.UpdateGameObjects(deltaTime);
