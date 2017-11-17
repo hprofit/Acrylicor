@@ -1,0 +1,25 @@
+{
+  "transform": {
+    "position": {
+      "x": 540,
+      "y": 380
+    }
+  },
+  "sprite": {
+    "name": "player",
+    "shader": "tileShader",
+    "frameX": 0,
+    "frameY": 0,
+    "tileX": 1
+  },
+  "uiLives": {
+    "events": [
+      "playerDeath"
+    ],
+    "amount": 3,
+    "scale": {
+      "x": 32,
+      "y": 32
+    }
+  }
+}

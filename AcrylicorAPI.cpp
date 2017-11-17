@@ -7,6 +7,7 @@
 #include "GameObjectManager.h"
 #include "GameObjectFactory.h"
 #include "PhysicsManager.h"
+#include "EventManager.h"
 #include "json.hpp"
 #include <iostream>
 #include "JsonReader.h"
@@ -20,6 +21,7 @@ static ResourceManager& resourceMngr = ResourceManager::GetInstance();
 static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
 static GameObjectManager& gameObjectMngr = GameObjectManager::GetInstance();
 static PhysicsManager& physicsMngr = PhysicsManager::GetInstance();
+static EventManager& eventMngr = EventManager::GetInstance();
 
 int Acrylicor::Initialize(String configFileName)
 {
@@ -62,6 +64,7 @@ int Acrylicor::Initialize(AcryProps props)
 	if (props.debugMode) {
 		renderManager.SetDebugShaderName(props.debugShader);
 		renderManager.SetDebugMode(props.debugMode);
+		gameObjectMngr.SetDebugMode(props.debugMode);
 	}
 
 	Mesh * quad = CreateMesh("quad");
@@ -94,6 +97,8 @@ double Acrylicor::FrameStart()
 	renderMngr.FrameStart();
 
 	inputMngr.Update();
+
+	eventMngr.Update(dt);
 	return dt;
 }
 
@@ -122,12 +127,6 @@ void Acrylicor::LoadTexturesFromFile(String fileName)
 void Acrylicor::UnloadResources()
 {
 	resourceMngr.UnloadAll();
-}
-
-GameObject * Acrylicor::LoadGameObject(String fileName)
-{
-	//return gameObjectFactory.LoadGameObjectFromFile(fileName);
-	return nullptr;
 }
 
 void Acrylicor::LoadGameObjects(String fileName)

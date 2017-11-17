@@ -1,6 +1,5 @@
 #include "InputManager.h"
 
-#include "FrameRateController.h"
 #include "EventManager.h"
 #include "KeyPressEvent.h"
 
@@ -86,7 +85,7 @@ bool InputManager::IsKeyReleased(unsigned int KeyScanCode)
 
 void InputManager::KeyPressed(unsigned int KeyScanCode)
 {
-	EventManager::GetInstance().AddEvent(new KeyPressEvent(FrameRateController::GetInstance().GetTime(), KeyScanCode));
+	EventManager::GetInstance().BroadcastEventToSubscribers(new KeyPressEvent(0.0, KeyScanCode));
 }
 
 void InputManager::KeyTriggered(unsigned int KeyScanCode)

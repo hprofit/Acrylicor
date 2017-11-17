@@ -85,6 +85,9 @@
     <Filter Include="Source Files\TEST_FILES\Json\Levels">
       <UniqueIdentifier>{600f41bd-63da-4e2b-810c-880b0e949eae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\UI">
+      <UniqueIdentifier>{06400129-3c82-4294-a293-d981935ab999}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -241,7 +244,16 @@
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="DamageComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_LivesComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeChangeEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnerComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -375,7 +387,19 @@
       <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="DamageComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_LivesComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeChangeEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnerComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +473,15 @@
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
     <None Include="ObjectFiles\playerDrone.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="ObjectFiles\HUD.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\UI_lives.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\playerSpawner.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
   </ItemGroup>

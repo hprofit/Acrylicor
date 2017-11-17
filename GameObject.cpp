@@ -1,11 +1,21 @@
 #include "GameObject.h"
 #include "GameObjectManager.h"
+#include "EventManager.h"
 
 void GameObject::CloneChildren(const GameObject & rhs)
 {
 	GameObjectManager& gameObjMngr = GameObjectManager::GetInstance();
 	for (GameObject * child : rhs.m_children) {
 		GameObject * childClone = gameObjMngr.SpawnGameObject(child->m_type, this);
+		AddChild(childClone);
+	}
+}
+
+void GameObject::SpawnChildrenAndAttach(const GameObject & rhs)
+{
+	GameObjectManager& gameObjMngr = GameObjectManager::GetInstance();
+	for (String childType : rhs.m_childrenToSpawn) {
+		GameObject * childClone = gameObjMngr.SpawnGameObject(childType, this);
 		AddChild(childClone);
 	}
 }
@@ -60,7 +70,6 @@ GameObject & GameObject::operator=(const GameObject & rhs)
 GameObject::~GameObject()
 {
 	ClearComponents();
-
 }
 
 void GameObject::ResetFlags()
@@ -87,11 +96,24 @@ bool GameObject::IsActive()
 void GameObject::Kill()
 {
 	m_objectFlags |= FLAG_READY_TO_DIE;
+
+	for (GameObject* child : m_children)
+		child->Kill();
 }
 
 bool GameObject::IsDead()
 {
 	return static_cast<bool>(m_objectFlags & FLAG_READY_TO_DIE);
+}
+
+void GameObject::AddChildType(String childObjectType)
+{
+	m_childrenToSpawn.push_back(childObjectType);
+}
+
+void GameObject::SetChildTypes(std::vector<String> childObjectTypes)
+{
+	m_childrenToSpawn = childObjectTypes;
 }
 
 void GameObject::SetParent(GameObject * parent)
@@ -111,6 +133,11 @@ GameObject * GameObject::GetChildOfType(String type) const
 			return child;
 	}
 	return nullptr;
+}
+
+void GameObject::AddEventSubscription(String eventType)
+{
+	EventManager::GetInstance().Subscribe(eventType, this);
 }
 
 bool GameObject::Has(COMPONENT_TYPE type)

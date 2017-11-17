@@ -1,0 +1,9 @@
+{
+  "events": [
+    "respawn"
+  ],
+  "spawner": {
+    "type": "player"
+  },
+  "transform": { }
+}

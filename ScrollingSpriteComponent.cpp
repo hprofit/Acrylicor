@@ -23,7 +23,9 @@ void ScrollingSpriteComponent::Update(double deltaTime)
 
 ScrollingSpriteComponent * ScrollingSpriteComponent::Clone(GameObject & parent)
 {
-	return new ScrollingSpriteComponent(*this, parent);
+	ScrollingSpriteComponent* comp = new ScrollingSpriteComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * ScrollingSpriteComponent::Serialize(GameObject & gObject, nlohmann::json j)

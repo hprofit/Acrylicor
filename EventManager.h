@@ -16,20 +16,20 @@ Creation date: 10/13/17
 #ifndef EVENT_MANAGER_H
 #define EVENT_MANAGER_H
 
-#include <map>
-#include <queue>
-#include <functional>
-#include "AcryEvent.h"
+#include <unordered_map>
+#include <utility>
 #include "AcrylicorTypedefs.h"
+#include "AcryEvent.h"
 
 class GameObjectManager;
 class GameObject;
+class Component;
 
 class EventManager
 {
 private:
-	std::map<EventType, std::vector<GameObject*> > m_listeners;
-	std::priority_queue<AcryEvent*, std::vector<AcryEvent*>, AcryEventComparator> m_eventQueue;
+	std::unordered_map<EventType, std::pair<std::vector<GameObject*>, std::vector<Component*> > > m_listeners;
+	std::vector<AcryEvent*> m_events;
 	double m_time;
 	GameObjectManager& _GameObjectManager;
 
@@ -45,10 +45,20 @@ public:
 		return instance;
 	}
 
-	void Update();
-	void AddEvent(AcryEvent * newEvent);
-	void RunEvent();
+	void Update(double deltaTime);
+	void AddDelayedEvent(AcryEvent * newEvent);
+
+	void Subscribe(const String eType, GameObject* gObject);
 	void Subscribe(EventType eType, GameObject* gObject);
+
+	void Subscribe(const String eType, Component* component);
+	void Subscribe(const EventType eType, Component* component);
+
+	void Unsubscribe(GameObject* gObject);
+	void Unsubscribe(const EventType eType, GameObject* gObject);
+
+	void Unsubscribe(Component* component);
+	void Unsubscribe(const EventType eType, Component* component);
 
 	void BroadcastEvent(AcryEvent * aEvent);
 	void BroadcastEventToSubscribers(AcryEvent * aEvent);

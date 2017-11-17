@@ -1,7 +1,9 @@
 #include "PhysicsComponent.h"
 #include "PhysicsManager.h"
+#include "EventManager.h"
 #include "JsonReader.h"
 
+#include "AcryEvent.h"
 #include "CollideEvent.h"
 #include "DamageEvent.h"
 
@@ -122,6 +124,7 @@ PhysicsComponent * PhysicsComponent::Clone(GameObject & parent)
 {
 	PhysicsComponent* pComp = new PhysicsComponent(*this, parent);
 	pComp->RegisterWithManager();
+	pComp->SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return pComp;
 }
 
@@ -201,7 +204,9 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			cpEvent->RHS() : cpEvent->LHS();
 		PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
 		// TODO: Should be scripted stuff
-		if (m_body->HasTag("player") && otherPComp->Body().HasTag("enemy")) {
+		if (m_body->HasTag("player") && (otherPComp->Body().HasTag("enemy") || otherPComp->Body().HasTag("enemyBullet"))) {
+			EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
+			EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESPAWN, 3.0));
 			m_parent.Kill();
 			other->Kill();
 		}
@@ -209,12 +214,8 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
 			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
 
-			// TODO: Bullet burst here
+			// TODO: Bullet burst animation here
 			m_parent.Kill();
-		}
-		if (m_body->HasTag("player") && otherPComp->Body().HasTag("enemyBullet")) {
-			m_parent.Kill();
-			other->Kill();
 		}
 	}
 	break;

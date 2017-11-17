@@ -42,7 +42,9 @@ void AISwayComponent::Update(double deltaTime)
 
 AISwayComponent * AISwayComponent::Clone(GameObject & parent)
 {
-	return new AISwayComponent(*this, parent);
+	AISwayComponent* comp = new AISwayComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * AISwayComponent::Serialize(GameObject & gObject, nlohmann::json j)

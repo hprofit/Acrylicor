@@ -16,6 +16,7 @@ Creation date: 10/13/17
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include "AcrylicorTypedefs.h"
 #include "ComponentTypes.h"
 #include "json.hpp"
 
@@ -25,9 +26,12 @@ class AcryEvent;
 class Component
 {
 protected:
+	std::vector<String> m_eventsToSubscribeTo;
+
 	Component(GameObject& parent, COMPONENT_TYPE type, bool priority = false) :
 		m_parent(parent), m_type(type), m_priority(priority) {}
 
+	void SubscribeToEvents(std::vector<String> events);
 public:
 	GameObject& m_parent;
 	const COMPONENT_TYPE m_type;
@@ -43,6 +47,7 @@ public:
 	virtual void RegisterWithManager() = 0;
 	virtual void HandleEvent(AcryEvent * aEvent) {};
 
-	bool IsPriorityComp() const { return m_priority; }
+	virtual bool IsPriorityComp() const { return m_priority; }
+	virtual void AddEventSubscription(String eventType);
 };
 #endif

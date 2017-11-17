@@ -95,7 +95,10 @@ TransformComponent & TransformComponent::operator=(const TransformComponent& rhs
 	return *this;
 }
 
-TransformComponent::~TransformComponent(){}
+TransformComponent::~TransformComponent()
+{
+	PhysicsManager::GetInstance().RemoveComponent(this);
+}
 #pragma endregion
 
 void TransformComponent::Update(double deltaTime)
@@ -108,7 +111,7 @@ TransformComponent * TransformComponent::Clone(GameObject & parent)
 {
 	TransformComponent* tComp = new TransformComponent(*this, parent);
 	tComp->RegisterWithManager();
-
+	tComp->SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return tComp;
 }
 

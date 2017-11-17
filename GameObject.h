@@ -34,11 +34,14 @@ protected:
 	String m_type;
 	GameObject * m_parent;
 	std::vector<GameObject *> m_children;
+	std::vector<String> m_eventsToSubscribeTo;
+	std::vector<String> m_childrenToSpawn;
 	
 	unsigned char m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
 
 	void CloneChildren(const GameObject & rhs);
+	void SpawnChildrenAndAttach(const GameObject & rhs);
 
 public:
 	friend GameObjectManager;
@@ -50,11 +53,16 @@ public:
 	virtual ~GameObject();
 
 	virtual void ResetFlags();
+
 	virtual void Activate();
 	virtual void Deactivate();
+
 	virtual bool IsActive();
 	virtual void Kill();
 	virtual bool IsDead();
+
+	void AddChildType(String childObjectType);
+	void SetChildTypes(std::vector<String> childObjectTypes);
 
 	void SetParent(GameObject * parent);
 	void AddChild(GameObject * child);
@@ -68,6 +76,8 @@ public:
 		return m_parent;
 	}
 	GameObject * GetChildOfType(String type) const;
+
+	void AddEventSubscription(String eventType);
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);

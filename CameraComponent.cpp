@@ -22,6 +22,7 @@ CameraComponent::CameraComponent(const CameraComponent & rhs, GameObject & paren
 
 CameraComponent::~CameraComponent()
 {
+	GameObjectManager::GetInstance().RemoveCamera(this);
 }
 
 Matrix4x4 CameraComponent::MatrixFromCameraVectors(const Vector3D & right, const Vector3D & up, const Vector3D & forward)
@@ -78,6 +79,7 @@ CameraComponent * CameraComponent::Clone(GameObject & parent)
 {
 	CameraComponent* cComp = new CameraComponent(*this, parent);
 	cComp->RegisterWithManager();
+	cComp->SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return cComp;
 }
 

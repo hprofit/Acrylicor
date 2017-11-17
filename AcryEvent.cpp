@@ -1,5 +1,18 @@
 #include "AcryEvent.h"
 
+static std::unordered_map<String, EventType> TitleMap = {
+	{ "collide", EventType::COLLIDE },
+	{ "keyPress", EventType::KEY_PRESS },
+	{ "damage", EventType::DAMAGE },
+	{ "lifeChange", EventType::LIFE_CHANGE },
+	{ "playerDeath", EventType::PLAYER_DEATH },
+	{ "respawn", EventType::RESPAWN },
+};
+
+AcryEvent::AcryEvent(EventType type) :
+	m_time(0.0), m_type(type)
+{}
+
 AcryEvent::AcryEvent(EventType type, double time) :
 	m_time(time), m_type(type)
 {}
@@ -8,22 +21,22 @@ AcryEvent::~AcryEvent()
 {
 }
 
-bool AcryEvent::operator<(const AcryEvent & rhs)
+double AcryEvent::Time() const
 {
-	return m_time < rhs.m_time;
+	return m_time;
 }
 
-bool AcryEvent::operator>(const AcryEvent & rhs)
+EventType AcryEvent::Type() const
 {
-	return m_time > rhs.m_time;
+	return m_type;
 }
 
-bool operator<(const AcryEvent & lhs, const AcryEvent & rhs)
+void AcryEvent::DecrementTime(double amt)
 {
-	return lhs.m_time < rhs.m_time;
+	m_time -= amt;
 }
 
-bool operator>(const AcryEvent & lhs, const AcryEvent & rhs)
+EventType AcryEvent::GetEventTypeFromTitle(String eventTitle)
 {
-	return lhs.m_time > rhs.m_time;
+	return TitleMap[eventTitle];
 }

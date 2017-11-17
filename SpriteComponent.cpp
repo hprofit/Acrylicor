@@ -69,7 +69,9 @@ void SpriteComponent::Update(double deltaTime)
 
 SpriteComponent * SpriteComponent::Clone(GameObject& parent)
 {
-	return new SpriteComponent(*this, parent);
+	SpriteComponent* comp = new SpriteComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * SpriteComponent::Serialize(GameObject & gObject, nlohmann::json j)
@@ -188,9 +190,19 @@ float SpriteComponent::TileX() const
 	return m_tileX;
 }
 
+void SpriteComponent::SetTileX(float tile)
+{
+	m_tileX = tile;
+}
+
 float SpriteComponent::TileY() const
 {
 	return m_tileY;
+}
+
+void SpriteComponent::SetTileY(float tile)
+{
+	m_tileY = tile;
 }
 
 String SpriteComponent::Shader() const

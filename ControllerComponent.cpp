@@ -77,7 +77,9 @@ void ControllerComponent::Update(double deltaTime)
 
 ControllerComponent * ControllerComponent::Clone(GameObject & parent)
 {
-	return new ControllerComponent(*this, parent);
+	ControllerComponent* comp = new ControllerComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * ControllerComponent::Serialize(GameObject & gObject, nlohmann::json j)

@@ -30,6 +30,7 @@ private:
 	std::vector<GameObject * > m_gameObjects;
 	std::vector<Component * > m_cameras;
 	GameObject * m_activeCamera;
+	bool m_debugMode;
 
 	friend EventManager;
 
@@ -38,7 +39,8 @@ private:
 	~GameObjectManager();
 
 	void _SetActiveCamera(GameObject* gObject);
-	GameObject * _SpawnObject(GameObject* gameObject);
+	GameObject * _AddGameObjectToList(GameObject* gameObject);
+	GameObject * _GetObjectArchetype(String objectType);
 public:
 	GameObjectManager(const GameObjectManager &) = delete;
 	void operator=(const GameObjectManager &) = delete;
@@ -48,6 +50,8 @@ public:
 		static GameObjectManager instance(maxObjects);
 		return instance;
 	}
+
+	void SetDebugMode(bool debugMode) { m_debugMode = debugMode; }
 
 	GameObject * SpawnGameObject(String objectType);
 	GameObject * SpawnGameObject(String objectType, GameObject * parent);
@@ -60,6 +64,7 @@ public:
 
 	GameObject* GetActiveCamera() { return m_activeCamera; }
 	void RegisterCamera(Component * cameraComp);
+	void RemoveCamera(Component * cameraComp);
 
 	void UpdateCameraObjects(double deltaTime);
 };

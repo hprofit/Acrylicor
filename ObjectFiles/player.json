@@ -1,4 +1,7 @@
 {
+  "children": [
+    "gun"
+  ],
   "transform": {
     "position": {
       "x": 0,

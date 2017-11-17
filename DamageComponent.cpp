@@ -21,7 +21,9 @@ void DamageComponent::Update(double deltaTime)
 
 DamageComponent * DamageComponent::Clone(GameObject & parent)
 {
-	return new DamageComponent(*this, parent);
+	DamageComponent* comp = new DamageComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * DamageComponent::Serialize(GameObject & gObject, nlohmann::json j)

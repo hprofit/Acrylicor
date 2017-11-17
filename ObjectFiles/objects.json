@@ -1,8 +1,11 @@
 [
   { "camera": "ObjectFiles/camera.json" },
+  { "playerSpawner": "ObjectFiles/playerSpawner.json" },
   { "player": "ObjectFiles/player.json" },
   { "playerDrone": "ObjectFiles/playerDrone.json" },
   { "gun": "ObjectFiles/gun.json" },
+  { "UI_lives": "ObjectFiles/UI_lives.json" },
+  { "HUD": "ObjectFiles/HUD.json" },
   { "enemy": "ObjectFiles/enemy.json" },
   { "drone": "ObjectFiles/drone.json" },
   { "background": "ObjectFiles/background.json" },

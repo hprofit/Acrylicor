@@ -21,12 +21,17 @@ void GameObjectManager::_SetActiveCamera(GameObject * gObject)
 		m_activeCamera = gObject;
 }
 
-GameObject * GameObjectManager::_SpawnObject(GameObject * gameObject)
+GameObject * GameObjectManager::_AddGameObjectToList(GameObject * gameObject)
 {
 	_SetActiveCamera(gameObject);
 	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
-		if (!m_gameObjects[i] || (m_gameObjects[i] && !m_gameObjects[i]->IsActive())) {
+		if (m_gameObjects[i] && !m_gameObjects[i]->IsActive()) {
+			delete m_gameObjects[i];
+			m_gameObjects[i] = gameObject;
+			return gameObject;
+		}
+		else if (!m_gameObjects[i]) {
 			m_gameObjects[i] = gameObject;
 			return gameObject;
 		}
@@ -41,38 +46,38 @@ GameObject * GameObjectManager::_SpawnObject(GameObject * gameObject)
 	}
 }
 
+GameObject * GameObjectManager::_GetObjectArchetype(String objectType)
+{
+	if (m_debugMode) std::cout << "Spawning object <" << objectType << ">" << std::endl;
+	return GameObjectFactory::GetInstance().GetObjectArchetype(objectType);
+}
+
 GameObject * GameObjectManager::SpawnGameObject(String objectType)
 {
-	GameObjectFactory& gameObjFactory = GameObjectFactory::GetInstance();
-	GameObject * gameObjArchetype = gameObjFactory.GetObjectArchetype(objectType);
-
-	GameObject * newGameObject = new GameObject(*gameObjArchetype);
-	newGameObject->CloneChildren(*gameObjArchetype);
-
-	return _SpawnObject(newGameObject);
+	return SpawnGameObject(objectType, nullptr);
 }
 
 GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * parent)
 {
-	GameObjectFactory& gameObjFactory = GameObjectFactory::GetInstance();
-	GameObject * gameObjArchetype = gameObjFactory.GetObjectArchetype(objectType);
+	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
 
 	GameObject * newGameObject = new GameObject(*gameObjArchetype, parent);
 	newGameObject->CloneChildren(*gameObjArchetype);
+	newGameObject->SpawnChildrenAndAttach(*gameObjArchetype);
 
-	return _SpawnObject(newGameObject);
+	return _AddGameObjectToList(newGameObject);
 }
 
 void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 {
 	String objectType = j.begin().key();
-	GameObjectFactory& gameObjFactory = GameObjectFactory::GetInstance();
+	GameObject * newGameObject = GameObjectFactory::GetInstance().SpawnObjectWithOverrides(objectType, j[objectType]);
 
-	GameObject * gameObjArchetype = gameObjFactory.GetObjectArchetype(objectType);
-	GameObject * newGameObject = gameObjFactory.SpawnObjectWithOverrides(objectType, j[objectType]);
+	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
 	newGameObject->CloneChildren(*gameObjArchetype);
+	newGameObject->SpawnChildrenAndAttach(*gameObjArchetype);
 
-	_SpawnObject(newGameObject);
+	_AddGameObjectToList(newGameObject);
 }
 
 void GameObjectManager::DestroyGameObject(GameObject * gObject)
@@ -105,14 +110,27 @@ void GameObjectManager::CleanUpGameObjects()
 {
 	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
-		if (m_gameObjects[i] && m_gameObjects[i]->IsDead())
-			DestroyGameObject(m_gameObjects[i]);
+		if (m_gameObjects[i] && m_gameObjects[i]->IsDead()) {
+			delete m_gameObjects[i];
+			m_gameObjects[i] = nullptr;
+		}
 	}
+	m_gameObjects.erase(
+		std::remove(m_gameObjects.begin(), m_gameObjects.end(), nullptr),
+		m_gameObjects.end()
+	);
 }
 
 void GameObjectManager::RegisterCamera(Component * cameraComp)
 {
 	m_cameras.push_back(cameraComp);
+}
+
+void GameObjectManager::RemoveCamera(Component * cameraComp)
+{
+	std::vector<Component*>::iterator position = std::find(m_cameras.begin(), m_cameras.end(), cameraComp);
+	if (position != m_cameras.end())
+		m_cameras.erase(position);
 }
 
 void GameObjectManager::UpdateCameraObjects(double deltaTime)

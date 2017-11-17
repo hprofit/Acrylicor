@@ -16,16 +16,17 @@ Creation date: 10/13/17
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <queue>
 #include "AcrylicorTypedefs.h"
+#include <unordered_map>
 
 enum class EventType {
 	COLLIDE,
 	KEY_PRESS,
-	DAMAGE
+	DAMAGE,
+	LIFE_CHANGE,
+	PLAYER_DEATH,
+	RESPAWN
 };
-
-struct AcryEventComparator;
 
 class AcryEvent
 {
@@ -34,37 +35,16 @@ protected:
 	EventType m_type;
 	// Payload
 	// Message specific data
-
-	AcryEvent(double time) : m_time(time) {};
 public:
+	AcryEvent(EventType type);
 	AcryEvent(EventType type, double time);
-	AcryEvent() = delete;
 	virtual ~AcryEvent();
 
-	friend AcryEventComparator;
-	friend bool operator<(const AcryEvent& lhs, const AcryEvent& rhs);
-	friend bool operator>(const AcryEvent& lhs, const AcryEvent& rhs);
+	double Time() const;
+	EventType Type() const;
+	void DecrementTime(double amt);
 
-	bool operator<(const AcryEvent& rhs);
-	bool operator>(const AcryEvent& rhs);
-	double Time() const {
-		return m_time;
-	}
-	EventType Type() const {
-		return m_type;
-	}
-	void DecrementTime(double amt) {
-		m_time -= amt;
-	}
-};
-
-bool operator<(const AcryEvent& lhs, const AcryEvent& rhs);
-bool operator>(const AcryEvent& lhs, const AcryEvent& rhs);
-
-struct AcryEventComparator {
-	bool operator() (const AcryEvent * left, const AcryEvent * right) const {
-		return left->m_time > right->m_time;
-	}
+	static EventType GetEventTypeFromTitle(String eventTitle);
 };
 
 #endif

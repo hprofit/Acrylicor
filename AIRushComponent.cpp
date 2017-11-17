@@ -31,7 +31,9 @@ void AIRushComponent::Update(double deltaTime)
 
 AIRushComponent * AIRushComponent::Clone(GameObject & parent)
 {
-	return new AIRushComponent(*this, parent);
+	AIRushComponent* comp = new AIRushComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * AIRushComponent::Serialize(GameObject & gObject, nlohmann::json j)

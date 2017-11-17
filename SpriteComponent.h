@@ -73,7 +73,9 @@ public:
 	float FrameWidth() const;
 
 	float TileX() const;
+	void SetTileX(float tile);
 	float TileY() const;
+	void SetTileY(float tile);
 
 	String Shader() const;
 

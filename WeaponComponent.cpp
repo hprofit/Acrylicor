@@ -35,7 +35,9 @@ void WeaponComponent::Update(double deltaTime)
 
 WeaponComponent * WeaponComponent::Clone(GameObject & parent)
 {
-	return new WeaponComponent(*this, parent);
+	WeaponComponent* comp = new WeaponComponent(*this, parent);
+	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	return comp;
 }
 
 Component * WeaponComponent::Serialize(GameObject & gObject, nlohmann::json j)
