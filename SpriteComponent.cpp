@@ -70,7 +70,7 @@ void SpriteComponent::Update(double deltaTime)
 SpriteComponent * SpriteComponent::Clone(GameObject& parent)
 {
 	SpriteComponent* comp = new SpriteComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

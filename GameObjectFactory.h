@@ -32,12 +32,9 @@ private:
 	GameObjectFactory();
 	~GameObjectFactory();
 
-	GameObject * SpawnObjectWithOverrides(String objectType, json j);
-	/*!
-	Returns the archetype instance of the specified game object.
-	*/
-	GameObject * GetObjectArchetype(String objectType);
-	void AttachGameObjectToParentGameObjectArchetype(String parentName, GameObject * child);
+	GameObject * _SpawnObjectWithOverrides(String objectType, json j);
+	GameObject * _GetObjectArchetype(String objectType);
+	void _AttachGameObjectToParentGameObjectArchetype(String parentName, GameObject * child);
 
 public:
 	GameObjectFactory(const GameObjectFactory&) = delete;

@@ -24,7 +24,7 @@ void ScrollingSpriteComponent::Update(double deltaTime)
 ScrollingSpriteComponent * ScrollingSpriteComponent::Clone(GameObject & parent)
 {
 	ScrollingSpriteComponent* comp = new ScrollingSpriteComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

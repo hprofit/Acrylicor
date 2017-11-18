@@ -22,7 +22,7 @@ void DamageComponent::Update(double deltaTime)
 DamageComponent * DamageComponent::Clone(GameObject & parent)
 {
 	DamageComponent* comp = new DamageComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

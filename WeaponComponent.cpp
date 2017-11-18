@@ -36,7 +36,7 @@ void WeaponComponent::Update(double deltaTime)
 WeaponComponent * WeaponComponent::Clone(GameObject & parent)
 {
 	WeaponComponent* comp = new WeaponComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

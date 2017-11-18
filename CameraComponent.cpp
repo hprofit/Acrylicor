@@ -25,7 +25,7 @@ CameraComponent::~CameraComponent()
 	GameObjectManager::GetInstance().RemoveCamera(this);
 }
 
-Matrix4x4 CameraComponent::MatrixFromCameraVectors(const Vector3D & right, const Vector3D & up, const Vector3D & forward)
+Matrix4x4 CameraComponent::_MatrixFromCameraVectors(const Vector3D & right, const Vector3D & up, const Vector3D & forward)
 {
 	return Matrix4x4(
 		right.getX(), right.getY(), right.getZ(), 0.0f,
@@ -35,21 +35,21 @@ Matrix4x4 CameraComponent::MatrixFromCameraVectors(const Vector3D & right, const
 	);
 }
 
-void CameraComponent::CalcViewMatrix()
+void CameraComponent::_CalcViewMatrix()
 {
 	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
 
-	Matrix4x4 rotationM = MatrixFromCameraVectors(tComp->Right(), tComp->Up(), tComp->Forward());
+	Matrix4x4 rotationM = _MatrixFromCameraVectors(tComp->Right(), tComp->Up(), tComp->Forward());
 
 	m_viewMatrix = rotationM * Matrix4x4::Translate(-1 * tComp->GetPosition());
 }
 
-void CameraComponent::CalcPerspectiveMatrix()
+void CameraComponent::_CalcPerspectiveMatrix()
 {
 	m_perspectiveMatrix = Matrix4x4::Perspective(m_fov, m_aspectRatio, 1.f);
 }
 
-void CameraComponent::CalcOrthographicMatrix()
+void CameraComponent::_CalcOrthographicMatrix()
 {
 	m_orthographicMatrix = Matrix4x4::Orthographic(m_screenWidth, m_screenHeight, 0.1f);
 }
@@ -60,17 +60,17 @@ void CameraComponent::Update(double deltaTime)
 	m_aspectRatio = winMngr.GetAspectRatio();
 	m_screenWidth = winMngr.WindowWidth();
 	m_screenHeight = winMngr.WindowHeight();
-	CalcViewMatrix();
+	_CalcViewMatrix();
 	switch (m_cameraType) {
 	case CAM_BOTH:
-		CalcPerspectiveMatrix();
-		CalcOrthographicMatrix();
+		_CalcPerspectiveMatrix();
+		_CalcOrthographicMatrix();
 		break;
 	case CAM_PERSP:
-		CalcPerspectiveMatrix();
+		_CalcPerspectiveMatrix();
 		break;
 	case CAM_ORTHO:
-		CalcOrthographicMatrix();
+		_CalcOrthographicMatrix();
 		break;
 	}
 }
@@ -79,7 +79,7 @@ CameraComponent * CameraComponent::Clone(GameObject & parent)
 {
 	CameraComponent* cComp = new CameraComponent(*this, parent);
 	cComp->RegisterWithManager();
-	cComp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	cComp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return cComp;
 }
 

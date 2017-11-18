@@ -30,7 +30,7 @@ private:
 	WindowManager(int width, int height, String title);
 	~WindowManager();
 
-	void Init(String title);
+	void _Init(String title);
 public:
 	WindowManager(const WindowManager &) = delete;
 	void operator=(const WindowManager &) = delete;

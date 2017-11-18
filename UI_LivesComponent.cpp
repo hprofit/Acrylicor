@@ -35,7 +35,7 @@ void UI_LivesComponent::Update(double deltaTime)
 UI_LivesComponent * UI_LivesComponent::Clone(GameObject & parent)
 {
 	UI_LivesComponent * comp = new UI_LivesComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

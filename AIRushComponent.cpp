@@ -32,7 +32,7 @@ void AIRushComponent::Update(double deltaTime)
 AIRushComponent * AIRushComponent::Clone(GameObject & parent)
 {
 	AIRushComponent* comp = new AIRushComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

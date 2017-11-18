@@ -28,7 +28,7 @@ GameObjectFactory::~GameObjectFactory()
 	m_gameObjectTypes.clear();
 }
 
-GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json j)
+GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, json j)
 {
 	GameObject * gObject = NewObjectFromArchetype(objectType);
 	for (json::iterator it = j.begin(); it != j.end(); ++it) {
@@ -62,7 +62,7 @@ GameObject * GameObjectFactory::SpawnObjectWithOverrides(String objectType, json
 	return gObject;
 }
 
-GameObject * GameObjectFactory::GetObjectArchetype(String objectType)
+GameObject * GameObjectFactory::_GetObjectArchetype(String objectType)
 {
 	if (m_gameObjectTypes.find(objectType) != m_gameObjectTypes.end())
 		return m_gameObjectTypes[objectType];
@@ -72,9 +72,9 @@ GameObject * GameObjectFactory::GetObjectArchetype(String objectType)
 	}
 }
 
-void GameObjectFactory::AttachGameObjectToParentGameObjectArchetype(String parentName, GameObject * child)
+void GameObjectFactory::_AttachGameObjectToParentGameObjectArchetype(String parentName, GameObject * child)
 {
-	GameObject * parent = GetObjectArchetype(parentName);
+	GameObject * parent = _GetObjectArchetype(parentName);
 	if (!parent) {
 		std::cout << "No such parent object <" << parentName << "> exists!" << std::endl;
 		return;
@@ -129,7 +129,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 
 				// Special case, hook up to parent from here
 				else if (AcryJson::KeyIs(it, "parent"))
-					AttachGameObjectToParentGameObjectArchetype(j["parent"], gObject);
+					_AttachGameObjectToParentGameObjectArchetype(j["parent"], gObject);
 
 				// Special case, hook up children from here
 				else if (AcryJson::KeyIs(it, "children"))

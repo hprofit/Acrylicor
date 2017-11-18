@@ -34,10 +34,10 @@ protected:
 	Matrix4x4 m_viewMatrix, m_perspectiveMatrix, m_orthographicMatrix;
 	unsigned short m_cameraType;
 
-	Matrix4x4 MatrixFromCameraVectors(const Vector3D& right, const Vector3D& up, const Vector3D& forward);
-	void CalcViewMatrix();
-	void CalcPerspectiveMatrix();
-	void CalcOrthographicMatrix();
+	Matrix4x4 _MatrixFromCameraVectors(const Vector3D& right, const Vector3D& up, const Vector3D& forward);
+	void _CalcViewMatrix();
+	void _CalcPerspectiveMatrix();
+	void _CalcOrthographicMatrix();
 public:
 	CameraComponent() = delete;
 	CameraComponent(GameObject& parent);

@@ -39,10 +39,10 @@ protected:
 	Matrix4x4 m_transform;
 	bool m_2d;
 
-	void SetParentTransform();
-	void WrapAngle(float & angle);
-	void UpdateLookAt();
-	void Set2D(bool is2D);
+	void _SetParentTransform();
+	void _WrapAngle(float & angle);
+	void _UpdateLookAt();
+	void _Set2D(bool is2D);
 public:
 	friend PhysicsComponent;
 

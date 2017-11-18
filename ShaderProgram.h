@@ -30,8 +30,8 @@ protected:
 	std::map<String, GLint> m_attributes;
 	std::map<String, GLint> m_uniforms;
 
-	GLint GetAttributeLocation(String attribute);
-	GLint GetUniformLocation(String uniform);
+	GLint _GetAttributeLocation(String attribute);
+	GLint _GetUniformLocation(String uniform);
 
 public:
 	ShaderProgram();

@@ -6,7 +6,7 @@
 
 WindowManager::WindowManager(int width, int height, String title) : m_width(width), m_height(height)
 {
-	Init(title);
+	_Init(title);
 }
 
 WindowManager::~WindowManager()
@@ -15,7 +15,7 @@ WindowManager::~WindowManager()
 	SDL_Quit();
 }
 
-void WindowManager::Init(String title)
+void WindowManager::_Init(String title)
 {
 	if (AllocConsole())
 	{

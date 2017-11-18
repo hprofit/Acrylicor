@@ -40,8 +40,8 @@ protected:
 	unsigned char m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
 
-	void CloneChildren(const GameObject & rhs);
-	void SpawnChildrenAndAttach(const GameObject & rhs);
+	void _CloneChildren(const GameObject & rhs);
+	void _SpawnChildrenAndAttach(const GameObject & rhs);
 
 public:
 	friend GameObjectManager;

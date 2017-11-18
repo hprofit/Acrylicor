@@ -22,7 +22,7 @@ void SpawnerComponent::Update(double deltaTime)
 SpawnerComponent * SpawnerComponent::Clone(GameObject & parent)
 {
 	SpawnerComponent * comp = new SpawnerComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

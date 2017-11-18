@@ -43,7 +43,7 @@ void AISwayComponent::Update(double deltaTime)
 AISwayComponent * AISwayComponent::Clone(GameObject & parent)
 {
 	AISwayComponent* comp = new AISwayComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

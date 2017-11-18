@@ -40,12 +40,12 @@ private:
 	PhysicsManager();
 	~PhysicsManager();
 
-	void RemoveBody(Component * comp);
-	void RemoveTransform(Component * comp);
+	void _RemoveBody(Component * comp);
+	void _RemoveTransform(Component * comp);
 
-	void CreateContact(GameObject* lhsGO, GameObject* rhsGO);
-	void ResetContacts();
-	bool CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs);
+	void _CreateContact(GameObject* lhsGO, GameObject* rhsGO);
+	void _ResetContacts();
+	bool _CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs);
 
 public:
 	PhysicsManager(const PhysicsManager &) = delete;

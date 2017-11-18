@@ -49,7 +49,7 @@ GameObject * GameObjectManager::_AddGameObjectToList(GameObject * gameObject)
 GameObject * GameObjectManager::_GetObjectArchetype(String objectType)
 {
 	if (m_debugMode) std::cout << "Spawning object <" << objectType << ">" << std::endl;
-	return GameObjectFactory::GetInstance().GetObjectArchetype(objectType);
+	return GameObjectFactory::GetInstance()._GetObjectArchetype(objectType);
 }
 
 GameObject * GameObjectManager::SpawnGameObject(String objectType)
@@ -62,8 +62,8 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * 
 	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
 
 	GameObject * newGameObject = new GameObject(*gameObjArchetype, parent);
-	newGameObject->CloneChildren(*gameObjArchetype);
-	newGameObject->SpawnChildrenAndAttach(*gameObjArchetype);
+	newGameObject->_CloneChildren(*gameObjArchetype);
+	newGameObject->_SpawnChildrenAndAttach(*gameObjArchetype);
 
 	return _AddGameObjectToList(newGameObject);
 }
@@ -71,11 +71,11 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * 
 void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 {
 	String objectType = j.begin().key();
-	GameObject * newGameObject = GameObjectFactory::GetInstance().SpawnObjectWithOverrides(objectType, j[objectType]);
+	GameObject * newGameObject = GameObjectFactory::GetInstance()._SpawnObjectWithOverrides(objectType, j[objectType]);
 
 	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
-	newGameObject->CloneChildren(*gameObjArchetype);
-	newGameObject->SpawnChildrenAndAttach(*gameObjArchetype);
+	newGameObject->_CloneChildren(*gameObjArchetype);
+	newGameObject->_SpawnChildrenAndAttach(*gameObjArchetype);
 
 	_AddGameObjectToList(newGameObject);
 }

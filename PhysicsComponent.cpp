@@ -124,7 +124,7 @@ PhysicsComponent * PhysicsComponent::Clone(GameObject & parent)
 {
 	PhysicsComponent* pComp = new PhysicsComponent(*this, parent);
 	pComp->RegisterWithManager();
-	pComp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	pComp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return pComp;
 }
 

@@ -45,14 +45,14 @@ PhysicsManager::~PhysicsManager()
 {
 }
 
-void PhysicsManager::RemoveBody(Component * comp)
+void PhysicsManager::_RemoveBody(Component * comp)
 {
 	std::vector<Component*>::iterator position = std::find(m_physicsBodies.begin(), m_physicsBodies.end(), comp);
 	if (position != m_physicsBodies.end())
 		m_physicsBodies.erase(position);
 }
 
-void PhysicsManager::RemoveTransform(Component * comp)
+void PhysicsManager::_RemoveTransform(Component * comp)
 {
 	std::vector<Component*>::iterator position = std::find(m_transforms.begin(), m_transforms.end(), comp);
 	if (position != m_transforms.end())
@@ -70,14 +70,14 @@ void PhysicsManager::AddComponent(Component * comp)
 void PhysicsManager::RemoveComponent(Component * comp)
 {
 	if (comp->m_type == COMPONENT_TYPE::PHYSICS)
-		RemoveBody(comp);
+		_RemoveBody(comp);
 	else if (comp->m_type ==COMPONENT_TYPE::TRANSFORM)
-		RemoveTransform(comp);
+		_RemoveTransform(comp);
 }
 
 void PhysicsManager::UpdatePhysics(double deltaTime)
 {
-	ResetContacts();
+	_ResetContacts();
 
 	unsigned int i = 0;
 	// Update Physics Bodies
@@ -104,8 +104,8 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 				if (m_physicsBodies[j] && m_physicsBodies[j]->m_parent.IsActive()) {
 					PhysicsComponent* rhs = static_cast<PhysicsComponent*>(m_physicsBodies[j]);
 					
-					if (CheckCollision(*lhs, *rhs))
-						CreateContact(&lhs->m_parent, &rhs->m_parent);
+					if (_CheckCollision(*lhs, *rhs))
+						_CreateContact(&lhs->m_parent, &rhs->m_parent);
 				}
 			}
 		}
@@ -119,12 +119,12 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 	}
 }
 
-void PhysicsManager::CreateContact(GameObject* lhsGO, GameObject* rhsGO)
+void PhysicsManager::_CreateContact(GameObject* lhsGO, GameObject* rhsGO)
 {
 	m_contacts.push_back(new Contact(lhsGO, rhsGO));
 }
 
-void PhysicsManager::ResetContacts()
+void PhysicsManager::_ResetContacts()
 {
 	for (unsigned int i = 0; i < m_contacts.size(); ++i) {
 		if (m_contacts[i])
@@ -133,7 +133,7 @@ void PhysicsManager::ResetContacts()
 	m_contacts.clear();
 }
 
-bool PhysicsManager::CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
+bool PhysicsManager::_CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
 {
 	return m_collisionFunctions[lhs.Body().m_type][rhs.Body().m_type](
 		&lhs.Body(), lhs.GetPrevPosition(), lhs.GetPosition(),

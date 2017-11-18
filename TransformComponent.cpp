@@ -7,7 +7,7 @@ const Vector3D XAXIS = Vector3D(1, 0, 0, 0);
 const Vector3D YAXIS = Vector3D(0, 1, 0, 0);
 const Vector3D ZAXIS = Vector3D(0, 0, 1, 0);
 
-void TransformComponent::SetParentTransform()
+void TransformComponent::_SetParentTransform()
 {
 	if (m_parent.HasParent())
 		m_parentTransform = static_cast<TransformComponent*>(m_parent.Parent()->Get(COMPONENT_TYPE::TRANSFORM));
@@ -23,7 +23,7 @@ TransformComponent::TransformComponent(GameObject & parent, bool is2D) :
 	m_scaleX(0.f), m_scaleY(0.f), m_scaleZ(0.f),
 	m_2d(is2D)
 {
-	SetParentTransform();
+	_SetParentTransform();
 }
 
 TransformComponent::TransformComponent(GameObject& parent, Vector3D position, bool is2D) :
@@ -35,7 +35,7 @@ TransformComponent::TransformComponent(GameObject& parent, Vector3D position, bo
 	m_scaleX(1.f), m_scaleY(1.f), m_scaleZ(0.f),
 	m_2d(is2D)
 {
-	SetParentTransform();
+	_SetParentTransform();
 }
 
 /*!
@@ -50,7 +50,7 @@ TransformComponent::TransformComponent(GameObject& parent, Vector3D position, fl
 	m_scaleX(scaleX), m_scaleY(scaleY), m_scaleZ(0.f),
 	m_2d(is2D)
 {
-	SetParentTransform();
+	_SetParentTransform();
 }
 
 TransformComponent::TransformComponent(GameObject & parent, Vector3D position, float angleX, float angleY, float angleZ, float scaleX, float scaleY, float scaleZ, bool is2D) :
@@ -62,7 +62,7 @@ TransformComponent::TransformComponent(GameObject & parent, Vector3D position, f
 	m_scaleX(scaleX), m_scaleY(scaleY), m_scaleZ(scaleZ),
 	m_2d(is2D)
 {
-	SetParentTransform();
+	_SetParentTransform();
 }
 
 TransformComponent::TransformComponent(const TransformComponent & rhs, GameObject& parent) :
@@ -74,7 +74,7 @@ TransformComponent::TransformComponent(const TransformComponent & rhs, GameObjec
 	m_scaleX(rhs.m_scaleX), m_scaleY(rhs.m_scaleY), m_scaleZ(rhs.m_scaleZ),
 	m_2d(rhs.m_2d)
 {
-	SetParentTransform();
+	_SetParentTransform();
 }
 
 TransformComponent & TransformComponent::operator=(const TransformComponent& rhs)
@@ -103,7 +103,7 @@ TransformComponent::~TransformComponent()
 
 void TransformComponent::Update(double deltaTime)
 {
-	UpdateLookAt();
+	_UpdateLookAt();
 	BuildModelTransform();
 }
 
@@ -111,7 +111,7 @@ TransformComponent * TransformComponent::Clone(GameObject & parent)
 {
 	TransformComponent* tComp = new TransformComponent(*this, parent);
 	tComp->RegisterWithManager();
-	tComp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	tComp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return tComp;
 }
 
@@ -157,7 +157,7 @@ void TransformComponent::Override(nlohmann::json j)
 		AcryJson::ValueExists(j, "transform", "scale", "z") ? AcryJson::ParseFloat(j, "transform", "scale", "z") : m_scaleZ
 	);
 
-	Set2D(AcryJson::ValueExists(j, "transform", "2D") ? AcryJson::ParseBool(j, "transform", "2D") : m_2d);
+	_Set2D(AcryJson::ValueExists(j, "transform", "2D") ? AcryJson::ParseBool(j, "transform", "2D") : m_2d);
 }
 
 void TransformComponent::RegisterWithManager()
@@ -183,7 +183,7 @@ void TransformComponent::Move(Vector3D amount)
 #pragma endregion
 
 #pragma region Rotate
-void TransformComponent::WrapAngle(float & angle)
+void TransformComponent::_WrapAngle(float & angle)
 {
 	if (angle > 180.0f) {
 		float over = fmod(angle + 180.0f, 360.0f);
@@ -195,7 +195,7 @@ void TransformComponent::WrapAngle(float & angle)
 	}
 }
 
-void TransformComponent::UpdateLookAt()
+void TransformComponent::_UpdateLookAt()
 {
 	m_lookAt =	Matrix4x4::Rotate(GetAngleX(), Vector3D(1.0f, 0.0f, 0.0f, 0.0f)) *
 				Matrix4x4::Rotate(GetAngleY(), Vector3D(0.0f, 1.0f, 0.0f, 0.0f)) *
@@ -203,7 +203,7 @@ void TransformComponent::UpdateLookAt()
 				Vector3D(0.0f, 1.0f, 0.0f, 0.0f);
 }
 
-void TransformComponent::Set2D(bool is2D)
+void TransformComponent::_Set2D(bool is2D)
 {
 	m_2d = is2D;
 }
@@ -211,14 +211,14 @@ void TransformComponent::Set2D(bool is2D)
 void TransformComponent::SetAngles(float angleX, float angleY, float angleZ)
 {
 	m_angleX = angleX;
-	WrapAngle(m_angleX);
+	_WrapAngle(m_angleX);
 
 	m_angleY = angleY;
-	WrapAngle(m_angleY);
+	_WrapAngle(m_angleY);
 
 	m_angleZ = angleZ;
-	WrapAngle(m_angleZ);
-	UpdateLookAt();
+	_WrapAngle(m_angleZ);
+	_UpdateLookAt();
 }
 
 float TransformComponent::GetAngleX() const
@@ -229,8 +229,8 @@ float TransformComponent::GetAngleX() const
 void TransformComponent::SetAngleX(float angle)
 {
 	m_angleX = angle;
-	WrapAngle(m_angleX);
-	UpdateLookAt();
+	_WrapAngle(m_angleX);
+	_UpdateLookAt();
 }
 
 float TransformComponent::GetAngleY() const
@@ -241,8 +241,8 @@ float TransformComponent::GetAngleY() const
 void TransformComponent::SetAngleY(float angle)
 {
 	m_angleY = angle;
-	WrapAngle(m_angleY);
-	UpdateLookAt();
+	_WrapAngle(m_angleY);
+	_UpdateLookAt();
 }
 
 float TransformComponent::GetAngleZ() const
@@ -252,29 +252,29 @@ float TransformComponent::GetAngleZ() const
 void TransformComponent::SetAngleZ(float angle)
 {
 	m_angleZ = angle;
-	WrapAngle(m_angleZ);
-	UpdateLookAt();
+	_WrapAngle(m_angleZ);
+	_UpdateLookAt();
 }
 
 void TransformComponent::RotateX(float amount)
 {
 	m_angleX += amount;
-	WrapAngle(m_angleX);
-	UpdateLookAt();
+	_WrapAngle(m_angleX);
+	_UpdateLookAt();
 }
 
 void TransformComponent::RotateY(float amount)
 {
 	m_angleY += amount;
-	WrapAngle(m_angleY);
-	UpdateLookAt();
+	_WrapAngle(m_angleY);
+	_UpdateLookAt();
 }
 
 void TransformComponent::RotateZ(float amount)
 {
 	m_angleZ += amount;
-	WrapAngle(m_angleZ);
-	UpdateLookAt();
+	_WrapAngle(m_angleZ);
+	_UpdateLookAt();
 }
 
 Vector3D TransformComponent::Forward() const

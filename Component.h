@@ -31,7 +31,7 @@ protected:
 	Component(GameObject& parent, COMPONENT_TYPE type, bool priority = false) :
 		m_parent(parent), m_type(type), m_priority(priority) {}
 
-	void SubscribeToEvents(std::vector<String> events);
+	void _SubscribeToEvents(std::vector<String> events);
 public:
 	GameObject& m_parent;
 	const COMPONENT_TYPE m_type;

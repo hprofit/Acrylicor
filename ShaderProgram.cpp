@@ -65,19 +65,19 @@ void ShaderProgram::LinkShaders()
 	}
 }
 
-GLint ShaderProgram::GetAttributeLocation(String attribute)
+GLint ShaderProgram::_GetAttributeLocation(String attribute)
 {
 	return glGetAttribLocation(m_programID, attribute.c_str());
 }
 
-GLint ShaderProgram::GetUniformLocation(String uniform)
+GLint ShaderProgram::_GetUniformLocation(String uniform)
 {
 	return glGetUniformLocation(m_programID, uniform.c_str());
 }
 
 void ShaderProgram::AddAttribute(String name)
 {
-	m_attributes[name] = GetAttributeLocation(name);
+	m_attributes[name] = _GetAttributeLocation(name);
 }
 
 GLint ShaderProgram::GetAttribute(String name)
@@ -87,7 +87,7 @@ GLint ShaderProgram::GetAttribute(String name)
 
 void ShaderProgram::AddUniform(String name)
 {
-	m_uniforms[name] = GetUniformLocation(name);
+	m_uniforms[name] = _GetUniformLocation(name);
 }
 
 GLint ShaderProgram::GetUniform(String name)

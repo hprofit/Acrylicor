@@ -37,7 +37,7 @@ RenderManager::~RenderManager()
 	m_shaderPrograms.clear();
 }
 
-String RenderManager::LoadTextFile(String fname)
+String RenderManager::_LoadTextFile(String fname)
 {
 	String out, line;
 	std::ifstream in(fname);
@@ -365,7 +365,7 @@ Shader * RenderManager::CreateVertexShader(String vertexShaderText)
 
 Shader * RenderManager::CreateVertexShaderFromFile(String fileName)
 {
-	return CreateVertexShader(LoadTextFile(fileName));
+	return CreateVertexShader(_LoadTextFile(fileName));
 }
 
 Shader * RenderManager::CreateFragmentShader(String fragmentShaderText)
@@ -376,7 +376,7 @@ Shader * RenderManager::CreateFragmentShader(String fragmentShaderText)
 
 Shader * RenderManager::CreateFragmentShaderFromFile(String fileName)
 {
-	return CreateFragmentShader(LoadTextFile(fileName));
+	return CreateFragmentShader(_LoadTextFile(fileName));
 }
 
 void RenderManager::SelectShaderProgram(String programName)

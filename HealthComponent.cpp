@@ -26,7 +26,7 @@ void HealthComponent::Update(double deltaTime)
 HealthComponent * HealthComponent::Clone(GameObject & parent)
 {
 	HealthComponent* comp = new HealthComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

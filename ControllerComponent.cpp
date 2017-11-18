@@ -78,7 +78,7 @@ void ControllerComponent::Update(double deltaTime)
 ControllerComponent * ControllerComponent::Clone(GameObject & parent)
 {
 	ControllerComponent* comp = new ControllerComponent(*this, parent);
-	comp->SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 

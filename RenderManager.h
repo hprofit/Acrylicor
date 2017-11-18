@@ -42,7 +42,7 @@ private:
 	RenderManager();
 	~RenderManager();
 
-	String LoadTextFile(String fname);
+	String _LoadTextFile(String fname);
 	void _RenderPhysicsBody(GameObject & camera, GameObject & gameObject);
 	void _RenderSprite(SpriteComponent* sComp);
 	void _RenderScrollingSprite(ScrollingSpriteComponent* sComp);
