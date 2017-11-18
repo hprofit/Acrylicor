@@ -28,6 +28,8 @@ Creation date: 10/17/17
 class ResourceManager;
 class SpriteComponent;
 class ScrollingSpriteComponent;
+class TextComponent;
+class TransformComponent;
 class PhysicsComponent;
 
 class RenderManager
@@ -42,10 +44,12 @@ private:
 	RenderManager();
 	~RenderManager();
 
+	bool _GameObjectHasRenderableComponent(GameObject& gameObject);
 	String _LoadTextFile(String fname);
 	void _RenderPhysicsBody(GameObject & camera, GameObject & gameObject);
 	void _RenderSprite(SpriteComponent* sComp);
 	void _RenderScrollingSprite(ScrollingSpriteComponent* sComp);
+	void _RenderText(TextComponent * textComp, TransformComponent * transComp);
 	void _RenderGameObject(GameObject& gameObject);
 	void _SelectShaderProgram(GameObject& gameObject);
 public:

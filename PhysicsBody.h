@@ -45,7 +45,7 @@ public:
 		m_tags.push_back(tag);
 	};
 	bool HasTag(String tag) const {
-		for (auto mTag : m_tags) {
+		for (String mTag : m_tags) {
 			if (mTag.compare(tag) == 0)
 				return true;
 		}

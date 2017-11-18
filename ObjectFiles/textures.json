@@ -1,4 +1,12 @@
 {
+  "baseFont": {
+    "filename": "Textures/font.png",
+    "alpha": true,
+    "frameWidth": 30,
+    "frameHeight": 32,
+    "rows": 6,
+    "columns": 16
+  },
   "player": {
     "filename": "Textures/playerShip.png",
     "alpha": true,
@@ -45,7 +53,7 @@
     "frameWidth": 512,
     "frameHeight": 512
   },
-   "motherBoardBG": {
+  "motherBoardBG": {
     "filename": "Textures/motherBoard.png",
     "alpha": true,
     "frameWidth": 512,

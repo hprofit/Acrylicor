@@ -13,6 +13,11 @@ void TransformComponent::_SetParentTransform()
 		m_parentTransform = static_cast<TransformComponent*>(m_parent.Parent()->Get(COMPONENT_TYPE::TRANSFORM));
 }
 
+void TransformComponent::_Set2D(bool is2D)
+{
+	m_2d = is2D;
+}
+
 #pragma region Ctor/Dtor
 TransformComponent::TransformComponent(GameObject & parent, bool is2D) :
 	Component(parent, COMPONENT_TYPE::TRANSFORM, true),
@@ -201,11 +206,6 @@ void TransformComponent::_UpdateLookAt()
 				Matrix4x4::Rotate(GetAngleY(), Vector3D(0.0f, 1.0f, 0.0f, 0.0f)) *
 				Matrix4x4::Rotate(GetAngleZ(), Vector3D(0.0f, 0.0f, 1.0f, 0.0f)) *
 				Vector3D(0.0f, 1.0f, 0.0f, 0.0f);
-}
-
-void TransformComponent::_Set2D(bool is2D)
-{
-	m_2d = is2D;
 }
 
 void TransformComponent::SetAngles(float angleX, float angleY, float angleZ)
@@ -399,5 +399,30 @@ void TransformComponent::BuildModelTransform()
 	}
 
 	m_transform = trans * rot * scale;
+}
+
+
+Matrix4x4 TransformComponent::GetModelTransformWithTranslateOffset(Vector3D offset) const
+{
+	Matrix4x4 trans, rot, scale;
+
+	if (!m_parentTransform) {
+		trans = Matrix4x4::Translate(m_position + offset);
+		rot = Matrix4x4::Rotate(m_angleX, XAXIS) * Matrix4x4::Rotate(m_angleY, YAXIS) * Matrix4x4::Rotate(m_angleZ, ZAXIS);
+		scale = Matrix4x4::Scale(m_scaleX, m_scaleY, m_scaleZ);
+	}
+	else {
+		trans = Matrix4x4::Translate(m_position + offset + m_parentTransform->GetPosition());
+		rot = Matrix4x4::Rotate(m_angleX + m_parentTransform->GetAngleX(), XAXIS)
+			* Matrix4x4::Rotate(m_angleY + m_parentTransform->GetAngleY(), YAXIS)
+			* Matrix4x4::Rotate(m_angleZ + m_parentTransform->GetAngleZ(), ZAXIS);
+		scale = Matrix4x4::Scale(
+			m_scaleX * m_parentTransform->GetScaleX(),
+			m_scaleY * m_parentTransform->GetScaleY(),
+			m_scaleZ * m_parentTransform->GetScaleZ()
+		);
+	}
+
+	return trans * rot * scale;
 }
 

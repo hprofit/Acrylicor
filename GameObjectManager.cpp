@@ -82,6 +82,7 @@ void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 
 void GameObjectManager::DestroyGameObject(GameObject * gObject)
 {
+	if (m_debugMode) std::cout << "Destroying object <" << gObject->m_type << ">" << std::endl;
 	if (gObject->IsActive()) {
 		gObject->ResetFlags();
 	}
@@ -111,6 +112,7 @@ void GameObjectManager::CleanUpGameObjects()
 	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i] && m_gameObjects[i]->IsDead()) {
+			if (m_debugMode) std::cout << "Destroying object <" << m_gameObjects[i]->m_type << ">" << std::endl;
 			delete m_gameObjects[i];
 			m_gameObjects[i] = nullptr;
 		}

@@ -19,6 +19,23 @@
       "UI_lives": { }
     },
     {
+      "UI_score": { }
+    },
+    {
+      "killZone": {
+        "physics": {
+          "position": {
+            "y": 400
+          }
+        },
+        "killZone": {
+          "tags": [
+            "bullet"
+          ]
+        }
+      }
+    },
+    {
       "playerSpawner": {
         "transform": {
           "x": 0,

@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "position": {
+      "x": -580,
+      "y": 380,
+      "z": -1
+    },
+    "scale": {
+      "x": 24,
+      "y": 24
+    }
+  },
+  "text": {
+    "font": "baseFont",
+    "text": "Score: 0"
+  }
+}

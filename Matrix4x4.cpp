@@ -423,7 +423,7 @@ Matrix4x4::operator float*()
 	return &(m_matrix[0][0]);
 }
 
-bool Matrix4x4::operator==(const Matrix4x4& other)
+bool Matrix4x4::operator==(const Matrix4x4& other) const
 {
 	double d = 0.0f;
 
@@ -449,7 +449,7 @@ bool Matrix4x4::operator==(const Matrix4x4& other)
 	return d < EPSILON;
 }
 
-bool Matrix4x4::operator!=(const Matrix4x4& other)
+bool Matrix4x4::operator!=(const Matrix4x4& other) const
 {
 	double d = 0.0f;
 
@@ -475,7 +475,7 @@ bool Matrix4x4::operator!=(const Matrix4x4& other)
 	return d >= EPSILON;
 }
 
-Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other)
+Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const
 {
 	return Matrix4x4(
 		m_matrix[0][0] + other.m_matrix[0][0], m_matrix[0][1] + other.m_matrix[0][1], m_matrix[0][2] + other.m_matrix[0][2], m_matrix[0][3] + other.m_matrix[0][3],
@@ -485,7 +485,7 @@ Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other)
 	);
 }
 
-Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other)
+Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const
 {
 	return Matrix4x4(
 		m_matrix[0][0] - other.m_matrix[0][0], m_matrix[0][1] - other.m_matrix[0][1], m_matrix[0][2] - other.m_matrix[0][2], m_matrix[0][3] - other.m_matrix[0][3],
@@ -495,7 +495,7 @@ Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other)
 	);
 }
 
-Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other)
+Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const
 {
 	return Matrix4x4(
 		(m_matrix[0][0] * other.m_matrix[0][0]) + (m_matrix[0][1] * other.m_matrix[1][0]) + (m_matrix[0][2] * other.m_matrix[2][0]) + (m_matrix[0][3] * other.m_matrix[3][0]),
@@ -520,7 +520,7 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other)
 	);
 }
 
-Matrix4x4 Matrix4x4::operator*(const float scalar)
+Matrix4x4 Matrix4x4::operator*(const float scalar) const
 {
 	return Matrix4x4(
 		m_matrix[0][0] * scalar, m_matrix[0][1] * scalar, m_matrix[0][2] * scalar, m_matrix[0][3] * scalar,
@@ -530,7 +530,7 @@ Matrix4x4 Matrix4x4::operator*(const float scalar)
 	);
 }
 
-Matrix4x4 Matrix4x4::operator/(const float divisor)
+Matrix4x4 Matrix4x4::operator/(const float divisor) const
 {
 	if (divisor == 0.0f)
 		throw "Division by zero error!";
@@ -544,7 +544,7 @@ Matrix4x4 Matrix4x4::operator/(const float divisor)
 }
 
 
-Vector3D Matrix4x4::operator*(const Vector3D& other)
+Vector3D Matrix4x4::operator*(const Vector3D& other) const
 {
 	return Vector3D(
 		m_matrix[0][0] * other.getX() + m_matrix[0][1] * other.getY() + m_matrix[0][2] * other.getZ() + m_matrix[0][3] * other.getW(),

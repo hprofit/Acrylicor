@@ -61,15 +61,15 @@ public:
 	static Matrix4x4 Orthographic(const int width, const int height, const float near);
 
 	operator float*();
-	bool operator== (const  Matrix4x4& other);
-	bool operator!= (const  Matrix4x4& other);
-	Matrix4x4 operator+ (const Matrix4x4& other);
-	Matrix4x4 operator- (const Matrix4x4& other);
-	Matrix4x4 operator* (const Matrix4x4& other);
-	Matrix4x4 operator* (const float scalar);
-	Matrix4x4 operator/ (const float divisor);
+	bool operator== (const  Matrix4x4& other) const;
+	bool operator!= (const  Matrix4x4& other) const;
+	Matrix4x4 operator+ (const Matrix4x4& other) const;
+	Matrix4x4 operator- (const Matrix4x4& other) const;
+	Matrix4x4 operator* (const Matrix4x4& other) const;
+	Matrix4x4 operator* (const float scalar) const;
+	Matrix4x4 operator/ (const float divisor) const;
 	
-	Vector3D operator* (const Vector3D& other);
+	Vector3D operator* (const Vector3D& other) const;
 };
 
 #if TEST_MODE

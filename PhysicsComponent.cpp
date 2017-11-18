@@ -6,6 +6,7 @@
 #include "AcryEvent.h"
 #include "CollideEvent.h"
 #include "DamageEvent.h"
+#include "CollideKillZoneEvent.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -204,13 +205,16 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			cpEvent->RHS() : cpEvent->LHS();
 		PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
 		// TODO: Should be scripted stuff
-		if (m_body->HasTag("player") && (otherPComp->Body().HasTag("enemy") || otherPComp->Body().HasTag("enemyBullet"))) {
+		if (m_body->HasTag("killZone")) {
+			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
+		}
+		else if (m_body->HasTag("player") && (otherPComp->Body().HasTag("enemy") || otherPComp->Body().HasTag("enemyBullet"))) {
 			EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
 			EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESPAWN, 3.0));
 			m_parent.Kill();
 			other->Kill();
 		}
-		if (m_body->HasTag("playerBullet") && otherPComp->Body().HasTag("enemy")) {
+		else if (m_body->HasTag("playerBullet") && otherPComp->Body().HasTag("enemy")) {
 			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
 			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
 

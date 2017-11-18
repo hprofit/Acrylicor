@@ -21,6 +21,7 @@ Creation date: 10/13/17
 
 enum class EventType {
 	COLLIDE,
+	COLLIDE_KILL_ZONE,
 	KEY_PRESS,
 	DAMAGE,
 	LIFE_CHANGE,

@@ -102,6 +102,7 @@ public:
 
 	Matrix4x4 GetModelTransform() const;
 	void BuildModelTransform();
+	Matrix4x4 GetModelTransformWithTranslateOffset(Vector3D offset) const;
 };
 
 #endif

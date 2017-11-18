@@ -55,7 +55,7 @@ public:
 	void SetMesh(Mesh& mesh);
 
 	String GetSpriteName() const;
-	void SetSprite(String spriteName);
+	virtual void SetSprite(String spriteName);
 
 	GLuint GetTextureBuffer() const;
 	bool TextureHasAlpha() const;

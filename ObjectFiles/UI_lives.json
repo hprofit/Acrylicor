@@ -2,7 +2,8 @@
   "transform": {
     "position": {
       "x": 540,
-      "y": 380
+      "y": 380,
+      "z": -1
     }
   },
   "sprite": {

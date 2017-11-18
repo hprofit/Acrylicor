@@ -1,0 +1,16 @@
+{
+  "transform": {
+  },
+  "physics": {
+    "body": {
+      "type": "aabb",
+      "width": 1600,
+      "height": 10,
+      "tags": [
+        "killZone"
+      ]
+    }
+  },
+  "killZone": {
+  }
+}

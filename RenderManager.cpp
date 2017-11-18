@@ -5,6 +5,7 @@
 
 #include "SpriteComponent.h"
 #include "ScrollingSpriteComponent.h"
+#include "TextComponent.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
 #include "PhysicsComponent.h"
@@ -35,6 +36,11 @@ RenderManager::~RenderManager()
 			delete comp.second;
 	}
 	m_shaderPrograms.clear();
+}
+
+bool RenderManager::_GameObjectHasRenderableComponent(GameObject & gameObject)
+{
+	return gameObject.Has(COMPONENT_TYPE::SPRITE) || gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE) || gameObject.Has(COMPONENT_TYPE::TEXT);
 }
 
 String RenderManager::_LoadTextFile(String fname)
@@ -119,10 +125,68 @@ void RenderManager::_RenderScrollingSprite(ScrollingSpriteComponent * sComp)
 	_RenderSprite(sComp);
 }
 
+void RenderManager::_RenderText(TextComponent * textComp, TransformComponent * transComp)
+{
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	glBindBuffer(GL_ARRAY_BUFFER, textComp->GetMesh().GetVertexBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0); // <- load it to memory
+
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("texture_coord"));
+	glBindBuffer(GL_ARRAY_BUFFER, textComp->GetMesh().GetTextCoordBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("texture_coord"), 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), 0); // <- load it to memory
+
+	glUniform2f(m_currentProgram->GetUniform("frame_size"), textComp->FrameWidth(), textComp->FrameHeight());
+	glUniform1f(m_currentProgram->GetUniform("tile_x"), textComp->TileX());
+	glUniform1f(m_currentProgram->GetUniform("tile_y"), textComp->TileY());
+
+	if (textComp->TextureHasAlpha()) {
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.4f);
+		glEnable(GL_BLEND);
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	else {
+		glDisable(GL_ALPHA_TEST);
+		glEnable(GL_DEPTH_TEST);
+	}
+
+	// select the texture to use
+	glBindTexture(GL_TEXTURE_2D, textComp->GetTextureBuffer());
+
+	std::vector< std::vector<TexCoords> > textureOffsets = textComp->GetTextureOffsets();
+	std::pair< std::vector< std::pair<int, int> >, std::vector<Vector3D *> > letterData = textComp->GetLetterData();
+
+	unsigned int i = 0;
+	Matrix4x4 M, N;
+
+	int triCount = 3 * textComp->GetMesh().faceCount();
+	const GLuint faceBuffer = textComp->GetMesh().GetFaceBuffer();
+	const float xScale = transComp->GetScaleX();
+	for (std::pair<int, int> letter : letterData.first) {
+		M = transComp->GetModelTransformWithTranslateOffset(Vector3D(xScale * i, 0, 0));
+		glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)M);
+		N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
+		glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)N);
+
+		TexCoords texOff = textureOffsets[letter.first][letter.second];
+		glUniform2f(m_currentProgram->GetUniform("frame_offset"), texOff.v, texOff.u);
+		//Vector3D color = sComp->GetColor();
+		//glUniform4f(m_currentProgram->GetUniform("color"), color[0], color[1], color[2], color[3]);
+
+		// draw the mesh
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, faceBuffer);
+		glDrawElements(GL_TRIANGLES, triCount, GL_UNSIGNED_INT, 0);
+
+		++i;
+	}
+}
+
 void RenderManager::_RenderGameObject(GameObject & gameObject)
 {
 	// Only attempt to draw if the game object has a sprite component and transform component
-	if (!gameObject.Has(COMPONENT_TYPE::TRANSFORM) || (!gameObject.Has(COMPONENT_TYPE::SPRITE) && !gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE)))
+	if (!gameObject.Has(COMPONENT_TYPE::TRANSFORM) || !_GameObjectHasRenderableComponent(gameObject))
 		return;
 
 	Matrix4x4 M = static_cast<TransformComponent*>(gameObject.Get(COMPONENT_TYPE::TRANSFORM))->GetModelTransform();
@@ -135,6 +199,8 @@ void RenderManager::_RenderGameObject(GameObject & gameObject)
 		_RenderSprite(static_cast<SpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SPRITE)));
 	else if (gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE))
 		_RenderScrollingSprite(static_cast<ScrollingSpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SCROLLING_SPRITE)));
+	else if (gameObject.Has(COMPONENT_TYPE::TEXT))
+		_RenderText(static_cast<TextComponent*>(gameObject.Get(COMPONENT_TYPE::TEXT)), static_cast<TransformComponent*>(gameObject.Get(COMPONENT_TYPE::TRANSFORM)));
 }
 
 void RenderManager::_SelectShaderProgram(GameObject & gameObject)
@@ -145,6 +211,8 @@ void RenderManager::_SelectShaderProgram(GameObject & gameObject)
 		shader = static_cast<SpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SPRITE))->Shader();
 	else if (gameObject.Has(COMPONENT_TYPE::SCROLLING_SPRITE))
 		shader = static_cast<ScrollingSpriteComponent*>(gameObject.Get(COMPONENT_TYPE::SCROLLING_SPRITE))->Shader();
+	else if (gameObject.Has(COMPONENT_TYPE::TEXT))
+		shader = static_cast<TextComponent*>(gameObject.Get(COMPONENT_TYPE::TEXT))->Shader();
 
 	SelectShaderProgram(shader.compare("") == 0 ? "default" : shader);
 }
