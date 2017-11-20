@@ -4,12 +4,15 @@
   { "player": "ObjectFiles/player.json" },
   { "playerDrone": "ObjectFiles/playerDrone.json" },
   { "gun": "ObjectFiles/gun.json" },
-  { "UI_lives": "ObjectFiles/UI_lives.json" },
-  { "UI_score": "ObjectFiles/UI_score.json" },
-  { "HUD": "ObjectFiles/HUD.json" },
+  { "missileLauncher": "ObjectFiles/missileLauncher.json" },
+  { "UI_lives": "ObjectFiles/UI/UI_lives.json" },
+  { "UI_score": "ObjectFiles/UI/UI_score.json" },
+  { "UI_missiles": "ObjectFiles/UI/UI_missiles.json" },
+  { "HUD": "ObjectFiles/UI/HUD.json" },
   { "enemy": "ObjectFiles/enemy.json" },
   { "drone": "ObjectFiles/drone.json" },
   { "background": "ObjectFiles/background.json" },
   { "bullet": "ObjectFiles/bullets/bullet.json" },
+  { "missile": "ObjectFiles/bullets/missile.json" },
   { "killZone": "ObjectFiles/killZone.json" }
 ]

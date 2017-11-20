@@ -3,6 +3,9 @@
     {
       "camera": { }
     },
+
+
+
     {
       "background": {
         "scrollingSprite": {
@@ -16,11 +19,39 @@
       }
     },
     {
-      "UI_lives": { }
+      "background": {
+        "transform": {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "scale": {
+            "x": 1600,
+            "y": 900
+          }
+        },
+        "scrollingSprite": {
+          "name": "motherBoardTransparentBG",
+          "frameX": 0,
+          "frameY": 0,
+          "tileX": 5,
+          "tileY": 4,
+          "scrollSpeedX": 0,
+          "scrollSpeedY": -0.6,
+          "shader": "scrollingTileShader",
+          "color": {
+            "r": 0.6,
+            "g": 0,
+            "b": 0.4,
+            "a": 1
+          }
+        }
+      }
     },
-    {
-      "UI_score": { }
-    },
+
+
+
     {
       "killZone": {
         "physics": {
@@ -60,14 +91,19 @@
         }
       }
     },
+
+
+
     {
       "playerSpawner": {
         "transform": {
-          "x": 0,
-          "y": -240
+          "position": {
+            "y": -240
+          }
         }
       }
     },
+
     {
       "player": {
         "physics": {
@@ -77,6 +113,14 @@
         }
       }
     },
+
+
+
+
+
+
+
+
     {
       "enemy": {
         "physics": {
@@ -186,6 +230,20 @@
           }
         }
       }
+    },
+
+
+
+
+    
+    {
+      "UI_lives": { }
+    },
+    {
+      "UI_score": { }
+    },
+    {
+      "UI_missiles": { }
     }
 
   ]

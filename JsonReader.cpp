@@ -1,169 +1,235 @@
+#ifndef JSON_READER_CPP
+#define JSON_READER_CPP
+
 #include "JsonReader.h"
 #include <fstream>
 
-float AcryJson::ParseFloat(const json j, String comp, String prop)
-{
-	if (j[comp].find(prop) != j[comp].end())
-		return j[comp][prop];
-	return 0.0f;
-}
+namespace AcryJson {
+	//template <typename T>
+	//void ParseJsonValue(const json j, T& result, T defaultValue, String first)
+	//{
+	//	if (j.find(first) != j.end())
+	//		result = j[first];
+	//	result = defaultValue;
+	//}
 
-float AcryJson::ParseFloat(const json j, String comp, String prop, String coord)
-{
-	if (j[comp].find(prop) != j[comp].end()) {
-		if (j[comp][prop].find(coord) != j[comp][prop].end())
-			return j[comp][prop][coord];
+	//template <typename T>
+	//void ParseJsonValue(const json j, T& result, T defaultValue, String first, String second)
+	//{
+	//	if (j.find(first) != j.end()) {
+	//		if (j[first].find(second) != j[first].end())
+	//			result = j[first][second];
+	//	}6
+	//	result = defaultValue;
+	//}
+
+	//template <typename T>
+	//void ParseJsonValue(const json j, T& result, T defaultValue, String first, String second, String third)
+	//{
+	//	if (j.find(first) != j.end()) {
+	//		if (j[first].find(second) != j[first].end()) {
+	//			if (j[first][second].find(third) != j[first][second].end())
+	//				result = j[first][second][third];
+	//		}
+	//	}
+	//	result = defaultValue;
+	//}
+
+	float ParseFloat(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end())
+				return j[first][second];
+		}
+		return 0.0f;
 	}
-	return 0.0f;
-}
 
-double AcryJson::ParseDouble(const json j, String first, String second)
-{
-	if (j[first].find(second) != j[first].end())
-		return j[first][second];
-	return 0.0;
-}
-
-double AcryJson::ParseDouble(const json j, String first, String second, String third)
-{
-	if (j[first].find(second) != j[first].end()) {
-		if (j[first][second].find(third) != j[first][second].end())
-			return j[first][second][third];
+	float ParseFloat(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return j[first][second][third];
+			}
+		}
+		return 0.0f;
 	}
-	return 0.0;
-}
 
-int AcryJson::ParseInt(const json j, String first)
-{
-	if (j.find(first) != j.end())
-		return j[first];
-	return 0;
-}
-
-int AcryJson::ParseInt(const json j, String comp, String prop)
-{
-	if (j[comp].find(prop) != j[comp].end())
-		return j[comp][prop];
-	return 0;
-}
-
-int AcryJson::ParseInt(const json j, String comp, String prop, String coord)
-{
-	if (j[comp].find(prop) != j[comp].end()) {
-		if (j[comp][prop].find(coord) != j[comp][prop].end())
-			return j[comp][prop][coord];
+	double ParseDouble(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end())
+				return j[first][second];
+		}
+		return 0.0;
 	}
-	return 0;
-}
 
-String AcryJson::ParseString(const json j, String first)
-{
-	if (j.find(first) != j.end())
-		return j[first];
-	return "";
-}
-
-String AcryJson::ParseString(const json j, String comp, String prop)
-{
-	if (j[comp].find(prop) != j[comp].end())
-		return j[comp][prop];
-	return "";
-}
-
-String AcryJson::ParseString(const json j, String comp, String prop, String coord)
-{
-	if (j[comp].find(prop) != j[comp].end()) {
-		if (j[comp][prop].find(coord) != j[comp][prop].end())
-			return j[comp][prop][coord];
+	double ParseDouble(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return j[first][second][third];
+			}
+		}
+		return 0.0;
 	}
-	return "";
-}
 
-bool AcryJson::ParseBool(const json j, String first)
-{
-	if (j.find(first) != j.end())
-		return j[first];
-	return false;
-}
-
-bool AcryJson::ParseBool(const json j, String comp, String prop)
-{
-	if (j[comp].find(prop) != j[comp].end())
-		return j[comp][prop];
-	return false;
-}
-
-bool AcryJson::ParseBool(const json j, String comp, String prop, String coord)
-{
-	if (j[comp].find(prop) != j[comp].end()) {
-		if (j[comp][prop].find(coord) != j[comp][prop].end())
-			return j[comp][prop][coord];
+	int ParseInt(const json j, String first)
+	{
+		if (j.find(first) != j.end())
+			return j[first];
+		return 0;
 	}
-	return false;
-}
 
-Vector2D AcryJson::ParseVector2D(const json j, String first, String second)
-{
-	if (j[first].find(second) != j[first].end()) {
-		return Vector2D(
-			ParseFloat(j, first, second, "x"),
-			ParseFloat(j, first, second, "y"),
-			ParseFloat(j, first, second, "w")
-		);
+	int ParseInt(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end())
+				return j[first][second];
+		}
+		return 0;
 	}
-	return Vector2D();
-}
 
-Vector3D AcryJson::ParseVector3D(const json j, String first, String second)
-{
-	if (j[first].find(second) != j[first].end()) {
-		return Vector3D(
-			ParseFloat(j, first, second, "x"),
-			ParseFloat(j, first, second, "y"),
-			ParseFloat(j, first, second, "z"),
-			ParseFloat(j, first, second, "w")
-		);
+	int ParseInt(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return j[first][second][third];
+			}
+		}
+		return 0;
 	}
-	return Vector3D();
-}
 
-Vector3D AcryJson::ParseColor(const json j, String first, String second)
-{
-	if (j[first].find(second) != j[first].end()) {
-		return Vector3D(
-			ValueExists(j, first, second) ? ParseFloat(j, first, second, "r") : 1.0f,
-			ValueExists(j, first, second) ? ParseFloat(j, first, second, "g") : 1.0f,
-			ValueExists(j, first, second) ? ParseFloat(j, first, second, "b") : 1.0f,
-			ValueExists(j, first, second) ? ParseFloat(j, first, second, "a") : 1.0f
-		);
+	String ParseString(const json j, String first)
+	{
+		if (j.find(first) != j.end())
+			return j[first];
+		return "";
 	}
-	return Vector3D(1,1,1,1);
-}
 
-bool AcryJson::ValueExists(const json j, String comp, String prop)
-{
-	return j[comp].find(prop) != j[comp].end();
-}
-
-bool AcryJson::ValueExists(const json j, String comp, String prop, String coord)
-{
-	if (j[comp].find(prop) != j[comp].end()) {
-		if (j[comp][prop].find(coord) != j[comp][prop].end())
-			return true;
+	String ParseString(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end())
+				return j[first][second];
+		}
+		return "";
 	}
-	return false;
+
+	String ParseString(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return j[first][second][third];
+			}
+		}
+		return "";
+	}
+
+	bool ParseBool(const json j, String first)
+	{
+		if (j.find(first) != j.end())
+			return j[first];
+		return false;
+	}
+
+	bool ParseBool(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end())
+				return j[first][second];
+		}
+		return false;
+	}
+
+	bool ParseBool(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return j[first][second][third];
+			}
+		}
+		return false;
+	}
+
+	Vector2D ParseVector2D(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				return Vector2D(
+					ParseFloat(j, first, second, "x"),
+					ParseFloat(j, first, second, "y"),
+					ParseFloat(j, first, second, "w")
+				);
+			}
+		}
+		return Vector2D();
+	}
+
+	Vector3D ParseVector3D(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				return Vector3D(
+					ParseFloat(j, first, second, "x"),
+					ParseFloat(j, first, second, "y"),
+					ParseFloat(j, first, second, "z"),
+					ParseFloat(j, first, second, "w")
+				);
+			}
+		}
+		return Vector3D();
+	}
+
+	Vector3D ParseColor(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				return Vector3D(
+					ValueExists(j, first, second) ? ParseFloat(j, first, second, "r") : 1.0f,
+					ValueExists(j, first, second) ? ParseFloat(j, first, second, "g") : 1.0f,
+					ValueExists(j, first, second) ? ParseFloat(j, first, second, "b") : 1.0f,
+					ValueExists(j, first, second) ? ParseFloat(j, first, second, "a") : 1.0f
+				);
+			}
+		}
+		return Vector3D(1, 1, 1, 1);
+	}
+
+	bool ValueExists(const json j, String first, String second)
+	{
+		return j[first].find(second) != j[first].end();
+	}
+
+	bool ValueExists(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return true;
+			}
+		}
+		return false;
+	}
+
+	json OpenJsonFile(String fileName)
+	{
+		std::ifstream i(fileName);
+		json j;
+		i >> j;
+		i.close();
+		return j;
+	}
+
+	bool KeyIs(json::iterator it, String key)
+	{
+		return it.key().compare(key) == 0;
+	}
+
 }
 
-json AcryJson::OpenJsonFile(String fileName)
-{
-	std::ifstream i(fileName);
-	json j;
-	i >> j;
-	i.close();
-	return j;
-}
-
-bool AcryJson::KeyIs(json::iterator it, String key)
-{
-	return it.key().compare(key) == 0;
-}
+#endif

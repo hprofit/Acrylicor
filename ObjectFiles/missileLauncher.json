@@ -1,0 +1,13 @@
+{
+  "transform": {
+    "position": {
+      "x": 0,
+      "y": 32
+    }
+  },
+  "missileLauncher": {
+    "count": 5,
+    "rateOfFire": 0.5,
+    "missile": "missile"
+  }
+}

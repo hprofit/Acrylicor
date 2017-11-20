@@ -139,6 +139,8 @@ void RenderManager::_RenderText(TextComponent * textComp, TransformComponent * t
 	glUniform1f(m_currentProgram->GetUniform("tile_x"), textComp->TileX());
 	glUniform1f(m_currentProgram->GetUniform("tile_y"), textComp->TileY());
 
+
+	glUniform4f(m_currentProgram->GetUniform("color"), 1, 1, 1, 1);
 	if (textComp->TextureHasAlpha()) {
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_ALPHA_TEST);

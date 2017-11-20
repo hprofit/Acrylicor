@@ -166,6 +166,7 @@
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="MissileLauncherComponent.h" />
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsComponent.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="UI_LivesComponent.h" />
+    <ClInclude Include="UI_MissilesComponent.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="WeaponComponent.h" />
@@ -223,6 +225,7 @@
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="MissileLauncherComponent.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
@@ -238,6 +241,7 @@
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UI_LivesComponent.cpp" />
+    <ClCompile Include="UI_MissilesComponent.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="WeaponComponent.cpp" />
@@ -248,15 +252,16 @@
     <None Include="LevelFiles\testLevel.json" />
     <None Include="ObjectFiles\background.json" />
     <None Include="ObjectFiles\bullets\bullet.json" />
+    <None Include="ObjectFiles\bullets\missile.json" />
     <None Include="ObjectFiles\camera.json" />
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\drone.json" />
     <None Include="ObjectFiles\enemy.json" />
     <None Include="ObjectFiles\gun.json" />
-    <None Include="ObjectFiles\HUD.json" />
     <None Include="ObjectFiles\killZone.json" />
     <None Include="ObjectFiles\lineShader.json" />
+    <None Include="ObjectFiles\missileLauncher.json" />
     <None Include="ObjectFiles\objects.json" />
     <None Include="ObjectFiles\player.json" />
     <None Include="ObjectFiles\playerDrone.json" />
@@ -264,8 +269,10 @@
     <None Include="ObjectFiles\scrollingTileShader.json" />
     <None Include="ObjectFiles\textures.json" />
     <None Include="ObjectFiles\tileShader.json" />
-    <None Include="ObjectFiles\UI_lives.json" />
-    <None Include="ObjectFiles\UI_score.json" />
+    <None Include="ObjectFiles\UI\HUD.json" />
+    <None Include="ObjectFiles\UI\UI_lives.json" />
+    <None Include="ObjectFiles\UI\UI_missiles.json" />
+    <None Include="ObjectFiles\UI\UI_score.json" />
     <None Include="Shaders\defaultFragShader.frag" />
     <None Include="Shaders\defaultVertShader.vert" />
     <None Include="Shaders\lineShader.frag" />

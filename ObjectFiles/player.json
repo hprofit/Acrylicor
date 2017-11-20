@@ -1,6 +1,7 @@
 {
   "children": [
-    "gun"
+    "gun",
+    "missileLauncher"
   ],
   "transform": {
     "position": {

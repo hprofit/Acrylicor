@@ -27,6 +27,7 @@ const enum class COMPONENT_TYPE {
 	AI_SWAY,
 	AI_RUSH,
 	WEAPON,
+	MISSILE_LAUNCHER,
 	CAMERA,
 	SPAWNER,
 
@@ -36,6 +37,7 @@ const enum class COMPONENT_TYPE {
 
 	UI_LIVES,
 	UI_SCORE,
+	UI_MISSILES,
 
 	NUM_COMPONENTS
 };

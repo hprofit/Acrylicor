@@ -12,7 +12,7 @@ WeaponComponent::WeaponComponent(GameObject & parent, double rateOfFire, String 
 	m_rateOfFire(rateOfFire),
 	m_bulletType(bulletType),
 	m_burstAmount(burstAmount),
-	m_timeSinceLastFired(0.f)
+	m_timeSinceLastFired(0.0)
 {}
 
 WeaponComponent::WeaponComponent(const WeaponComponent & rhs, GameObject & parent) :

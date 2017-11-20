@@ -62,8 +62,8 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * 
 	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
 
 	GameObject * newGameObject = new GameObject(*gameObjArchetype, parent);
-	newGameObject->_CloneChildren(*gameObjArchetype);
-	newGameObject->_SpawnChildrenAndAttach(*gameObjArchetype);
+	newGameObject->_CloneChildrenGameObjects(*gameObjArchetype);
+	newGameObject->_SpawnChildrenAndAttachGameObjects(*gameObjArchetype);
 
 	return _AddGameObjectToList(newGameObject);
 }
@@ -74,8 +74,8 @@ void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 	GameObject * newGameObject = GameObjectFactory::GetInstance()._SpawnObjectWithOverrides(objectType, j[objectType]);
 
 	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
-	newGameObject->_CloneChildren(*gameObjArchetype);
-	newGameObject->_SpawnChildrenAndAttach(*gameObjArchetype);
+	newGameObject->_CloneChildrenGameObjects(*gameObjArchetype);
+	newGameObject->_SpawnChildrenAndAttachGameObjects(*gameObjArchetype);
 
 	_AddGameObjectToList(newGameObject);
 }

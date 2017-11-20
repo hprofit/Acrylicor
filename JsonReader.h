@@ -24,6 +24,16 @@ Creation date: 10/29/17
 using json = nlohmann::json;
 
 namespace AcryJson {
+	//template <typename T>
+	//void ParseJsonValue(const json j, T&, T, String);
+
+	//template <typename T>
+	//void ParseJsonValue(const json j, T&, T, String, String);
+
+	//template <typename T>
+	//void ParseJsonValue(const json j, T&, T, String, String, String);
+
+
 	float ParseFloat(const json j, String, String);
 	float ParseFloat(const json j, String, String, String);
 
@@ -54,5 +64,9 @@ namespace AcryJson {
 	json OpenJsonFile(String fileName);
 
 	bool KeyIs(json::iterator it, String key);
+	
+
+	//#include "JsonReader.cpp"
 }
+
 #endif

@@ -11,6 +11,7 @@
 #include "AISwayComponent.h"
 #include "AIRushComponent.h"
 #include "WeaponComponent.h"
+#include "MissileLauncherComponent.h"
 #include "CameraComponent.h"
 #include "SpawnerComponent.h"
 #include "HealthComponent.h"
@@ -54,6 +55,8 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 			gObject->Get(COMPONENT_TYPE::AI_RUSH)->Override(j);
 		else if (AcryJson::KeyIs(it, "weapon"))
 			gObject->Get(COMPONENT_TYPE::WEAPON)->Override(j);
+		else if (AcryJson::KeyIs(it, "missileLauncher"))
+			gObject->Get(COMPONENT_TYPE::MISSILE_LAUNCHER)->Override(j);
 		else if (AcryJson::KeyIs(it, "camera"))
 			gObject->Get(COMPONENT_TYPE::CAMERA)->Override(j);
 		else if (AcryJson::KeyIs(it, "health"))
@@ -126,6 +129,8 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 					gObject->AddComponent(AIRushComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "weapon"))
 					gObject->AddComponent(WeaponComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "missileLauncher"))
+					gObject->AddComponent(MissileLauncherComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "camera"))
 					gObject->AddComponent(CameraComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "health"))

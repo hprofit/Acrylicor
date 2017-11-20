@@ -88,6 +88,36 @@
     <Filter Include="Source Files\TEST_FILES\Json\UI">
       <UniqueIdentifier>{06400129-3c82-4294-a293-d981935ab999}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\AI">
+      <UniqueIdentifier>{2d313442-1a53-4802-b12e-c0c9fc6c10be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\UI">
+      <UniqueIdentifier>{8a7d9d4b-e95e-4502-9bb1-ef5a68ab481f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Weapon">
+      <UniqueIdentifier>{6f96e5b3-f636-40b1-83ff-a5613e92e387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Rendering">
+      <UniqueIdentifier>{3c36f3e1-cf67-4015-8954-b739570f1e3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\AI">
+      <UniqueIdentifier>{f3ef99a1-5dfe-418b-ac64-939cb6a7d29c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Rendering">
+      <UniqueIdentifier>{26af0602-a25f-4dcf-b221-3e566aadb883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Weapon">
+      <UniqueIdentifier>{35bc7d75-aa47-40ac-b74e-701c37108a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\UI">
+      <UniqueIdentifier>{051d49ce-9776-4a5a-a5ef-2c35aa88b730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Physics">
+      <UniqueIdentifier>{198cd394-1ec7-46a7-ab60-41d86a19b376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Physics">
+      <UniqueIdentifier>{d30d4cd6-f8ee-424c-99ad-8804bd4cb1c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -147,9 +177,6 @@
     <ClInclude Include="Component.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -201,19 +228,7 @@
     <ClInclude Include="STBSurface.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="AISwayComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ScrollingSpriteComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="CameraComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AIRushComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsBody.h">
@@ -221,9 +236,6 @@
     </ClInclude>
     <ClInclude Include="Math3D.h">
       <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="LineSegment3D.h">
       <Filter>Header Files\Math</Filter>
@@ -246,19 +258,10 @@
     <ClInclude Include="DamageComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="UI_LivesComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="LifeChangeEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="SpawnerComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="KillZoneComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="CollideKillZoneEvent.h">
@@ -266,6 +269,39 @@
     </ClInclude>
     <ClInclude Include="Rect3D.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="AIRushComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AISwayComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_LivesComponent.h">
+      <Filter>Header Files\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileLauncherComponent.h">
+      <Filter>Header Files\Components\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponComponent.h">
+      <Filter>Header Files\Components\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollingSpriteComponent.h">
+      <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Header Files\Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="KillZoneComponent.h">
+      <Filter>Header Files\Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_MissilesComponent.h">
+      <Filter>Header Files\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,9 +353,6 @@
     <ClCompile Include="ShaderProgram.cpp">
       <Filter>Source Files\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -359,19 +392,7 @@
     <ClCompile Include="KeyPressEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="AISwayComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ScrollingSpriteComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="AIRushComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsBody.cpp">
@@ -379,9 +400,6 @@
     </ClCompile>
     <ClCompile Include="Math3D.cpp">
       <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponComponent.cpp">
-      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="LineSegment3D.cpp">
       <Filter>Source Files\Math</Filter>
@@ -401,19 +419,10 @@
     <ClCompile Include="DamageComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="UI_LivesComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="LifeChangeEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="SpawnerComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="KillZoneComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
@@ -424,6 +433,39 @@
     </ClCompile>
     <ClCompile Include="Rect3D.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="AIRushComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AISwayComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_LivesComponent.cpp">
+      <Filter>Source Files\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponComponent.cpp">
+      <Filter>Source Files\Components\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileLauncherComponent.cpp">
+      <Filter>Source Files\Components\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollingSpriteComponent.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Source Files\Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="KillZoneComponent.cpp">
+      <Filter>Source Files\Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_MissilesComponent.cpp">
+      <Filter>Source Files\Components\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -499,23 +541,32 @@
     <None Include="ObjectFiles\playerDrone.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
-    <None Include="ObjectFiles\HUD.json">
-      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
-    </None>
-    <None Include="ObjectFiles\UI_lives.json">
-      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
-    </None>
     <None Include="ObjectFiles\playerSpawner.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
-    <None Include="ObjectFiles\UI_score.json">
-      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
     </None>
     <None Include="ObjectFiles\killZone.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
     <None Include="LevelFiles\testLevel.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
+    </None>
+    <None Include="ObjectFiles\bullets\missile.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="ObjectFiles\missileLauncher.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_missiles.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_score.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\HUD.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_lives.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
     </None>
   </ItemGroup>
 </Project>

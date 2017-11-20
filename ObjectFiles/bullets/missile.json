@@ -1,0 +1,39 @@
+{
+  "transform": {
+    "scale": {
+      "x": 32,
+      "y": 32,
+      "z": 0
+    }
+  },
+  "sprite": {
+    "name": "missile",
+    "frameX": 0,
+    "frameY": 0,
+    "color": {
+      "r": 0.9,
+      "g": 0.0,
+      "b": 0.0,
+      "a": 1.0
+    }
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 500
+  },
+  "physics": {
+    "mass": 1,
+    "body": {
+      "type": "circle",
+      "radius": 16,
+      "tags": [
+        "bullet",
+        "playerMissile"
+      ]
+    },
+    "maxSpeed": 1000
+  },
+  "damage": {
+    "amount": 1
+  }
+}

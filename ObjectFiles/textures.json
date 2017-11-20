@@ -47,20 +47,28 @@
     "rows": 0,
     "columns": 0
   },
-  "forestBG": {
-    "filename": "Textures/forest.png",
-    "alpha": true,
-    "frameWidth": 512,
-    "frameHeight": 512
-  },
   "motherBoardBG": {
     "filename": "Textures/motherBoard.png",
     "alpha": true,
     "frameWidth": 512,
     "frameHeight": 512
   },
+  "motherBoardTransparentBG": {
+    "filename": "Textures/motherBoardTransparent.png",
+    "alpha": true,
+    "frameWidth": 512,
+    "frameHeight": 512
+  },
   "bullet": {
     "filename": "Textures/bullet.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "missile": {
+    "filename": "Textures/missile.png",
     "alpha": true,
     "frameWidth": 32,
     "frameHeight": 32,

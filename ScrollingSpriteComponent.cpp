@@ -50,9 +50,11 @@ void ScrollingSpriteComponent::Override(nlohmann::json j)
 		AcryJson::ValueExists(j, "scrollingSprite", "frameY") ? AcryJson::ParseInt(j, "scrollingSprite", "frameY") : m_frameY
 	);
 	SetSpeed(
-		AcryJson::ValueExists(j, "scrollingSprite", "scrollSpeedX") ? AcryJson::ParseInt(j, "scrollingSprite", "scrollSpeedX") : m_speedX,
-		AcryJson::ValueExists(j, "scrollingSprite", "scrollSpeedY") ? AcryJson::ParseInt(j, "scrollingSprite", "scrollSpeedY") : m_speedY
+		AcryJson::ValueExists(j, "scrollingSprite", "scrollSpeedX") ? AcryJson::ParseFloat(j, "scrollingSprite", "scrollSpeedX") : m_speedX,
+		AcryJson::ValueExists(j, "scrollingSprite", "scrollSpeedY") ? AcryJson::ParseFloat(j, "scrollingSprite", "scrollSpeedY") : m_speedY
 	);
+	m_tileX = AcryJson::ValueExists(j, "scrollingSprite", "tileX") ? AcryJson::ParseFloat(j, "scrollingSprite", "tileX") : m_tileX;
+	m_tileY = AcryJson::ValueExists(j, "scrollingSprite", "tileY") ? AcryJson::ParseFloat(j, "scrollingSprite", "tileY") : m_tileY;
 	m_shader = AcryJson::ValueExists(j, "scrollingSprite", "shader") ? AcryJson::ParseString(j, "scrollingSprite", "shader") : m_shader;
 	m_color = AcryJson::ValueExists(j, "scrollingSprite", "color") ? AcryJson::ParseColor(j, "scrollingSprite", "color") : m_color;
 }

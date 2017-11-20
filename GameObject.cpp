@@ -2,7 +2,7 @@
 #include "GameObjectManager.h"
 #include "EventManager.h"
 
-void GameObject::_CloneChildren(const GameObject & rhs)
+void GameObject::_CloneChildrenGameObjects(const GameObject & rhs)
 {
 	GameObjectManager& gameObjMngr = GameObjectManager::GetInstance();
 	for (GameObject * child : rhs.m_children) {
@@ -11,7 +11,7 @@ void GameObject::_CloneChildren(const GameObject & rhs)
 	}
 }
 
-void GameObject::_SpawnChildrenAndAttach(const GameObject & rhs)
+void GameObject::_SpawnChildrenAndAttachGameObjects(const GameObject & rhs)
 {
 	GameObjectManager& gameObjMngr = GameObjectManager::GetInstance();
 	for (String childType : rhs.m_childrenToSpawn) {

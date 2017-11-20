@@ -93,6 +93,9 @@ void SpriteComponent::Override(nlohmann::json j)
 		AcryJson::ValueExists(j, "sprite", "frameX") ? AcryJson::ParseInt(j, "sprite", "frameX") : m_frameX,
 		AcryJson::ValueExists(j, "sprite", "frameY") ? AcryJson::ParseInt(j, "sprite", "frameY") : m_frameY
 	);
+	m_tileX = AcryJson::ValueExists(j, "sprite", "tileX") ? AcryJson::ParseFloat(j, "sprite", "tileX") : m_tileX;
+	m_tileY = AcryJson::ValueExists(j, "sprite", "tileY") ? AcryJson::ParseFloat(j, "sprite", "tileY") : m_tileY;
+	m_shader = AcryJson::ValueExists(j, "sprite", "shader") ? AcryJson::ParseString(j, "sprite", "shader") : m_shader;
 	m_color = AcryJson::ValueExists(j, "sprite", "color") ? AcryJson::ParseColor(j, "sprite", "color") : m_color;
 }
 
@@ -111,6 +114,7 @@ String SpriteComponent::GetSpriteName() const
 
 void SpriteComponent::SetSprite(String spriteName)
 {
+	m_spriteName = spriteName;
 	m_texture = ResourceManager::GetInstance().GetTexture(spriteName);
 }
 

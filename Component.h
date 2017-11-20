@@ -46,6 +46,7 @@ public:
 	virtual void Override(nlohmann::json j) = 0;
 	virtual void RegisterWithManager() = 0;
 	virtual void HandleEvent(AcryEvent * aEvent) {};
+	virtual void PostCreateInit() {};
 
 	virtual bool IsPriorityComp() const { return m_priority; }
 	virtual void AddEventSubscription(String eventType);
