@@ -16,6 +16,7 @@
 #include "HealthComponent.h"
 #include "DamageComponent.h"
 #include "UI_LivesComponent.h"
+#include "KillZoneComponent.h"
 
 GameObjectFactory::GameObjectFactory()
 {}
@@ -61,6 +62,8 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 			gObject->Get(COMPONENT_TYPE::DAMAGE)->Override(j);
 		else if (AcryJson::KeyIs(it, "uiLives"))
 			gObject->Get(COMPONENT_TYPE::UI_LIVES)->Override(j);
+		else if (AcryJson::KeyIs(it, "killZone"))
+			gObject->Get(COMPONENT_TYPE::KILL_ZONE)->Override(j);
 	}
 	return gObject;
 }
@@ -131,6 +134,8 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 					gObject->AddComponent(DamageComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "uiLives"))
 					gObject->AddComponent(UI_LivesComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "killZone"))
+					gObject->AddComponent(KillZoneComponent::Serialize(*gObject, j));
 
 				// Special case, hook up to parent from here
 				else if (AcryJson::KeyIs(it, "parent"))

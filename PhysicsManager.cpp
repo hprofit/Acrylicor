@@ -6,28 +6,70 @@
 #include "CollideEvent.h"
 
 #pragma region Circle on X
-static bool CircleOnCircle(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
-	Circle* lhsC = static_cast<Circle*>(lhs);
-	Circle* rhsC = static_cast<Circle*>(rhs);
-	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
+static bool CircleOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	Circle* lhsC = static_cast<Circle*>(lhs.GetBodyPtr());
+	Circle* rhsC = static_cast<Circle*>(rhs.GetBodyPtr());
+
+	unsigned int statics = lhs.IsStatic() + (rhs.IsStatic() * 2);
+
+	switch (statics) {
+	case 0:	// Both are non-static
+		return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
+	case 1:	// LHS is static
+		return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
+	case 2:	// RHS is static
+		return AnimatedCircleToStaticCircle(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_radius, Vector3D()) > 0.f;
+	default: // Both are static
+		return StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius);
+	}
+
+	//if (!lhs.IsStatic() && !rhs.IsStatic())
+	//	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
+	//else if (lhs.IsStatic() && rhs.IsStatic())
+	//	return StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius);
+	//// TODO: revamp collision events to contain impact points and times
+	//else if (lhs.IsStatic())
+	//	return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
+	//else if (rhs.IsStatic())
+	//	return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
 }
 
-static bool CircleOnAABB(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
-	Circle* lhsC = static_cast<Circle*>(lhs);
-	AABB* rhsC = static_cast<AABB*>(rhs);
-	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_diagonal);
+static bool CircleOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	Circle* lhsC = static_cast<Circle*>(lhs.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(rhs.GetBodyPtr());
+
+	unsigned int statics = 0;// lhs.IsStatic() + (rhs.IsStatic() * 2);
+	switch (statics) {
+	case 0:	// Both are non-static
+	{
+		if (!AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_diagonal))
+			return false;
+		else {
+			bool res = AnimatedCircleToStaticRectWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect); // Should be moved to next case
+			return res;
+		}
+	}
+		break;
+	//case 1:	// LHS is static
+	//	return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
+	//case 2:	// RHS is static
+	//	return AnimatedCircleToStaticCircle(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_radius, Vector3D()) > 0.f;
+	//case 3: // Both are static
+	//	return StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius);
+	}
 }
 #pragma endregion
 
 #pragma region AABB on X
-static bool AABBOnCircle(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+static bool AABBOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
 	return CircleOnAABB(rhs, rhsPos0, rhsPos1, lhs, lhsPos0, lhsPos1);
 }
 
-static bool AABBOnAABB(PhysicsBody * lhs, Vector3D lhsPos0, Vector3D lhsPos1, PhysicsBody * rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
-	AABB* lhsC = static_cast<AABB*>(lhs);
-	AABB* rhsC = static_cast<AABB*>(rhs);
-	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_diagonal, rhsPos0, rhsPos1, rhsC->m_diagonal);
+static bool AABBOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+	AABB* lhsC = static_cast<AABB*>(lhs.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(rhs.GetBodyPtr());
+	// TODO: update this with animated checks
+	return StaticRectToStaticRect(lhsPos0, lhsC->m_halfWidth, lhsC->m_halfWidth, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfWidth);
 }
 #pragma endregion
 
@@ -136,8 +178,8 @@ void PhysicsManager::_ResetContacts()
 bool PhysicsManager::_CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
 {
 	return m_collisionFunctions[lhs.Body().m_type][rhs.Body().m_type](
-		&lhs.Body(), lhs.GetPrevPosition(), lhs.GetPosition(),
-		&rhs.Body(), rhs.GetPrevPosition(), rhs.GetPosition());
+		lhs, lhs.GetPrevPosition(), lhs.GetPosition(),
+		rhs, rhs.GetPrevPosition(), rhs.GetPosition());
 }
 
 

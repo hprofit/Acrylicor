@@ -35,7 +35,7 @@ private:
 
 	EventManager& _EventManager;
 
-	bool (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(PhysicsBody *, Vector3D, Vector3D, PhysicsBody *, Vector3D, Vector3D);
+	bool (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(const PhysicsComponent &, Vector3D, Vector3D, const PhysicsComponent &, Vector3D, Vector3D);
 
 	PhysicsManager();
 	~PhysicsManager();

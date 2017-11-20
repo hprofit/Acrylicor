@@ -25,12 +25,37 @@
       "killZone": {
         "physics": {
           "position": {
-            "y": 400
+            "y": 600
+          },
+          "body": {
+            "type": "aabb",
+            "width": 1600,
+            "height": 20
           }
         },
         "killZone": {
           "tags": [
             "bullet"
+          ]
+        }
+      }
+    },
+    {
+      "killZone": {
+        "physics": {
+          "position": {
+            "y": -600
+          },
+          "body": {
+            "type": "aabb",
+            "width": 1600,
+            "height": 20
+          }
+        },
+        "killZone": {
+          "tags": [
+            "bullet",
+            "enemy"
           ]
         }
       }

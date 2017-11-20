@@ -24,10 +24,16 @@ private:
 	Vector3D m_p0, m_p1, m_norm;
 	float m_nDotP0;
 
+	void _SetNorm();
 public:
 	LineSegment3D(float x0, float y0, float z0, float x1, float y1, float z1);
 	LineSegment3D(Vector3D Point0, Vector3D Point1);
+	LineSegment3D(const LineSegment3D& rhs);
+	LineSegment3D& operator=(const LineSegment3D& rhs);
 	~LineSegment3D();
+
+	LineSegment3D& operator+=(const Vector3D& rhs);
+	LineSegment3D& operator-=(const Vector3D& rhs);
 
 	Vector3D getP0() const { return m_p0; }
 	void setP0(Vector3D p0);
@@ -35,6 +41,8 @@ public:
 	void setP1(Vector3D p01);
 	Vector3D getNorm() const { return m_norm; }
 	float getNDotP0() const { return m_nDotP0; }
+	void offset(Vector3D offset);
+	void shiftAlongNormal(float offset);
 };
 
 #endif

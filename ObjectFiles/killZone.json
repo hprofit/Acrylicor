@@ -2,6 +2,7 @@
   "transform": {
   },
   "physics": {
+    "static": true,
     "body": {
       "type": "aabb",
       "width": 1600,

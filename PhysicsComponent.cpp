@@ -156,6 +156,8 @@ Component * PhysicsComponent::Serialize(GameObject & gObject, nlohmann::json j)
 	if (AcryJson::ValueExists(j, "physics", "body", "tags"))
 		pBody->SetTags(j["physics"]["body"]["tags"]);
 
+	pComp->m_static = AcryJson::ParseBool(j, "physics", "static");
+
 	return pComp;
 }
 
@@ -175,17 +177,21 @@ void PhysicsComponent::Override(nlohmann::json j)
 	String bodyTypeString = AcryJson::ParseString(j, "physics", "body", "type");
 	if (bodyTypeString.compare("circle") == 0)
 		pBody = new Circle(AcryJson::ParseFloat(j, "physics", "body", "radius"));
-	else if (bodyTypeString.compare("aabb") == 0)
+	else if (bodyTypeString.compare("aabb") == 0) 
 		pBody = new AABB(
 			AcryJson::ParseFloat(j, "physics", "body", "width"),
 			AcryJson::ParseFloat(j, "physics", "body", "height")
 		);
 
 	if (pBody) {
+		std::list<String> tags = m_body->GetTags();
 		m_body = pBody;
+		m_body->SetTags(tags);
 		if (AcryJson::ValueExists(j, "physics", "body", "tags"))
 			m_body->SetTags(j["physics"]["body"]["tags"]);
 	}
+
+	m_static = AcryJson::ValueExists(j, "physics", "static") ? AcryJson::ParseBool(j, "physics", "static") : m_static;
 }
 
 void PhysicsComponent::RegisterWithManager()
@@ -249,4 +255,9 @@ void PhysicsComponent::SetPosition(Vector3D position)
 void PhysicsComponent::SetPrevPosition(Vector3D position)
 {
 	m_prevPosition = position;
+}
+
+bool PhysicsComponent::IsStatic() const
+{
+	return m_static;
 }

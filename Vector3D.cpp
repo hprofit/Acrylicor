@@ -214,13 +214,13 @@ Vector3D Vector3D::Normalize(const Vector3D& vector)
 {
 	float length = vector.Length();
 	if (length == 0.0f)
-		throw "Division by zero error!";
+		return Vector3D();
 	return vector / length;
 }
 
 float Vector3D::Dot(const Vector3D& vector0, const Vector3D& vector1)
 {
-	return vector0.m_x * vector1.m_x + vector0.m_y * vector1.m_y + vector0.m_z * vector1.m_z + vector0.m_w * vector1.m_w;
+	return vector0.m_x * vector1.m_x + vector0.m_y * vector1.m_y + vector0.m_z * vector1.m_z;
 }
 
 Vector3D Vector3D::Cross(const Vector3D& vector0, const Vector3D& vector1)

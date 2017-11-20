@@ -1,0 +1,61 @@
+{
+  "objects": [
+    {
+      "camera": { }
+    },
+    {
+      "background": {
+        "scrollingSprite": {
+          "color": {
+            "r": 0.3,
+            "g": 0,
+            "b": 0.3,
+            "a": 1
+          }
+        }
+      }
+    },
+    {
+      "UI_lives": { }
+    },
+    {
+      "UI_score": { }
+    },
+    {
+      "killZone": {
+        "physics": {
+          "position": {
+            "y": 100
+          },
+          "body": {
+            "type": "aabb",
+            "width": 1600,
+            "height": 400
+          }
+        },
+        "killZone": {
+          "tags": [
+            "bullet"
+          ]
+        }
+      }
+    },
+    {
+      "playerSpawner": {
+        "transform": {
+          "x": 0,
+          "y": -240
+        }
+      }
+    },
+    {
+      "player": {
+        "physics": {
+          "position": {
+            "y": -240
+          }
+        }
+      }
+    }
+  ]
+}

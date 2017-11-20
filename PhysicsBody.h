@@ -18,6 +18,7 @@ Creation date: 11/03/17
 
 #include "AcrylicorTypedefs.h"
 #include "Vector3D.h"
+#include "Rect3D.h"
 #include <math.h>
 #include <list>
 
@@ -33,30 +34,19 @@ class PhysicsBody
 protected:
 	std::list<String> m_tags;
 
-	PhysicsBody(BODY_TYPE type) : m_type(type) {};
-	PhysicsBody(const PhysicsBody& rhs) : m_tags(rhs.m_tags), m_type(rhs.m_type) {};
+	PhysicsBody(BODY_TYPE type);
+	PhysicsBody(const PhysicsBody& rhs);
 public:
 	const BODY_TYPE m_type;
 
 	PhysicsBody() = delete;
-	virtual ~PhysicsBody();
+	virtual ~PhysicsBody() {};
 
-	void AddTag(String tag) {
-		m_tags.push_back(tag);
-	};
-	bool HasTag(String tag) const {
-		for (String mTag : m_tags) {
-			if (mTag.compare(tag) == 0)
-				return true;
-		}
-		return false;
-	};
-	void RemoveTag(String tag) {
-		m_tags.remove(tag);
-	};
-	void SetTags(std::list<String> tags) {
-		m_tags = tags;
-	}
+	void AddTag(String tag);
+	bool HasTag(String tag) const;
+	void RemoveTag(String tag);
+	void SetTags(std::list<String> tags);
+	std::list<String> GetTags() const;
 };
 
 class Circle : 
@@ -81,30 +71,38 @@ public:
 	float m_height;
 	float m_halfHeight;
 	float m_diagonal;
+	Rect3D m_rect;
 
 	AABB() : 
 		PhysicsBody(BODY_TYPE::BT_AABB),
 		m_width(0.f), m_halfWidth(0.f), 
 		m_height(0.f), m_halfHeight(0.f), 
-		m_diagonal(0.f) {}
+		m_diagonal(0.f),
+		m_rect(Rect3D(Vector3D(), m_halfWidth, m_halfHeight))
+	{}
 
 	AABB(float dim) : 
 		PhysicsBody(BODY_TYPE::BT_AABB),
 		m_width(dim), m_halfWidth(dim / 2.f), 
 		m_height(dim), m_halfHeight(dim / 2.f), 
-		m_diagonal(  sqrtf(((dim / 2.f) * (dim / 2.f)) + ((dim / 2.f) * (dim / 2.f))) ) {}
+		m_diagonal(  sqrtf(((dim / 2.f) * (dim / 2.f)) + ((dim / 2.f) * (dim / 2.f))) ),
+		m_rect(Rect3D(Vector3D(), m_halfWidth, m_halfHeight))
+	{}
 
 	AABB(float width, float height) : 
 		PhysicsBody(BODY_TYPE::BT_AABB),
 		m_width(width), m_halfWidth(width / 2.f), 
 		m_height(height), m_halfHeight(height / 2.f), 
-		m_diagonal( sqrtf(((width / 2.f) * (width / 2.f)) + ((height / 2.f) * (height / 2.f))) ) {}
+		m_diagonal( sqrtf(((width / 2.f) * (width / 2.f)) + ((height / 2.f) * (height / 2.f))) ),
+		m_rect(Rect3D(Vector3D(), m_halfWidth, m_halfHeight))
+	{}
 
 	AABB(const AABB& rhs) : 
 		PhysicsBody(rhs),
 		m_width(rhs.m_width), m_halfWidth(rhs.m_halfWidth),
 		m_height(rhs.m_height), m_halfHeight(rhs.m_halfHeight),
-		m_diagonal(rhs.m_diagonal) {}
+		m_diagonal(rhs.m_diagonal),
+		m_rect(rhs.m_rect) {}
 
 	AABB& operator=(const AABB& rhs) {
 		m_width = rhs.m_width;
@@ -112,6 +110,7 @@ public:
 		m_height = rhs.m_height;
 		m_halfHeight = rhs.m_halfHeight;
 		m_diagonal = rhs.m_diagonal;
+		m_rect = rhs.m_rect;
 	};
 
 	virtual ~AABB() {}

@@ -169,6 +169,7 @@
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Rect3D.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="Rect3D.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ScrollingSpriteComponent.cpp" />
@@ -243,6 +245,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LevelFiles\level1.json" />
+    <None Include="LevelFiles\testLevel.json" />
     <None Include="ObjectFiles\background.json" />
     <None Include="ObjectFiles\bullets\bullet.json" />
     <None Include="ObjectFiles\camera.json" />

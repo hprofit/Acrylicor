@@ -35,6 +35,7 @@ protected:
 	float m_maxSpeed;
 	float m_capRate;
 	PhysicsBody * m_body;
+	bool m_static;
 public:
 	PhysicsComponent(GameObject& parent);
 	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity);
@@ -57,11 +58,12 @@ public:
 	void SetVelocity(Vector3D vel);
 	void InterpolateVelocity(Vector3D vel, float weight);
 	PhysicsBody& Body() const { return *m_body; };
-	PhysicsBody* GetBodyPtr() { return m_body; }
+	PhysicsBody* GetBodyPtr() const { return m_body; }
 	Vector3D GetPosition() const { return m_position; };
 	void SetPosition(Vector3D position);
 	Vector3D GetPrevPosition() const { return m_prevPosition; };
 	void SetPrevPosition(Vector3D position);
+	bool IsStatic() const;
 };
 
 #endif

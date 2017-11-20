@@ -264,6 +264,9 @@
     <ClInclude Include="CollideKillZoneEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Rect3D.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -419,6 +422,9 @@
     <ClCompile Include="CollideKillZoneEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
+    <ClCompile Include="Rect3D.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -507,6 +513,9 @@
     </None>
     <None Include="ObjectFiles\killZone.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="LevelFiles\testLevel.json">
+      <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
     </None>
   </ItemGroup>
 </Project>
