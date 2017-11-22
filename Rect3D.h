@@ -28,6 +28,8 @@ protected:
 	LineSegment3D& m_right;
 	LineSegment3D& m_top;
 	LineSegment3D& m_bottom;
+	Vector3D& m_upVec;
+	Vector3D& m_rightVec;
 
 public:
 	Rect3D(Vector3D center, float halfWidth, float halfHeight);
@@ -46,6 +48,9 @@ public:
 	LineSegment3D Right() const;
 	LineSegment3D Top() const;
 	LineSegment3D Bottom() const;
+
+	Vector3D UpVec() const;
+	Vector3D RightVec() const;
 
 	Rect3D StretchHeight(float amount) const;
 	Rect3D StretchWidth(float amount) const;

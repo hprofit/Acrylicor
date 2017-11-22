@@ -20,6 +20,8 @@ Creation date: 11/03/17
 #include "Vector3D.h"
 #include "PhysicsBody.h"
 
+class TransformComponent;
+
 class PhysicsComponent :
 	public Component
 {
@@ -36,6 +38,8 @@ protected:
 	float m_capRate;
 	PhysicsBody * m_body;
 	bool m_static;
+
+	TransformComponent* m_tComp;
 public:
 	PhysicsComponent(GameObject& parent);
 	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity);
@@ -48,21 +52,28 @@ public:
 
 	virtual void Update(double deltaTime);
 	virtual void Update(double deltaTime, float gravity);
+	virtual void LateUpdate();
 	virtual PhysicsComponent* Clone(GameObject& parent);
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager();
 	virtual void HandleEvent(AcryEvent * aEvent);
+	virtual void LateInitialize();
 
 	void AddForce(Vector3D force);
 	void SetVelocity(Vector3D vel);
+	void SetVelocityDirection(Vector3D dir);
 	void InterpolateVelocity(Vector3D vel, float weight);
+
 	PhysicsBody& Body() const { return *m_body; };
 	PhysicsBody* GetBodyPtr() const { return m_body; }
+
 	Vector3D GetPosition() const { return m_position; };
 	void SetPosition(Vector3D position);
 	Vector3D GetPrevPosition() const { return m_prevPosition; };
 	void SetPrevPosition(Vector3D position);
+	Vector3D GetPositionAtTime(float time) const;
+
 	bool IsStatic() const;
 };
 

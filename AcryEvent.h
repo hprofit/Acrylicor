@@ -17,16 +17,18 @@ Creation date: 10/13/17
 #define EVENT_H
 
 #include "AcrylicorTypedefs.h"
-#include <unordered_map>
 
 enum class EventType {
+	DATA_AMOUNT,
 	COLLIDE,
 	COLLIDE_KILL_ZONE,
 	KEY_PRESS,
 	DAMAGE,
 	LIFE_CHANGE,
 	PLAYER_DEATH,
-	RESPAWN
+	RESPAWN,
+	MISSILE_FIRED,
+	MISSILE_COUNT_CHANGE
 };
 
 class AcryEvent
@@ -37,8 +39,7 @@ protected:
 	// Payload
 	// Message specific data
 public:
-	AcryEvent(EventType type);
-	AcryEvent(EventType type, double time);
+	AcryEvent(EventType type, double time = 0.0);
 	virtual ~AcryEvent();
 
 	double Time() const;

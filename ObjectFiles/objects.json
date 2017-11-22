@@ -14,5 +14,6 @@
   { "background": "ObjectFiles/background.json" },
   { "bullet": "ObjectFiles/bullets/bullet.json" },
   { "missile": "ObjectFiles/bullets/missile.json" },
-  { "killZone": "ObjectFiles/killZone.json" }
+  { "killZone": "ObjectFiles/killZone.json" },
+  { "boundaryBox": "ObjectFiles/boundaryBox.json" }
 ]

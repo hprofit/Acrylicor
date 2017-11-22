@@ -67,6 +67,8 @@ public:
 	void RemoveCamera(Component * cameraComp);
 
 	void UpdateCameraObjects(double deltaTime);
+
+	void LateInitializeGameObjects();
 };
 
 #endif

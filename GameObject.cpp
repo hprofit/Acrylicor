@@ -171,6 +171,14 @@ void GameObject::ClearComponents()
 	m_components.clear();
 }
 
+void GameObject::LateInitialize()
+{
+	for (auto comp : m_components) {
+		if (comp.second)
+			comp.second->LateInitialize();
+	}
+}
+
 void GameObject::Update(double deltaTime)
 {
 	for (auto comp : m_components) {

@@ -17,6 +17,7 @@
 #include "HealthComponent.h"
 #include "DamageComponent.h"
 #include "UI_LivesComponent.h"
+#include "UI_MissilesComponent.h"
 #include "KillZoneComponent.h"
 
 GameObjectFactory::GameObjectFactory()
@@ -35,38 +36,24 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 {
 	GameObject * gObject = NewObjectFromArchetype(objectType);
 	for (json::iterator it = j.begin(); it != j.end(); ++it) {
-		if (AcryJson::KeyIs(it, "transform"))
-			gObject->Get(COMPONENT_TYPE::TRANSFORM)->Override(j);
-		else if (AcryJson::KeyIs(it, "sprite"))
-			gObject->Get(COMPONENT_TYPE::SPRITE)->Override(j);
-		else if (AcryJson::KeyIs(it, "scrollingSprite"))
-			gObject->Get(COMPONENT_TYPE::SCROLLING_SPRITE)->Override(j);
-		else if (AcryJson::KeyIs(it, "text"))
-			gObject->Get(COMPONENT_TYPE::TEXT)->Override(j);
-		else if (AcryJson::KeyIs(it, "controller"))
-			gObject->Get(COMPONENT_TYPE::CONTROLLER)->Override(j);
-		else if (AcryJson::KeyIs(it, "physics"))
-			gObject->Get(COMPONENT_TYPE::PHYSICS)->Override(j);
-		else if (AcryJson::KeyIs(it, "aiSway"))
-			gObject->Get(COMPONENT_TYPE::AI_SWAY)->Override(j);
-		else if (AcryJson::KeyIs(it, "spawner"))
-			gObject->Get(COMPONENT_TYPE::SPAWNER)->Override(j);
-		else if (AcryJson::KeyIs(it, "aiRush"))
-			gObject->Get(COMPONENT_TYPE::AI_RUSH)->Override(j);
-		else if (AcryJson::KeyIs(it, "weapon"))
-			gObject->Get(COMPONENT_TYPE::WEAPON)->Override(j);
-		else if (AcryJson::KeyIs(it, "missileLauncher"))
-			gObject->Get(COMPONENT_TYPE::MISSILE_LAUNCHER)->Override(j);
-		else if (AcryJson::KeyIs(it, "camera"))
-			gObject->Get(COMPONENT_TYPE::CAMERA)->Override(j);
-		else if (AcryJson::KeyIs(it, "health"))
-			gObject->Get(COMPONENT_TYPE::HEALTH)->Override(j);
-		else if (AcryJson::KeyIs(it, "damage"))
-			gObject->Get(COMPONENT_TYPE::DAMAGE)->Override(j);
-		else if (AcryJson::KeyIs(it, "uiLives"))
-			gObject->Get(COMPONENT_TYPE::UI_LIVES)->Override(j);
-		else if (AcryJson::KeyIs(it, "killZone"))
-			gObject->Get(COMPONENT_TYPE::KILL_ZONE)->Override(j);
+		if (AcryJson::KeyIs(it, "transform"))				gObject->Get(COMPONENT_TYPE::TRANSFORM)->Override(j);
+		else if (AcryJson::KeyIs(it, "sprite"))				gObject->Get(COMPONENT_TYPE::SPRITE)->Override(j);
+		else if (AcryJson::KeyIs(it, "scrollingSprite"))	gObject->Get(COMPONENT_TYPE::SCROLLING_SPRITE)->Override(j);
+		else if (AcryJson::KeyIs(it, "text"))				gObject->Get(COMPONENT_TYPE::TEXT)->Override(j);
+		else if (AcryJson::KeyIs(it, "controller"))			gObject->Get(COMPONENT_TYPE::CONTROLLER)->Override(j);
+		else if (AcryJson::KeyIs(it, "physics"))			gObject->Get(COMPONENT_TYPE::PHYSICS)->Override(j);
+		else if (AcryJson::KeyIs(it, "aiSway"))				gObject->Get(COMPONENT_TYPE::AI_SWAY)->Override(j);
+		else if (AcryJson::KeyIs(it, "spawner"))			gObject->Get(COMPONENT_TYPE::SPAWNER)->Override(j);
+		else if (AcryJson::KeyIs(it, "aiRush"))				gObject->Get(COMPONENT_TYPE::AI_RUSH)->Override(j);
+		else if (AcryJson::KeyIs(it, "weapon"))				gObject->Get(COMPONENT_TYPE::WEAPON)->Override(j);
+		else if (AcryJson::KeyIs(it, "missileLauncher"))	gObject->Get(COMPONENT_TYPE::MISSILE_LAUNCHER)->Override(j);
+		else if (AcryJson::KeyIs(it, "camera"))				gObject->Get(COMPONENT_TYPE::CAMERA)->Override(j);
+		else if (AcryJson::KeyIs(it, "health"))				gObject->Get(COMPONENT_TYPE::HEALTH)->Override(j);
+		else if (AcryJson::KeyIs(it, "damage"))				gObject->Get(COMPONENT_TYPE::DAMAGE)->Override(j);
+		else if (AcryJson::KeyIs(it, "uiLives"))			gObject->Get(COMPONENT_TYPE::UI_LIVES)->Override(j);
+		else if (AcryJson::KeyIs(it, "uiMissiles"))			gObject->Get(COMPONENT_TYPE::UI_MISSILES)->Override(j);
+		//else if (AcryJson::KeyIs(it, "uiScore"))			gObject->Get(COMPONENT_TYPE::UI_SCORE)->Override(j);
+		else if (AcryJson::KeyIs(it, "killZone"))			gObject->Get(COMPONENT_TYPE::KILL_ZONE)->Override(j);
 	}
 	return gObject;
 }
@@ -109,38 +96,24 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 		GameObject * gObject = new GameObject(objectName);
 		if (j.is_object()) {
 			for (json::iterator it = j.begin(); it != j.end(); ++it) {
-				if (AcryJson::KeyIs(it, "transform"))
-					gObject->AddComponent(TransformComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "sprite"))
-					gObject->AddComponent(SpriteComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "scrollingSprite"))
-					gObject->AddComponent(ScrollingSpriteComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "text"))
-					gObject->AddComponent(TextComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "controller"))
-					gObject->AddComponent(ControllerComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "physics"))
-					gObject->AddComponent(PhysicsComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "aiSway"))
-					gObject->AddComponent(AISwayComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "spawner"))
-					gObject->AddComponent(SpawnerComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "aiRush"))
-					gObject->AddComponent(AIRushComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "weapon"))
-					gObject->AddComponent(WeaponComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "missileLauncher"))
-					gObject->AddComponent(MissileLauncherComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "camera"))
-					gObject->AddComponent(CameraComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "health"))
-					gObject->AddComponent(HealthComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "damage"))
-					gObject->AddComponent(DamageComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "uiLives"))
-					gObject->AddComponent(UI_LivesComponent::Serialize(*gObject, j));
-				else if (AcryJson::KeyIs(it, "killZone"))
-					gObject->AddComponent(KillZoneComponent::Serialize(*gObject, j));
+				if (AcryJson::KeyIs(it, "transform"))				gObject->AddComponent(TransformComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "sprite"))				gObject->AddComponent(SpriteComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "scrollingSprite"))	gObject->AddComponent(ScrollingSpriteComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "text"))				gObject->AddComponent(TextComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "controller"))			gObject->AddComponent(ControllerComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "physics"))			gObject->AddComponent(PhysicsComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "aiSway"))				gObject->AddComponent(AISwayComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "spawner"))			gObject->AddComponent(SpawnerComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "aiRush"))				gObject->AddComponent(AIRushComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "weapon"))				gObject->AddComponent(WeaponComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "missileLauncher"))	gObject->AddComponent(MissileLauncherComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "camera"))				gObject->AddComponent(CameraComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "health"))				gObject->AddComponent(HealthComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "damage"))				gObject->AddComponent(DamageComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "uiLives"))			gObject->AddComponent(UI_LivesComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "uiMissiles"))			gObject->AddComponent(UI_MissilesComponent::Serialize(*gObject, j));
+				//else if (AcryJson::KeyIs(it, "uiScore"))			gObject->AddComponent(UI_ScoreComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "killZone"))			gObject->AddComponent(KillZoneComponent::Serialize(*gObject, j));
 
 				// Special case, hook up to parent from here
 				else if (AcryJson::KeyIs(it, "parent"))

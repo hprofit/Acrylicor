@@ -12,7 +12,9 @@ Rect3D::Rect3D(Vector3D center, float halfWidth, float halfHeight) :
 	m_top(LineSegment3D(center.getX() - halfWidth, center.getY() + halfHeight, center.getZ(),
 						center.getX() + halfWidth, center.getY() + halfHeight, center.getZ())),
 	m_bottom(LineSegment3D(center.getX() - halfWidth, center.getY() - halfHeight, center.getZ(),
-						   center.getX() + halfWidth, center.getY() - halfHeight, center.getZ()))
+						   center.getX() + halfWidth, center.getY() - halfHeight, center.getZ())),
+	m_upVec(Vector3D(0, 1, 0)),
+	m_rightVec(Vector3D(1, 0, 0))
 {}
 
 Rect3D::Rect3D(const Rect3D & rhs) :
@@ -21,7 +23,9 @@ Rect3D::Rect3D(const Rect3D & rhs) :
 	m_left(rhs.m_left),
 	m_right(rhs.m_right),
 	m_top(rhs.m_top),
-	m_bottom(rhs.m_bottom)
+	m_bottom(rhs.m_bottom),
+	m_upVec(rhs.m_upVec),
+	m_rightVec(rhs.m_rightVec)
 {}
 
 Rect3D & Rect3D::operator=(const Rect3D & rhs)
@@ -96,6 +100,16 @@ LineSegment3D Rect3D::Top() const
 LineSegment3D Rect3D::Bottom() const
 {
 	return m_bottom;
+}
+
+Vector3D Rect3D::UpVec() const
+{
+	return m_upVec;
+}
+
+Vector3D Rect3D::RightVec() const
+{
+	return m_rightVec;
 }
 
 Rect3D Rect3D::StretchHeight(float amount) const

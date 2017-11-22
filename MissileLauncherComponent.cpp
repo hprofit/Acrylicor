@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
+#include "MissileCountChangeEvent.h"
+#include "EventManager.h"
 
 MissileLauncherComponent::MissileLauncherComponent(GameObject & parent, int count, double rateOfFire, String missileType) :
 	Component(parent, COMPONENT_TYPE::MISSILE_LAUNCHER),
@@ -55,6 +57,11 @@ void MissileLauncherComponent::HandleEvent(AcryEvent * aEvent)
 
 }
 
+void MissileLauncherComponent::LateInitialize()
+{
+	EventManager::GetInstance().BroadcastEventToSubscribers(new MissileCountChangeEvent(0.0, m_count));
+}
+
 int MissileLauncherComponent::Remaining() const
 {
 	return m_count;
@@ -86,5 +93,7 @@ void MissileLauncherComponent::Fire()
 			missilePComp->SetPosition(gunTComp->GetPosition());
 			missilePComp->SetPrevPosition(gunTComp->GetPosition());
 		}
+
+		EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::MISSILE_FIRED));
 	}
 }

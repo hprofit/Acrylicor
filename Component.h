@@ -42,11 +42,12 @@ public:
 	virtual ~Component() {};
 
 	virtual void Update(double deltaTime) = 0;
+	virtual void LateUpdate() {};
 	virtual Component* Clone(GameObject& parent) = 0;
 	virtual void Override(nlohmann::json j) = 0;
 	virtual void RegisterWithManager() = 0;
 	virtual void HandleEvent(AcryEvent * aEvent) {};
-	virtual void PostCreateInit() {};
+	virtual void LateInitialize() {};
 
 	virtual bool IsPriorityComp() const { return m_priority; }
 	virtual void AddEventSubscription(String eventType);

@@ -16,6 +16,8 @@ Creation date: 11/03/17
 #ifndef CONTACT_H
 #define CONTACT_H
 
+#include "CollisionResult.h"
+
 class PhysicsBody;
 class GameObject;
 
@@ -24,13 +26,28 @@ class Contact
 protected:
 	GameObject * m_lhsGO;
 	GameObject * m_rhsGO;
+	CollisionResult m_collision;
 public:
-	Contact(GameObject* lhsGO, GameObject* rhsGO) :
-		m_lhsGO(lhsGO), m_rhsGO(rhsGO) {};
+	Contact(GameObject* lhsGO, GameObject* rhsGO, CollisionResult collision) :
+		m_lhsGO(lhsGO), 
+		m_rhsGO(rhsGO),
+		m_collision(collision)
+		{};
+	Contact(const Contact& rhs) : 
+		m_lhsGO(rhs.m_lhsGO),
+		m_rhsGO(rhs.m_rhsGO),
+		m_collision(rhs.m_collision)
+	{};
+	Contact& operator=(const Contact& rhs) {
+		m_lhsGO = rhs.m_lhsGO;
+		m_rhsGO = rhs.m_rhsGO;
+		m_collision = rhs.m_collision;
+	}
 	virtual ~Contact() {};
 
 	GameObject * LHS_GO() const { return m_lhsGO; }
 	GameObject * RHS_GO() const { return m_rhsGO; }
+	CollisionResult Collision() const { return m_collision; }
 };
 
 #endif

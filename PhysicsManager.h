@@ -20,9 +20,11 @@ Creation date: 10/27/17
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "Contact.h"
+#include "CollisionResult.h"
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
 class EventManager;
 
@@ -35,7 +37,8 @@ private:
 
 	EventManager& _EventManager;
 
-	bool (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(const PhysicsComponent &, Vector3D, Vector3D, const PhysicsComponent &, Vector3D, Vector3D);
+	CollisionResult (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(const PhysicsComponent &, Vector3D, Vector3D, const PhysicsComponent &, Vector3D, Vector3D);
+	Vector3D (* m_reflectionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM])(const PhysicsComponent &, const PhysicsComponent &, const CollisionResult&);
 
 	PhysicsManager();
 	~PhysicsManager();
@@ -43,9 +46,9 @@ private:
 	void _RemoveBody(Component * comp);
 	void _RemoveTransform(Component * comp);
 
-	void _CreateContact(GameObject* lhsGO, GameObject* rhsGO);
+	void _CreateContact(GameObject* lhsGO, GameObject* rhsGO, CollisionResult collision);
 	void _ResetContacts();
-	bool _CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs);
+	CollisionResult _CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs);
 
 public:
 	PhysicsManager(const PhysicsManager &) = delete;
@@ -61,6 +64,8 @@ public:
 	void RemoveComponent(Component * comp);
 
 	void UpdatePhysics(double deltaTime);
+
+	Vector3D ReflectShapeOffOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult& cr);
 };
 
 #endif

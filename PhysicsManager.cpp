@@ -5,8 +5,12 @@
 #include "EventManager.h"
 #include "CollideEvent.h"
 
+#include <iostream>
+
+#pragma region Collision Methods
+
 #pragma region Circle on X
-static bool CircleOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+static CollisionResult CircleOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
 	Circle* lhsC = static_cast<Circle*>(lhs.GetBodyPtr());
 	Circle* rhsC = static_cast<Circle*>(rhs.GetBodyPtr());
 
@@ -14,64 +18,93 @@ static bool CircleOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vecto
 
 	switch (statics) {
 	case 0:	// Both are non-static
-		return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
+		return AnimatedCircleToAnimatedCircle(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
 	case 1:	// LHS is static
-		return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
+		return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius);
 	case 2:	// RHS is static
-		return AnimatedCircleToStaticCircle(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_radius, Vector3D()) > 0.f;
+		return AnimatedCircleToStaticCircle(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_radius);
 	default: // Both are static
-		return StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius);
+		return CollisionResult(StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius));
 	}
-
-	//if (!lhs.IsStatic() && !rhs.IsStatic())
-	//	return AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_radius);
-	//else if (lhs.IsStatic() && rhs.IsStatic())
-	//	return StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius);
-	//// TODO: revamp collision events to contain impact points and times
-	//else if (lhs.IsStatic())
-	//	return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
-	//else if (rhs.IsStatic())
-	//	return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
 }
 
-static bool CircleOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+static CollisionResult CircleOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
 	Circle* lhsC = static_cast<Circle*>(lhs.GetBodyPtr());
 	AABB* rhsC = static_cast<AABB*>(rhs.GetBodyPtr());
 
-	unsigned int statics = 0;// lhs.IsStatic() + (rhs.IsStatic() * 2);
-	switch (statics) {
-	case 0:	// Both are non-static
-	{
-		if (!AnimatedCircletoAnimatedCircleWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsPos1, rhsC->m_diagonal))
-			return false;
-		else {
-			bool res = AnimatedCircleToStaticRectWillCollideThisFrame(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect); // Should be moved to next case
-			return res;
-		}
-	}
-		break;
+	//unsigned int statics = 0;// lhs.IsStatic() + (rhs.IsStatic() * 2);
+	//switch (statics) {
+	//case 0:	// Both are non-static
+	//{
+		return AnimatedCircleToStaticRect(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect);
+	//}
+	//	break;
 	//case 1:	// LHS is static
 	//	return AnimatedCircleToStaticCircle(rhsPos0, rhsPos1, rhsC->m_radius, lhsPos0, lhsC->m_radius, Vector3D()) > 0.f;
 	//case 2:	// RHS is static
 	//	return AnimatedCircleToStaticCircle(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_radius, Vector3D()) > 0.f;
-	//case 3: // Both are static
+	//default: // Both are static
 	//	return StaticCircleToStaticCircle(lhsPos0, lhsC->m_radius, rhsPos0, rhsC->m_radius);
-	}
+	//}
 }
 #pragma endregion
 
 #pragma region AABB on X
-static bool AABBOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+static CollisionResult AABBOnCircle(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
 	return CircleOnAABB(rhs, rhsPos0, rhsPos1, lhs, lhsPos0, lhsPos1);
 }
 
-static bool AABBOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
+static CollisionResult AABBOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0, Vector3D lhsPos1, const PhysicsComponent & rhs, Vector3D rhsPos0, Vector3D rhsPos1) {
 	AABB* lhsC = static_cast<AABB*>(lhs.GetBodyPtr());
 	AABB* rhsC = static_cast<AABB*>(rhs.GetBodyPtr());
 	// TODO: update this with animated checks
-	return StaticRectToStaticRect(lhsPos0, lhsC->m_halfWidth, lhsC->m_halfWidth, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfWidth);
+	return CollisionResult(StaticRectToStaticRect(lhsPos0, lhsC->m_halfWidth, lhsC->m_halfHeight, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight));
 }
 #pragma endregion
+
+#pragma endregion
+
+#pragma region Reflection Methods
+
+
+#pragma region Circle on X
+static Vector3D ReflectCircleOnCircle(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
+	Circle* lhsC = static_cast<Circle*>(compToReflect.GetBodyPtr());
+	Circle* rhsC = static_cast<Circle*>(reflectionSurface.GetBodyPtr());
+
+	return ReflectAnimatedCircleOnStaticCircle(compToReflect.GetPrevPosition(), compToReflect.GetPosition(), lhsC->m_radius, reflectionSurface.GetPositionAtTime(cr.timeOfImpact), rhsC->m_radius, cr);
+}
+
+static Vector3D ReflectCircleOnAABB(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
+	Circle* lhsC = static_cast<Circle*>(compToReflect.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(reflectionSurface.GetBodyPtr());
+
+	return ReflectAnimatedCircleOnStaticRect(compToReflect.GetPosition(), compToReflect.GetPositionAtTime(cr.timeOfImpact), reflectionSurface.GetPositionAtTime(cr.timeOfImpact), rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect);
+}
+#pragma endregion
+
+#pragma region AABB on X
+static Vector3D ReflectAABBOnCircle(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
+	//AABB* lhsC = static_cast<AABB*>(compToReflect.GetBodyPtr());
+	//Circle* rhsC = static_cast<Circle*>(reflectionSurface.GetBodyPtr());
+	//return ReflectAnimatedRectOnStaticCircle();
+
+	return ReflectCircleOnAABB(reflectionSurface, compToReflect, cr);
+}
+
+static Vector3D ReflectAABBOnAABB(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
+	AABB* lhsC = static_cast<AABB*>(compToReflect.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(reflectionSurface.GetBodyPtr());
+	// TODO: update this with animated checks
+	return Vector3D();
+	//return StaticRectToStaticRect(lhsPos0, lhsC->m_halfWidth, lhsC->m_halfHeight, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight);
+	//return ReflectAnimatedRectOnStaticRect();
+}
+#pragma endregion
+
+
+#pragma endregion
+
 
 PhysicsManager::PhysicsManager() :
 	_EventManager(EventManager::GetInstance())
@@ -81,6 +114,14 @@ PhysicsManager::PhysicsManager() :
 
 	m_collisionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_CIRCLE] = AABBOnCircle;
 	m_collisionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_AABB] = AABBOnAABB;
+
+
+
+	m_reflectionFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_CIRCLE] = ReflectCircleOnCircle;
+	m_reflectionFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_AABB] = ReflectCircleOnAABB;
+
+	m_reflectionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_CIRCLE] = ReflectAABBOnCircle;
+	m_reflectionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_AABB] = ReflectAABBOnAABB;
 }
 
 PhysicsManager::~PhysicsManager()
@@ -135,6 +176,7 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 	}
 
 	// Check for collisions
+	CollisionResult cr;
 	for (i = 0; i < m_physicsBodies.size(); ++i) {
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive()) {
 			PhysicsComponent* lhs = static_cast<PhysicsComponent*>(m_physicsBodies[i]);
@@ -145,9 +187,9 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 					continue;
 				if (m_physicsBodies[j] && m_physicsBodies[j]->m_parent.IsActive()) {
 					PhysicsComponent* rhs = static_cast<PhysicsComponent*>(m_physicsBodies[j]);
-					
-					if (_CheckCollision(*lhs, *rhs))
-						_CreateContact(&lhs->m_parent, &rhs->m_parent);
+					cr = _CheckCollision(*lhs, *rhs);
+					if (cr.collided)
+						_CreateContact(&lhs->m_parent, &rhs->m_parent, cr);
 				}
 			}
 		}
@@ -155,15 +197,21 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 
 	// Process contacts
 	for (i = 0; i < m_contacts.size(); ++i) {
-		CollideEvent * cEvent = new CollideEvent(0.0, m_contacts[i]->LHS_GO(), m_contacts[i]->RHS_GO());
+		CollideEvent * cEvent = new CollideEvent(*m_contacts[i]);
 		m_contacts[i]->LHS_GO()->HandleEvent(cEvent);
 		m_contacts[i]->RHS_GO()->HandleEvent(cEvent);
 	}
+
+	// Update Physics Bodies
+	for (i = 0; i < m_physicsBodies.size(); ++i) {
+		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive())
+			m_physicsBodies[i]->LateUpdate();
+	}
 }
 
-void PhysicsManager::_CreateContact(GameObject* lhsGO, GameObject* rhsGO)
+void PhysicsManager::_CreateContact(GameObject* lhsGO, GameObject* rhsGO, CollisionResult collision)
 {
-	m_contacts.push_back(new Contact(lhsGO, rhsGO));
+	m_contacts.push_back(new Contact(lhsGO, rhsGO, collision));
 }
 
 void PhysicsManager::_ResetContacts()
@@ -175,11 +223,14 @@ void PhysicsManager::_ResetContacts()
 	m_contacts.clear();
 }
 
-bool PhysicsManager::_CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
+CollisionResult PhysicsManager::_CheckCollision(const PhysicsComponent & lhs, const PhysicsComponent & rhs)
 {
 	return m_collisionFunctions[lhs.Body().m_type][rhs.Body().m_type](
 		lhs, lhs.GetPrevPosition(), lhs.GetPosition(),
 		rhs, rhs.GetPrevPosition(), rhs.GetPosition());
 }
 
-
+Vector3D PhysicsManager::ReflectShapeOffOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult& cr) 
+{
+	return m_reflectionFunctions[lhs.Body().m_type][rhs.Body().m_type](lhs, rhs, cr);
+}

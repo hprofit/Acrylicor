@@ -2,6 +2,7 @@
 #include "PhysicsManager.h"
 #include "EventManager.h"
 #include "JsonReader.h"
+#include "Math3D.h"
 
 #include "AcryEvent.h"
 #include "CollideEvent.h"
@@ -114,11 +115,11 @@ void PhysicsComponent::Update(double deltaTime, float gravity)
 	m_position += m_velocity * (float)deltaTime;
 
 	m_force = Vector3D();
+}
 
-	TransformComponent * tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
-	if (tComp) {
-		tComp->SetPosition(m_position);
-	}
+void PhysicsComponent::LateUpdate()
+{
+	m_tComp->SetPosition(m_position);
 }
 
 PhysicsComponent * PhysicsComponent::Clone(GameObject & parent)
@@ -207,18 +208,24 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		CollideEvent * cpEvent = static_cast<CollideEvent*>(aEvent);
 
 
-		GameObject * other = cpEvent->LHS()->Get(COMPONENT_TYPE::PHYSICS) == this ?
-			cpEvent->RHS() : cpEvent->LHS();
+		GameObject * other = cpEvent->GetContact().LHS_GO()->Get(COMPONENT_TYPE::PHYSICS) == this ?
+			cpEvent->GetContact().RHS_GO() : cpEvent->GetContact().LHS_GO();
 		PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
+
 		// TODO: Should be scripted stuff
 		if (m_body->HasTag("killZone")) {
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
-		else if (m_body->HasTag("player") && (otherPComp->Body().HasTag("enemy") || otherPComp->Body().HasTag("enemyBullet"))) {
-			EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
-			EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESPAWN, 3.0));
-			m_parent.Kill();
-			other->Kill();
+		else if (m_body->HasTag("player")) {
+			if ((otherPComp->Body().HasTag("enemy") || otherPComp->Body().HasTag("enemyBullet"))) {
+				EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
+				EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESPAWN, 3.0));
+				m_parent.Kill();
+				other->Kill();
+			}
+			else if (otherPComp->Body().HasTag("solid")) {
+				
+			}
 		}
 		else if (m_body->HasTag("playerBullet") && otherPComp->Body().HasTag("enemy")) {
 			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
@@ -232,6 +239,13 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 	}
 }
 
+void PhysicsComponent::LateInitialize()
+{
+	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	if (!m_tComp)
+		std::cout << "Physics components require Transform components." << std::endl;
+}
+
 void PhysicsComponent::AddForce(Vector3D force)
 {
 	m_force += force;
@@ -240,6 +254,13 @@ void PhysicsComponent::AddForce(Vector3D force)
 void PhysicsComponent::SetVelocity(Vector3D vel)
 {
 	m_velocity = vel;
+}
+
+void PhysicsComponent::SetVelocityDirection(Vector3D dir)
+{
+	if (!FloatEquals(dir.SquareLength(), 1.f))	dir.Normalize();
+	float speed = m_velocity.Length();
+	SetVelocity(dir * speed);
 }
 
 void PhysicsComponent::InterpolateVelocity(Vector3D vel, float weight)
@@ -255,6 +276,12 @@ void PhysicsComponent::SetPosition(Vector3D position)
 void PhysicsComponent::SetPrevPosition(Vector3D position)
 {
 	m_prevPosition = position;
+}
+
+// time is assumed to be 0.f - 1.f
+Vector3D PhysicsComponent::GetPositionAtTime(float time) const
+{
+	return (m_position - m_prevPosition) * (time / 1.f);
 }
 
 bool PhysicsComponent::IsStatic() const

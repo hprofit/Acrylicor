@@ -84,10 +84,14 @@ public:
 	Component* GetImmediate(COMPONENT_TYPE type);
 	void AddComponent(Component * component);
 	void ClearComponents();
+	void LateInitialize();
 
 	virtual void Update(double deltaTime);
 
 	void HandleEvent(AcryEvent * aEvent);
+	String GetType() const {
+		return m_type;
+	};
 };
 
 #endif

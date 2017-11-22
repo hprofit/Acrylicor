@@ -36,15 +36,73 @@
           "frameX": 0,
           "frameY": 0,
           "tileX": 5,
-          "tileY": 4,
+          "tileY": 2.5,
           "scrollSpeedX": 0,
           "scrollSpeedY": -0.6,
           "shader": "scrollingTileShader",
           "color": {
-            "r": 0.6,
+            "r": 0.5,
             "g": 0,
-            "b": 0.4,
+            "b": 0.3,
             "a": 1
+          }
+        }
+      }
+    },
+
+
+    {
+      "boundaryBox": {
+        "physics": {
+          "position": {
+            "y": 400
+          },
+          "body": {
+            "type": "aabb",
+            "width": 1600,
+            "height": 40
+          }
+        }
+      }
+    },
+    {
+      "boundaryBox": {
+        "physics": {
+          "position": {
+            "y": -400
+          },
+          "body": {
+            "type": "aabb",
+            "width": 1600,
+            "height": 40
+          }
+        }
+      }
+    },
+    {
+      "boundaryBox": {
+        "physics": {
+          "position": {
+            "x": 600
+          },
+          "body": {
+            "type": "aabb",
+            "width": 40,
+            "height": 800
+          }
+        }
+      }
+    },
+    {
+      "boundaryBox": {
+        "physics": {
+          "position": {
+            "x": -600
+          },
+          "body": {
+            "type": "aabb",
+            "width": 40,
+            "height": 800
           }
         }
       }
@@ -61,12 +119,13 @@
           "body": {
             "type": "aabb",
             "width": 1600,
-            "height": 20
+            "height": 40
           }
         },
         "killZone": {
           "tags": [
-            "bullet"
+            "bullet",
+            "missile"
           ]
         }
       }
@@ -80,12 +139,13 @@
           "body": {
             "type": "aabb",
             "width": 1600,
-            "height": 20
+            "height": 40
           }
         },
         "killZone": {
           "tags": [
             "bullet",
+            "missile",
             "enemy"
           ]
         }
@@ -119,8 +179,7 @@
 
 
 
-
-
+    
     {
       "enemy": {
         "physics": {
@@ -231,6 +290,7 @@
         }
       }
     },
+
 
 
 

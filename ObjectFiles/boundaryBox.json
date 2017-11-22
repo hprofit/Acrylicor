@@ -1,0 +1,13 @@
+{
+  "transform": {
+  },
+  "physics": {
+    "static": true,
+    "body": {
+      "type": "aabb",
+      "tags": [
+        "solid"
+      ]
+    }
+  }
+}

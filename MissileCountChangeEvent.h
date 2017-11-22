@@ -2,8 +2,9 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: CollideEvent.h
-Purpose: Event that indicates a collision between GameObjects
+File Name: MissileCountChangeEvent.h
+Purpose: Event that indicates the amount of missiles set all containers to
+I.e. UI will now be exactly this many missiles, missile launcher will be this many missiles
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
@@ -13,25 +14,21 @@ Creation date: 11/09/17
 
 #pragma once
 
-#ifndef KEY_PRESS_EVENT_H
-#define KEY_PRESS_EVENT_H
+#ifndef MISSILE_COUNT_CHANGE_EVENT_H
+#define MISSILE_COUNT_CHANGE_EVENT_H
 
 #include "AcryEvent.h"
-#include "Contact.h"
 
-class GameObject;
-
-class CollideEvent :
+class MissileCountChangeEvent :
 	public AcryEvent
 {
 private:
-	Contact m_contact;
-
+	int count;
 public:
-	CollideEvent(Contact _contact);
-	virtual ~CollideEvent();
+	MissileCountChangeEvent(double time, int _count);
+	~MissileCountChangeEvent();
 
-	Contact GetContact() { return m_contact; }
+	int Count() const;
 };
 
 #endif

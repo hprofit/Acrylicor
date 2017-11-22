@@ -13,8 +13,8 @@ Creation date: 11/15/17
 
 #pragma once
 
-#ifndef UI_LIVES_COMPONENT_H
-#define UI_LIVES_COMPONENT_H
+#ifndef UI_MISSILES_COMPONENT_H
+#define UI_MISSILES_COMPONENT_H
 
 #include "Component.h"
 #include "AcrylicorTypedefs.h"
@@ -26,6 +26,7 @@ protected:
 	int m_count;
 	String m_baseMessage;
 
+	void _SetText() const;
 public:
 	UI_MissilesComponent() = delete;
 	UI_MissilesComponent(GameObject& parent, String baseMessage);
@@ -45,6 +46,7 @@ public:
 	void AddMissiles(int amt);
 	void RemoveMissile();
 	void RemoveMissiles(int amt);
+	void SetMissileCount(int amt);
 };
 
 #endif

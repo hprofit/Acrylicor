@@ -25,9 +25,10 @@
     "mass": 1,
     "body": {
       "type": "circle",
-      "radius": 16,
+      "radius": 12,
       "tags": [
         "bullet",
+        "missile",
         "playerMissile"
       ]
     },

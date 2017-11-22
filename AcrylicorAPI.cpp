@@ -149,6 +149,8 @@ void Acrylicor::LoadLevel(String fileName)
 				}
 			}
 		}
+
+		gameObjectMngr.LateInitializeGameObjects();
 	}
 	catch (const json::parse_error& ex) {
 		std::cerr << ex.what() << std::endl;

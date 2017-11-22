@@ -5,6 +5,8 @@
 #include "PhysicsComponent.h"
 #include "GameObject.h"
 
+#include <iostream>
+
 KillZoneComponent::KillZoneComponent(GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::KILL_ZONE) {}
 
@@ -48,7 +50,7 @@ void KillZoneComponent::HandleEvent(AcryEvent * aEvent)
 	{
 		CollideKillZoneEvent * cpEvent = static_cast<CollideKillZoneEvent*>(aEvent);
 		PhysicsComponent * pComp = static_cast<PhysicsComponent*>(cpEvent->GO()->Get(COMPONENT_TYPE::PHYSICS));
-		
+
 		for (String tag : m_tags) {
 			if (pComp->Body().HasTag(tag)) {
 				cpEvent->GO()->Kill();

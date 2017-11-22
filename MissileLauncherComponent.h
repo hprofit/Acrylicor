@@ -41,6 +41,7 @@ public:
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
 	virtual void HandleEvent(AcryEvent * aEvent);
+	virtual void LateInitialize();
 
 	int Remaining() const;
 	void Fire();

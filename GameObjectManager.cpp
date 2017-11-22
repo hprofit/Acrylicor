@@ -143,3 +143,12 @@ void GameObjectManager::UpdateCameraObjects(double deltaTime)
 			m_cameras[i]->Update(deltaTime);
 	}
 }
+
+void GameObjectManager::LateInitializeGameObjects()
+{
+	unsigned int i = 0;
+	for (i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
+			m_gameObjects[i]->LateInitialize();
+	}
+}

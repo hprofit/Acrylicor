@@ -141,9 +141,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FrameRateController.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
@@ -302,6 +299,15 @@
     </ClInclude>
     <ClInclude Include="UI_MissilesComponent.h">
       <Filter>Header Files\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataChangeEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileCountChangeEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResult.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -467,6 +473,12 @@
     <ClCompile Include="UI_MissilesComponent.cpp">
       <Filter>Source Files\Components\UI</Filter>
     </ClCompile>
+    <ClCompile Include="DataChangeEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileCountChangeEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -567,6 +579,9 @@
     </None>
     <None Include="ObjectFiles\UI\UI_lives.json">
       <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\boundaryBox.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
   </ItemGroup>
 </Project>

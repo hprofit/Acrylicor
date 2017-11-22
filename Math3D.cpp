@@ -1,7 +1,35 @@
 #include "Math3D.h"
 #include <math.h>
+#include <algorithm>
 #include "AcrylicorTypedefs.h"
 
+bool FloatEquals(float value, float targetValue) 
+{
+	return ((value >= targetValue - EPSILON) && (value <= targetValue + EPSILON));
+}
+
+static Vector3D _SnapPointStaticCircleToStaticRect(const Vector3D & Circle, const Vector3D & Rect, const float halfWidth, const float halfHeight)
+{
+	Vector3D snappedPoint = Circle;
+
+	float left = Rect.getX() - halfWidth;
+	float right = Rect.getX() + halfWidth;
+	float top = Rect.getY() + halfHeight;
+	float bottom = Rect.getY() - halfHeight;
+
+
+	if (snappedPoint.getX() > right)	snappedPoint.setX(right);
+	else if (snappedPoint.getX() < left)	snappedPoint.setX(left);
+
+	if (snappedPoint.getY() > top)	snappedPoint.setY(top);
+	else if (snappedPoint.getY() < bottom)	snappedPoint.setY(bottom);
+
+	return snappedPoint;
+}
+
+#pragma region Static-On-Static Collisions
+
+#pragma region Static Point
 bool StaticPointToStaticCircle(const Vector3D & pos, const Vector3D & center, float radius)
 {
 	return Vector3D::SquareDistance(pos, center) <= (radius * radius);
@@ -16,12 +44,21 @@ bool StaticPointToStaticRect(const Vector3D & pos, const Vector3D & rect, const 
 	return (pos.getX() >= left && pos.getX() <= right && pos.getY() <= top && pos.getY() >= bottom);
 }
 
+float StaticPointToStaticLineSegment(const Vector3D & P, const LineSegment3D & LS)
+{
+	return Vector3D::Dot(P, LS.getNorm()) - LS.getNDotP0();
+}
+#pragma endregion
+
+#pragma region Static Circle
 bool StaticCircleToStaticCircle(const Vector3D & center0, const float radius0, const Vector3D & center1, const float radius1)
 {
 	float radiusSum = radius0 + radius1;
 	return Vector3D::SquareDistance(center0, center1) <= (radiusSum * radiusSum);
 }
+#pragma endregion
 
+#pragma region Static Rect
 bool StaticRectToStaticRect(const Vector3D & rect0, const float halfWidth0, const float halfHeight0, const Vector3D & rect1, const float halfWidth1, const float halfHeight1)
 {
 	float left0 = rect0.getX() - halfWidth0,
@@ -36,31 +73,45 @@ bool StaticRectToStaticRect(const Vector3D & rect0, const float halfWidth0, cons
 	return !(top1 < bottom0 || left1 > right0 || right1 < left0 || bottom1 > top0);
 }
 
-bool StaticRectToStaticCircle(const Vector3D & rect, const float halfWidth, const float halfHeight, const Vector3D center, const float radius)
+static bool _StaticRectToStaticCircle(const Vector3D& rectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect, const Vector3D& circle, const float radius, const Vector3D snappedPoint)
 {
-	Vector3D snappedPoint = center;
-	float left = rect.getX() - halfWidth;
-	float right = rect.getX() + halfWidth;
-	float top = rect.getY() + halfHeight;
-	float bottom = rect.getY() - halfHeight;
+	float sqRadius = radius * radius;
 
+	if (Vector3D::SquareDistance(circle, snappedPoint) > sqRadius) // gauranteed no hit
+		return false;
+	else {
+		Rect3D tallRect = rect.StretchHeight(radius);
+		Rect3D wideRect = rect.StretchWidth(radius);
+		float dX, dY;
 
-	if (snappedPoint.getX() > right)	snappedPoint.setX(right);
-	else if (snappedPoint.getX() < left)	snappedPoint.setX(left);
+		if (snappedPoint.getX() > rectCenter.getX())	dX = StaticPointToStaticLineSegment(circle, wideRect.Right()); // to the right
+		else dX = StaticPointToStaticLineSegment(circle, wideRect.Left());	// to the left
 
-	if (snappedPoint.getY() > top)	snappedPoint.setY(top);
-	else if (snappedPoint.getY() < bottom)	snappedPoint.setY(bottom);
+		if (snappedPoint.getY() > rectCenter.getY()) 	dY = StaticPointToStaticLineSegment(circle, wideRect.Top()); // above
+		else dY = StaticPointToStaticLineSegment(circle, wideRect.Bottom()); // below
 
-	return Vector3D::SquareDistance(snappedPoint, center) < (radius * radius);
+		return FloatEquals(dX, 0.f) || FloatEquals(dY, 0.f);
+	}
 }
 
-float StaticPointToStaticLineSegment(const Vector3D & P, const LineSegment3D & LS)
+bool StaticRectToStaticCircle(const Vector3D & rectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect, const Vector3D circle, const float radius)
 {
-	return Vector3D::Dot(P, LS.getNorm()) - LS.getNDotP0();
-}
+	Vector3D snappedPoint = _SnapPointStaticCircleToStaticRect(circle, rectCenter, halfWidth, halfHeight);
 
-float AnimatedPointToStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe, const LineSegment3D & LS, Vector3D & Pi)
+	return Vector3D::SquareDistance(snappedPoint, circle) < (radius * radius) ? 
+		_StaticRectToStaticCircle(rectCenter, halfWidth, halfHeight, rect, circle, radius, snappedPoint) : 
+		false;
+}
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Animated-On-Static Collisions
+
+#pragma region Animated Point
+CollisionResult AnimatedPointToStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe, const LineSegment3D & LS)
 {
+	CollisionResult cr = CollisionResult();
 	Vector3D PsPe = Pe - Ps;
 	float	nDotP0 = LS.getNDotP0(),
 		nDotPs = Vector3D::Dot(LS.getNorm(), Ps),
@@ -78,14 +129,74 @@ float AnimatedPointToStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe,
 	// Point of intersection with the infinite line but not finite line
 	if (Vector3D::Dot(collisionPoint - LS.getP0(), LSPeSubLSPs) < 0 ||
 		Vector3D::Dot(collisionPoint - LS.getP1(), LSPeSubLSPs) < 0)
-		return -1.0f;
+		return cr;
 
-	Pi = collisionPoint;
-	return t;
+	cr.Set(t, collisionPoint);
+	return cr;
 }
 
-float AnimatedCircleToStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const LineSegment3D & LS, Vector3D & Pi)
+CollisionResult AnimatedPointToStaticCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Center, const float Radius)
 {
+	// r' = ARadius
+	// r'' = SRadius + ARadius = r + r'
+	// s^2 = r''^2 - n^2 => s = sqrt(r''^2 - n^2)
+	// v = Pe - Ps
+	// m = (Ps - Center) dot (v / |v|)
+	// ti0 = (m - s)/ |v|
+	// ti1 = (m + s)/ |v|
+	// n^2 = |(ACenter0s - SCenter)|^2 - m^2 => n = sqrt(|(ACenterS - SCenter)|^2 - m^2)
+	// if ti0 > 1.0f, no collision
+	
+	CollisionResult cr = CollisionResult();
+	Vector3D SCsubACS = Center - Ps, v = Pe - Ps;
+	float vLen = v.Length();
+
+	Vector3D vNorm = v * (1.0f / vLen);
+
+	float m = Vector3D::Dot(SCsubACS, vNorm);
+	if (m < 0.0f)
+		return -1.0f;
+
+	float SCsubACSLength = SCsubACS.Length(),
+		nSquared = SCsubACSLength * SCsubACSLength - m * m,
+		sSquared = Radius * Radius - nSquared,
+		s = sqrtf(sSquared),
+		ti0 = (m - s) / vLen;
+
+	if (ti0 < 0.0f || 1.0f < ti0 || sSquared < 0.0f)
+		return cr;
+
+	cr.Set(ti0, (vNorm * ti0) + Ps);
+	return cr;
+}
+#pragma endregion
+
+#pragma region Animated Circle
+CollisionResult AnimatedCircleToStaticCircle(const Vector3D & ACenterS, const Vector3D & ACenterE, const float ARadius, const Vector3D & SCenter, const float SRadius)
+{
+	return AnimatedPointToStaticCircle(ACenterS, ACenterE, SCenter, ARadius + SRadius);
+}
+
+CollisionResult AnimatedCircleToStaticRect(const Vector3D & CStart, const Vector3D & CEnd, const float Radius, const Vector3D & RectCenter, const float halfWidth, const float halfHeight, const Rect3D & rect)
+{
+	CollisionResult cr = CollisionResult();
+	Vector3D v0 = CEnd - CStart;
+	float v0Len = v0.Length();
+	v0 = v0Len != 0.f ? v0 / v0Len : v0;
+	float t = 0.0f;
+	for (t = 0.0f; t <= 1.0f; t += 0.05f) {
+		Vector3D pt = CStart + (v0 * (t * v0Len));
+		if (StaticRectToStaticCircle(RectCenter, halfWidth, halfHeight, rect, pt, Radius)) {
+			cr.Set(t, _SnapPointStaticCircleToStaticRect(pt, RectCenter, halfWidth, halfHeight));
+			break;
+		}
+	}
+	return cr;
+}
+
+CollisionResult AnimatedCircleToStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const LineSegment3D & LS)
+{
+	CollisionResult cr = CollisionResult();
 	Vector3D v = Pe - Ps, LSNorm = LS.getNorm(),
 		collisionPoint, cPsubLSPs, cPsubLSPe, lineP1, lineP0;
 
@@ -103,156 +214,59 @@ float AnimatedCircleToStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe
 		(nDotPs - nDotP0 > Radius && nDotPe - nDotP0 > Radius) ||	// Ball will not collide in this iteration
 		(Vector3D::Dot(collisionPoint - LS.getP1(), LS.getP0() - LS.getP1()) < 0.0f) ||
 		(Vector3D::Dot(collisionPoint - LS.getP0(), LS.getP1() - LS.getP0()) < 0.0f)) // Point of intersection with the infinite line but not finite line
-		return -1.0f;
+		return cr;
 
-	Pi = collisionPoint;
-	return t;
+	cr.Set(t, collisionPoint);
+	return cr;
+}
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Animated-On-Animated Collisions
+CollisionResult AnimatedCircleToAnimatedRect(const Vector3D & CircleStart, const Vector3D & CircleEnd, const float Radius, const Vector3D & RectStart, const Vector3D & RectEnd, const float halfWidth, const float halfHeight, const Rect3D & rect)
+{
+	CollisionResult cr = CollisionResult();
+	Vector3D vCircle = CircleEnd - CircleStart; // circle
+	Vector3D vRect = RectEnd - RectStart; // rect
+	float vCircleLen = vCircle.Length();
+	float vRectLen = vRect.Length();
+
+	vCircle = vCircleLen != 0.f ? vCircle / vCircleLen : vCircle;
+	vRect = vRectLen != 0.f ? vRect / vRectLen : vRect;
+	float t = 0.0f;
+
+	for (t = 0.0f; t <= 1.0f; t += 0.05f) {
+		Vector3D ct = CircleStart + (vCircle * (t * vCircleLen));
+		Vector3D rt = RectStart + (vRect * (t * vRectLen));
+		if (StaticRectToStaticCircle(rt, halfWidth, halfHeight, rect, ct, Radius)) {
+			cr.Set(t, _SnapPointStaticCircleToStaticRect(ct, rt, halfWidth, halfHeight));
+			break;
+		}
+	}
+	return cr;
 }
 
-float ReflectAnimatedPointOnStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe, const LineSegment3D & LS, Vector3D & Pi, Vector3D & R)
+static bool _AnimatedCircleToAnimatedCircle(const Vector3D & Start0, const Vector3D & End0, const float Radius0, const Vector3D & Start1, const Vector3D & End1, const float Radius1)
 {
-	float timeOfIntersection = AnimatedPointToStaticLineSegment(Ps, Pe, LS, Pi);
-	if (timeOfIntersection == -1.0f)
-		return -1.0f;
-
-	// r = P`e - Pi
-	// i = Pe - Pi
-	// s = (i dot n) * n
-	// m = i - s
-	// r = m - s => i - 2s => i - 2(i dot n) * n
-	// P`e = Pi + r => Pi + i - 2(i dot n) * n
-
-	Vector3D i = Pe - Pi,
-		r = i - ((LS.getNorm() * Vector3D::Dot(i, LS.getNorm())) * 2.0f);
-	R = r + Pi;
-
-	return timeOfIntersection;
-}
-
-float ReflectAnimatedCircleOnStaticLineSegment(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const LineSegment3D & LS, Vector3D & Pi, Vector3D & R)
-{
-	float timeOfIntersection = AnimatedCircleToStaticLineSegment(Ps, Pe, Radius, LS, Pi);
-	if (timeOfIntersection == -1.0f)
-		return -1.0f;
-
-	// r = P`e - Pi
-	// i = Pe - Pi
-	// s = (i dot n) * n
-	// m = i - s
-	// r = m - s => i - 2s => i - 2(i dot n) * n
-	// P`e = Pi + r => Pi + i - 2(i dot n) * n
-
-	Vector3D i = Pe - Pi,
-		r = i - ((LS.getNorm() * Vector3D::Dot(i, LS.getNorm())) * 2.0f);
-
-	R = r + Pi;
-	return timeOfIntersection;
-}
-
-float AnimatedPointToStaticCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Center, const float Radius, Vector3D & Pi)
-{
-	// r' = ARadius
-	// r'' = SRadius + ARadius = r + r'
-	// s^2 = r''^2 - n^2 => s = sqrt(r''^2 - n^2)
-	// v = Pe - Ps
-	// m = (Ps - Center) dot (v / |v|)
-	// ti0 = (m - s)/ |v|
-	// ti1 = (m + s)/ |v|
-	// n^2 = |(ACenter0s - SCenter)|^2 - m^2 => n = sqrt(|(ACenterS - SCenter)|^2 - m^2)
-	// if ti0 > 1.0f, no collision
-
-	Vector3D SCsubACS = Center - Ps, v = Pe - Ps;
-	float vLen = v.Length();
-
-	Vector3D vNorm = v * (1.0f / vLen);
-
-	float m = Vector3D::Dot(SCsubACS, vNorm);
-	if (m < 0.0f)
-		return -1.0f;
-
-	float SCsubACSLength = SCsubACS.Length(),
-		nSquared = SCsubACSLength * SCsubACSLength - m * m,
-		sSquared = Radius * Radius - nSquared,
-		s = sqrtf(sSquared),
-		ti0 = (m - s) / vLen;
-
-	if (ti0 < 0.0f || 1.0f < ti0 || sSquared < 0.0f)
-		return -1.0f;
-
-	Vector3D ti0Vec = vNorm * ti0;
-	Pi = (vNorm * ti0) + Ps;
-	return ti0;
-}
-
-float ReflectAnimatedPointOnStaticCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Center, const float Radius, Vector3D & Pi, Vector3D & R)
-{
-	float timeOfIntersection = AnimatedPointToStaticCircle(Ps, Pe, Center, Radius, Pi);
-	if (timeOfIntersection < 0.0f)
-		return -1.0f;
-
-	// n = Center - Pi
-	// m = Ps - Pi = u + s
-	// u = (m dot n) * n
-	// s = Ps - u
-	// r = u - s => 2(m dot n) * n - m
-	// k = |PsPe|
-	// R = Pi + k * rNorm * (1 - timeOfIntersection)
-
-	Vector3D v = Pe - Ps,
-		n = Vector3D::Normalize(Center - Pi),
-		m = Ps - Pi,
-		u = n * Vector3D::Dot(m, n),
-		r = Vector3D::Normalize((u * 2.0f) - m) * v.Length();
-	R = r * (1.0f - timeOfIntersection);
-	return timeOfIntersection;
-}
-
-Vector3D ReflectAnimatedPointOnStaticCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Center, const Vector3D & Pi, const float timeOfIntersection)
-{
-	Vector3D v = Pe - Ps,
-		n = Vector3D::Normalize(Center - Pi),
-		m = Ps - Pi,
-		u = n * Vector3D::Dot(m, n),
-		r = Vector3D::Normalize((u * 2.0f) - m) * v.Length();
-	return (r * (1.0f - timeOfIntersection));
-}
-
-float AnimatedCircleToStaticCircle(const Vector3D & ACenterS, const Vector3D & ACenterE, const float ARadius, const Vector3D & SCenter, const float SRadius, Vector3D & Pi)
-{
-	return AnimatedPointToStaticCircle(ACenterS, ACenterE, SCenter, ARadius + SRadius, Pi);
-}
-
-float ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const float SRadius, Vector3D& Pi, Vector3D& R)
-{
-	return ReflectAnimatedPointOnStaticCircle(ACenterS, ACenterE, SCenter, ARadius + SRadius, Pi, R);
-}
-
-Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D & ACenterS, const Vector3D & ACenterE, const float ARadius, const Vector3D & SCenter, const Vector3D & Pi, const float timeOfIntersection)
-{
-	Vector3D v = ACenterE - ACenterS,
-		n = Vector3D::Normalize(SCenter - Pi),
-		m = ACenterS - Pi,
-		u = n * Vector3D::Dot(m, n),
-		r = Vector3D::Normalize((u * 2.0f) - m) * v.Length();
-	return (r * (1.0f - timeOfIntersection));
-}
-
-bool AnimatedCircletoAnimatedCircleWillCollideThisFrame(const Vector3D & CenterS0, const Vector3D & CenterE0, const float Radius0, const Vector3D & CenterS1, const Vector3D & CenterE1, const float Radius1)
-{
-	float moveRadius0 = (CenterE0 - CenterS0).SquareLength() + (2.f * Radius0 * Radius0);
-	float moveRadius1 = (CenterE1 - CenterS1).SquareLength() + (2.f * Radius1 * Radius1);
+	float moveRadius0 = (End0 - Start0).SquareLength() + (2.f * Radius0 * Radius0);
+	float moveRadius1 = (End1 - Start1).SquareLength() + (2.f * Radius1 * Radius1);
 	float totalRadius = moveRadius0 + moveRadius1;
 
-	float distS0S1 = Vector3D::SquareDistance(CenterS0, CenterS1);
-	float distS0E1 = Vector3D::SquareDistance(CenterS0, CenterE1);
-	float distE0S1 = Vector3D::SquareDistance(CenterE0, CenterS1);
-	float distE0E1 = Vector3D::SquareDistance(CenterE0, CenterE1);
+	float distS0S1 = Vector3D::SquareDistance(Start0, Start1);
+	float distS0E1 = Vector3D::SquareDistance(Start0, End1);
+	float distE0S1 = Vector3D::SquareDistance(End0, Start1);
+	float distE0E1 = Vector3D::SquareDistance(End0, End1);
 
 	return (distS0S1 < totalRadius || distS0E1 < totalRadius || distE0S1 < totalRadius || distE0E1 < totalRadius);
 }
 
-float AnimatedCircleToAnimatedCircle(const Vector3D & Start0, const Vector3D & End0, const float Radius0, const Vector3D & Start1, const Vector3D & End1, const float Radius1, Vector3D & Pi)
+CollisionResult AnimatedCircleToAnimatedCircle(const Vector3D & Start0, const Vector3D & End0, const float Radius0, const Vector3D & Start1, const Vector3D & End1, const float Radius1)
 {
+	CollisionResult cr = CollisionResult();
+	if (!_AnimatedCircleToAnimatedCircle(Start0, End0, Radius0, Start1, End1, Radius1))
+		return cr;
+
 	Vector3D v0 = End0 - Start0;
 	Vector3D v1 = End1 - Start1;
 	float v0Len = v0.Length();
@@ -262,98 +276,82 @@ float AnimatedCircleToAnimatedCircle(const Vector3D & Start0, const Vector3D & E
 	float t = 0.0f;
 
 	for (t = 0.0f; t <= 1.0f; t += 0.05f) {
-		if (StaticCircleToStaticCircle(v0 * (t / v0Len), Radius0, v1 * (t / v1Len), Radius1))
-			return t;
+		Vector3D ct0 = Start0 + (v0 * (t * v0Len));
+		Vector3D ct1 = Start1 + (v1 * (t * v1Len));
+		if (StaticCircleToStaticCircle(ct0, Radius0, ct1, Radius1)) {
+			cr.Set(t, Vector3D::Normalize(ct1 - ct0) * Radius1);
+			break;
+		}
 	}
-	return -1.0f;
+	return cr;
 }
+#pragma endregion
 
-Vector3D SnapPointStaticCircleToStaticRect(const Vector3D & Circle, const Vector3D & Rect, const float halfWidth, const float halfHeight)
+#pragma region Reflection Methods
+
+Vector3D ReflectAnimatedPointOnStaticLineSegment(const Vector3D & Pe, const LineSegment3D & LS, const CollisionResult& CR)
 {
-	Vector3D snappedPoint = Circle;
+	// r = P`e - Pi
+	// i = Pe - Pi
+	// s = (i dot n) * n
+	// m = i - s
+	// r = m - s => i - 2s => i - 2(i dot n) * n
+	// P`e = Pi + r => Pi + i - 2(i dot n) * n
 
-	if (snappedPoint.getX() > (Rect.getX() + halfWidth))
-		snappedPoint.setX(Rect.getX() + halfWidth);
-	else if (snappedPoint.getX() < (Rect.getX() - halfWidth))
-		snappedPoint.setX(Rect.getX() - halfWidth);
-
-	if (snappedPoint.getY() > (Rect.getY() + halfHeight))
-		snappedPoint.setY(Rect.getY() + halfHeight);
-	else if (snappedPoint.getY() < (Rect.getY() - halfHeight))
-		snappedPoint.setY(Rect.getY() - halfHeight);
-
-	return snappedPoint;
+	Vector3D i = Pe - CR.pointOfImpact,
+		r = i - ((LS.getNorm() * Vector3D::Dot(i, LS.getNorm())) * 2.0f);
+	return r + CR.pointOfImpact;
 }
 
-bool StaticCircleToStaticRect(const Vector3D& Circle, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect)
+Vector3D ReflectAnimatedCircleOnStaticLineSegment(const Vector3D & Pe, const LineSegment3D & LS, const CollisionResult& CR)
 {
-	float sqRadius = Radius * Radius;
-	Vector3D snappedPoint = SnapPointStaticCircleToStaticRect(Circle, RectCenter, halfWidth, halfHeight);
+	// r = P`e - Pi
+	// i = Pe - Pi
+	// s = (i dot n) * n
+	// m = i - s
+	// r = m - s => i - 2s => i - 2(i dot n) * n
+	// P`e = Pi + r => Pi + i - 2(i dot n) * n
 
-	if (Vector3D::SquareDistance(Circle, snappedPoint) > sqRadius) // gauranteed no hit
-		return false;
-	else {
-		Rect3D tallRect = rect.StretchHeight(Radius);
-		Rect3D wideRect = rect.StretchWidth(Radius);
-		float tX, tY;
-		
-		if (snappedPoint.getX() > RectCenter.getX()) // to the right
-			tX = StaticPointToStaticLineSegment(Circle, wideRect.Right());
-		else // to the left
-			tX = StaticPointToStaticLineSegment(Circle, wideRect.Left());
+	Vector3D i = Pe - CR.pointOfImpact,
+		r = i - ((LS.getNorm() * Vector3D::Dot(i, LS.getNorm())) * 2.0f);
 
-		if (snappedPoint.getY() > RectCenter.getY()) // above
-			tY = StaticPointToStaticLineSegment(Circle, wideRect.Top());
-		else // below
-			tY = StaticPointToStaticLineSegment(Circle, wideRect.Bottom());
-
-		return tX >= 0.f || tY >= 0.f;
-	}
+	return r + CR.pointOfImpact;
 }
 
-bool AnimatedCircleToStaticRectWillCollideThisFrame(const Vector3D & CStart, const Vector3D & CEnd, const float Radius, const Vector3D & RectCenter, const float halfWidth, const float halfHeight, const Rect3D & rect)
+Vector3D ReflectAnimatedCircleOnStaticRect(const Vector3D & Pe, const Vector3D & Pi, const Vector3D & RectCenter, const float halfWidth, const float halfHeight, const Rect3D & rect)
 {
-	Vector3D v0 = CEnd - CStart;
-	float v0Len = v0.Length();
-	v0 = v0Len != 0.f ? v0 / v0Len : v0;
-	float t = 0.0f;
-	for (t = 0.0f; t <= 1.0f; t += 0.05f) {
-		if (StaticCircleToStaticRect(CStart + (v0 * (t / v0Len)), Radius, RectCenter, halfWidth, halfHeight, rect))
-			return true;
-	}
-	return false;
+	Vector3D snappedPoint = _SnapPointStaticCircleToStaticRect(Pi, RectCenter, halfWidth, halfHeight);
+
+
+	//if (snappedPoint.getX() > RectCenter.getX())	dX = StaticPointToStaticLineSegment(circle, rect.Right()); // to the right
+	//else dX = StaticPointToStaticLineSegment(circle, rect.Left());	// to the left
+
+	//if (snappedPoint.getY() > RectCenter.getY()) 	dY = StaticPointToStaticLineSegment(circle, rect.Top()); // above
+	//else dY = StaticPointToStaticLineSegment(circle, rect.Bottom()); // below
+	return Vector3D();
 }
 
-bool AnimatedCircleToAnimatedRectWillCollideThisFrame(const Vector3D & CStart, const Vector3D & CEnd, const float Radius, const Vector3D & RectCenterStart, const Vector3D & RectCenterEnd, const float width, const float height)
+Vector3D ReflectAnimatedPointOnStaticCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Center, const CollisionResult& CR)
 {
-	Vector3D v0 = CEnd - CStart;
-	Vector3D v1 = RectCenterEnd - RectCenterStart;
-	float v0Len = v0.Length();
-	float v1Len = v1.Length();
-	v0 = v0Len != 0.f ? v0 / v0Len : v0;
-	v1 = v1Len != 0.f ? v1 / v1Len : v1;
-	float t = 0.0f;
+	// n = Center - Pi
+	// m = Ps - Pi = u + s
+	// u = (m dot n) * n
+	// s = Ps - u
+	// r = u - s => 2(m dot n) * n - m
+	// k = |PsPe|
+	// R = Pi + k * rNorm * (1 - timeOfIntersection)
 
-	for (t = 0.0f; t <= 1.0f; t += 0.05f) {
-		if (StaticRectToStaticCircle(RectCenterStart + (v1 * (t / v1Len)), width, height, CStart + (v0 * (t / v0Len)), Radius))
-			return true;
-	}
-	return false;
+	Vector3D v = Pe - Ps,
+		n = Vector3D::Normalize(Center - CR.pointOfImpact),
+		m = Ps - CR.pointOfImpact,
+		u = n * Vector3D::Dot(m, n),
+		r = Vector3D::Normalize((u * 2.0f) - m) * v.Length();
+	return r * (1.0f - CR.timeOfImpact);
 }
 
-float AnimatedCircleToAnimatedRect(const Vector3D & Start0, const Vector3D & End0, const float Radius, const Vector3D & Start1, const Vector3D & End1, const float halfWidth, const float halfHeight, Vector3D & Pi)
+Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const float SRadius, const CollisionResult& CR)
 {
-	Vector3D v0 = End0 - Start0; // circle
-	Vector3D v1 = End1 - Start1; // rect
-	float v0Len = v0.Length();
-	float v1Len = v1.Length();
-	v0 = v0Len != 0.f ? v0 / v0Len : v0;
-	v1 = v1Len != 0.f ? v1 / v1Len : v1;
-	float t = 0.0f;
-
-	for (t = 0.0f; t <= 1.0f; t += 0.05f) {
-		if (StaticRectToStaticCircle(v1 * (t / v1Len), halfWidth, halfHeight, v0 * (t / v0Len), Radius))
-			return t;
-	}
-	return -1.0f;
+	return ReflectAnimatedPointOnStaticCircle(ACenterS, ACenterE, SCenter, CR);
 }
+
+#pragma endregion

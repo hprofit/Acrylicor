@@ -19,7 +19,18 @@ Creation date: 11/03/17
 #include "Vector3D.h"
 #include "LineSegment3D.h"
 #include "Rect3D.h"
+#include "CollisionResult.h"
 
+bool FloatEquals(float value, float targetValue);
+
+/*
+Static on Static methods are a "are these two objects colliding this very instant" style methods.
+
+They will only return a true or false value.
+*/
+#pragma region Static-On-Static Collisions
+
+#pragma region Static Point
 /*
 This function checks if the point P is colliding with the circle whose
 center is "Center" and radius is "Radius"
@@ -46,6 +57,9 @@ This function determines the distance separating a point from a line
 */
 float StaticPointToStaticLineSegment(const Vector3D& P, const LineSegment3D& LS);
 
+#pragma endregion
+
+#pragma region Static Circle
 
 /*
 This function checks for collision between 2 circles.
@@ -54,6 +68,9 @@ Circle1: Center is Center1, radius is "Radius1"
 */
 bool StaticCircleToStaticCircle(const Vector3D &center0, const float radius0, const Vector3D &center1, const float radius1);
 
+#pragma endregion
+
+#pragma region Static Rect
 
 /*
 This functions checks if 2 rectangles are colliding
@@ -62,8 +79,35 @@ Rectangle1: Center is pRect1, halfHeight is "halfHeight1" and halfHeight is "hal
 */
 bool StaticRectToStaticRect(const Vector3D &rect0, const float halfWidth0, const float halfHeight0, const Vector3D &rect1, const float halfWidth1, const float halfHeight1);
 
-bool StaticRectToStaticCircle(const Vector3D &rect, const float halfWidth, const float halfHeight, const Vector3D center, const float radius);
+bool StaticRectToStaticCircle(const Vector3D & rectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect, const Vector3D circle, const float radius);
 
+#pragma endregion
+
+#pragma endregion
+
+/*
+Animated on Static methods will find if an animated object will collide with a non-moving object during a period of time and where.
+
+They will return a CollisionResult value.
+*/
+#pragma region Animated-On-Static Collisions
+
+#pragma region Animated Point
+/*
+This function checks whether an animated point is colliding with a static circle
+
+- Parameters
+- Ps:		The point's starting location
+- Pe:		The point's ending location
+- Center:	The circle's center
+- Radius:	The circle's radius
+- Pi:		This will be used to store the intersection point's coordinates (In case there's an intersection)
+
+- Returned value: Intersection time t
+- -1.0f:		If there's no intersection
+- Intersection time:	If there's an intersection
+*/
+CollisionResult AnimatedPointToStaticCircle(const Vector3D& Ps, const Vector3D& Pe, const Vector3D& Center, const float Radius);
 
 /*
 This function checks whether an animated point is colliding with a line segment
@@ -78,7 +122,29 @@ This function checks whether an animated point is colliding with a line segment
 - -1.0f:				If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedPointToStaticLineSegment(const Vector3D& Ps, const Vector3D& Pe, const LineSegment3D& LS, Vector3D& Pi);
+CollisionResult AnimatedPointToStaticLineSegment(const Vector3D& Ps, const Vector3D& Pe, const LineSegment3D& LS);
+
+#pragma endregion
+
+#pragma region Animated Circle
+/*
+This function checks whether an animated circle is colliding with a static circle
+
+- Parameters
+- Center0s:		The starting position of the animated circle's center
+- Center0e:		The ending position of the animated circle's center
+- Radius0:		The animated circle's radius
+- Center1:		The static circle's center
+- Radius1:		The static circle's radius
+- Pi:			This will be used to store the intersection point's coordinates (In case there's an intersection)
+
+- Returned value: Intersection time t
+- -1.0f:		If there's no intersection
+- Intersection time:	If there's an intersection
+*/
+CollisionResult AnimatedCircleToStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const float SRadius);
+
+CollisionResult AnimatedCircleToStaticRect(const Vector3D& CStart, const Vector3D& CEnd, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect);
 
 /*
 This function checks whether an animated circle is colliding with a line segment
@@ -94,59 +160,31 @@ This function checks whether an animated circle is colliding with a line segment
 - -1.0f:				If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedCircleToStaticLineSegment(const Vector3D& Ps, const Vector3D& Pe, const float Radius, const LineSegment3D& LS, Vector3D& Pi);
+CollisionResult AnimatedCircleToStaticLineSegment(const Vector3D& Ps, const Vector3D& Pe, const float Radius, const LineSegment3D& LS);
+#pragma endregion
+
+#pragma endregion
 
 /*
-This function reflects an animated point on a line segment.
-It should first make sure that the animated point is intersecting with the line
+Animated on Animated methods will find if two animated objects will collide during a period of time and where.
 
-- Parameters
-- Ps:		The point's starting location
-- Pe:		The point's ending location
-- LS:		The line segment
-- Pi:		This will be used to store the intersection point's coordinates (In case there's an intersection)
-- R:		Reflected vector R
-
-- Returned value: Intersection time t
-- -1.0f:				If there's no intersection
-- Intersection time:	If there's an intersection
+They will return a CollisionResult value.
 */
-float ReflectAnimatedPointOnStaticLineSegment(const Vector3D& Ps, const Vector3D& Pe, const LineSegment3D& LS, Vector3D& Pi, Vector3D& R);
+#pragma region Animated-On-Animated Collisions
+
+CollisionResult AnimatedCircleToAnimatedRect(const Vector3D& Start0, const Vector3D& End0, const float Radius, const Vector3D& Start1, const Vector3D& End1, const float halfWidth, const float halfHeight, const Rect3D & rect);
+
+CollisionResult AnimatedCircleToAnimatedCircle(const Vector3D& Start0, const Vector3D& End0, const float Radius0, const Vector3D& Start1, const Vector3D& End1, const float Radius);
+
+#pragma endregion
+
 
 /*
-This function reflects an animated circle on a line segment.
-It should first make sure that the animated point is intersecting with the line
-
-- Parameters
-- Ps:		The center's starting location
-- Pe:		The center's ending location
-- Radius:	The circle's radius
-- LS:		The line segment
-- Pi:		This will be used to store the intersection point's coordinates (In case there's an intersection)
-- R:		Reflected vector R
-
-- Returned value: Intersection time t
-- -1.0f:				If there's no intersection
-- Intersection time:	If there's an intersection
+Reflection methods will, given a CollisionResult and two sets of start/end points, reflect the movement represented by the start/end points at the CollisionResult's pointOfImpact
 */
-float ReflectAnimatedCircleOnStaticLineSegment(const Vector3D& Ps, const Vector3D& Pe, const float Radius, const LineSegment3D& LS, Vector3D& Pi, Vector3D& R);
+#pragma region Reflection Methods
 
-/*
-This function checks whether an animated point is colliding with a static circle
-
-- Parameters
-- Ps:		The point's starting location
-- Pe:		The point's ending location
-- Center:	The circle's center
-- Radius:	The circle's radius
-- Pi:		This will be used to store the intersection point's coordinates (In case there's an intersection)
-
-- Returned value: Intersection time t
-- -1.0f:		If there's no intersection
-- Intersection time:	If there's an intersection
-*/
-float AnimatedPointToStaticCircle(const Vector3D& Ps, const Vector3D& Pe, const Vector3D& Center, const float Radius, Vector3D& Pi);
-
+#pragma region Point
 /*
 This function reflects an animated point on a static circle.
 It should first make sure that the animated point is intersecting with the circle
@@ -163,42 +201,46 @@ It should first make sure that the animated point is intersecting with the circl
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float ReflectAnimatedPointOnStaticCircle(const Vector3D& Ps, const Vector3D& Pe, const Vector3D& Center, const float Radius, Vector3D& Pi, Vector3D& R);
+Vector3D ReflectAnimatedPointOnStaticCircle(const Vector3D& Ps, const Vector3D& Pe, const Vector3D& Center, const CollisionResult& CR);
 
 /*
-This function reflects an animated point on a static circle.
+This function reflects an animated point on a line segment.
+It should first make sure that the animated point is intersecting with the line
 
 - Parameters
 - Ps:		The point's starting location
 - Pe:		The point's ending location
-- Center:	The circle's center
-- Pi:		Point of intersection
-- timeOfInteresection	Float value of 0.f to 1.f representing when this point hit the circle this frame
-
-- Returned value: Reflected vector
-*/
-Vector3D ReflectAnimatedPointOnStaticCircle(const Vector3D& Ps, const Vector3D& Pe, const Vector3D& Center, const Vector3D& Pi, const float timeOfIntersection);
-
-
-
-
-
-/*
-This function checks whether an animated circle is colliding with a static circle
-
-- Parameters
-- Center0s:		The starting position of the animated circle's center
-- Center0e:		The ending position of the animated circle's center
-- Radius0:		The animated circle's radius
-- Center1:		The static circle's center
-- Radius1:		The static circle's radius
-- Pi:			This will be used to store the intersection point's coordinates (In case there's an intersection)
+- LS:		The line segment
+- Pi:		This will be used to store the intersection point's coordinates (In case there's an intersection)
+- R:		Reflected vector R
 
 - Returned value: Intersection time t
-- -1.0f:		If there's no intersection
+- -1.0f:				If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float AnimatedCircleToStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const float SRadius, Vector3D& Pi);
+Vector3D ReflectAnimatedPointOnStaticLineSegment(const Vector3D& Pe, const LineSegment3D& LS, const CollisionResult& CR);
+#pragma endregion
+
+#pragma region Circle
+/*
+This function reflects an animated circle on a line segment.
+It should first make sure that the animated point is intersecting with the line
+
+- Parameters
+- Ps:		The center's starting location
+- Pe:		The center's ending location
+- Radius:	The circle's radius
+- LS:		The line segment
+- Pi:		This will be used to store the intersection point's coordinates (In case there's an intersection)
+- R:		Reflected vector R
+
+- Returned value: Intersection time t
+- -1.0f:				If there's no intersection
+- Intersection time:	If there's an intersection
+*/
+Vector3D ReflectAnimatedCircleOnStaticLineSegment(const Vector3D& Pe, const LineSegment3D& LS, const CollisionResult& CR);
+
+Vector3D ReflectAnimatedCircleOnStaticRect(const Vector3D& Pe, const Vector3D & Pi, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const Rect3D & rect);
 
 /*
 This function reflects an animated circle on a static circle.
@@ -217,38 +259,9 @@ It should first make sure that the animated circle is intersecting with the stat
 - -1.0f:		If there's no intersection
 - Intersection time:	If there's an intersection
 */
-float ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const float SRadius, Vector3D& Pi, Vector3D& R);
+Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const float SRadius, const CollisionResult& CR);
+#pragma endregion
 
-/*
-This function reflects an animated circle on a static circle.
-
-- Parameters
-- Center0s:		The starting position of the animated circle's center
-- Center0e:		The ending position of the animated circle's center
-- Radius0:		The animated circle's radius
-- Center1:		The static circle's center
-- Radius1:		The static circle's radius
-- Pi:		Point of intersection
-
-- Returned value: Reflected vector
-*/
-Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vector3D& ACenterE, const float ARadius, const Vector3D& SCenter, const Vector3D& Pi, const float timeOfIntersection);
-
-
-
-bool AnimatedCircletoAnimatedCircleWillCollideThisFrame(const Vector3D& CenterS0, const Vector3D& CenterE0, const float Radius0, const Vector3D& CenterS1, const Vector3D& CenterE1, const float Radius1);
-
-float AnimatedCircleToAnimatedCircle(const Vector3D& Start0, const Vector3D& End0, const float Radius0, const Vector3D& Start1, const Vector3D& End1, const float Radius1, Vector3D& Pi);
-
-Vector3D SnapPointStaticCircleToStaticRect(const Vector3D& Circle, const Vector3D& Rect, const float halfWidth, const float halfHeight);
-
-bool StaticCircleToStaticRect(const Vector3D& Circle, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect);
-
-bool AnimatedCircleToStaticRectWillCollideThisFrame(const Vector3D& CStart, const Vector3D& CEnd, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const Rect3D& rect);
-
-bool AnimatedCircleToAnimatedRectWillCollideThisFrame(const Vector3D& CStart, const Vector3D& CEnd, const float Radius, const Vector3D& RectCenterStart, const Vector3D& RectCenterEnd, const float halfWidth, const float halfHeight);
-
-float AnimatedCircleToAnimatedRect(const Vector3D& Start0, const Vector3D& End0, const float Radius, const Vector3D& Start1, const Vector3D& End1, const float halfWidth, const float halfHeight, Vector3D& Pi);
-
+#pragma endregion
 
 #endif

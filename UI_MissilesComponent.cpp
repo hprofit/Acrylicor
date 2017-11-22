@@ -2,6 +2,15 @@
 #include "JsonReader.h"
 
 #include "GameObject.h"
+#include "MissileCountChangeEvent.h"
+#include "TextComponent.h"
+#include <string>
+
+void UI_MissilesComponent::_SetText() const
+{
+	TextComponent * tComp = static_cast<TextComponent*>(m_parent.Get(COMPONENT_TYPE::TEXT));
+	tComp->SetText(m_baseMessage + std::to_string(m_count));
+}
 
 UI_MissilesComponent::UI_MissilesComponent(GameObject & parent, String baseMessage) :
 	Component(parent, COMPONENT_TYPE::UI_MISSILES),
@@ -11,7 +20,7 @@ UI_MissilesComponent::UI_MissilesComponent(GameObject & parent, String baseMessa
 UI_MissilesComponent::UI_MissilesComponent(const UI_MissilesComponent & rhs, GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::UI_MISSILES),
 	m_count(rhs.m_count),
-	m_baseMessage(rhs.m_baseMessage) {} {}
+	m_baseMessage(rhs.m_baseMessage) {}
 
 UI_MissilesComponent::~UI_MissilesComponent()
 {
@@ -50,21 +59,48 @@ void UI_MissilesComponent::Override(nlohmann::json j)
 
 void UI_MissilesComponent::HandleEvent(AcryEvent * aEvent)
 {
+	switch (aEvent->Type()) {
+	case EventType::MISSILE_FIRED:
+	{
+		RemoveMissile();
+	}
+	break;
+
+	case EventType::MISSILE_COUNT_CHANGE:
+	{
+		MissileCountChangeEvent* mccEvent = static_cast<MissileCountChangeEvent*>(aEvent);
+		SetMissileCount(mccEvent->Count());
+	}
+	break;
+	}
 }
 
 void UI_MissilesComponent::AddMissile()
 {
-
+	++m_count;
+	_SetText();
 }
 
 void UI_MissilesComponent::AddMissiles(int amt)
 {
+	m_count += amt;
+	_SetText();
 }
 
 void UI_MissilesComponent::RemoveMissile()
 {
+	--m_count;
+	_SetText();
 }
 
 void UI_MissilesComponent::RemoveMissiles(int amt)
 {
+	m_count -= amt;
+	_SetText();
+}
+
+void UI_MissilesComponent::SetMissileCount(int amt)
+{
+	m_count = amt;
+	_SetText();
 }
