@@ -20,6 +20,7 @@ Creation date: 10/13/17
 
 enum class EventType {
 	DATA_AMOUNT,
+	GO_DESTROYED,
 	COLLIDE,
 	COLLIDE_KILL_ZONE,
 	KEY_PRESS,
@@ -28,7 +29,8 @@ enum class EventType {
 	PLAYER_DEATH,
 	RESPAWN,
 	MISSILE_FIRED,
-	MISSILE_COUNT_CHANGE
+	MISSILE_COUNT_CHANGE,
+	DASH
 };
 
 class AcryEvent

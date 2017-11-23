@@ -29,7 +29,8 @@ GameObject::GameObject(String type) :
 GameObject::GameObject(const GameObject& rhs) :
 	m_type(rhs.m_type),
 	m_parent(nullptr),
-	m_objectFlags(0) 
+	m_objectFlags(0),
+	m_tags(rhs.m_tags)
 {
 	Activate();
 
@@ -43,7 +44,8 @@ GameObject::GameObject(const GameObject& rhs) :
 GameObject::GameObject(const GameObject & rhs, GameObject * parent) :
 	m_type(rhs.m_type),
 	m_parent(parent),
-	m_objectFlags(0)
+	m_objectFlags(0),
+	m_tags(rhs.m_tags)
 {
 	Activate();
 
@@ -56,6 +58,7 @@ GameObject::GameObject(const GameObject & rhs, GameObject * parent) :
 
 GameObject & GameObject::operator=(const GameObject & rhs)
 {
+	m_tags = rhs.m_tags;
 	ClearComponents();
 	Activate();
 	for (auto comp : rhs.m_components) {
@@ -63,7 +66,6 @@ GameObject & GameObject::operator=(const GameObject & rhs)
 			m_components[comp.first] = comp.second->Clone(*this);
 		}
 	}
-
 	return *this;
 }
 
@@ -97,8 +99,9 @@ void GameObject::Kill()
 {
 	m_objectFlags |= FLAG_READY_TO_DIE;
 
-	for (GameObject* child : m_children)
-		child->Kill();
+	for (GameObject* child : m_children) {
+		GameObjectManager::GetInstance().DestroyGameObject(child);
+	}
 }
 
 bool GameObject::IsDead()
@@ -171,6 +174,11 @@ void GameObject::ClearComponents()
 	m_components.clear();
 }
 
+std::map<COMPONENT_TYPE, Component*> GameObject::GetComponents()
+{
+	return m_components;
+}
+
 void GameObject::LateInitialize()
 {
 	for (auto comp : m_components) {
@@ -193,4 +201,9 @@ void GameObject::HandleEvent(AcryEvent * aEvent)
 		if (comp.second)
 			comp.second->HandleEvent(aEvent);
 	}
+}
+
+Tags & GameObject::Tags()
+{
+	return m_tags;
 }

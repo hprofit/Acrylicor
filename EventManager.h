@@ -60,6 +60,8 @@ public:
 	void Unsubscribe(Component* component);
 	void Unsubscribe(const EventType eType, Component* component);
 
+	void UnsubscribeAll(GameObject* gObject);
+
 	void BroadcastEvent(AcryEvent * aEvent);
 	void BroadcastEventToSubscribers(AcryEvent * aEvent);
 };

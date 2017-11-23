@@ -132,6 +132,7 @@
     <ClInclude Include="AcrylicorAPI.h" />
     <ClInclude Include="AcrylicorTypedefs.h" />
     <ClInclude Include="AIRushComponent.h" />
+    <ClInclude Include="AISeekComponent.h" />
     <ClInclude Include="AISwayComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CollideEvent.h" />
@@ -145,11 +146,13 @@
     <ClInclude Include="AcryDebugLine.h" />
     <ClInclude Include="DamageComponent.h" />
     <ClInclude Include="DamageEvent.h" />
+    <ClInclude Include="DashComponent.h" />
     <ClInclude Include="DataChangeEvent.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectFactory.h" />
+    <ClInclude Include="GODestroyedEvent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="InputManager.h" />
@@ -183,9 +186,11 @@
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="STBSurface.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Tags.h" />
     <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UI_ScoreComponent.h" />
     <ClInclude Include="UI_LivesComponent.h" />
     <ClInclude Include="UI_MissilesComponent.h" />
     <ClInclude Include="Vector2D.h" />
@@ -196,6 +201,7 @@
   <ItemGroup>
     <ClCompile Include="AcrylicorAPI.cpp" />
     <ClCompile Include="AIRushComponent.cpp" />
+    <ClCompile Include="AISeekComponent.cpp" />
     <ClCompile Include="AISwayComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CollideEvent.cpp" />
@@ -206,11 +212,13 @@
     <ClCompile Include="AcryDebugLine.cpp" />
     <ClCompile Include="DamageComponent.cpp" />
     <ClCompile Include="DamageEvent.cpp" />
+    <ClCompile Include="DashComponent.cpp" />
     <ClCompile Include="DataChangeEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectFactory.cpp" />
+    <ClCompile Include="GODestroyedEvent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JsonReader.cpp" />
@@ -241,9 +249,11 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="SpawnerComponent.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="Tags.cpp" />
     <ClCompile Include="TestGameState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UI_ScoreComponent.cpp" />
     <ClCompile Include="UI_LivesComponent.cpp" />
     <ClCompile Include="UI_MissilesComponent.cpp" />
     <ClCompile Include="Vector2D.cpp" />

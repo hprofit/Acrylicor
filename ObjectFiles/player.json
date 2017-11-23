@@ -1,4 +1,7 @@
 {
+  "tags": [
+      "player"
+  ],
   "children": [
     "gun",
     "missileLauncher"
@@ -36,5 +39,10 @@
     },
     "maxSpeed": 300,
     "capRate": 0.9
+  },
+  "dash": {
+    "speed": 800,
+    "energy": 50,
+    "dashTime": 0.1
   }
 }

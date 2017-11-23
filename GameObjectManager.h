@@ -69,6 +69,8 @@ public:
 	void UpdateCameraObjects(double deltaTime);
 
 	void LateInitializeGameObjects();
+
+	std::vector<GameObject * > GetObjectsWithTag(String tag);
 };
 
 #endif

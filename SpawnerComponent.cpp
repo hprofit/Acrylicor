@@ -28,17 +28,12 @@ SpawnerComponent * SpawnerComponent::Clone(GameObject & parent)
 
 Component * SpawnerComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	SpawnerComponent* uilComp = new SpawnerComponent(gObject,
+	SpawnerComponent* comp = new SpawnerComponent(gObject,
 		AcryJson::ParseString(j, "spawner", "type")
 	);
-	if (AcryJson::ValueExists(j, "spawner", "events")) {
-		int numObjs = j["spawner"]["events"].size();
-		for (int i = 0; i < numObjs; ++i) {
-			uilComp->AddEventSubscription(j["spawner"]["events"][i]);
-		}
-	}
+	comp->_ParseEvents(j, "spawner");
 
-	return uilComp;
+	return comp;
 }
 
 void SpawnerComponent::Override(nlohmann::json j)

@@ -1,6 +1,7 @@
 #include "PhysicsComponent.h"
 #include "PhysicsManager.h"
 #include "EventManager.h"
+#include "GameObjectManager.h"
 #include "JsonReader.h"
 #include "Math3D.h"
 
@@ -155,7 +156,7 @@ Component * PhysicsComponent::Serialize(GameObject & gObject, nlohmann::json j)
 	PhysicsComponent * pComp = new PhysicsComponent(gObject, position, velocity, acceleration, mass, invMass, weightless, maxSpeed, capRate);
 	pComp->m_body = pBody;
 	if (AcryJson::ValueExists(j, "physics", "body", "tags"))
-		pBody->SetTags(j["physics"]["body"]["tags"]);
+		pBody->Tags().SetTags(j["physics"]["body"]["tags"]);
 
 	pComp->m_static = AcryJson::ParseBool(j, "physics", "static");
 
@@ -185,11 +186,11 @@ void PhysicsComponent::Override(nlohmann::json j)
 		);
 
 	if (pBody) {
-		std::list<String> tags = m_body->GetTags();
+		std::list<String> tags = m_body->Tags().GetTags();
 		m_body = pBody;
-		m_body->SetTags(tags);
+		m_body->Tags().SetTags(tags);
 		if (AcryJson::ValueExists(j, "physics", "body", "tags"))
-			m_body->SetTags(j["physics"]["body"]["tags"]);
+			m_body->Tags().SetTags(j["physics"]["body"]["tags"]);
 	}
 
 	m_static = AcryJson::ValueExists(j, "physics", "static") ? AcryJson::ParseBool(j, "physics", "static") : m_static;
@@ -212,27 +213,29 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			cpEvent->GetContact().RHS_GO() : cpEvent->GetContact().LHS_GO();
 		PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
 
+
 		// TODO: Should be scripted stuff
-		if (m_body->HasTag("killZone")) {
+		if (m_body->Tags().HasTag("killZone")) {
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
-		else if (m_body->HasTag("player")) {
-			if ((otherPComp->Body().HasTag("enemy") || otherPComp->Body().HasTag("enemyBullet"))) {
+		else if (m_body->Tags().HasTag("player")) {
+			if ((otherPComp->Body().Tags().HasTag("enemy") || otherPComp->Body().Tags().HasTag("enemyBullet"))) {
 				EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
 				EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESPAWN, 3.0));
-				m_parent.Kill();
-				other->Kill();
+
+				GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
+				GameObjectManager::GetInstance().DestroyGameObject(other);
 			}
-			else if (otherPComp->Body().HasTag("solid")) {
+			else if (otherPComp->Body().Tags().HasTag("solid")) {
 				
 			}
 		}
-		else if (m_body->HasTag("playerBullet") && otherPComp->Body().HasTag("enemy")) {
+		else if (m_body->Tags().HasTag("playerBullet") && otherPComp->Body().Tags().HasTag("enemy")) {
 			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
 			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
 
 			// TODO: Bullet burst animation here
-			m_parent.Kill();
+			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
 		}
 	}
 	break;
@@ -246,9 +249,24 @@ void PhysicsComponent::LateInitialize()
 		std::cout << "Physics components require Transform components." << std::endl;
 }
 
+float PhysicsComponent::MaxSpeed() const
+{
+	return m_maxSpeed;
+}
+
+void PhysicsComponent::SetMaxSpeed(float maxSpeed)
+{
+	m_maxSpeed = maxSpeed;
+}
+
 void PhysicsComponent::AddForce(Vector3D force)
 {
 	m_force += force;
+}
+
+Vector3D PhysicsComponent::GetVelocity() const
+{
+	return m_velocity;
 }
 
 void PhysicsComponent::SetVelocity(Vector3D vel)

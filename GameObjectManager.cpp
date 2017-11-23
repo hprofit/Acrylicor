@@ -1,6 +1,8 @@
 #include "GameObjectManager.h"
 #include "GameObjectFactory.h"
 #include "RenderManager.h"
+#include "EventManager.h"
+#include "GODestroyedEvent.h"
 #include <iostream>
 
 GameObjectManager::GameObjectManager(unsigned int maxObjects) :
@@ -65,6 +67,7 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * 
 	newGameObject->_CloneChildrenGameObjects(*gameObjArchetype);
 	newGameObject->_SpawnChildrenAndAttachGameObjects(*gameObjArchetype);
 
+	newGameObject->LateInitialize();
 	return _AddGameObjectToList(newGameObject);
 }
 
@@ -83,9 +86,9 @@ void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 void GameObjectManager::DestroyGameObject(GameObject * gObject)
 {
 	if (m_debugMode) std::cout << "Destroying object <" << gObject->m_type << ">" << std::endl;
-	if (gObject->IsActive()) {
-		gObject->ResetFlags();
-	}
+	gObject->Kill();
+	EventManager::GetInstance().BroadcastEventToSubscribers(new GODestroyedEvent(0.0, gObject));
+	EventManager::GetInstance().UnsubscribeAll(gObject);
 }
 
 void GameObjectManager::UpdateGameObjects(double deltaTime)
@@ -151,4 +154,17 @@ void GameObjectManager::LateInitializeGameObjects()
 		if (m_gameObjects[i] && m_gameObjects[i]->IsActive())
 			m_gameObjects[i]->LateInitialize();
 	}
+}
+
+std::vector<GameObject*> GameObjectManager::GetObjectsWithTag(String tag)
+{
+	std::vector<GameObject*> objects;
+
+	unsigned int i = 0;
+	for (i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i] && m_gameObjects[i]->IsActive() && m_gameObjects[i]->Tags().HasTag(tag))
+			objects.push_back(m_gameObjects[i]);
+	}
+
+	return objects;
 }

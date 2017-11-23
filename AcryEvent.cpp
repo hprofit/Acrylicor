@@ -3,6 +3,7 @@
 
 static std::unordered_map<String, EventType> TitleMap = {
 	{ "dataAmount", EventType::DATA_AMOUNT },
+	{ "goDestroyed", EventType::GO_DESTROYED },
 	{ "collide", EventType::COLLIDE },
 	{ "collideKillZone", EventType::COLLIDE_KILL_ZONE },
 	{ "keyPress", EventType::KEY_PRESS },
@@ -11,7 +12,8 @@ static std::unordered_map<String, EventType> TitleMap = {
 	{ "playerDeath", EventType::PLAYER_DEATH },
 	{ "respawn", EventType::RESPAWN },
 	{ "missileFired", EventType::MISSILE_FIRED },
-	{ "missileCountChange", EventType::MISSILE_COUNT_CHANGE }
+	{ "missileCountChange", EventType::MISSILE_COUNT_CHANGE },
+	{ "dash", EventType::DASH }
 };
 
 AcryEvent::AcryEvent(EventType type, double time) :

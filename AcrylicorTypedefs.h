@@ -25,6 +25,7 @@ Creation date: 10/13/17
 #define PI_4     0.785398163397448309616f  // pi/4
 
 const float DEG_TO_RAD = 3.14159265358979323846f / 180.0f;
+const float RAD_TO_DEG = 180.0f / 3.14159265358979323846f;
 
 #include <cstdint>
 #include <string>

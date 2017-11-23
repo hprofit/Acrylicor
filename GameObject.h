@@ -21,6 +21,7 @@ Creation date: 10/13/17
 #include "Component.h"
 #include <map>
 #include <vector>
+#include "Tags.h"
 
 const unsigned char FLAG_ACTIVE = 0x1;
 const unsigned char FLAG_READY_TO_DIE = 0x2;
@@ -39,6 +40,7 @@ protected:
 	
 	unsigned char m_objectFlags;
 	std::map<COMPONENT_TYPE, Component*> m_components;
+	Tags m_tags;
 
 	void _CloneChildrenGameObjects(const GameObject & rhs);
 	void _SpawnChildrenAndAttachGameObjects(const GameObject & rhs);
@@ -84,6 +86,7 @@ public:
 	Component* GetImmediate(COMPONENT_TYPE type);
 	void AddComponent(Component * component);
 	void ClearComponents();
+	std::map<COMPONENT_TYPE, Component*> GetComponents();
 	void LateInitialize();
 
 	virtual void Update(double deltaTime);
@@ -92,6 +95,8 @@ public:
 	String GetType() const {
 		return m_type;
 	};
+
+	Tags& Tags();
 };
 
 #endif

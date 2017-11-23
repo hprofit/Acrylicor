@@ -190,14 +190,14 @@ void TransformComponent::Move(Vector3D amount)
 #pragma region Rotate
 void TransformComponent::_WrapAngle(float & angle)
 {
-	if (angle > 180.0f) {
-		float over = fmod(angle + 180.0f, 360.0f);
-		angle = over - 180.0f;
-	}
-	else if (angle < -180.0f) {
-		float over = fmod(fabs(angle) + 180.0f, 360.0f);
-		angle = 180.0f - over;
-	}
+	//if (angle > 180.0f) {
+	//	float over = fmod(angle + 180.0f, 360.0f);
+	//	angle = over - 180.0f;
+	//}
+	//else if (angle < -180.0f) {
+	//	float over = fmod(fabs(angle) + 180.0f, 360.0f);
+	//	angle = 180.0f - over;
+	//}
 }
 
 void TransformComponent::_UpdateLookAt()

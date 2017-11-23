@@ -4,6 +4,7 @@
 
 #include "PhysicsComponent.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
 
 #include <iostream>
 
@@ -52,8 +53,8 @@ void KillZoneComponent::HandleEvent(AcryEvent * aEvent)
 		PhysicsComponent * pComp = static_cast<PhysicsComponent*>(cpEvent->GO()->Get(COMPONENT_TYPE::PHYSICS));
 
 		for (String tag : m_tags) {
-			if (pComp->Body().HasTag(tag)) {
-				cpEvent->GO()->Kill();
+			if (pComp->Body().Tags().HasTag(tag)) {
+				GameObjectManager::GetInstance().DestroyGameObject(cpEvent->GO());
 				return;
 			}
 		}

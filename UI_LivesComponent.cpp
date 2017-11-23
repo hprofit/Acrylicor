@@ -41,19 +41,13 @@ UI_LivesComponent * UI_LivesComponent::Clone(GameObject & parent)
 
 Component * UI_LivesComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	UI_LivesComponent* uilComp = new UI_LivesComponent(gObject,
+	UI_LivesComponent* comp = new UI_LivesComponent(gObject,
 		AcryJson::ParseFloat(j, "uiLives", "scale", "x"),
 		AcryJson::ParseFloat(j, "uiLives", "scale", "y"),
 		AcryJson::ParseInt(j, "uiLives", "amount")
 	);
-	if (AcryJson::ValueExists(j, "uiLives", "events")) {
-		int numObjs = j["uiLives"]["events"].size();
-		for (int i = 0; i < numObjs; ++i) {
-			uilComp->AddEventSubscription(j["uiLives"]["events"][i]);
-		}
-	}
-
-	return uilComp;
+	comp->_ParseEvents(j, "uiLives");
+	return comp;
 }
 
 void UI_LivesComponent::Override(nlohmann::json j)

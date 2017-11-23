@@ -32,6 +32,7 @@ protected:
 		m_parent(parent), m_type(type), m_priority(priority) {}
 
 	void _SubscribeToEvents(std::vector<String> events);
+	void _ParseEvents(nlohmann::json j, String componentString);
 public:
 	GameObject& m_parent;
 	const COMPONENT_TYPE m_type;
@@ -45,7 +46,7 @@ public:
 	virtual void LateUpdate() {};
 	virtual Component* Clone(GameObject& parent) = 0;
 	virtual void Override(nlohmann::json j) = 0;
-	virtual void RegisterWithManager() = 0;
+	virtual void RegisterWithManager() {};
 	virtual void HandleEvent(AcryEvent * aEvent) {};
 	virtual void LateInitialize() {};
 

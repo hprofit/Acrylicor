@@ -63,6 +63,8 @@ void ControllerComponent::Update(double deltaTime)
 		wComp->Fire();
 	if (inputMgr.IsKeyPressed(ACR_M))
 		mlComp->Fire();
+	if (inputMgr.IsKeyPressed(ACR_F))
+		m_parent.HandleEvent(new AcryEvent(EventType::DASH));
 
 	//if (inputMgr.IsKeyPressed(ACR_Q)) {
 	//	tComp->RotateZ(100.0f * deltaTime);

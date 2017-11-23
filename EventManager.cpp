@@ -95,6 +95,17 @@ void EventManager::Unsubscribe(const EventType eType, Component * component)
 	);
 }
 
+void EventManager::UnsubscribeAll(GameObject * gObject)
+{
+	std::map<COMPONENT_TYPE, Component*> components = gObject->GetComponents();
+	std::map<COMPONENT_TYPE, Component*>::iterator it;
+
+	for (it = components.begin(); it != components.end(); ++it) {
+		Unsubscribe(it->second);
+	}
+	Unsubscribe(gObject);
+}
+
 
 void EventManager::BroadcastEvent(AcryEvent * aEvent)
 {

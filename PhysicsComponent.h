@@ -60,7 +60,10 @@ public:
 	virtual void HandleEvent(AcryEvent * aEvent);
 	virtual void LateInitialize();
 
+	float MaxSpeed() const;
+	void SetMaxSpeed(float maxSpeed);
 	void AddForce(Vector3D force);
+	Vector3D GetVelocity() const;
 	void SetVelocity(Vector3D vel);
 	void SetVelocityDirection(Vector3D dir);
 	void InterpolateVelocity(Vector3D vel, float weight);

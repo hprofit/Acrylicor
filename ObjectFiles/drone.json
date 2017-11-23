@@ -29,11 +29,16 @@
         "enemy"
       ]
     },
+    "weightless": true,
     "maxSpeed": 10000
   },
-  "aiRush": {
-    "direction": "forward",
-    "speed": 150
+  "aiSeek": {
+    "targetTag": "player",
+    "turnSpeed": 50,
+    "speed": 150,
+    "events": [
+      "goDestroyed"
+    ]
   },
   "health": {
     "hp": 3

@@ -2,6 +2,7 @@
 #include "JsonReader.h"
 #include "DamageEvent.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
 
 HealthComponent::HealthComponent(GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::HEALTH),
@@ -51,7 +52,7 @@ void HealthComponent::HandleEvent(AcryEvent * aEvent)
 
 		// TODO: Event that plays death animation
 		if (m_hitPoints <= 0)
-			m_parent.Kill();
+			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
 	}
 	break;
 	}

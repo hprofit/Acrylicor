@@ -39,17 +39,12 @@ UI_MissilesComponent * UI_MissilesComponent::Clone(GameObject & parent)
 
 Component * UI_MissilesComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	UI_MissilesComponent* uilComp = new UI_MissilesComponent(gObject,
+	UI_MissilesComponent* comp = new UI_MissilesComponent(gObject,
 		AcryJson::ParseString(j, "uiMissiles", "baseMessage")
 	);
-	if (AcryJson::ValueExists(j, "uiMissiles", "events")) {
-		int numObjs = j["uiMissiles"]["events"].size();
-		for (int i = 0; i < numObjs; ++i) {
-			uilComp->AddEventSubscription(j["uiMissiles"]["events"][i]);
-		}
-	}
+	comp->_ParseEvents(j, "uiMissiles");
 
-	return uilComp;
+	return comp;
 }
 
 void UI_MissilesComponent::Override(nlohmann::json j)

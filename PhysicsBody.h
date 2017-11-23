@@ -21,6 +21,7 @@ Creation date: 11/03/17
 #include "Rect3D.h"
 #include <math.h>
 #include <list>
+#include "Tags.h"
 
 enum BODY_TYPE {
 	BT_CIRCLE = 0,
@@ -32,7 +33,7 @@ enum BODY_TYPE {
 class PhysicsBody
 {
 protected:
-	std::list<String> m_tags;
+	Tags m_tags;
 
 	PhysicsBody(BODY_TYPE type);
 	PhysicsBody(const PhysicsBody& rhs);
@@ -41,12 +42,7 @@ public:
 
 	PhysicsBody() = delete;
 	virtual ~PhysicsBody() {};
-
-	void AddTag(String tag);
-	bool HasTag(String tag) const;
-	void RemoveTag(String tag);
-	void SetTags(std::list<String> tags);
-	std::list<String> GetTags() const;
+	Tags& Tags();
 };
 
 class Circle : 
