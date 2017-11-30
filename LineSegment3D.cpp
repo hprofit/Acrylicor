@@ -2,21 +2,29 @@
 
 void LineSegment3D::_SetNorm()
 {
-	Vector3D p0Norm = Vector3D::Normalize(m_p0);
-	Vector3D p1Norm = Vector3D::Normalize(m_p1);
-
-	if (p0Norm != p1Norm) {
-		float proj = Vector3D::Dot(m_p1, Vector3D::Normalize(m_p0));
-		float scalar = proj / m_p0.Length();
-		m_norm = m_p1 - (scalar * m_p0);
-	}
-	else if (m_p0.getX() != m_p1.getX() && m_p0.getY() != m_p1.getY()) {
-		m_norm = Vector2D::Normalize(Vector2D(m_p0.getY() - m_p1.getY(), -(m_p0.getX() - m_p1.getX())));
-		
-	}
-	// TODO: cases for x coords and y coords being the same
-
+	// All lines are assumed to exist on a plane parallel to the XY plane (i.e. p0.z == p1.z for both points)
+	m_norm = Vector3D::Normalize(Vector3D(m_p0.getY() - m_p1.getY(), -(m_p0.getX() - m_p1.getX()), 0.f));
 	m_nDotP0 = Vector3D::Dot(m_p0, m_norm);
+
+	//Vector3D p0Norm = Vector3D::Normalize(m_p0);
+	//Vector3D p1Norm = Vector3D::Normalize(m_p1);
+
+	//if (p0Norm != p1Norm) {
+	//	float proj = Vector3D::Dot(m_p1, m_p0);
+	//	if (proj == 0.f) {
+	//		m_norm = Vector3D::Normalize(Vector3D(m_p0.getY() - m_p1.getY(), -(m_p0.getX() - m_p1.getX()), 0.f));
+	//	}
+	//	else {
+	//		float scalar = proj / m_p0.Length();
+	//		m_norm = Vector3D::Normalize(m_p1 - (scalar * m_p0));
+	//	}
+	//}
+	//else if (m_p0.getX() != m_p1.getX() && m_p0.getY() != m_p1.getY()) {
+	//	m_norm = Vector3D::Normalize(Vector3D(m_p0.getY() - m_p1.getY(), -(m_p0.getX() - m_p1.getX()), 0.f));
+	//}
+	//// TODO: cases for x coords and y coords being the same
+
+	//m_nDotP0 = Vector3D::Dot(m_p0, m_norm);
 }
 
 LineSegment3D::LineSegment3D(float x0, float y0, float z0, float x1, float y1, float z1) :
@@ -76,6 +84,7 @@ void LineSegment3D::offset(Vector3D offset)
 {
 	m_p0 += offset;
 	m_p1 += offset;
+	m_nDotP0 = Vector3D::Dot(m_p0, m_norm);
 }
 
 void LineSegment3D::shiftAlongNormal(float offset)
@@ -83,4 +92,5 @@ void LineSegment3D::shiftAlongNormal(float offset)
 	Vector3D offsetVec = m_norm * offset;
 	m_p0 += offsetVec;
 	m_p1 += offsetVec;
+	m_nDotP0 = Vector3D::Dot(m_p0, m_norm);
 }

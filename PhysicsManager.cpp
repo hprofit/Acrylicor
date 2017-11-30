@@ -169,11 +169,6 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 			m_physicsBodies[i]->Update(deltaTime);
 	}
 
-	// Update Transforms
-	for (i = 0; i < m_transforms.size(); ++i) {
-		if (m_transforms[i] && m_transforms[i]->m_parent.IsActive())
-			m_transforms[i]->Update(deltaTime);
-	}
 
 	// Check for collisions
 	CollisionResult cr;
@@ -188,8 +183,9 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 				if (m_physicsBodies[j] && m_physicsBodies[j]->m_parent.IsActive()) {
 					PhysicsComponent* rhs = static_cast<PhysicsComponent*>(m_physicsBodies[j]);
 					cr = _CheckCollision(*lhs, *rhs);
-					if (cr.collided)
+					if (cr.collided) {
 						_CreateContact(&lhs->m_parent, &rhs->m_parent, cr);
+					}
 				}
 			}
 		}
@@ -206,6 +202,12 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 	for (i = 0; i < m_physicsBodies.size(); ++i) {
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive())
 			m_physicsBodies[i]->LateUpdate();
+	}
+
+	// Update Transforms
+	for (i = 0; i < m_transforms.size(); ++i) {
+		if (m_transforms[i] && m_transforms[i]->m_parent.IsActive())
+			m_transforms[i]->Update(deltaTime);
 	}
 }
 

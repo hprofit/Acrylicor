@@ -21,15 +21,15 @@ Creation date: 11/19/17
 class Rect3D
 {
 protected:
-	Vector3D& m_center;
+	Vector3D m_center;
 	float m_halfWidth;
 	float m_halfHeight;
-	LineSegment3D& m_left;
-	LineSegment3D& m_right;
-	LineSegment3D& m_top;
-	LineSegment3D& m_bottom;
-	Vector3D& m_upVec;
-	Vector3D& m_rightVec;
+	LineSegment3D m_left;
+	LineSegment3D m_right;
+	LineSegment3D m_top;
+	LineSegment3D m_bottom;
+	Vector3D m_upVec;
+	Vector3D m_rightVec;
 
 public:
 	Rect3D(Vector3D center, float halfWidth, float halfHeight);
@@ -54,6 +54,8 @@ public:
 
 	Rect3D StretchHeight(float amount) const;
 	Rect3D StretchWidth(float amount) const;
+
+	void Offset(Vector3D offsetAmt);
 };
 
 #endif

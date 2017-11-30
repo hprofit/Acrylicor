@@ -41,6 +41,7 @@ public:
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
 	virtual void HandleEvent(AcryEvent * aEvent);
+	virtual void LateInitialize();
 
 	void AddScore(int amt);
 	void RemoveScore(int amt);

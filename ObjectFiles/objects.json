@@ -8,6 +8,7 @@
   { "UI_lives": "ObjectFiles/UI/UI_lives.json" },
   { "UI_score": "ObjectFiles/UI/UI_score.json" },
   { "UI_missiles": "ObjectFiles/UI/UI_missiles.json" },
+  { "UI_energy": "ObjectFiles/UI/UI_energy.json" },
   { "HUD": "ObjectFiles/UI/HUD.json" },
   { "enemy": "ObjectFiles/enemy.json" },
   { "drone": "ObjectFiles/drone.json" },

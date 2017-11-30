@@ -148,6 +148,7 @@
     <ClInclude Include="DamageEvent.h" />
     <ClInclude Include="DashComponent.h" />
     <ClInclude Include="DataChangeEvent.h" />
+    <ClInclude Include="EnergyComponent.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Rect3D.h" />
+    <ClInclude Include="ReflectEvent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ScrollingSpriteComponent.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UI_EnergyComponent.h" />
     <ClInclude Include="UI_ScoreComponent.h" />
     <ClInclude Include="UI_LivesComponent.h" />
     <ClInclude Include="UI_MissilesComponent.h" />
@@ -214,6 +217,7 @@
     <ClCompile Include="DamageEvent.cpp" />
     <ClCompile Include="DashComponent.cpp" />
     <ClCompile Include="DataChangeEvent.cpp" />
+    <ClCompile Include="EnergyComponent.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -242,6 +246,7 @@
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Rect3D.cpp" />
+    <ClCompile Include="ReflectEvent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ScrollingSpriteComponent.cpp" />
@@ -253,6 +258,7 @@
     <ClCompile Include="TestGameState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UI_EnergyComponent.cpp" />
     <ClCompile Include="UI_ScoreComponent.cpp" />
     <ClCompile Include="UI_LivesComponent.cpp" />
     <ClCompile Include="UI_MissilesComponent.cpp" />
@@ -285,6 +291,7 @@
     <None Include="ObjectFiles\textures.json" />
     <None Include="ObjectFiles\tileShader.json" />
     <None Include="ObjectFiles\UI\HUD.json" />
+    <None Include="ObjectFiles\UI\UI_energy.json" />
     <None Include="ObjectFiles\UI\UI_lives.json" />
     <None Include="ObjectFiles\UI\UI_missiles.json" />
     <None Include="ObjectFiles\UI\UI_score.json" />

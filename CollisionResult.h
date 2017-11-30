@@ -37,7 +37,7 @@ struct CollisionResult {
 		return *this;
 	}
 
-	void Set(bool toi, Vector3D poi) {
+	void Set(float toi, Vector3D poi) {
 		timeOfImpact = toi;
 		pointOfImpact = poi;
 		collided = true;

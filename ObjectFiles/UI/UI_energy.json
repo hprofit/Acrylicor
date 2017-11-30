@@ -1,0 +1,22 @@
+{
+  "transform": {
+    "position": {
+      "x": 300,
+      "y": -380,
+      "z": -1
+    },
+    "scale": {
+      "x": 24,
+      "y": 24
+    }
+  },
+  "text": {
+    "font": "baseFont"
+  },
+  "uiEnergy": {
+    "events": [
+      "dataAmount"
+    ],
+    "baseMessage": "Energy: "
+  }
+}

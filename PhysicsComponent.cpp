@@ -8,6 +8,7 @@
 #include "AcryEvent.h"
 #include "CollideEvent.h"
 #include "DamageEvent.h"
+#include "ReflectEvent.h"
 #include "CollideKillZoneEvent.h"
 
 #include "GameObject.h"
@@ -218,6 +219,11 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		if (m_body->Tags().HasTag("killZone")) {
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
+		else if (m_body->Tags().HasTag("solid") && otherPComp->Body().Tags().HasTag("solid")) {
+			ReflectEvent * rEvent = new ReflectEvent(cpEvent->GetContact());
+			m_parent.HandleEvent(rEvent);
+			other->HandleEvent(rEvent);
+		}
 		else if (m_body->Tags().HasTag("player")) {
 			if ((otherPComp->Body().Tags().HasTag("enemy") || otherPComp->Body().Tags().HasTag("enemyBullet"))) {
 				EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
@@ -236,6 +242,22 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 
 			// TODO: Bullet burst animation here
 			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
+		}
+	}
+	break;
+	case EventType::REFLECT:
+	{
+		ReflectEvent * rEvent = static_cast<ReflectEvent*>(aEvent);
+
+		if (!m_body->Tags().HasTag("stationary")) {
+			Contact contact = rEvent->GetContact();
+			Vector3D newEndPos = PhysicsManager::GetInstance().ReflectShapeOffOtherShape(
+				*static_cast<PhysicsComponent*>(contact.LHS_GO()->Get(COMPONENT_TYPE::PHYSICS)),
+				*static_cast<PhysicsComponent*>(contact.RHS_GO()->Get(COMPONENT_TYPE::PHYSICS)),
+				contact.Collision()
+			);
+			SetVelocityDirection(newEndPos - contact.Collision().pointOfImpact);
+			m_position = newEndPos;
 		}
 	}
 	break;

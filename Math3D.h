@@ -178,7 +178,6 @@ CollisionResult AnimatedCircleToAnimatedCircle(const Vector3D& Start0, const Vec
 
 #pragma endregion
 
-
 /*
 Reflection methods will, given a CollisionResult and two sets of start/end points, reflect the movement represented by the start/end points at the CollisionResult's pointOfImpact
 */
@@ -264,4 +263,12 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 
 #pragma endregion
 
+
+#pragma region Push Methods
+#pragma region Circle
+Vector3D PushCircleFromRect(const Vector3D & Ps, const Vector3D& Pe, const Vector3D & Pi, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR);
+
+#pragma endregion
+
+#pragma endregion
 #endif

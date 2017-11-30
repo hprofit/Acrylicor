@@ -8,6 +8,7 @@ static std::unordered_map<String, EventType> TitleMap = {
 	{ "collideKillZone", EventType::COLLIDE_KILL_ZONE },
 	{ "keyPress", EventType::KEY_PRESS },
 	{ "damage", EventType::DAMAGE },
+	{ "useEnergy", EventType::USE_ENERGY },
 	{ "lifeChange", EventType::LIFE_CHANGE },
 	{ "playerDeath", EventType::PLAYER_DEATH },
 	{ "respawn", EventType::RESPAWN },

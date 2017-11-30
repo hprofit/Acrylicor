@@ -127,3 +127,11 @@ Rect3D Rect3D::StretchWidth(float amount) const
 	result.m_right.shiftAlongNormal(-amount);
 	return result;
 }
+
+void Rect3D::Offset(Vector3D offsetAmt)
+{
+	m_top += offsetAmt;
+	m_bottom += offsetAmt;
+	m_left += offsetAmt;
+	m_right += offsetAmt;
+}

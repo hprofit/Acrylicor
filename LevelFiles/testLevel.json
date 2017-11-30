@@ -3,6 +3,9 @@
     {
       "camera": { }
     },
+
+
+
     {
       "background": {
         "scrollingSprite": {
@@ -16,38 +19,89 @@
       }
     },
     {
-      "UI_lives": { }
+      "background": {
+        "transform": {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "scale": {
+            "x": 1600,
+            "y": 900
+          }
+        },
+        "scrollingSprite": {
+          "name": "motherBoardTransparentBG",
+          "frameX": 0,
+          "frameY": 0,
+          "tileX": 5,
+          "tileY": 2.5,
+          "scrollSpeedX": 0,
+          "scrollSpeedY": -0.6,
+          "shader": "scrollingTileShader",
+          "color": {
+            "r": 0.5,
+            "g": 0,
+            "b": 0.3,
+            "a": 1
+          }
+        }
+      }
     },
+
+    
     {
-      "UI_score": { }
-    },
-    {
-      "killZone": {
+      "boundaryBox": {
         "physics": {
           "position": {
-            "y": 100
+            "y": 400
           },
           "body": {
             "type": "aabb",
             "width": 1600,
-            "height": 400
+            "height": 40
+          }
+        }
+      }
+    },
+
+
+
+
+    {
+      "killZone": {
+        "physics": {
+          "position": {
+            "y": 1600
+          },
+          "body": {
+            "type": "aabb",
+            "width": 1600,
+            "height": 1000
           }
         },
         "killZone": {
           "tags": [
-            "bullet"
+            "bullet",
+            "missile"
           ]
         }
       }
     },
+
+
+
     {
       "playerSpawner": {
         "transform": {
-          "x": 0,
-          "y": -240
+          "position": {
+            "y": -240
+          }
         }
       }
     },
+
     {
       "player": {
         "physics": {
@@ -56,6 +110,25 @@
           }
         }
       }
+    },
+
+
+
+
+
+    
+    {
+      "UI_lives": { }
+    },
+    {
+      "UI_score": { }
+    },
+    {
+      "UI_missiles": { }
+    },
+    {
+      "UI_energy": { }
     }
+
   ]
 }

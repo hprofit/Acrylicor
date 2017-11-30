@@ -60,8 +60,8 @@ void AISeekComponent::_SeekTarget(double deltaTime)
 		float amount = rotSpd * (float)deltaTime * direction;
 		m_tComp->RotateZ(amount);
 		float angleZ = m_tComp->GetAngleZ();
-		std::cout << "Angle: " << angleZ << std::endl;
-		std::cout << "Turn amount: " << amount << std::endl;
+		//std::cout << "Angle: " << angleZ << std::endl;
+		//std::cout << "Turn amount: " << amount << std::endl;
 
 		m_pComp->InterpolateVelocity(Vector3D(cosf(angleZ), sinf(angleZ), 0.f) * m_speed, 1.f);
 	}

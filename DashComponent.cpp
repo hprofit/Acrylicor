@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "AcryEvent.h"
 #include "PhysicsComponent.h"
+#include "EnergyComponent.h"
 #include <iostream>
 
 DashComponent::DashComponent(GameObject & parent, int energyRequired, float speed, double dashTime) :
@@ -57,9 +58,12 @@ void DashComponent::HandleEvent(AcryEvent * aEvent)
 	switch (aEvent->Type()) {
 	case EventType::DASH:
 	{
-		m_pComp->SetMaxSpeed(m_speed);
-		m_pComp->AddForce(Vector3D::Normalize(m_pComp->GetVelocity()) * m_speed);
-		m_currentDashTime = m_dashTime;
+		if (m_eComp->EnoughEnergy(m_energyRequired)) {
+			m_pComp->SetMaxSpeed(m_speed);
+			m_pComp->AddForce(Vector3D::Normalize(m_pComp->GetVelocity()) * m_speed);
+			m_currentDashTime = m_dashTime;
+			m_eComp->UseEnergy(m_energyRequired);
+		}
 	}
 	break;
 	}
@@ -68,7 +72,11 @@ void DashComponent::HandleEvent(AcryEvent * aEvent)
 void DashComponent::LateInitialize()
 {
 	m_pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	m_eComp = static_cast<EnergyComponent*>(m_parent.Get(COMPONENT_TYPE::ENERGY));
 	if (!m_pComp)
-		std::cout << "Physics components require Physics components." << std::endl;
+		std::cout << "Dash components require Physics components." << std::endl;
+	if (!m_eComp)
+		std::cout << "Dash components require Energy components." << std::endl;
+
 	m_maxSpeed = m_pComp->MaxSpeed();
 }

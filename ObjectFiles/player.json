@@ -34,15 +34,20 @@
       "type": "circle",
       "radius": 32,
       "tags": [
-        "player"
+        "player",
+        "solid"
       ]
     },
     "maxSpeed": 300,
     "capRate": 0.9
   },
   "dash": {
-    "speed": 800,
+    "speed": 900,
     "energy": 50,
     "dashTime": 0.1
+  },
+  "energy": {
+    "max": 100,
+    "rate": 25
   }
 }

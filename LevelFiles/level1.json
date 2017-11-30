@@ -178,7 +178,108 @@
 
 
 
+    
+    
+    {
+      "enemy": {
+        "physics": {
+          "position": {
+            "x": 300, "y": 600
+          }
+        }
+      }
+    },
+    {
+      "enemy": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 560
+          }
+        }
+      }
+    },
 
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -400,
+            "y": 800
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 750
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 700
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 650
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 600
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 550
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 500
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 450
+          }
+        }
+      }
+    },
     {
       "drone": {
         "physics": {
@@ -203,6 +304,9 @@
     },
     {
       "UI_missiles": { }
+    },
+    {
+      "UI_energy": { }
     }
 
   ]

@@ -35,6 +35,7 @@ const enum class COMPONENT_TYPE {
 	SPAWNER,
 
 	HEALTH,
+	ENERGY,
 	DAMAGE,
 	KILL_ZONE,
 	DASH,
@@ -42,6 +43,7 @@ const enum class COMPONENT_TYPE {
 	UI_LIVES,
 	UI_SCORE,
 	UI_MISSILES,
+	UI_ENERGY,
 
 	NUM_COMPONENTS
 };

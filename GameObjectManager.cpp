@@ -115,7 +115,7 @@ void GameObjectManager::CleanUpGameObjects()
 	unsigned int i = 0;
 	for (i = 0; i < m_gameObjects.size(); ++i) {
 		if (m_gameObjects[i] && m_gameObjects[i]->IsDead()) {
-			if (m_debugMode) std::cout << "Destroying object <" << m_gameObjects[i]->m_type << ">" << std::endl;
+			if (m_debugMode) std::cout << "Cleaning up object <" << m_gameObjects[i]->m_type << ">" << std::endl;
 			delete m_gameObjects[i];
 			m_gameObjects[i] = nullptr;
 		}

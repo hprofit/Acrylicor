@@ -202,7 +202,10 @@ namespace AcryJson {
 
 	bool ValueExists(const json j, String first, String second)
 	{
-		return j[first].find(second) != j[first].end();
+		if (j.find(first) != j.end()) {
+			return j[first].find(second) != j[first].end();
+		}
+		return false;
 	}
 
 	bool ValueExists(const json j, String first, String second, String third)

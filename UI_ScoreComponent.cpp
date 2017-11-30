@@ -59,6 +59,11 @@ void UI_ScoreComponent::HandleEvent(AcryEvent * aEvent)
 	}
 }
 
+void UI_ScoreComponent::LateInitialize()
+{
+	_SetText();
+}
+
 void UI_ScoreComponent::AddScore(int amt)
 {
 	m_score += amt;

@@ -118,6 +118,12 @@
     <Filter Include="Source Files\Components\Physics">
       <UniqueIdentifier>{d30d4cd6-f8ee-424c-99ad-8804bd4cb1c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\Objects\Static">
+      <UniqueIdentifier>{d0c01779-e610-4ad4-b384-3146062736ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\Objects\Projectile">
+      <UniqueIdentifier>{a2a7580e-1146-4a97-b27c-87650c2363e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -324,6 +330,15 @@
     <ClInclude Include="DashComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="UI_EnergyComponent.h">
+      <Filter>Header Files\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EnergyComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -509,6 +524,15 @@
     <ClCompile Include="DashComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="UI_EnergyComponent.cpp">
+      <Filter>Source Files\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EnergyComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -537,15 +561,6 @@
     </None>
     <None Include="Shaders\scrollingTileVertShader.vert">
       <Filter>Source Files\TEST_FILES\Shaders</Filter>
-    </None>
-    <None Include="ObjectFiles\background.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
-    <None Include="ObjectFiles\bullets\bullet.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
-    <None Include="ObjectFiles\camera.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
     <None Include="ObjectFiles\enemy.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
@@ -577,26 +592,14 @@
     <None Include="ObjectFiles\lineShader.json">
       <Filter>Source Files\TEST_FILES\Json\Shaders</Filter>
     </None>
-    <None Include="ObjectFiles\gun.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
     <None Include="ObjectFiles\playerDrone.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
     <None Include="ObjectFiles\playerSpawner.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
-    <None Include="ObjectFiles\killZone.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
     <None Include="LevelFiles\testLevel.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
-    </None>
-    <None Include="ObjectFiles\bullets\missile.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
-    <None Include="ObjectFiles\missileLauncher.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
     <None Include="ObjectFiles\UI\UI_missiles.json">
       <Filter>Source Files\TEST_FILES\Json\UI</Filter>
@@ -610,8 +613,32 @@
     <None Include="ObjectFiles\UI\UI_lives.json">
       <Filter>Source Files\TEST_FILES\Json\UI</Filter>
     </None>
+    <None Include="ObjectFiles\UI\UI_energy.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\background.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Static</Filter>
+    </None>
     <None Include="ObjectFiles\boundaryBox.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+      <Filter>Source Files\TEST_FILES\Json\Objects\Static</Filter>
+    </None>
+    <None Include="ObjectFiles\camera.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Static</Filter>
+    </None>
+    <None Include="ObjectFiles\killZone.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Static</Filter>
+    </None>
+    <None Include="ObjectFiles\bullets\bullet.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
+    </None>
+    <None Include="ObjectFiles\bullets\missile.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
+    </None>
+    <None Include="ObjectFiles\missileLauncher.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
+    </None>
+    <None Include="ObjectFiles\gun.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
     </None>
   </ItemGroup>
 </Project>

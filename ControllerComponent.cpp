@@ -61,9 +61,9 @@ void ControllerComponent::Update(double deltaTime)
 
 	if (inputMgr.IsKeyPressed(ACR_SPACE))
 		wComp->Fire();
-	if (inputMgr.IsKeyPressed(ACR_M))
+	if (inputMgr.IsKeyTriggered(ACR_M))
 		mlComp->Fire();
-	if (inputMgr.IsKeyPressed(ACR_F))
+	if (inputMgr.IsKeyTriggered(ACR_F))
 		m_parent.HandleEvent(new AcryEvent(EventType::DASH));
 
 	//if (inputMgr.IsKeyPressed(ACR_Q)) {

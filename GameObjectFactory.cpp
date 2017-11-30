@@ -16,10 +16,12 @@
 #include "CameraComponent.h"
 #include "SpawnerComponent.h"
 #include "HealthComponent.h"
+#include "EnergyComponent.h"
 #include "DamageComponent.h"
 #include "UI_LivesComponent.h"
 #include "UI_MissilesComponent.h"
 #include "UI_ScoreComponent.h"
+#include "UI_EnergyComponent.h"
 #include "KillZoneComponent.h"
 #include "DashComponent.h"
 
@@ -53,12 +55,14 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "missileLauncher"))	gObject->Get(COMPONENT_TYPE::MISSILE_LAUNCHER)->Override(j);
 		else if (AcryJson::KeyIs(it, "camera"))				gObject->Get(COMPONENT_TYPE::CAMERA)->Override(j);
 		else if (AcryJson::KeyIs(it, "health"))				gObject->Get(COMPONENT_TYPE::HEALTH)->Override(j);
+		else if (AcryJson::KeyIs(it, "energy"))				gObject->Get(COMPONENT_TYPE::ENERGY)->Override(j);
 		else if (AcryJson::KeyIs(it, "damage"))				gObject->Get(COMPONENT_TYPE::DAMAGE)->Override(j);
 		else if (AcryJson::KeyIs(it, "uiLives"))			gObject->Get(COMPONENT_TYPE::UI_LIVES)->Override(j);
 		else if (AcryJson::KeyIs(it, "uiMissiles"))			gObject->Get(COMPONENT_TYPE::UI_MISSILES)->Override(j);
 		else if (AcryJson::KeyIs(it, "uiScore"))			gObject->Get(COMPONENT_TYPE::UI_SCORE)->Override(j);
+		else if (AcryJson::KeyIs(it, "uiEnergy"))			gObject->Get(COMPONENT_TYPE::UI_ENERGY)->Override(j);
 		else if (AcryJson::KeyIs(it, "killZone"))			gObject->Get(COMPONENT_TYPE::KILL_ZONE)->Override(j);
-		else if (AcryJson::KeyIs(it, "dash"))			gObject->Get(COMPONENT_TYPE::DASH)->Override(j);
+		else if (AcryJson::KeyIs(it, "dash"))				gObject->Get(COMPONENT_TYPE::DASH)->Override(j);
 	}
 	return gObject;
 }
@@ -115,10 +119,12 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "missileLauncher"))	gObject->AddComponent(MissileLauncherComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "camera"))				gObject->AddComponent(CameraComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "health"))				gObject->AddComponent(HealthComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "energy"))				gObject->AddComponent(EnergyComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "damage"))				gObject->AddComponent(DamageComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "uiLives"))			gObject->AddComponent(UI_LivesComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "uiMissiles"))			gObject->AddComponent(UI_MissilesComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "uiScore"))			gObject->AddComponent(UI_ScoreComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "uiEnergy"))			gObject->AddComponent(UI_EnergyComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "killZone"))			gObject->AddComponent(KillZoneComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "dash"))				gObject->AddComponent(DashComponent::Serialize(*gObject, j));
 
