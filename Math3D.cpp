@@ -190,7 +190,7 @@ CollisionResult AnimatedCircleToStaticRect(const Vector3D & CStart, const Vector
 	
 	int idx = 0;
 	for (int i = 1; i < 4; ++i) {
-		if (collisionResults[i].timeOfImpact >= 0.f && collisionResults[i].timeOfImpact < collisionResults[idx].timeOfImpact)
+		if (collisionResults[i].timeOfImpact >= 0.f && (collisionResults[i].timeOfImpact < collisionResults[idx].timeOfImpact || collisionResults[idx].timeOfImpact < 0.f))
 			idx = i;
 	}
 	return collisionResults[idx];
@@ -361,15 +361,28 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 
 #pragma region Push Methods
 #pragma region Circle
-Vector3D PushCircleFromRect(const Vector3D & Ps, const Vector3D& Pe, const Vector3D & Pi, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR) {
-	Vector3D v = Pe - Ps;
-	float vLen = v.Length();
-	Vector3D circleAtTOI = (v / vLen ) * (CR.timeOfImpact * vLen);
-	Vector3D snappedPoint = _SnapPointStaticCircleToStaticRect(circleAtTOI, RectCenter, halfWidth, halfHeight);
-	Vector3D pushDir = circleAtTOI - snappedPoint;
+Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Pi, const float Radius, const Vector3D & OtherCircle, const float OtherRadius, const CollisionResult & CR)
+{
+	float expectedDistance = (Radius + OtherRadius);
+	float actualDistance = Vector3D::Distance(OtherCircle, Pi);
+	float force = expectedDistance - actualDistance;
+
+	return Vector3D::Normalize(OtherCircle - Pi) * force;
+
+	// Optimization:
+	// expectedDistanceSq = (R + OR) * (R + OR)
+	// difference = OC - Pi
+	// dLen = difference.Length
+	// force = expectedDistanceSq - dSizeSq
+	// return (difference * (1.f / dSizeQ
+}
+
+Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR) {
+	Vector3D snappedPoint = _SnapPointStaticCircleToStaticRect(CircleEnd, RectCenter, halfWidth, halfHeight);
+	Vector3D pushDir = CircleEnd - snappedPoint;
 	float pushLen = pushDir.Length();
 	float pushForce = Radius - pushLen;
-	return (pushDir / pushLen) * pushForce;
+	return (pushDir / pushLen) * (pushForce + 1.f);
 }
 
 #pragma endregion

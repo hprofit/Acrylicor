@@ -39,6 +39,7 @@ private:
 
 	CollisionResult (* m_collisionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM] )(const PhysicsComponent &, Vector3D, Vector3D, const PhysicsComponent &, Vector3D, Vector3D);
 	Vector3D (* m_reflectionFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM])(const PhysicsComponent &, const PhysicsComponent &, const CollisionResult&);
+	Vector3D(*m_pushFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM])(const PhysicsComponent &, const PhysicsComponent &, const CollisionResult&);
 
 	PhysicsManager();
 	~PhysicsManager();
@@ -66,6 +67,7 @@ public:
 	void UpdatePhysics(double deltaTime);
 
 	Vector3D ReflectShapeOffOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult& cr);
+	Vector3D PushShapeOutOfOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult& cr);
 };
 
 #endif

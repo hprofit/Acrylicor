@@ -9,6 +9,7 @@
 #include "CollideEvent.h"
 #include "DamageEvent.h"
 #include "ReflectEvent.h"
+#include "PushFromBodyEvent.h"
 #include "CollideKillZoneEvent.h"
 
 #include "GameObject.h"
@@ -220,7 +221,7 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
 		else if (m_body->Tags().HasTag("solid") && otherPComp->Body().Tags().HasTag("solid")) {
-			ReflectEvent * rEvent = new ReflectEvent(cpEvent->GetContact());
+			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
 			other->HandleEvent(rEvent);
 		}
@@ -257,7 +258,23 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 				contact.Collision()
 			);
 			SetVelocityDirection(newEndPos - contact.Collision().pointOfImpact);
-			m_position = newEndPos;
+			SetPosition(newEndPos);
+		}
+	}
+	break;
+	case EventType::PUSH_FROM_BODY:
+	{
+		PushFromBodyEvent * rEvent = static_cast<PushFromBodyEvent*>(aEvent);
+
+		if (!m_body->Tags().HasTag("stationary")) {
+			Contact contact = rEvent->GetContact();
+			Vector3D pushDirection = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(
+				*static_cast<PhysicsComponent*>(contact.LHS_GO()->Get(COMPONENT_TYPE::PHYSICS)),
+				*static_cast<PhysicsComponent*>(contact.RHS_GO()->Get(COMPONENT_TYPE::PHYSICS)),
+				contact.Collision()
+			);
+			SetPosition(m_position + pushDirection);
+			//SetVelocity(pushDirection);
 		}
 	}
 	break;
@@ -270,6 +287,8 @@ void PhysicsComponent::LateInitialize()
 	if (!m_tComp)
 		std::cout << "Physics components require Transform components." << std::endl;
 }
+
+#pragma region Methods
 
 float PhysicsComponent::MaxSpeed() const
 {
@@ -321,10 +340,12 @@ void PhysicsComponent::SetPrevPosition(Vector3D position)
 // time is assumed to be 0.f - 1.f
 Vector3D PhysicsComponent::GetPositionAtTime(float time) const
 {
-	return (m_position - m_prevPosition) * (time / 1.f);
+	return m_prevPosition + ((m_position - m_prevPosition) * (time / 1.f));
 }
 
 bool PhysicsComponent::IsStatic() const
 {
 	return m_static;
 }
+
+#pragma endregion

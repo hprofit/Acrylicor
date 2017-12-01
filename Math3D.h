@@ -266,7 +266,11 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 
 #pragma region Push Methods
 #pragma region Circle
-Vector3D PushCircleFromRect(const Vector3D & Ps, const Vector3D& Pe, const Vector3D & Pi, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR);
+Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D& Pe, const Vector3D & Pi, const float Radius, 
+	const Vector3D& OtherCircle, const float OtherRadius, const CollisionResult& CR);
+
+Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius,
+	const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR);
 
 #pragma endregion
 

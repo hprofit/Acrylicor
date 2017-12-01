@@ -106,6 +106,44 @@ static Vector3D ReflectAABBOnAABB(const PhysicsComponent & compToReflect, const 
 #pragma endregion
 
 
+#pragma region Push Methods
+
+
+#pragma region Circle on X
+static Vector3D PushCircleFromCircle(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const CollisionResult& cr) {
+	Circle* lhsC = static_cast<Circle*>(compToPush.GetBodyPtr());
+	Circle* rhsC = static_cast<Circle*>(surface.GetBodyPtr());
+
+	return PushCircleFromCircle(compToPush.GetPrevPosition(), compToPush.GetPosition(), compToPush.GetPositionAtTime(cr.timeOfImpact), lhsC->m_radius, surface.GetPositionAtTime(cr.timeOfImpact), rhsC->m_radius, cr);
+}
+
+static Vector3D PushCircleFromAABB(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const CollisionResult& cr) {
+	Circle* lhsC = static_cast<Circle*>(compToPush.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(surface.GetBodyPtr());
+
+	return PushCircleFromRect(compToPush.GetPosition(), lhsC->m_radius,
+		surface.GetPositionAtTime(cr.timeOfImpact), rhsC->m_halfWidth, rhsC->m_halfHeight, cr);
+}
+#pragma endregion
+
+#pragma region AABB on X
+static Vector3D PushAABBFromCircle(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
+	return PushCircleFromAABB(reflectionSurface, compToReflect, cr);
+}
+
+static Vector3D PushAABBFromAABB(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
+	AABB* lhsC = static_cast<AABB*>(compToReflect.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(reflectionSurface.GetBodyPtr());
+	return Vector3D();
+}
+#pragma endregion
+
+
+#pragma endregion
+
+
+
+
 PhysicsManager::PhysicsManager() :
 	_EventManager(EventManager::GetInstance())
 {
@@ -122,6 +160,14 @@ PhysicsManager::PhysicsManager() :
 
 	m_reflectionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_CIRCLE] = ReflectAABBOnCircle;
 	m_reflectionFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_AABB] = ReflectAABBOnAABB;
+
+
+
+	m_pushFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_CIRCLE] = PushCircleFromCircle;
+	m_pushFunctions[BODY_TYPE::BT_CIRCLE][BODY_TYPE::BT_AABB] = PushCircleFromAABB;
+
+	m_pushFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_CIRCLE] = PushAABBFromCircle;
+	m_pushFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_AABB] = PushAABBFromAABB;
 }
 
 PhysicsManager::~PhysicsManager()
@@ -235,4 +281,9 @@ CollisionResult PhysicsManager::_CheckCollision(const PhysicsComponent & lhs, co
 Vector3D PhysicsManager::ReflectShapeOffOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult& cr) 
 {
 	return m_reflectionFunctions[lhs.Body().m_type][rhs.Body().m_type](lhs, rhs, cr);
+}
+
+Vector3D PhysicsManager::PushShapeOutOfOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult & cr)
+{
+	return m_pushFunctions[lhs.Body().m_type][rhs.Body().m_type](lhs, rhs, cr);
 }
