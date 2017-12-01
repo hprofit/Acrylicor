@@ -364,10 +364,10 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Pi, const float Radius, const Vector3D & OtherCircle, const float OtherRadius, const CollisionResult & CR)
 {
 	float expectedDistance = (Radius + OtherRadius);
-	float actualDistance = Vector3D::Distance(OtherCircle, Pi);
+	float actualDistance = Vector3D::Distance(OtherCircle, Pe);
 	float force = expectedDistance - actualDistance;
 
-	return Vector3D::Normalize(OtherCircle - Pi) * force;
+	return Vector3D::Normalize(OtherCircle - Pe) * (force + 1.f);
 
 	// Optimization:
 	// expectedDistanceSq = (R + OR) * (R + OR)

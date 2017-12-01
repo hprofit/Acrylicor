@@ -155,7 +155,96 @@
     },
 
 
-
+{
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -400,
+            "y": 600
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 550
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 500
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 450
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 400
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 350
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 300
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 250
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 400,
+            "y": 200
+          }
+        }
+      }
+    },
 
 
     

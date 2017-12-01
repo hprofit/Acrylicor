@@ -20,7 +20,6 @@ Creation date: 11/22/17
 #include "Component.h"
 
 class TransformComponent;
-class PhysicsComponent;
 
 class AISeekComponent :
 	public Component
@@ -33,7 +32,6 @@ protected:
 	float m_speed;
 
 	TransformComponent* m_tComp;
-	PhysicsComponent* m_pComp;
 
 	void _FindNewTarget();
 	void _SeekTarget(double deltaTime);

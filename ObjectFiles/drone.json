@@ -26,15 +26,20 @@
       "type": "circle",
       "radius": 32,
       "tags": [
-        "enemy"
+        "enemy",
+        "solid"
       ]
     },
     "weightless": true,
     "maxSpeed": 10000
   },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 200
+  },
   "aiSeek": {
     "targetTag": "player",
-    "turnSpeed": 50,
+    "turnSpeed": 250,
     "speed": 150,
     "events": [
       "goDestroyed"

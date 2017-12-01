@@ -32,11 +32,13 @@ static CollisionResult CircleOnAABB(const PhysicsComponent & lhs, Vector3D lhsPo
 	Circle* lhsC = static_cast<Circle*>(lhs.GetBodyPtr());
 	AABB* rhsC = static_cast<AABB*>(rhs.GetBodyPtr());
 
+	return AnimatedCircleToStaticRect(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect);
+
 	//unsigned int statics = 0;// lhs.IsStatic() + (rhs.IsStatic() * 2);
 	//switch (statics) {
 	//case 0:	// Both are non-static
 	//{
-		return AnimatedCircleToStaticRect(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect);
+		//return AnimatedCircleToStaticRect(lhsPos0, lhsPos1, lhsC->m_radius, rhsPos0, rhsC->m_halfWidth, rhsC->m_halfHeight, rhsC->m_rect);
 	//}
 	//	break;
 	//case 1:	// LHS is static
@@ -134,6 +136,7 @@ static Vector3D PushAABBFromCircle(const PhysicsComponent & compToReflect, const
 static Vector3D PushAABBFromAABB(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
 	AABB* lhsC = static_cast<AABB*>(compToReflect.GetBodyPtr());
 	AABB* rhsC = static_cast<AABB*>(reflectionSurface.GetBodyPtr());
+	// TODO: Flesh this out
 	return Vector3D();
 }
 #pragma endregion

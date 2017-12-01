@@ -220,6 +220,11 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		if (m_body->Tags().HasTag("killZone")) {
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
+		else if ((m_body->Tags().HasTag("enemy") && otherPComp->Body().Tags().HasTag("enemy")) && 
+			m_body->Tags().HasTag("solid")) {
+			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
+			m_parent.HandleEvent(rEvent);
+		}
 		else if (m_body->Tags().HasTag("solid") && otherPComp->Body().Tags().HasTag("solid")) {
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);

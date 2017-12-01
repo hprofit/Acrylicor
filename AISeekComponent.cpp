@@ -4,7 +4,6 @@
 #include "GameObjectManager.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
-#include "PhysicsComponent.h"
 #include "Vector3D.h"
 #include "GODestroyedEvent.h"
 #include "Math3D.h"
@@ -41,17 +40,14 @@ void AISeekComponent::_SeekTarget(double deltaTime)
 {
 	if (m_target && m_target->IsActive()) {
 		Vector3D distanceBetween = m_targetTComp->GetPosition() - m_tComp->GetPosition();
-		Vector3D homingMissleVelocity = m_pComp->GetVelocity();
+		Vector3D forward = m_tComp->Forward();
+		Vector3D left = m_tComp->Right() * -1;
 
-		if (FloatEquals(homingMissleVelocity.SquareLength(), 0.f)) homingMissleVelocity = m_tComp->Forward();
-
-		float numerator = Vector3D::Dot(homingMissleVelocity, distanceBetween);
-		float denominator = homingMissleVelocity.Length() * distanceBetween.Length();
+		float numerator = Vector3D::Dot(forward, distanceBetween);
+		float denominator = forward.Length() * distanceBetween.Length();
 		float angle = acosf(numerator / denominator); // (v dot d) / sqrt(square|v|*square|d|) = (v dot d) / (|v|*|d|), thus, reduces the amount of sqrt calls
 		
-		Vector3D vectorLeft = Vector3D(-(homingMissleVelocity.getY()), homingMissleVelocity.getX(), 0.f); // create the rotated velocity vector
-
-		float direction = Vector3D::Dot(vectorLeft, distanceBetween); // positive - left, negative - right
+		float direction = Vector3D::Dot(left, distanceBetween); // positive - left, negative - right
 		direction = direction / fabsf(direction); // -1 <-> 1
 
 		float rotAmt = std::min(PI_4, fabsf(angle));
@@ -59,11 +55,6 @@ void AISeekComponent::_SeekTarget(double deltaTime)
 
 		float amount = rotSpd * (float)deltaTime * direction;
 		m_tComp->RotateZ(amount);
-		float angleZ = m_tComp->GetAngleZ();
-		//std::cout << "Angle: " << angleZ << std::endl;
-		//std::cout << "Turn amount: " << amount << std::endl;
-
-		m_pComp->InterpolateVelocity(Vector3D(cosf(angleZ), sinf(angleZ), 0.f) * m_speed, 1.f);
 	}
 }
 
@@ -129,9 +120,6 @@ void AISeekComponent::HandleEvent(AcryEvent * aEvent)
 void AISeekComponent::LateInitialize()
 {
 	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
-	m_pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
 	if (!m_tComp)
 		std::cout << "AISeek components require Transform components." << std::endl;
-	if (!m_pComp)
-		std::cout << "AISeek components require Physics components." << std::endl;
 }
