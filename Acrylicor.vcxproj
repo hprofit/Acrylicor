@@ -134,6 +134,7 @@
     <ClInclude Include="AIRushComponent.h" />
     <ClInclude Include="AISeekComponent.h" />
     <ClInclude Include="AISwayComponent.h" />
+    <ClInclude Include="AIAreaOfSightComponent.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CollideEvent.h" />
     <ClInclude Include="CollideKillZoneEvent.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="STBSurface.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Tags.h" />
+    <ClInclude Include="TargetFoundEvent.h" />
     <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TransformComponent.h" />
@@ -207,6 +209,7 @@
     <ClCompile Include="AIRushComponent.cpp" />
     <ClCompile Include="AISeekComponent.cpp" />
     <ClCompile Include="AISwayComponent.cpp" />
+    <ClCompile Include="AIAreaOfSightComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CollideEvent.cpp" />
     <ClCompile Include="CollideKillZoneEvent.cpp" />
@@ -257,6 +260,7 @@
     <ClCompile Include="SpawnerComponent.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Tags.cpp" />
+    <ClCompile Include="TargetFoundEvent.cpp" />
     <ClCompile Include="TestGameState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />

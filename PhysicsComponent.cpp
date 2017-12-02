@@ -217,19 +217,24 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 
 
 		// TODO: Should be scripted stuff
+
+		// Kill Zone
 		if (m_body->Tags().HasTag("killZone")) {
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
+		// Enemy on Enemy -- No Pass
 		else if ((m_body->Tags().HasTag("enemy") && otherPComp->Body().Tags().HasTag("enemy")) && 
-			m_body->Tags().HasTag("solid")) {
+			m_body->Tags().HasTag("noPass")) {
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
 		}
+		// Solid on Solid
 		else if (m_body->Tags().HasTag("solid") && otherPComp->Body().Tags().HasTag("solid")) {
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
 			other->HandleEvent(rEvent);
 		}
+		// Player
 		else if (m_body->Tags().HasTag("player")) {
 			if ((otherPComp->Body().Tags().HasTag("enemy") || otherPComp->Body().Tags().HasTag("enemyBullet"))) {
 				EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::PLAYER_DEATH));
@@ -242,6 +247,7 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 				
 			}
 		}
+		// Player Bullet on Enemy
 		else if (m_body->Tags().HasTag("playerBullet") && otherPComp->Body().Tags().HasTag("enemy")) {
 			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
 			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
@@ -279,7 +285,6 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 				contact.Collision()
 			);
 			SetPosition(m_position + pushDirection);
-			//SetVelocity(pushDirection);
 		}
 	}
 	break;
@@ -291,6 +296,7 @@ void PhysicsComponent::LateInitialize()
 	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
 	if (!m_tComp)
 		std::cout << "Physics components require Transform components." << std::endl;
+	m_tComp->SetPosition(m_position);
 }
 
 #pragma region Methods

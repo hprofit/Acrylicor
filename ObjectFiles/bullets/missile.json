@@ -29,12 +29,12 @@
       "tags": [
         "bullet",
         "missile",
-        "playerMissile"
+        "playerBullet"
       ]
     },
     "maxSpeed": 1000
   },
   "damage": {
-    "amount": 1
+    "amount": 5
   }
 }

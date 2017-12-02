@@ -342,6 +342,12 @@
     <ClInclude Include="PushFromBodyEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="AIAreaOfSightComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetFoundEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -538,6 +544,12 @@
     </ClCompile>
     <ClCompile Include="PushFromBodyEvent.cpp">
       <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="AIAreaOfSightComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetFoundEvent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

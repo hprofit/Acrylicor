@@ -27,7 +27,7 @@
       "radius": 32,
       "tags": [
         "enemy",
-        "solid"
+        "noPass"
       ]
     },
     "weightless": true,
@@ -37,10 +37,14 @@
     "direction": "forward",
     "speed": 200
   },
+  "aiAreaOfSight": {
+    "targetTag": "player",
+    "radius":  200
+  },
   "aiSeek": {
     "targetTag": "player",
-    "turnSpeed": 250,
-    "speed": 150,
+    "turnSpeed": 200,
+    "speed": 125,
     "events": [
       "goDestroyed"
     ]

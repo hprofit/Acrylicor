@@ -9,6 +9,7 @@
 #include "TransformComponent.h"
 #include "CameraComponent.h"
 #include "PhysicsComponent.h"
+#include "AIAreaOfSightComponent.h"
 #include "PhysicsBody.h"
 
 #include "AcryDebugLine.h"
@@ -53,6 +54,15 @@ String RenderManager::_LoadTextFile(String fname)
 		std::getline(in, line);
 	}
 	return out;
+}
+
+void RenderManager::_RenderAiAreaOfSight(GameObject & camera, GameObject & gameObject)
+{
+	AIAreaOfSightComponent * aiAOSComp = static_cast<AIAreaOfSightComponent*>(gameObject.Get(COMPONENT_TYPE::AI_AREA_OF_SIGHT));
+	TransformComponent * tComp = static_cast<TransformComponent*>(gameObject.Get(COMPONENT_TYPE::TRANSFORM));
+	Vector3D pos = tComp->GetPosition();
+
+	RenderCircle(camera, aiAOSComp->GetSearchRadius(), pos.getX(), pos.getY());
 }
 
 void RenderManager::_RenderPhysicsBody(GameObject & camera, GameObject & gameObject)
@@ -268,8 +278,12 @@ void RenderManager::RenderGameObject(GameObject & camera, GameObject & gameObjec
 
 	_RenderGameObject(gameObject);
 
-	if (m_debugMode && gameObject.Has(COMPONENT_TYPE::PHYSICS))
-		_RenderPhysicsBody(camera, gameObject);
+	if (m_debugMode) {
+		if (gameObject.Has(COMPONENT_TYPE::PHYSICS))
+			_RenderPhysicsBody(camera, gameObject);
+		if (gameObject.Has(COMPONENT_TYPE::AI_AREA_OF_SIGHT))
+			_RenderAiAreaOfSight(camera, gameObject);
+	}
 }
 
 void RenderManager::RenderSquare(GameObject & camera, float width, float height, float rotate, float x, float y)

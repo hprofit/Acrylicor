@@ -46,6 +46,7 @@ private:
 
 	bool _GameObjectHasRenderableComponent(GameObject& gameObject);
 	String _LoadTextFile(String fname);
+	void _RenderAiAreaOfSight(GameObject & camera, GameObject & gameObject);
 	void _RenderPhysicsBody(GameObject & camera, GameObject & gameObject);
 	void _RenderSprite(SpriteComponent* sComp);
 	void _RenderScrollingSprite(ScrollingSpriteComponent* sComp);

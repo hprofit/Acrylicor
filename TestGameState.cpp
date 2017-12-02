@@ -23,7 +23,7 @@ void TestGameState::GameStateLoad(void)
 
 void TestGameState::GameStateInit(void)
 {
-	Acrylicor::LoadLevel("LevelFiles/testLevel.json");
+	Acrylicor::LoadLevel("LevelFiles/level1.json");
 }
 
 void TestGameState::GameStateUpdate(double deltaTime)

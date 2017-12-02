@@ -42,7 +42,7 @@
     "capRate": 0.9
   },
   "dash": {
-    "speed": 900,
+    "speed": 950,
     "energy": 50,
     "dashTime": 0.1
   },

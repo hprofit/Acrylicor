@@ -6,6 +6,7 @@
 #include "TransformComponent.h"
 #include "Vector3D.h"
 #include "GODestroyedEvent.h"
+#include "TargetFoundEvent.h"
 #include "Math3D.h"
 
 #include <iostream>
@@ -73,9 +74,12 @@ AISeekComponent::~AISeekComponent()
 
 void AISeekComponent::Update(double deltaTime)
 {
-	if (!m_target || (m_target && m_target->IsDead()))
-		_FindNewTarget();
-	else
+	//if (!m_target || (m_target && m_target->IsDead()))
+	//	_FindNewTarget();
+	//else
+	//	_SeekTarget(deltaTime);
+
+	if (m_target && !m_target->IsDead())
 		_SeekTarget(deltaTime);
 }
 
@@ -112,6 +116,13 @@ void AISeekComponent::HandleEvent(AcryEvent * aEvent)
 		GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
 		if (godEvent->GO()->Tags().HasTag(m_tagToFind))
 			m_target = nullptr;
+	}
+	break;
+	case EventType::TARGET_FOUND:
+	{
+		TargetFoundEvent * tfEvent = static_cast<TargetFoundEvent*>(aEvent);
+		m_target = tfEvent->GetTarget();
+		m_targetTComp = static_cast<TransformComponent*>(m_target->Get(COMPONENT_TYPE::TRANSFORM));
 	}
 	break;
 	}

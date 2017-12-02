@@ -201,6 +201,8 @@ void GameObject::HandleEvent(AcryEvent * aEvent)
 		if (comp.second)
 			comp.second->HandleEvent(aEvent);
 	}
+	if (m_parent)
+		m_parent->HandleEvent(aEvent);
 }
 
 Tags & GameObject::Tags()
