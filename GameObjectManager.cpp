@@ -7,7 +7,9 @@
 
 GameObjectManager::GameObjectManager(unsigned int maxObjects) :
 	m_currentId(0), m_maxObjects(maxObjects)
-{}
+{
+	SubscribeToEvent(EventType::UNLOAD_LEVEL);
+}
 
 GameObjectManager::~GameObjectManager()
 {
@@ -59,6 +61,17 @@ unsigned int GameObjectManager::_GetNextId()
 	return ++m_currentId;
 }
 
+void GameObjectManager::HandleEvent(AcryEvent * aEvent)
+{
+	switch (aEvent->Type()) {
+	case EventType::UNLOAD_LEVEL:
+	{
+		DestroyAllGameObjects();
+	}
+	break;
+	}
+}
+
 GameObject * GameObjectManager::SpawnGameObject(String objectType)
 {
 	return SpawnGameObject(objectType, nullptr);
@@ -95,6 +108,19 @@ void GameObjectManager::DestroyGameObject(GameObject * gObject)
 	gObject->Kill();
 	EventManager::GetInstance().BroadcastEventToSubscribers(new GODestroyedEvent(0.0, gObject));
 	EventManager::GetInstance().UnsubscribeAll(gObject);
+}
+
+void GameObjectManager::DestroyAllGameObjects()
+{
+	unsigned int i = 0;
+	for (i = 0; i < m_gameObjects.size(); ++i) {
+		if (m_gameObjects[i] && m_gameObjects[i]->IsActive()) {
+			m_gameObjects[i]->Kill();
+			EventManager::GetInstance().UnsubscribeAll(m_gameObjects[i]);
+		}
+	}
+	CleanUpGameObjects();
+	if (m_debugMode) std::cout << "All game objects destroyed and cleaned up" << std::endl;
 }
 
 void GameObjectManager::UpdateGameObjects(double deltaTime)

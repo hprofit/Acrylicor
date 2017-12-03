@@ -32,6 +32,7 @@ public:
 	virtual void HandleEvent(AcryEvent * aEvent) {};
 	virtual void AddEventSubscriptionToSubscribeTo(String eventType);
 	virtual void SubscribeToEvent(String eventType);
+	virtual void SubscribeToEvent(EventType eventType);
 	virtual void UnsubscribeChildren(String eventType) {};
 	virtual void UnsubscribeChildrenFromAll() {};
 };

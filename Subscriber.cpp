@@ -27,3 +27,8 @@ void Subscriber::SubscribeToEvent(String eventType)
 {
 	EventManager::GetInstance().Subscribe(eventType, this);
 }
+
+void Subscriber::SubscribeToEvent(EventType eventType)
+{
+	EventManager::GetInstance().Subscribe(eventType, this);
+}

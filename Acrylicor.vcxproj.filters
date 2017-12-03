@@ -372,6 +372,9 @@
     <ClInclude Include="SubscriberTracker.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="LoadLevelEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -595,6 +598,9 @@
     </ClCompile>
     <ClCompile Include="SubscriberTracker.cpp">
       <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadLevelEvent.cpp">
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

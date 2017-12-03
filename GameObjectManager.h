@@ -16,6 +16,7 @@ Creation date: 10/17/17
 #ifndef GAME_OBJECT_MANAGER_H
 #define GAME_OBJECT_MANAGER_H
 
+#include "Subscriber.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "AcrylicorTypedefs.h"
@@ -23,7 +24,9 @@ Creation date: 10/17/17
 #include "json.hpp"
 
 class EventManager;
-class GameObjectManager
+
+class GameObjectManager :
+	public Subscriber
 {
 private:
 	unsigned int m_currentId;
@@ -53,12 +56,15 @@ public:
 		return instance;
 	}
 
+	virtual void HandleEvent(AcryEvent * aEvent);
+
 	void SetDebugMode(bool debugMode) { m_debugMode = debugMode; }
 
 	GameObject * SpawnGameObject(String objectType);
 	GameObject * SpawnGameObject(String objectType, GameObject * parent);
 	void SpawnGameObjectFromFile( nlohmann::json j);
 	void DestroyGameObject(GameObject * gObject);
+	void DestroyAllGameObjects();
 
 	void UpdateGameObjects(double deltaTime);
 	void RenderGameObjects();

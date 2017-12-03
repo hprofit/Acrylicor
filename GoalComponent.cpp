@@ -28,6 +28,11 @@ void GoalComponent::_SetDistanceTravelled(float distance)
 	m_currentDistanceTravelled = 0;
 }
 
+void GoalComponent::_GoalCompleted()
+{
+	EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::NEXT_LEVEL, 2.0));
+}
+
 GoalComponent::GoalComponent(GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::GOAL)
 {}
@@ -45,7 +50,6 @@ void GoalComponent::Update(double deltaTime)
 GoalComponent * GoalComponent::Clone(GameObject & parent)
 {
 	GoalComponent* comp = new GoalComponent(*this, parent);
-	//comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 
@@ -76,9 +80,9 @@ void GoalComponent::HandleEvent(AcryEvent * aEvent)
 	{
 		GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
 		if (godEvent->GO()->Tags().HasTag("boss"))
-			m_parent.HandleEvent(new AcryEvent(EventType::BOSS_DESTROYED, 0.0));
+			m_parent.HandleEvent(new AcryEvent(EventType::BOSS_DESTROYED));
 		else if (godEvent->GO()->Tags().HasTag("enemy"))
-			m_parent.HandleEvent(new AcryEvent(EventType::ENEMY_DESTROYED, 0.0));
+			m_parent.HandleEvent(new AcryEvent(EventType::ENEMY_DESTROYED));
 
 	}
 	break;
@@ -86,12 +90,15 @@ void GoalComponent::HandleEvent(AcryEvent * aEvent)
 	{
 		m_bossDestroyed = true;
 		std::cout << "Boss Destroyed: Goal reached!" << std::endl;
+		_GoalCompleted();
 	}
 	break;
 	case EventType::ENEMY_DESTROYED:
 	{
-		if (++m_currentEnemyCount >= m_enemyCount)
+		if (++m_currentEnemyCount >= m_enemyCount) {
 			std::cout << "======================== Enemies destroyed: Goal reached! ========================" << std::endl;
+			_GoalCompleted();
+		}
 	}
 	break;
 	}

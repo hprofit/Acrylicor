@@ -1,12 +1,18 @@
 #include "LevelManager.h"
 #include "JsonReader.h"
 
+#include "AcryEvent.h"
+#include "LoadLevelEvent.h"
 #include <iostream>
 
 LevelManager::LevelManager() :
 	_EventManager(EventManager::GetInstance()),
 	_GameObjectManager(GameObjectManager::GetInstance())
-{}
+{
+	SubscribeToEvent(EventType::LOAD_LEVEL);
+	SubscribeToEvent(EventType::NEXT_LEVEL);
+	SubscribeToEvent(EventType::RESTART_LEVEL);
+}
 
 LevelManager::~LevelManager(){}
 
@@ -15,7 +21,20 @@ void LevelManager::HandleEvent(AcryEvent * aEvent)
 	switch (aEvent->Type()) {
 	case EventType::NEXT_LEVEL:
 	{
-
+		_EventManager.BroadcastEventToSubscribers(new AcryEvent(EventType::UNLOAD_LEVEL));
+		LoadNextLevel();
+	}
+	break;
+	case EventType::RESTART_LEVEL:
+	{
+		LoadCurrentLevel();
+	}
+	break;
+	case EventType::LOAD_LEVEL:
+	{
+		LoadLevelEvent * llEvent = static_cast<LoadLevelEvent*>(aEvent);
+		m_currentLevel = llEvent->level;
+		LoadCurrentLevel();
 	}
 	break;
 	}

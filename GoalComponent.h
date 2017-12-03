@@ -42,6 +42,8 @@ protected:
 	void _SetGoalEnemyCount(unsigned int enemyCount);
 	void _SetGoalBossDestroyed();
 	void _SetDistanceTravelled(float distance);
+
+	void _GoalCompleted();
 public:
 	GoalComponent() = delete;
 	GoalComponent(GameObject& parent);

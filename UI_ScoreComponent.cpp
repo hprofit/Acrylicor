@@ -54,9 +54,7 @@ void UI_ScoreComponent::Override(nlohmann::json j)
 
 void UI_ScoreComponent::HandleEvent(AcryEvent * aEvent)
 {
-	switch (aEvent->Type()) {
 
-	}
 }
 
 void UI_ScoreComponent::LateInitialize()

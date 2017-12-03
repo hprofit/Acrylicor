@@ -169,6 +169,7 @@
     <ClInclude Include="LifeChangeEvent.h" />
     <ClInclude Include="LineSegment2D.h" />
     <ClInclude Include="LineSegment3D.h" />
+    <ClInclude Include="LoadLevelEvent.h" />
     <ClInclude Include="Math2D.h" />
     <ClInclude Include="Math3D.h" />
     <ClInclude Include="Matrix.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="LifeChangeEvent.cpp" />
     <ClCompile Include="LineSegment2D.cpp" />
     <ClCompile Include="LineSegment3D.cpp" />
+    <ClCompile Include="LoadLevelEvent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math2D.cpp" />
     <ClCompile Include="Math3D.cpp" />

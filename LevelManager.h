@@ -27,8 +27,6 @@ Creation date: 12/02/17
 #include <vector>
 #include <utility>
 
-class EventManager;
-
 class LevelManager : 
 	public Subscriber
 {
