@@ -8,6 +8,7 @@
 #include "GameObjectFactory.h"
 #include "PhysicsManager.h"
 #include "EventManager.h"
+#include "LevelManager.h"
 #include "json.hpp"
 #include <iostream>
 #include "JsonReader.h"
@@ -22,6 +23,7 @@ static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
 static GameObjectManager& gameObjectMngr = GameObjectManager::GetInstance();
 static PhysicsManager& physicsMngr = PhysicsManager::GetInstance();
 static EventManager& eventMngr = EventManager::GetInstance();
+static LevelManager& levelMngr = LevelManager::GetInstance();
 
 int Acrylicor::Initialize(String configFileName)
 {
@@ -136,25 +138,17 @@ void Acrylicor::LoadGameObjects(String fileName)
 
 void Acrylicor::LoadLevel(String fileName)
 {
-	try {
-		json j = AcryJson::OpenJsonFile(fileName);
+	levelMngr.LoadLevel(fileName);
+}
 
-		if (j.is_object()) {
-			for (json::iterator it = j.begin(); it != j.end(); ++it) {
-				if (it.key() == "objects") {
-					int numObjs = j[it.key()].size();
-					for (int i = 0; i < numObjs; ++i) {
-						gameObjectMngr.SpawnGameObjectFromFile(j[it.key()][i]);
-					}
-				}
-			}
-		}
+void Acrylicor::LoadLevelConfig(String fileName)
+{
+	levelMngr.LoadLevelConfig(fileName);
+}
 
-		gameObjectMngr.LateInitializeGameObjects();
-	}
-	catch (const json::parse_error& ex) {
-		std::cerr << ex.what() << std::endl;
-	}
+void Acrylicor::LoadCurrentLevel()
+{
+	levelMngr.LoadCurrentLevel();
 }
 
 void Acrylicor::LoadShaderProgram(String fileName)

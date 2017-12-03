@@ -1,0 +1,7 @@
+{
+  "levels": [
+    "LevelFiles/testLevel.json",
+    "LevelFiles/level1.json"
+  ],
+  "baseLevel":  0
+}

@@ -19,11 +19,13 @@ void TestGameState::GameStateLoad(void)
 	Acrylicor::LoadTexturesFromFile("ObjectFiles/textures.json");
 
 	Acrylicor::LoadGameObjects("ObjectFiles/objects.json");
+
+	Acrylicor::LoadLevelConfig("LevelFiles/Levels.json");
 }
 
 void TestGameState::GameStateInit(void)
 {
-	Acrylicor::LoadLevel("LevelFiles/testLevel.json");
+	Acrylicor::LoadCurrentLevel();
 }
 
 void TestGameState::GameStateUpdate(double deltaTime)

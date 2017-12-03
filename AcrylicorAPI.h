@@ -102,6 +102,10 @@ namespace Acrylicor {
 	*/
 	void LoadLevel(String fileName);
 
+	void LoadLevelConfig(String fileName);
+
+	void LoadCurrentLevel();
+
 	//! void LoadShaderProgram(String fileName)
 	/*!
 	Parses a given json file for the name of the shader, the file path and names of the vertex and fragment shaders,

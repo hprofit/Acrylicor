@@ -363,6 +363,9 @@
     <ClInclude Include="GoalComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -578,6 +581,9 @@
     <ClCompile Include="GoalComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -693,6 +699,9 @@
     </None>
     <None Include="ObjectFiles\goal.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="LevelFiles\Levels.json">
+      <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
     </None>
   </ItemGroup>
 </Project>

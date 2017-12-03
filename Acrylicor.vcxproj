@@ -165,6 +165,7 @@
     <ClInclude Include="KeyReleasedEvent.h" />
     <ClInclude Include="KeyTriggeredEvent.h" />
     <ClInclude Include="KillZoneComponent.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LifeChangeEvent.h" />
     <ClInclude Include="LineSegment2D.h" />
     <ClInclude Include="LineSegment3D.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="KeyReleasedEvent.cpp" />
     <ClCompile Include="KeyTriggeredEvent.cpp" />
     <ClCompile Include="KillZoneComponent.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LifeChangeEvent.cpp" />
     <ClCompile Include="LineSegment2D.cpp" />
     <ClCompile Include="LineSegment3D.cpp" />
@@ -283,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LevelFiles\level1.json" />
+    <None Include="LevelFiles\Levels.json" />
     <None Include="LevelFiles\testLevel.json" />
     <None Include="ObjectFiles\background.json" />
     <None Include="ObjectFiles\boundaryBox.json" />

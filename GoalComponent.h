@@ -8,7 +8,7 @@ Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/20/17
+Creation date: 12/02/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
