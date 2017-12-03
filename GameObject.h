@@ -45,12 +45,16 @@ protected:
 	Tags m_tags;
 
 	void _CloneChildrenGameObjects(const GameObject & rhs);
+	void _CloneComponents(const GameObject& rhs);
 	void _SpawnChildrenAndAttachGameObjects(const GameObject & rhs);
 	void _SetId(unsigned int id);
 public:
 	friend GameObjectManager;
 
+	// This ctor is purely for use in building a GameObject archetype
 	GameObject(String type);
+
+	// These ctors are used in spawning an instance of a GameObject from a given GameObject prototype
 	GameObject(const GameObject & rhs);
 	GameObject(const GameObject & rhs, GameObject * parent);
 	GameObject& operator=(const GameObject & rhs);

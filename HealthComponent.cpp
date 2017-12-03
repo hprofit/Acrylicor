@@ -28,6 +28,7 @@ HealthComponent * HealthComponent::Clone(GameObject & parent)
 {
 	HealthComponent* comp = new HealthComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

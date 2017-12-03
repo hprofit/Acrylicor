@@ -62,6 +62,7 @@ AIAreaOfSightComponent * AIAreaOfSightComponent::Clone(GameObject & parent)
 {
 	AIAreaOfSightComponent* comp = new AIAreaOfSightComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 
@@ -72,6 +73,7 @@ Component * AIAreaOfSightComponent::Serialize(GameObject & gObject, nlohmann::js
 		AcryJson::ParseFloat(j, "aiAreaOfSight", "radius")
 	);
 	comp->_ParseEvents(j, "aiAreaOfSight");
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

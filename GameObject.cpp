@@ -11,6 +11,15 @@ void GameObject::_CloneChildrenGameObjects(const GameObject & rhs)
 	}
 }
 
+void GameObject::_CloneComponents(const GameObject & rhs)
+{
+	for (auto comp : rhs.m_components) {
+		if (comp.second) {
+			m_components[comp.first] = comp.second->Clone(*this);
+		}
+	}
+}
+
 void GameObject::_SpawnChildrenAndAttachGameObjects(const GameObject & rhs)
 {
 	GameObjectManager& gameObjMngr = GameObjectManager::GetInstance();
@@ -38,12 +47,8 @@ GameObject::GameObject(const GameObject& rhs) :
 	m_tags(rhs.m_tags)
 {
 	Activate();
-
-	for (auto comp : rhs.m_components) {
-		if (comp.second) {
-			m_components[comp.first] = comp.second->Clone(*this);
-		}
-	}
+	_AddSubscriberToTracker();
+	_CloneComponents(rhs);
 }
 
 GameObject::GameObject(const GameObject & rhs, GameObject * parent) :
@@ -53,12 +58,8 @@ GameObject::GameObject(const GameObject & rhs, GameObject * parent) :
 	m_tags(rhs.m_tags)
 {
 	Activate();
-
-	for (auto comp : rhs.m_components) {
-		if (comp.second) {
-			m_components[comp.first] = comp.second->Clone(*this);
-		}
-	}
+	_AddSubscriberToTracker();
+	_CloneComponents(rhs);
 }
 
 GameObject & GameObject::operator=(const GameObject & rhs)
@@ -66,11 +67,8 @@ GameObject & GameObject::operator=(const GameObject & rhs)
 	m_tags = rhs.m_tags;
 	ClearComponents();
 	Activate();
-	for (auto comp : rhs.m_components) {
-		if (comp.second) {
-			m_components[comp.first] = comp.second->Clone(*this);
-		}
-	}
+	_AddSubscriberToTracker();
+	_CloneComponents(rhs);
 	return *this;
 }
 

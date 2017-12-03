@@ -6,6 +6,8 @@
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 
+#include <iostream>
+
 SpawnerComponent::SpawnerComponent(GameObject& parent, String objectType) :
 	Component(parent, COMPONENT_TYPE::SPAWNER),
 	m_objectType(objectType){}
@@ -16,13 +18,12 @@ SpawnerComponent::SpawnerComponent(const SpawnerComponent & rhs, GameObject & pa
 
 SpawnerComponent::~SpawnerComponent() {}
 
-void SpawnerComponent::Update(double deltaTime)
-{}
+void SpawnerComponent::Update(double deltaTime){}
 
 SpawnerComponent * SpawnerComponent::Clone(GameObject & parent)
 {
 	SpawnerComponent * comp = new SpawnerComponent(*this, parent);
-	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 
@@ -31,7 +32,6 @@ Component * SpawnerComponent::Serialize(GameObject & gObject, nlohmann::json j)
 	SpawnerComponent* comp = new SpawnerComponent(gObject,
 		AcryJson::ParseString(j, "spawner", "type")
 	);
-	comp->_ParseEvents(j, "spawner");
 
 	return comp;
 }
@@ -40,6 +40,7 @@ void SpawnerComponent::Override(nlohmann::json j)
 {
 	m_objectType = AcryJson::ValueExists(j, "spawner", "type") ? AcryJson::ParseString(j, "spawner", "type") : m_objectType;
 	_ParseEvents(j, "spawner");
+	_SubscribeToEvents(this->m_eventsToSubscribeTo);
 }
 
 void SpawnerComponent::HandleEvent(AcryEvent * aEvent)

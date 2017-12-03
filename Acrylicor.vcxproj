@@ -291,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LevelFiles\level1.json" />
+    <None Include="LevelFiles\level2.json" />
     <None Include="LevelFiles\Levels.json" />
     <None Include="LevelFiles\testLevel.json" />
     <None Include="ObjectFiles\background.json" />

@@ -85,6 +85,7 @@ ControllerComponent * ControllerComponent::Clone(GameObject & parent)
 {
 	ControllerComponent* comp = new ControllerComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

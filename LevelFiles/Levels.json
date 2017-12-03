@@ -1,7 +1,9 @@
 {
   "levels": [
     "LevelFiles/testLevel.json",
-    "LevelFiles/level1.json"
+    "LevelFiles/level1.json",
+    "LevelFiles/level2.json"
   ],
-  "baseLevel":  0
+  "baseLevel": 0,
+  "lastLevel": 2
 }

@@ -1,5 +1,4 @@
 #include "EventManager.h"
-#include "GameObjectManager.h"
 #include "SubscriberTracker.h"
 #include "Subscriber.h"
 
@@ -8,8 +7,7 @@
 
 #include <iostream>
 
-EventManager::EventManager() :
-	_GameObjectManager(GameObjectManager::GetInstance())
+EventManager::EventManager()
 {}
 
 EventManager::~EventManager()

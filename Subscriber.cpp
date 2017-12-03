@@ -4,12 +4,16 @@
 
 Subscriber::Subscriber()
 {
-	SubscriberTracker::GetInstance().AddSubscriber(this);
 }
 
 Subscriber::~Subscriber()
 {
 	SubscriberTracker::GetInstance().RemoveSubscriber(this);
+}
+
+void Subscriber::_AddSubscriberToTracker()
+{
+	SubscriberTracker::GetInstance().AddSubscriber(this);
 }
 
 void Subscriber::_SubscribeToEvents(std::vector<String> events)

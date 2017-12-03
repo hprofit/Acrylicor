@@ -34,6 +34,7 @@ UI_EnergyComponent * UI_EnergyComponent::Clone(GameObject & parent)
 {
 	UI_EnergyComponent* comp = new UI_EnergyComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

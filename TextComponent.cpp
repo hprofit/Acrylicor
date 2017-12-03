@@ -74,6 +74,7 @@ TextComponent * TextComponent::Clone(GameObject & parent)
 {
 	TextComponent* comp = new TextComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

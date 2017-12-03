@@ -721,5 +721,8 @@
     <None Include="LevelFiles\Levels.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
     </None>
+    <None Include="LevelFiles\level2.json">
+      <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
+    </None>
   </ItemGroup>
 </Project>

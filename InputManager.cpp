@@ -38,14 +38,14 @@ void InputManager::Update()
 		//	if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 		//		client->resize(event.window.data1, event.window.data2);
 		//	break;
-		case SDL_MOUSEBUTTONDOWN:
-			if ((event.motion.state&SDL_BUTTON_LMASK) != 0 || (event.motion.state&SDL_BUTTON_RMASK) != 0)
-				std::cout << "Mouse button clicked." << std::endl;
-			break;
-		case SDL_MOUSEMOTION:
-			std::cout << "Mouse motion." << std::endl;
-				//client->mousedrag(event.motion.xrel, event.motion.yrel, (event.motion.state&SDL_BUTTON_LMASK) != 0);
-			break;
+		//case SDL_MOUSEBUTTONDOWN:
+		//	if ((event.motion.state&SDL_BUTTON_LMASK) != 0 || (event.motion.state&SDL_BUTTON_RMASK) != 0)
+		//		std::cout << "Mouse button clicked." << std::endl;
+		//	break;
+		//case SDL_MOUSEMOTION:
+		//	std::cout << "Mouse motion." << std::endl;
+		//		//client->mousedrag(event.motion.xrel, event.motion.yrel, (event.motion.state&SDL_BUTTON_LMASK) != 0);
+		//	break;
 		}
 	}
 

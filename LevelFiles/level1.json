@@ -11,8 +11,8 @@
         "scrollingSprite": {
           "color": {
             "r": 0.3,
-            "g": 0,
-            "b": 0.3,
+            "g": 0.3,
+            "b": 0,
             "a": 1
           }
         }
@@ -42,8 +42,8 @@
           "shader": "scrollingTileShader",
           "color": {
             "r": 0.5,
-            "g": 0,
-            "b": 0.3,
+            "g": 0.3,
+            "b": 0,
             "a": 1
           }
         }
@@ -114,12 +114,12 @@
       "killZone": {
         "physics": {
           "position": {
-            "y": 600
+            "y": 450
           },
           "body": {
             "type": "aabb",
-            "width": 1600,
-            "height": 80
+            "width": 4000,
+            "height": 100
           }
         },
         "killZone": {
@@ -134,12 +134,12 @@
       "killZone": {
         "physics": {
           "position": {
-            "y": -600
+            "y": -1000
           },
           "body": {
             "type": "aabb",
-            "width": 1600,
-            "height": 80
+            "width": 4000,
+            "height": 100
           }
         },
         "killZone": {
@@ -161,11 +161,11 @@
             "y": -240
           }
         },
-        "events": [
-          "respawn"
-        ],
         "spawner": {
-          "type": "player"
+          "type": "player",
+          "events": [
+            "respawn"
+          ]
         }
       }
     },
@@ -180,7 +180,17 @@
       }
     },
 
-
+    {
+      "goalObj": {
+        "goal": {
+          "type": "enemiesDefeated",
+          "count": 7,
+          "events": [
+            "goDestroyed"
+          ]
+        }
+      }
+    },
 
 
 

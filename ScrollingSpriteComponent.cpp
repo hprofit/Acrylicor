@@ -25,6 +25,7 @@ ScrollingSpriteComponent * ScrollingSpriteComponent::Clone(GameObject & parent)
 {
 	ScrollingSpriteComponent* comp = new ScrollingSpriteComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

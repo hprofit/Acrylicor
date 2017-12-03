@@ -33,6 +33,7 @@ AIRushComponent * AIRushComponent::Clone(GameObject & parent)
 {
 	AIRushComponent* comp = new AIRushComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

@@ -10,7 +10,8 @@ SubscriberTracker::~SubscriberTracker() {}
 
 void SubscriberTracker::AddSubscriber(Subscriber * subscriber)
 {
-	m_subscribers.push_back(subscriber);
+	if (std::find(m_subscribers.begin(), m_subscribers.end(), subscriber) == m_subscribers.end() )
+		m_subscribers.push_back(subscriber);
 }
 
 void SubscriberTracker::RemoveSubscriber(Subscriber * subscriber)

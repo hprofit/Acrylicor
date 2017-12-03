@@ -21,9 +21,6 @@ Creation date: 10/13/17
 #include "AcrylicorTypedefs.h"
 #include "AcryEvent.h"
 
-class GameObjectManager;
-//class GameObject;
-//class Component;
 class Subscriber;
 
 class EventManager
@@ -32,7 +29,6 @@ private:
 	std::unordered_map<EventType, std::vector<Subscriber*> > m_listeners;
 	std::vector<AcryEvent*> m_events;
 	double m_time;
-	GameObjectManager& _GameObjectManager;
 
 	EventManager();
 	~EventManager();

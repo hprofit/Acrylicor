@@ -36,6 +36,7 @@ UI_LivesComponent * UI_LivesComponent::Clone(GameObject & parent)
 {
 	UI_LivesComponent * comp = new UI_LivesComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

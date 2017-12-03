@@ -8,6 +8,7 @@
 GameObjectManager::GameObjectManager(unsigned int maxObjects) :
 	m_currentId(0), m_maxObjects(maxObjects)
 {
+	_AddSubscriberToTracker();
 	SubscribeToEvent(EventType::UNLOAD_LEVEL);
 }
 

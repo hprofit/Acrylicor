@@ -77,10 +77,11 @@ void CameraComponent::Update(double deltaTime)
 
 CameraComponent * CameraComponent::Clone(GameObject & parent)
 {
-	CameraComponent* cComp = new CameraComponent(*this, parent);
-	cComp->RegisterWithManager();
-	cComp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
-	return cComp;
+	CameraComponent* comp = new CameraComponent(*this, parent);
+	comp->RegisterWithManager();
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
+	return comp;
 }
 
 Component * CameraComponent::Serialize(GameObject & gObject, nlohmann::json j)

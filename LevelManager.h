@@ -35,6 +35,7 @@ private:
 	GameObjectManager& _GameObjectManager;
 
 	unsigned int m_currentLevel;
+	unsigned int m_lastLevel;
 	std::vector<String> m_levels;
 
 	LevelManager();

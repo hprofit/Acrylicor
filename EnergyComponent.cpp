@@ -34,6 +34,7 @@ EnergyComponent * EnergyComponent::Clone(GameObject & parent)
 {
 	EnergyComponent* comp = new EnergyComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

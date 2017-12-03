@@ -9,6 +9,7 @@ LevelManager::LevelManager() :
 	_EventManager(EventManager::GetInstance()),
 	_GameObjectManager(GameObjectManager::GetInstance())
 {
+	_AddSubscriberToTracker();
 	SubscribeToEvent(EventType::LOAD_LEVEL);
 	SubscribeToEvent(EventType::NEXT_LEVEL);
 	SubscribeToEvent(EventType::RESTART_LEVEL);
@@ -27,14 +28,18 @@ void LevelManager::HandleEvent(AcryEvent * aEvent)
 	break;
 	case EventType::RESTART_LEVEL:
 	{
+		_EventManager.BroadcastEventToSubscribers(new AcryEvent(EventType::UNLOAD_LEVEL));
 		LoadCurrentLevel();
 	}
 	break;
 	case EventType::LOAD_LEVEL:
 	{
 		LoadLevelEvent * llEvent = static_cast<LoadLevelEvent*>(aEvent);
-		m_currentLevel = llEvent->level;
-		LoadCurrentLevel();
+		if (llEvent->level <= m_lastLevel) {
+			m_currentLevel = llEvent->level;
+			_EventManager.BroadcastEventToSubscribers(new AcryEvent(EventType::UNLOAD_LEVEL));
+			LoadCurrentLevel();
+		}
 	}
 	break;
 	}
@@ -53,6 +58,7 @@ void LevelManager::LoadLevelConfig(String fileName)
 		}
 
 		m_currentLevel = AcryJson::ParseInt(jsonObj, "baseLevel");
+		m_lastLevel = AcryJson::ParseInt(jsonObj, "lastLevel");
 	}
 	catch (const json::parse_error& ex) {
 		std::cerr << ex.what() << std::endl;
@@ -84,5 +90,6 @@ void LevelManager::LoadCurrentLevel()
 
 void LevelManager::LoadNextLevel()
 {
-	LoadLevel(m_levels[++m_currentLevel]);
+	if (++m_currentLevel <= m_lastLevel)
+		LoadLevel(m_levels[m_currentLevel]);
 }

@@ -71,6 +71,7 @@ SpriteComponent * SpriteComponent::Clone(GameObject& parent)
 {
 	SpriteComponent* comp = new SpriteComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

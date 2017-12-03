@@ -50,6 +50,7 @@ void GoalComponent::Update(double deltaTime)
 GoalComponent * GoalComponent::Clone(GameObject & parent)
 {
 	GoalComponent* comp = new GoalComponent(*this, parent);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

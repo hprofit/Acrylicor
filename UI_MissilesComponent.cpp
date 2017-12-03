@@ -34,6 +34,7 @@ UI_MissilesComponent * UI_MissilesComponent::Clone(GameObject & parent)
 {
 	UI_MissilesComponent* comp = new UI_MissilesComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

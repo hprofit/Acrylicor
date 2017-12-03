@@ -44,6 +44,7 @@ AISwayComponent * AISwayComponent::Clone(GameObject & parent)
 {
 	AISwayComponent* comp = new AISwayComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

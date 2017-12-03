@@ -136,10 +136,11 @@ void PhysicsComponent::LateUpdate()
 
 PhysicsComponent * PhysicsComponent::Clone(GameObject & parent)
 {
-	PhysicsComponent* pComp = new PhysicsComponent(*this, parent);
-	pComp->RegisterWithManager();
-	pComp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
-	return pComp;
+	PhysicsComponent* comp = new PhysicsComponent(*this, parent);
+	comp->RegisterWithManager();
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
+	return comp;
 }
 
 Component * PhysicsComponent::Serialize(GameObject & gObject, nlohmann::json j)

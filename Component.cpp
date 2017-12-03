@@ -11,3 +11,4 @@ void Component::_ParseEvents(nlohmann::json j, String componentString)
 		}
 	}
 }
+

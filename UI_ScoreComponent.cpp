@@ -34,6 +34,7 @@ UI_ScoreComponent * UI_ScoreComponent::Clone(GameObject & parent)
 {
 	UI_ScoreComponent* comp = new UI_ScoreComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

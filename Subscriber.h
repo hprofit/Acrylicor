@@ -25,6 +25,7 @@ class Subscriber
 protected:
 	std::vector<String> m_eventsToSubscribeTo;
 
+	void _AddSubscriberToTracker();
 	void _SubscribeToEvents(std::vector<String> events);
 public:
 	Subscriber();

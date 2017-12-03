@@ -27,6 +27,7 @@ KillZoneComponent * KillZoneComponent::Clone(GameObject & parent)
 {
 	KillZoneComponent* comp = new KillZoneComponent(*this, parent);
 	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
 	return comp;
 }
 

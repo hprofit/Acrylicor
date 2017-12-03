@@ -114,10 +114,11 @@ void TransformComponent::Update(double deltaTime)
 
 TransformComponent * TransformComponent::Clone(GameObject & parent)
 {
-	TransformComponent* tComp = new TransformComponent(*this, parent);
-	tComp->RegisterWithManager();
-	tComp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
-	return tComp;
+	TransformComponent* comp = new TransformComponent(*this, parent);
+	comp->RegisterWithManager();
+	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
+	comp->_AddSubscriberToTracker();
+	return comp;
 }
 
 Component * TransformComponent::Serialize(GameObject& gObject, nlohmann::json j)
