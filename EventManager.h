@@ -22,13 +22,14 @@ Creation date: 10/13/17
 #include "AcryEvent.h"
 
 class GameObjectManager;
-class GameObject;
-class Component;
+//class GameObject;
+//class Component;
+class Subscriber;
 
 class EventManager
 {
 private:
-	std::unordered_map<EventType, std::pair<std::vector<GameObject*>, std::vector<Component*> > > m_listeners;
+	std::unordered_map<EventType, std::vector<Subscriber*> > m_listeners;
 	std::vector<AcryEvent*> m_events;
 	double m_time;
 	GameObjectManager& _GameObjectManager;
@@ -48,19 +49,13 @@ public:
 	void Update(double deltaTime);
 	void AddDelayedEvent(AcryEvent * newEvent);
 
-	void Subscribe(const String eType, GameObject* gObject);
-	void Subscribe(EventType eType, GameObject* gObject);
+	void Subscribe(const String eType, Subscriber* subscriber);
+	void Subscribe(EventType eType, Subscriber* subscriber);
 
-	void Subscribe(const String eType, Component* component);
-	void Subscribe(const EventType eType, Component* component);
+	void Unsubscribe(Subscriber* subscriber);
+	void Unsubscribe(const EventType eType, Subscriber* subscriber);
 
-	void Unsubscribe(GameObject* gObject);
-	void Unsubscribe(const EventType eType, GameObject* gObject);
-
-	void Unsubscribe(Component* component);
-	void Unsubscribe(const EventType eType, Component* component);
-
-	void UnsubscribeAll(GameObject* gObject);
+	void UnsubscribeAll(Subscriber* subscriber);
 
 	void BroadcastEvent(AcryEvent * aEvent);
 	void BroadcastEventToSubscribers(AcryEvent * aEvent);

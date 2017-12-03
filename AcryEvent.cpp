@@ -2,6 +2,10 @@
 #include <unordered_map>
 
 static std::unordered_map<String, EventType> TitleMap = {
+	{ "nextLevel", EventType::NEXT_LEVEL },
+	{ "restartLevel", EventType::RESTART_LEVEL },
+	{ "loadLevel", EventType::LOAD_LEVEL },
+
 	{ "dataAmount", EventType::DATA_AMOUNT },
 	{ "goDestroyed", EventType::GO_DESTROYED },
 	{ "enemyDestroyed", EventType::ENEMY_DESTROYED },

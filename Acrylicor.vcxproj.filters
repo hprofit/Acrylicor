@@ -366,6 +366,12 @@
     <ClInclude Include="LevelManager.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="Subscriber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubscriberTracker.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -582,6 +588,12 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Subscriber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubscriberTracker.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
   </ItemGroup>

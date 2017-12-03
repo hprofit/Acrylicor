@@ -19,6 +19,10 @@ Creation date: 10/13/17
 #include "AcrylicorTypedefs.h"
 
 enum class EventType {
+	NEXT_LEVEL,
+	RESTART_LEVEL,
+	LOAD_LEVEL,
+
 	DATA_AMOUNT,
 	GO_DESTROYED,
 	ENEMY_DESTROYED,

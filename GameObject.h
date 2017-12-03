@@ -22,6 +22,7 @@ Creation date: 10/13/17
 #include <map>
 #include <vector>
 #include "Tags.h"
+#include "Subscriber.h"
 
 const unsigned char FLAG_ACTIVE = 0x1;
 const unsigned char FLAG_READY_TO_DIE = 0x2;
@@ -29,14 +30,14 @@ const unsigned char FLAG_READY_TO_DIE = 0x2;
 class AcryEvent;
 class GameObjectManager;
 
-class GameObject
+class GameObject : 
+	public Subscriber
 {
 protected:
 	unsigned int m_id;
 	String m_type;
 	GameObject * m_parent;
 	std::vector<GameObject *> m_children;
-	std::vector<String> m_eventsToSubscribeTo;
 	std::vector<String> m_childrenToSpawn;
 	
 	unsigned char m_objectFlags;
@@ -54,6 +55,8 @@ public:
 	GameObject(const GameObject & rhs, GameObject * parent);
 	GameObject& operator=(const GameObject & rhs);
 	virtual ~GameObject();
+
+	virtual void UnsubscribeChildrenFromAll();
 
 	virtual void ResetFlags();
 
@@ -79,8 +82,6 @@ public:
 		return m_parent;
 	}
 	GameObject * GetChildOfType(String type) const;
-
-	void AddEventSubscription(String eventType);
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);

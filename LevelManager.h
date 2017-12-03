@@ -16,7 +16,9 @@ Creation date: 12/02/17
 #ifndef LEVEL_MANAGER_H
 #define LEVEL_MANAGER_H
 
+#include "Subscriber.h"
 #include "EventManager.h"
+#include "AcryEvent.h"
 #include "GameObjectManager.h"
 #include "AcrylicorTypedefs.h"
 #include "GameObject.h"
@@ -27,7 +29,8 @@ Creation date: 12/02/17
 
 class EventManager;
 
-class LevelManager
+class LevelManager : 
+	public Subscriber
 {
 private:
 	EventManager& _EventManager;
@@ -47,6 +50,8 @@ public:
 		static LevelManager instance;
 		return instance;
 	}
+
+	virtual void HandleEvent(AcryEvent * aEvent);
 
 	void LoadLevelConfig(String fileName);
 	void LoadLevel(String fileName);

@@ -1,5 +1,7 @@
 #include "EventManager.h"
 #include "GameObjectManager.h"
+#include "SubscriberTracker.h"
+#include "Subscriber.h"
 
 #include <utility>
 #include <algorithm>
@@ -40,88 +42,54 @@ void EventManager::AddDelayedEvent(AcryEvent * newEvent)
 	m_events.push_back(newEvent);
 }
 
-
-void EventManager::Subscribe(const String eType, GameObject * gObject)
+void EventManager::Subscribe(const String eType, Subscriber * subscriber)
 {
-	EventType t = AcryEvent::GetEventTypeFromTitle("junk");
-	m_listeners[AcryEvent::GetEventTypeFromTitle(eType)].first.push_back(gObject);
+	m_listeners[AcryEvent::GetEventTypeFromTitle(eType)].push_back(subscriber);
 }
 
-void EventManager::Subscribe(const EventType eType, GameObject * gObject)
+void EventManager::Subscribe(const EventType eType, Subscriber * subscriber)
 {
-	for (GameObject* listener : m_listeners[eType].first)
-		if (listener = gObject) return;
-	m_listeners[eType].first.push_back(gObject);
-}
-
-void EventManager::Subscribe(const String eType, Component * component)
-{
-	m_listeners[AcryEvent::GetEventTypeFromTitle(eType)].second.push_back(component);
-}
-
-void EventManager::Subscribe(const EventType eType, Component * component)
-{
-	for (Component* listener : m_listeners[eType].second)
-		if (listener = component) return;
-	m_listeners[eType].second.push_back(component);
+	for (Subscriber* listener : m_listeners[eType])
+		if (listener = subscriber) return;
+	m_listeners[eType].push_back(subscriber);
 }
 
 
-void EventManager::Unsubscribe(GameObject * gObject)
+void EventManager::Unsubscribe(Subscriber * subscriber)
 {
 	for (auto it : m_listeners)
-		Unsubscribe(it.first, gObject);
+		Unsubscribe(it.first, subscriber);
 }
 
-void EventManager::Unsubscribe(const EventType eType, GameObject * gObject)
+void EventManager::Unsubscribe(const EventType eType, Subscriber * subscriber)
 {
-	m_listeners[eType].first.erase(
-		std::remove(m_listeners[eType].first.begin(), m_listeners[eType].first.end(), gObject),
-		m_listeners[eType].first.end()
+	m_listeners[eType].erase(
+		std::remove(m_listeners[eType].begin(), m_listeners[eType].end(), subscriber),
+		m_listeners[eType].end()
 	);
 }
 
-void EventManager::Unsubscribe(Component * component)
-{
-	for (auto it : m_listeners)
-		Unsubscribe(it.first, component);
-}
 
-void EventManager::Unsubscribe(const EventType eType, Component * component)
+void EventManager::UnsubscribeAll(Subscriber * subscriber)
 {
-	m_listeners[eType].second.erase(
-		std::remove(m_listeners[eType].second.begin(), m_listeners[eType].second.end(), component),
-		m_listeners[eType].second.end()
-	);
-}
-
-void EventManager::UnsubscribeAll(GameObject * gObject)
-{
-	std::map<COMPONENT_TYPE, Component*> components = gObject->GetComponents();
-	std::map<COMPONENT_TYPE, Component*>::iterator it;
-
-	for (it = components.begin(); it != components.end(); ++it) {
-		Unsubscribe(it->second);
-	}
-	Unsubscribe(gObject);
+	subscriber->UnsubscribeChildrenFromAll();
+	Unsubscribe(subscriber);
 }
 
 
 void EventManager::BroadcastEvent(AcryEvent * aEvent)
 {
+	SubscriberTracker& subscriberTracker = SubscriberTracker::GetInstance();
 	unsigned int i = 0;
-	for (i = 0; i < _GameObjectManager.m_gameObjects.size(); ++i) {
-		if (_GameObjectManager.m_gameObjects[i] && _GameObjectManager.m_gameObjects[i]->IsActive())
-			_GameObjectManager.m_gameObjects[i]->HandleEvent(aEvent);
+	for (i = 0; i < subscriberTracker.m_subscribers.size(); ++i) {
+		if (subscriberTracker.m_subscribers[i])
+			subscriberTracker.m_subscribers[i]->HandleEvent(aEvent);
 	}
 }
 
 void EventManager::BroadcastEventToSubscribers(AcryEvent * aEvent)
 {
 	unsigned int i = 0;
-	for (i = 0; i < m_listeners[aEvent->Type()].first.size(); ++i)
-		m_listeners[aEvent->Type()].first[i]->HandleEvent(aEvent);
-
-	for (i = 0; i < m_listeners[aEvent->Type()].second.size(); ++i)
-		m_listeners[aEvent->Type()].second[i]->HandleEvent(aEvent);
+	for (i = 0; i < m_listeners[aEvent->Type()].size(); ++i)
+		m_listeners[aEvent->Type()][i]->HandleEvent(aEvent);
 }

@@ -16,6 +16,7 @@ Creation date: 10/13/17
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include "Subscriber.h"
 #include "AcrylicorTypedefs.h"
 #include "ComponentTypes.h"
 #include "json.hpp"
@@ -23,15 +24,13 @@ Creation date: 10/13/17
 class GameObject;
 class AcryEvent;
 
-class Component
+class Component :
+	public Subscriber
 {
 protected:
-	std::vector<String> m_eventsToSubscribeTo;
-
 	Component(GameObject& parent, COMPONENT_TYPE type, bool priority = false) :
 		m_parent(parent), m_type(type), m_priority(priority) {}
 
-	void _SubscribeToEvents(std::vector<String> events);
 	void _ParseEvents(nlohmann::json j, String componentString);
 public:
 	GameObject& m_parent;
@@ -51,6 +50,5 @@ public:
 	virtual void LateInitialize() {};
 
 	virtual bool IsPriorityComp() const { return m_priority; }
-	virtual void AddEventSubscription(String eventType);
 };
 #endif

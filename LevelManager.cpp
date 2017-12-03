@@ -10,6 +10,17 @@ LevelManager::LevelManager() :
 
 LevelManager::~LevelManager(){}
 
+void LevelManager::HandleEvent(AcryEvent * aEvent)
+{
+	switch (aEvent->Type()) {
+	case EventType::NEXT_LEVEL:
+	{
+
+	}
+	break;
+	}
+}
+
 void LevelManager::LoadLevelConfig(String fileName)
 {
 	try {

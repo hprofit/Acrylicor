@@ -79,6 +79,16 @@ GameObject::~GameObject()
 	ClearComponents();
 }
 
+void GameObject::UnsubscribeChildrenFromAll()
+{
+	EventManager& eventMngr = EventManager::GetInstance();
+	std::map<COMPONENT_TYPE, Component*>::iterator it;
+	for (it = m_components.begin(); it != m_components.end(); ++it) {
+		if (it->second)
+			eventMngr.UnsubscribeAll(it->second);
+	}
+}
+
 void GameObject::ResetFlags()
 {
 	m_objectFlags = 0;
@@ -141,11 +151,6 @@ GameObject * GameObject::GetChildOfType(String type) const
 			return child;
 	}
 	return nullptr;
-}
-
-void GameObject::AddEventSubscription(String eventType)
-{
-	EventManager::GetInstance().Subscribe(eventType, this);
 }
 
 bool GameObject::Has(COMPONENT_TYPE type)

@@ -195,6 +195,8 @@
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="STBSurface.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Subscriber.h" />
+    <ClInclude Include="SubscriberTracker.h" />
     <ClInclude Include="Tags.h" />
     <ClInclude Include="TargetFoundEvent.h" />
     <ClInclude Include="TestGameState.h" />
@@ -269,6 +271,8 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="SpawnerComponent.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="Subscriber.cpp" />
+    <ClCompile Include="SubscriberTracker.cpp" />
     <ClCompile Include="Tags.cpp" />
     <ClCompile Include="TargetFoundEvent.cpp" />
     <ClCompile Include="TestGameState.cpp" />
