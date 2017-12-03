@@ -1,20 +1,27 @@
 [
   { "camera": "ObjectFiles/camera.json" },
-  { "playerSpawner": "ObjectFiles/playerSpawner.json" },
+  { "spawner": "ObjectFiles/spawner.json" },
   { "player": "ObjectFiles/player.json" },
   { "playerDrone": "ObjectFiles/playerDrone.json" },
   { "gun": "ObjectFiles/gun.json" },
   { "missileLauncher": "ObjectFiles/missileLauncher.json" },
+
   { "UI_lives": "ObjectFiles/UI/UI_lives.json" },
   { "UI_score": "ObjectFiles/UI/UI_score.json" },
   { "UI_missiles": "ObjectFiles/UI/UI_missiles.json" },
   { "UI_energy": "ObjectFiles/UI/UI_energy.json" },
+  { "UI_controls": "ObjectFiles/UI/UI_controls.json" },
+
   { "HUD": "ObjectFiles/UI/HUD.json" },
-  { "enemy": "ObjectFiles/enemy.json" },
+
+  { "swayer": "ObjectFiles/swayer.json" },
   { "drone": "ObjectFiles/drone.json" },
+
   { "background": "ObjectFiles/background.json" },
   { "bullet": "ObjectFiles/bullets/bullet.json" },
   { "missile": "ObjectFiles/bullets/missile.json" },
   { "killZone": "ObjectFiles/killZone.json" },
-  { "boundaryBox": "ObjectFiles/boundaryBox.json" }
+  { "boundaryBox": "ObjectFiles/boundaryBox.json" },
+
+  { "goalObj": "ObjectFiles/goal.json" }
 ]

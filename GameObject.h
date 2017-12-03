@@ -32,6 +32,7 @@ class GameObjectManager;
 class GameObject
 {
 protected:
+	unsigned int m_id;
 	String m_type;
 	GameObject * m_parent;
 	std::vector<GameObject *> m_children;
@@ -44,7 +45,7 @@ protected:
 
 	void _CloneChildrenGameObjects(const GameObject & rhs);
 	void _SpawnChildrenAndAttachGameObjects(const GameObject & rhs);
-
+	void _SetId(unsigned int id);
 public:
 	friend GameObjectManager;
 
@@ -97,6 +98,8 @@ public:
 	};
 
 	Tags& Tags();
+
+	unsigned int GetId() const { return m_id; }
 };
 
 #endif

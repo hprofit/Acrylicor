@@ -26,6 +26,7 @@ class EventManager;
 class GameObjectManager
 {
 private:
+	unsigned int m_currentId;
 	unsigned int m_maxObjects;
 	std::vector<GameObject * > m_gameObjects;
 	std::vector<Component * > m_cameras;
@@ -41,6 +42,7 @@ private:
 	void _SetActiveCamera(GameObject* gObject);
 	GameObject * _AddGameObjectToList(GameObject* gameObject);
 	GameObject * _GetObjectArchetype(String objectType);
+	unsigned int _GetNextId();
 public:
 	GameObjectManager(const GameObjectManager &) = delete;
 	void operator=(const GameObjectManager &) = delete;

@@ -6,7 +6,7 @@
 #include <iostream>
 
 GameObjectManager::GameObjectManager(unsigned int maxObjects) :
-	m_maxObjects(maxObjects)
+	m_currentId(0), m_maxObjects(maxObjects)
 {}
 
 GameObjectManager::~GameObjectManager()
@@ -54,6 +54,11 @@ GameObject * GameObjectManager::_GetObjectArchetype(String objectType)
 	return GameObjectFactory::GetInstance()._GetObjectArchetype(objectType);
 }
 
+unsigned int GameObjectManager::_GetNextId()
+{
+	return ++m_currentId;
+}
+
 GameObject * GameObjectManager::SpawnGameObject(String objectType)
 {
 	return SpawnGameObject(objectType, nullptr);
@@ -64,6 +69,7 @@ GameObject * GameObjectManager::SpawnGameObject(String objectType, GameObject * 
 	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
 
 	GameObject * newGameObject = new GameObject(*gameObjArchetype, parent);
+	newGameObject->_SetId(_GetNextId());
 	newGameObject->_CloneChildrenGameObjects(*gameObjArchetype);
 	newGameObject->_SpawnChildrenAndAttachGameObjects(*gameObjArchetype);
 
@@ -75,7 +81,7 @@ void GameObjectManager::SpawnGameObjectFromFile(nlohmann::json j)
 {
 	String objectType = j.begin().key();
 	GameObject * newGameObject = GameObjectFactory::GetInstance()._SpawnObjectWithOverrides(objectType, j[objectType]);
-
+	newGameObject->_SetId(_GetNextId());
 	GameObject * gameObjArchetype = _GetObjectArchetype(objectType);
 	newGameObject->_CloneChildrenGameObjects(*gameObjArchetype);
 	newGameObject->_SpawnChildrenAndAttachGameObjects(*gameObjArchetype);

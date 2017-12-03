@@ -23,23 +23,33 @@ struct CollisionResult {
 	bool collided;
 	float timeOfImpact;
 	Vector3D pointOfImpact;
+	Vector3D lhs_poi;
+	Vector3D rhs_poi;
 
 	CollisionResult(bool _collided = false) :
-		collided(_collided), timeOfImpact(-1.f), pointOfImpact(Vector3D()) {};
+		collided(_collided), timeOfImpact(-1.f), pointOfImpact(Vector3D()), lhs_poi(Vector3D()), rhs_poi(Vector3D()) {};
 
 	CollisionResult(const CollisionResult& rhs) : 
-		collided(rhs.collided), timeOfImpact(rhs.timeOfImpact), pointOfImpact(rhs.pointOfImpact) {}
+		collided(rhs.collided), 
+		timeOfImpact(rhs.timeOfImpact),
+		pointOfImpact(rhs.pointOfImpact), 
+		lhs_poi(rhs.lhs_poi),
+		rhs_poi(rhs.rhs_poi) {}
 
 	CollisionResult& operator=(const CollisionResult& rhs) {
 		collided = rhs.collided;
 		timeOfImpact = rhs.timeOfImpact;
 		pointOfImpact = rhs.pointOfImpact;
+		lhs_poi = rhs.lhs_poi;
+		rhs_poi = rhs.rhs_poi;
 		return *this;
 	}
 
-	void Set(float toi, Vector3D poi) {
+	void Set(float toi, Vector3D poi, Vector3D lhs, Vector3D rhs) {
 		timeOfImpact = toi;
 		pointOfImpact = poi;
+		lhs_poi = lhs;
+		rhs_poi = rhs;
 		collided = true;
 	}
 };

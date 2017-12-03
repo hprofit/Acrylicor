@@ -1,4 +1,7 @@
 {
+  "tags": [
+    "enemy"
+  ],
   "transform": {
     "position": {
       "x": 0,
@@ -19,9 +22,6 @@
     "name": "enemy",
     "frameX": 0,
     "frameY": 0
-  },
-  "aiSway": {
-    "amount": 500
   },
   "aiRush": {
     "direction": "forward",

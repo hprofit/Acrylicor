@@ -25,6 +25,7 @@
 #include "UI_EnergyComponent.h"
 #include "KillZoneComponent.h"
 #include "DashComponent.h"
+#include "GoalComponent.h"
 
 GameObjectFactory::GameObjectFactory()
 {}
@@ -65,6 +66,7 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "uiEnergy"))			gObject->Get(COMPONENT_TYPE::UI_ENERGY)->Override(j);
 		else if (AcryJson::KeyIs(it, "killZone"))			gObject->Get(COMPONENT_TYPE::KILL_ZONE)->Override(j);
 		else if (AcryJson::KeyIs(it, "dash"))				gObject->Get(COMPONENT_TYPE::DASH)->Override(j);
+		else if (AcryJson::KeyIs(it, "goal"))				gObject->Get(COMPONENT_TYPE::GOAL)->Override(j);
 	}
 	return gObject;
 }
@@ -130,6 +132,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "uiEnergy"))			gObject->AddComponent(UI_EnergyComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "killZone"))			gObject->AddComponent(KillZoneComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "dash"))				gObject->AddComponent(DashComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "goal"))				gObject->AddComponent(GoalComponent::Serialize(*gObject, j));
 
 				// Special case, hook up to parent from here
 				else if (AcryJson::KeyIs(it, "parent"))				_AttachGameObjectToParentGameObjectArchetype(j["parent"], gObject);

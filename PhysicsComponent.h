@@ -30,6 +30,7 @@ protected:
 	Vector3D m_acceleration;
 	Vector3D m_position;
 	Vector3D m_prevPosition;
+	Vector3D m_updatedPosition;
 	Vector3D m_force;
 	float m_mass;
 	float m_InvMass;
@@ -40,6 +41,8 @@ protected:
 	bool m_static;
 
 	TransformComponent* m_tComp;
+
+	void _SetUpdatedPosition(Vector3D pos);
 public:
 	PhysicsComponent(GameObject& parent);
 	PhysicsComponent(GameObject& parent, Vector3D position, Vector3D velocity);

@@ -18,6 +18,11 @@
 
 #include <iostream>
 
+void PhysicsComponent::_SetUpdatedPosition(Vector3D pos)
+{
+	m_updatedPosition = pos;
+}
+
 #pragma region Ctor/Dtor
 PhysicsComponent::PhysicsComponent(GameObject& parent) :
 	Component(parent, COMPONENT_TYPE::PHYSICS, true),
@@ -102,6 +107,8 @@ void PhysicsComponent::Update(double deltaTime)
 
 void PhysicsComponent::Update(double deltaTime, float gravity)
 {
+	if (m_static) return;
+
 	m_prevPosition = m_position;
 	if (!m_weightless) {
 		m_force -= Vector3D(1.f, 1.f, 1.f) * gravity;
@@ -116,6 +123,7 @@ void PhysicsComponent::Update(double deltaTime, float gravity)
 	}
 
 	m_position += m_velocity * (float)deltaTime;
+	m_updatedPosition = m_position;
 
 	m_force = Vector3D();
 }
@@ -123,6 +131,7 @@ void PhysicsComponent::Update(double deltaTime, float gravity)
 void PhysicsComponent::LateUpdate()
 {
 	m_tComp->SetPosition(m_position);
+	//m_tComp->SetPosition(m_updatedPosition);
 }
 
 PhysicsComponent * PhysicsComponent::Clone(GameObject & parent)
@@ -224,7 +233,8 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		}
 		// Enemy on Enemy -- No Pass
 		else if ((m_body->Tags().HasTag("enemy") && otherPComp->Body().Tags().HasTag("enemy")) && 
-			m_body->Tags().HasTag("noPass")) {
+				  m_body->Tags().HasTag("noPass")) {
+			//std::cout << m_parent.GetId() << std::endl;
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
 		}
@@ -276,15 +286,22 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 	case EventType::PUSH_FROM_BODY:
 	{
 		PushFromBodyEvent * rEvent = static_cast<PushFromBodyEvent*>(aEvent);
-
+		
 		if (!m_body->Tags().HasTag("stationary")) {
 			Contact contact = rEvent->GetContact();
+			bool lhs = contact.LHS_GO()->Get(COMPONENT_TYPE::PHYSICS) == this;
+			Vector3D POI = lhs ? contact.Collision().rhs_poi : contact.Collision().lhs_poi;
+			GameObject * other = lhs ? contact.LHS_GO() : contact.RHS_GO();
+			PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
+
 			Vector3D pushDirection = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(
-				*static_cast<PhysicsComponent*>(contact.LHS_GO()->Get(COMPONENT_TYPE::PHYSICS)),
-				*static_cast<PhysicsComponent*>(contact.RHS_GO()->Get(COMPONENT_TYPE::PHYSICS)),
+				*this,
+				*otherPComp,
 				contact.Collision()
 			);
-			SetPosition(m_position + pushDirection);
+			//_SetUpdatedPosition(m_position + pushDirection);
+			//SetPosition(m_position + pushDirection);
+			SetPosition(POI + pushDirection);
 		}
 	}
 	break;

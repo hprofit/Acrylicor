@@ -131,7 +131,7 @@ CollisionResult AnimatedPointToStaticLineSegment(const Vector3D & Ps, const Vect
 		Vector3D::Dot(collisionPoint - LS.getP1(), LSPeSubLSPs) < 0)
 		return cr;
 
-	cr.Set(t, collisionPoint);
+	cr.Set(t, collisionPoint, collisionPoint, collisionPoint);
 	return cr;
 }
 
@@ -166,7 +166,8 @@ CollisionResult AnimatedPointToStaticCircle(const Vector3D & Ps, const Vector3D 
 	if (ti0 < 0.0f || 1.0f < ti0 || sSquared < 0.0f)
 		return cr;
 
-	cr.Set(ti0, (vNorm * ti0) + Ps);
+	Vector3D collisionPoint = (vNorm * ti0) + Ps;
+	cr.Set(ti0, collisionPoint, collisionPoint, Center);
 	return cr;
 }
 #pragma endregion
@@ -218,7 +219,7 @@ CollisionResult AnimatedCircleToStaticLineSegment(const Vector3D & Ps, const Vec
 		(Vector3D::Dot(collisionPoint - LS.getP0(), LS.getP1() - LS.getP0()) < 0.0f)) // Point of intersection with the infinite line but not finite line
 		return cr;
 
-	cr.Set(t, collisionPoint);
+	cr.Set(t, collisionPoint, collisionPoint, collisionPoint);
 	return cr;
 }
 #pragma endregion
@@ -242,7 +243,7 @@ CollisionResult AnimatedCircleToAnimatedRect(const Vector3D & CircleStart, const
 		Vector3D ct = CircleStart + (vCircle * (t * vCircleLen));
 		Vector3D rt = RectStart + (vRect * (t * vRectLen));
 		if (StaticRectToStaticCircle(rt, halfWidth, halfHeight, rect, ct, Radius)) {
-			cr.Set(t, _SnapPointStaticCircleToStaticRect(ct, rt, halfWidth, halfHeight));
+			cr.Set(t, _SnapPointStaticCircleToStaticRect(ct, rt, halfWidth, halfHeight), ct, rt);
 			break;
 		}
 	}
@@ -281,7 +282,7 @@ CollisionResult AnimatedCircleToAnimatedCircle(const Vector3D & Start0, const Ve
 		Vector3D ct0 = Start0 + (v0 * (t * v0Len));
 		Vector3D ct1 = Start1 + (v1 * (t * v1Len));
 		if (StaticCircleToStaticCircle(ct0, Radius0, ct1, Radius1)) {
-			cr.Set(t, Vector3D::Normalize(ct1 - ct0) * Radius1);
+			cr.Set(t, ct0 + (Vector3D::Normalize(ct1 - ct0) * Radius0), ct0, ct1);
 			break;
 		}
 	}
@@ -361,20 +362,15 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 
 #pragma region Push Methods
 #pragma region Circle
-Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const Vector3D & Pi, const float Radius, const Vector3D & OtherCircle, const float OtherRadius, const CollisionResult & CR)
+Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const float OtherRadius, const CollisionResult & CR)
 {
 	float expectedDistance = (Radius + OtherRadius);
-	float actualDistance = Vector3D::Distance(OtherCircle, Pe);
+	//float actualDistance = Vector3D::Distance(OtherCircle, Pi);
+	float actualDistance = Vector3D::Distance(CR.rhs_poi, CR.lhs_poi);
 	float force = expectedDistance - actualDistance;
-
-	return Vector3D::Normalize(OtherCircle - Pe) * (force + 1.f);
-
-	// Optimization:
-	// expectedDistanceSq = (R + OR) * (R + OR)
-	// difference = OC - Pi
-	// dLen = difference.Length
-	// force = expectedDistanceSq - dSizeSq
-	// return (difference * (1.f / dSizeQ
+	//force /= 2.f;
+	//return Vector3D::Normalize(Pi - OtherCircle) * (force + 1.f);
+	return Vector3D::Normalize(CR.lhs_poi - CR.rhs_poi) * (force + 1.f);
 }
 
 Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR) {
@@ -382,7 +378,7 @@ Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius, cons
 	Vector3D pushDir = CircleEnd - snappedPoint;
 	float pushLen = pushDir.Length();
 	float pushForce = Radius - pushLen;
-	return (pushDir / pushLen) * (pushForce + 1.f);
+	return (pushDir / pushLen) * (pushForce + 2.f);
 }
 
 #pragma endregion

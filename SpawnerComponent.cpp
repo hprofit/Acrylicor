@@ -39,6 +39,7 @@ Component * SpawnerComponent::Serialize(GameObject & gObject, nlohmann::json j)
 void SpawnerComponent::Override(nlohmann::json j)
 {
 	m_objectType = AcryJson::ValueExists(j, "spawner", "type") ? AcryJson::ParseString(j, "spawner", "type") : m_objectType;
+	_ParseEvents(j, "spawner");
 }
 
 void SpawnerComponent::HandleEvent(AcryEvent * aEvent)

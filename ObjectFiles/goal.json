@@ -1,0 +1,10 @@
+{
+  "tags": [
+  ],
+  "children": [
+  ],
+  "goal": {
+    "type": "enemiesDefeated",
+    "count": 2
+  }
+}

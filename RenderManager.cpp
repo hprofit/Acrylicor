@@ -170,14 +170,14 @@ void RenderManager::_RenderText(TextComponent * textComp, TransformComponent * t
 	std::vector< std::vector<TexCoords> > textureOffsets = textComp->GetTextureOffsets();
 	std::pair< std::vector< std::pair<int, int> >, std::vector<Vector3D *> > letterData = textComp->GetLetterData();
 
-	unsigned int i = 0;
+	unsigned int x = 0;
 	Matrix4x4 M, N;
 
 	int triCount = 3 * textComp->GetMesh().faceCount();
 	const GLuint faceBuffer = textComp->GetMesh().GetFaceBuffer();
 	const float xScale = transComp->GetScaleX();
 	for (std::pair<int, int> letter : letterData.first) {
-		M = transComp->GetModelTransformWithTranslateOffset(Vector3D(xScale * i, 0, 0));
+		M = transComp->GetModelTransformWithTranslateOffset(Vector3D(xScale * x, 0, 0));
 		glUniformMatrix4fv(m_currentProgram->GetUniform("model_matrix"), 1, true, (float*)M);
 		N = Matrix4x4::Transpose3x3(Matrix4x4::Inverse3x3(M));
 		glUniformMatrix4fv(m_currentProgram->GetUniform("normal_matrix"), 1, true, (float*)N);
@@ -191,7 +191,7 @@ void RenderManager::_RenderText(TextComponent * textComp, TransformComponent * t
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, faceBuffer);
 		glDrawElements(GL_TRIANGLES, triCount, GL_UNSIGNED_INT, 0);
 
-		++i;
+		++x;
 	}
 }
 

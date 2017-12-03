@@ -41,6 +41,8 @@ const enum class COMPONENT_TYPE {
 	KILL_ZONE,
 	DASH,
 
+	GOAL,
+
 	UI_LIVES,
 	UI_SCORE,
 	UI_MISSILES,

@@ -7,6 +7,7 @@
 #include "SDL_keyboard.h"
 #include <string.h>
 #include <stdio.h>
+#include <iostream>
 
 InputManager::InputManager()
 {
@@ -29,33 +30,23 @@ void InputManager::Update()
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
-		/*
 		switch (event.type) {
-		//case SDL_QUIT:
-		//	done = true;
-		//	break;
-		case SDL_KEYUP:
-			KeyReleased(event.key.keysym.sym);
+		case SDL_QUIT:
 			break;
-		case SDL_KEYDOWN:
-			//if (event.key.keysym.sym == SDLK_ESCAPE)
-			//	done = true;
-			//else
 
-			KeyPressed(event.key.keysym.sym);
-			break;
 		//case SDL_WINDOWEVENT:
 		//	if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 		//		client->resize(event.window.data1, event.window.data2);
 		//	break;
-		//case SDL_MOUSEMOTION:
-		//	if ((event.motion.state&SDL_BUTTON_LMASK) != 0
-		//		|| (event.motion.state&SDL_BUTTON_RMASK) != 0)
-		//		client->mousedrag(event.motion.xrel, event.motion.yrel,
-		//		(event.motion.state&SDL_BUTTON_LMASK) != 0);
-		//	break;
+		case SDL_MOUSEBUTTONDOWN:
+			if ((event.motion.state&SDL_BUTTON_LMASK) != 0 || (event.motion.state&SDL_BUTTON_RMASK) != 0)
+				std::cout << "Mouse button clicked." << std::endl;
+			break;
+		case SDL_MOUSEMOTION:
+			std::cout << "Mouse motion." << std::endl;
+				//client->mousedrag(event.motion.xrel, event.motion.yrel, (event.motion.state&SDL_BUTTON_LMASK) != 0);
+			break;
 		}
-		*/
 	}
 
 	memcpy(m_prevState, m_currentState, m_length * sizeof(Uint8));

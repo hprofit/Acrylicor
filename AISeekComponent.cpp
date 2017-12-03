@@ -69,16 +69,10 @@ AISeekComponent::AISeekComponent(const AISeekComponent & rhs, GameObject & paren
 	m_tagToFind(rhs.m_tagToFind), m_maxTurnSpeed(rhs.m_maxTurnSpeed), m_speed(rhs.m_speed)
 {}
 
-AISeekComponent::~AISeekComponent()
-{}
+AISeekComponent::~AISeekComponent(){}
 
 void AISeekComponent::Update(double deltaTime)
 {
-	//if (!m_target || (m_target && m_target->IsDead()))
-	//	_FindNewTarget();
-	//else
-	//	_SeekTarget(deltaTime);
-
 	if (m_target && !m_target->IsDead())
 		_SeekTarget(deltaTime);
 }

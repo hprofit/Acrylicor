@@ -116,7 +116,7 @@ static Vector3D PushCircleFromCircle(const PhysicsComponent & compToPush, const 
 	Circle* lhsC = static_cast<Circle*>(compToPush.GetBodyPtr());
 	Circle* rhsC = static_cast<Circle*>(surface.GetBodyPtr());
 
-	return PushCircleFromCircle(compToPush.GetPrevPosition(), compToPush.GetPosition(), compToPush.GetPositionAtTime(cr.timeOfImpact), lhsC->m_radius, surface.GetPositionAtTime(cr.timeOfImpact), rhsC->m_radius, cr);
+	return PushCircleFromCircle(compToPush.GetPrevPosition(), compToPush.GetPosition(), lhsC->m_radius, rhsC->m_radius, cr);
 }
 
 static Vector3D PushCircleFromAABB(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const CollisionResult& cr) {
@@ -225,8 +225,8 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive()) {
 			PhysicsComponent* lhs = static_cast<PhysicsComponent*>(m_physicsBodies[i]);
 
-			unsigned int j = i;
-			for (j = i; j < m_physicsBodies.size(); ++j) {
+			unsigned int j = i+1;
+			for (j = i+1; j < m_physicsBodies.size(); ++j) {
 				if (i == j)
 					continue;
 				if (m_physicsBodies[j] && m_physicsBodies[j]->m_parent.IsActive()) {

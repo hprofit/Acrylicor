@@ -124,6 +124,9 @@
     <Filter Include="Source Files\TEST_FILES\Json\Objects\Projectile">
       <UniqueIdentifier>{a2a7580e-1146-4a97-b27c-87650c2363e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\Objects\Enemies">
+      <UniqueIdentifier>{575d20ee-15ba-45b5-9c1f-4ca88e6944cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -346,7 +349,19 @@
       <Filter>Header Files\Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="TargetFoundEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyTriggeredEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyReleasedEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseMotionEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -549,7 +564,19 @@
       <Filter>Source Files\Components\AI</Filter>
     </ClCompile>
     <ClCompile Include="TargetFoundEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyTriggeredEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyReleasedEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseMotionEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -580,9 +607,6 @@
     <None Include="Shaders\scrollingTileVertShader.vert">
       <Filter>Source Files\TEST_FILES\Shaders</Filter>
     </None>
-    <None Include="ObjectFiles\enemy.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
     <None Include="ObjectFiles\player.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
@@ -598,9 +622,6 @@
     <None Include="LevelFiles\level1.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
     </None>
-    <None Include="ObjectFiles\drone.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
     <None Include="Shaders\lineShader.frag">
       <Filter>Source Files\TEST_FILES\Shaders</Filter>
     </None>
@@ -611,9 +632,6 @@
       <Filter>Source Files\TEST_FILES\Json\Shaders</Filter>
     </None>
     <None Include="ObjectFiles\playerDrone.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
-    </None>
-    <None Include="ObjectFiles\playerSpawner.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
     <None Include="LevelFiles\testLevel.json">
@@ -657,6 +675,24 @@
     </None>
     <None Include="ObjectFiles\gun.json">
       <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_controls.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="ObjectFiles\swayer.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
+    </None>
+    <None Include="ObjectFiles\drone.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
+    </None>
+    <None Include="ObjectFiles\sniper.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
+    </None>
+    <None Include="ObjectFiles\spawner.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="ObjectFiles\goal.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -154,6 +154,7 @@
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectFactory.h" />
+    <ClInclude Include="GoalComponent.h" />
     <ClInclude Include="GODestroyedEvent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="IGameState.h" />
@@ -161,6 +162,8 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonReader.h" />
     <ClInclude Include="KeyPressEvent.h" />
+    <ClInclude Include="KeyReleasedEvent.h" />
+    <ClInclude Include="KeyTriggeredEvent.h" />
     <ClInclude Include="KillZoneComponent.h" />
     <ClInclude Include="LifeChangeEvent.h" />
     <ClInclude Include="LineSegment2D.h" />
@@ -175,6 +178,7 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="MissileCountChangeEvent.h" />
     <ClInclude Include="MissileLauncherComponent.h" />
+    <ClInclude Include="MouseMotionEvent.h" />
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PhysicsComponent.h" />
@@ -226,11 +230,14 @@
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectFactory.cpp" />
+    <ClCompile Include="GoalComponent.cpp" />
     <ClCompile Include="GODestroyedEvent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="KeyPressEvent.cpp" />
+    <ClCompile Include="KeyReleasedEvent.cpp" />
+    <ClCompile Include="KeyTriggeredEvent.cpp" />
     <ClCompile Include="KillZoneComponent.cpp" />
     <ClCompile Include="LifeChangeEvent.cpp" />
     <ClCompile Include="LineSegment2D.cpp" />
@@ -246,6 +253,7 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="MissileCountChangeEvent.cpp" />
     <ClCompile Include="MissileLauncherComponent.cpp" />
+    <ClCompile Include="MouseMotionEvent.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
@@ -284,7 +292,10 @@
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\drone.json" />
-    <None Include="ObjectFiles\enemy.json" />
+    <None Include="ObjectFiles\goal.json" />
+    <None Include="ObjectFiles\sniper.json" />
+    <None Include="ObjectFiles\spawner.json" />
+    <None Include="ObjectFiles\swayer.json" />
     <None Include="ObjectFiles\gun.json" />
     <None Include="ObjectFiles\killZone.json" />
     <None Include="ObjectFiles\lineShader.json" />
@@ -292,11 +303,11 @@
     <None Include="ObjectFiles\objects.json" />
     <None Include="ObjectFiles\player.json" />
     <None Include="ObjectFiles\playerDrone.json" />
-    <None Include="ObjectFiles\playerSpawner.json" />
     <None Include="ObjectFiles\scrollingTileShader.json" />
     <None Include="ObjectFiles\textures.json" />
     <None Include="ObjectFiles\tileShader.json" />
     <None Include="ObjectFiles\UI\HUD.json" />
+    <None Include="ObjectFiles\UI\UI_controls.json" />
     <None Include="ObjectFiles\UI\UI_energy.json" />
     <None Include="ObjectFiles\UI\UI_lives.json" />
     <None Include="ObjectFiles\UI\UI_missiles.json" />

@@ -19,9 +19,16 @@
     }
   },
   "sprite": {
-    "name": "drone",
+    "name": "enemy",
     "frameX": 0,
     "frameY": 0
+  },
+  "aiSway": {
+    "amount": 500
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 200
   },
   "physics": {
     "mass": 1,
@@ -29,28 +36,10 @@
       "type": "circle",
       "radius": 32,
       "tags": [
-        "enemy",
-        "noPass"
+        "enemy"
       ]
     },
-    "weightless": true,
-    "maxSpeed": 10000
-  },
-  "aiRush": {
-    "direction": "forward",
-    "speed": 200
-  },
-  "aiAreaOfSight": {
-    "targetTag": "player",
-    "radius": 200
-  },
-  "aiSeek": {
-    "targetTag": "player",
-    "turnSpeed": 200,
-    "speed": 125,
-    "events": [
-      "goDestroyed"
-    ]
+    "maxSpeed": 300
   },
   "health": {
     "hp": 3

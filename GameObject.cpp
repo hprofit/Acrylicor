@@ -20,6 +20,11 @@ void GameObject::_SpawnChildrenAndAttachGameObjects(const GameObject & rhs)
 	}
 }
 
+void GameObject::_SetId(unsigned int id)
+{
+	m_id = id;
+}
+
 GameObject::GameObject(String type) :
 	m_type(type),
 	m_parent(nullptr),
