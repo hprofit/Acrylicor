@@ -28,9 +28,11 @@ static std::unordered_map<String, EventType> TitleMap = {
 	{ "playerDeath", EventType::PLAYER_DEATH },
 	{ "respawn", EventType::RESPAWN },
 	{ "missileFired", EventType::MISSILE_FIRED },
+	{ "missileAdded", EventType::MISSILE_ADDED },
 	{ "missileCountChange", EventType::MISSILE_COUNT_CHANGE },
 	{ "dash", EventType::DASH },
-	{ "targetFound", EventType::TARGET_FOUND }
+	{ "targetFound", EventType::TARGET_FOUND },
+	{ "pickup", EventType::PICKUP }
 };
 
 AcryEvent::AcryEvent(EventType type, double time) :

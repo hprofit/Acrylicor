@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "MissileCountChangeEvent.h"
+#include "MissileAddedEvent.h"
 #include "TextComponent.h"
 #include <string>
 
@@ -22,9 +23,7 @@ UI_MissilesComponent::UI_MissilesComponent(const UI_MissilesComponent & rhs, Gam
 	m_count(rhs.m_count),
 	m_baseMessage(rhs.m_baseMessage) {}
 
-UI_MissilesComponent::~UI_MissilesComponent()
-{
-}
+UI_MissilesComponent::~UI_MissilesComponent(){}
 
 void UI_MissilesComponent::Update(double deltaTime)
 {
@@ -56,6 +55,13 @@ void UI_MissilesComponent::Override(nlohmann::json j)
 void UI_MissilesComponent::HandleEvent(AcryEvent * aEvent)
 {
 	switch (aEvent->Type()) {
+	case EventType::MISSILE_ADDED:
+	{
+		MissileAddedEvent* maEvent = static_cast<MissileAddedEvent*>(aEvent);
+		AddMissiles(maEvent->Amount());
+	}
+	break;
+
 	case EventType::MISSILE_FIRED:
 	{
 		RemoveMissile();

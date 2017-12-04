@@ -8,6 +8,9 @@
   "missileLauncher": {
     "count": 5,
     "rateOfFire": 0.5,
-    "missile": "missile"
+    "missile": "missile",
+    "events": [
+      "missileAdded"
+    ]
   }
 }

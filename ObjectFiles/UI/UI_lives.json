@@ -15,7 +15,8 @@
   },
   "uiLives": {
     "events": [
-      "playerDeath"
+      "playerDeath",
+      "lifeChange"
     ],
     "amount": 3,
     "scale": {

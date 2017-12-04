@@ -32,7 +32,7 @@
     "mass": 1,
     "body": {
       "type": "circle",
-      "radius": 32,
+      "radius": 24,
       "tags": [
         "player",
         "solid"

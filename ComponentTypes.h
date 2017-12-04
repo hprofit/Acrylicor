@@ -42,6 +42,7 @@ const enum class COMPONENT_TYPE {
 	DASH,
 
 	GOAL,
+	PICKUP,
 
 	UI_LIVES,
 	UI_SCORE,

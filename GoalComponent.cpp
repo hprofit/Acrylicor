@@ -34,11 +34,13 @@ void GoalComponent::_GoalCompleted()
 }
 
 GoalComponent::GoalComponent(GameObject & parent) :
-	Component(parent, COMPONENT_TYPE::GOAL)
+	Component(parent, COMPONENT_TYPE::GOAL),
+	m_goalCompleted(false)
 {}
 
 GoalComponent::GoalComponent(const GoalComponent & rhs, GameObject & parent) :
-	Component(parent, COMPONENT_TYPE::GOAL)
+	Component(parent, COMPONENT_TYPE::GOAL),
+	m_goalCompleted(rhs.m_goalCompleted)
 {}
 
 GoalComponent::~GoalComponent(){}

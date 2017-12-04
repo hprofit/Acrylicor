@@ -15,6 +15,7 @@
   },
   "uiMissiles": {
     "events": [
+      "missileAdded",
       "missileFired",
       "missileCountChange"
     ],

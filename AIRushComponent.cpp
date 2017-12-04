@@ -16,8 +16,7 @@ AIRushComponent::AIRushComponent(const AIRushComponent & rhs, GameObject & paren
 	m_moveType(rhs.m_moveType), m_speed(rhs.m_speed)
 {}
 
-AIRushComponent::~AIRushComponent()
-{}
+AIRushComponent::~AIRushComponent(){}
 
 void AIRushComponent::Update(double deltaTime)
 {
@@ -26,7 +25,20 @@ void AIRushComponent::Update(double deltaTime)
 	if (!tComp || !pComp)
 		return;
 
-	pComp->InterpolateVelocity(tComp->Forward() * m_speed, .5f);
+	switch (m_moveType) {
+	case FORWARD:
+		pComp->InterpolateVelocity(tComp->Forward() * m_speed, .5f);
+		break;
+	case LEFT:
+		pComp->InterpolateVelocity(tComp->Right() * -m_speed, .5f);
+		break;
+	case RIGHT:
+		pComp->InterpolateVelocity(tComp->Right() * m_speed, .5f);
+		break;
+	case BACKWARD:
+		pComp->InterpolateVelocity(tComp->Forward() * -m_speed, .5f);
+		break;
+	}
 }
 
 AIRushComponent * AIRushComponent::Clone(GameObject & parent)
@@ -40,7 +52,12 @@ AIRushComponent * AIRushComponent::Clone(GameObject & parent)
 Component * AIRushComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
 	String moveTypeString = AcryJson::ParseString(j, "aiRush", "direction");
-	unsigned short moveType = moveTypeString.compare("forward") == 0 ? FORWARD : FORWARD;
+	unsigned short moveType = 0;
+	
+	if (moveTypeString == "left")			moveType = 1;
+	else if (moveTypeString == "right")		moveType = 2;
+	else if (moveTypeString == "backward")	moveType = 3;
+
 	float speed = AcryJson::ParseFloat(j, "aiRush", "speed");
 	return new AIRushComponent(gObject, moveType, speed);
 }
@@ -49,7 +66,11 @@ void AIRushComponent::Override(nlohmann::json j)
 {
 	if (AcryJson::ValueExists(j, "aiRush", "direction")) {
 		String moveTypeString = AcryJson::ParseString(j, "aiRush", "direction");
-		m_moveType = moveTypeString.compare("forward") == 0 ? FORWARD : FORWARD;
+		if (moveTypeString == "forward")		m_moveType = 0;
+		else if (moveTypeString == "left")		m_moveType = 1;
+		else if (moveTypeString == "right")		m_moveType = 2;
+		else if (moveTypeString == "backward")	m_moveType = 3;
 	}
+
 	m_speed = AcryJson::ValueExists(j, "aiRush", "speed") ? AcryJson::ParseInt(j, "aiRush", "speed") : m_speed;
 }

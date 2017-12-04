@@ -31,6 +31,8 @@ class GoalComponent :
 protected:
 	GOAL_TYPE m_goalType;
 
+	bool m_goalCompleted;
+
 	unsigned int m_enemyCount;
 	unsigned int m_currentEnemyCount;
 

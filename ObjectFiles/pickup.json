@@ -1,0 +1,38 @@
+{
+  "events": [ ],
+  "transform": {
+    "angle": {
+      "xRot": 0,
+      "yRot": 0,
+      "zRot": 0
+    },
+    "scale": {
+      "x": 32,
+      "y": 32,
+      "z": 0
+    }
+  },
+  "sprite": {
+    "name": "drone",
+    "frameX": 0,
+    "frameY": 0
+  },
+  "physics": {
+    "mass": 1,
+    "body": {
+      "type": "circle",
+      "radius": 16,
+      "tags": [
+        "pickup"
+      ]
+    },
+    "weightless": true,
+    "maxSpeed": 1000
+  },
+  "aiRush": {
+    "direction": "backward",
+    "speed": 100
+  },
+  "pickup": {
+  }
+}

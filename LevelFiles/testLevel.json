@@ -109,18 +109,16 @@
     },
 
 
-
-
     {
       "killZone": {
         "physics": {
           "position": {
-            "y": 1600
+            "y": 450
           },
           "body": {
             "type": "aabb",
-            "width": 1600,
-            "height": 1000
+            "width": 4000,
+            "height": 100
           }
         },
         "killZone": {
@@ -131,6 +129,29 @@
         }
       }
     },
+    {
+      "killZone": {
+        "physics": {
+          "position": {
+            "y": -1000
+          },
+          "body": {
+            "type": "aabb",
+            "width": 4000,
+            "height": 100
+          }
+        },
+        "killZone": {
+          "tags": [
+            "bullet",
+            "missile",
+            "enemy",
+            "pickup"
+          ]
+        }
+      }
+    },
+
 
 
 
@@ -177,7 +198,7 @@
         "physics": {
           "position": {
             "x": -50,
-            "y": 400
+            "y": 1400
           }
         }
       }
@@ -187,8 +208,72 @@
         "physics": {
           "position": {
             "x": 50,
-            "y": 400
+            "y": 1400
           }
+        }
+      }
+    },
+
+    {
+      "pickup": {
+        "physics": {
+          "position": {
+            "y": 200
+          }
+        },
+        "sprite": {
+          "name": "missilePickup"
+        },
+        "pickup": {
+          "type": "missile"
+        }
+      }
+    },
+    {
+      "pickup": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 200
+          }
+        },
+        "sprite": {
+          "name": "lifePickup"
+        },
+        "pickup": {
+          "type": "life"
+        }
+      }
+    },
+    {
+      "pickup": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 200
+          }
+        },
+        "sprite": {
+          "name": "doubleBarrelPickup"
+        },
+        "pickup": {
+          "type": "doubleBarrel"
+        }
+      }
+    },
+    {
+      "pickup": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 200
+          }
+        },
+        "sprite": {
+          "name": "splitBarrelPickup"
+        },
+        "pickup": {
+          "type": "splitBarrel"
         }
       }
     },

@@ -1,10 +1,13 @@
 [
   { "camera": "ObjectFiles/camera.json" },
   { "spawner": "ObjectFiles/spawner.json" },
+
   { "player": "ObjectFiles/player.json" },
   { "playerDrone": "ObjectFiles/playerDrone.json" },
   { "gun": "ObjectFiles/gun.json" },
   { "missileLauncher": "ObjectFiles/missileLauncher.json" },
+
+  { "pickup": "ObjectFiles/pickup.json" },
 
   { "UI_lives": "ObjectFiles/UI/UI_lives.json" },
   { "UI_score": "ObjectFiles/UI/UI_score.json" },
@@ -16,6 +19,7 @@
 
   { "swayer": "ObjectFiles/swayer.json" },
   { "drone": "ObjectFiles/drone.json" },
+  { "sniper": "ObjectFiles/sniper.json" },
 
   { "background": "ObjectFiles/background.json" },
   { "bullet": "ObjectFiles/bullets/bullet.json" },

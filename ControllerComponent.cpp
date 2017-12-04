@@ -3,15 +3,14 @@
 
 #include "KeyPressEvent.h"
 
-// Don't like TODO: Fix
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "SpriteComponent.h"
 #include "WeaponComponent.h"
 #include "MissileLauncherComponent.h"
 #include "InputManager.h"
-#include "ComponentTypes.h"
-#include "Vector2D.h"
+
+#include <iostream>
 
 ControllerComponent::ControllerComponent(GameObject& parent) :
 	Component(parent, COMPONENT_TYPE::CONTROLLER)
@@ -20,8 +19,7 @@ ControllerComponent::ControllerComponent(GameObject& parent) :
 
 ControllerComponent::ControllerComponent(const ControllerComponent & rhs, GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::CONTROLLER)
-{
-}
+{}
 
 ControllerComponent::~ControllerComponent()
 {
@@ -43,20 +41,16 @@ void ControllerComponent::Update(double deltaTime)
 	float force = 10000.0f;
 	if (inputMgr.IsKeyPressed(ACR_W)) {
 		pComp->AddForce(Vector3D(0.f, force, 0.f));
-		//sComp->SetFrame(2, 1);
 	}
 	if (inputMgr.IsKeyPressed(ACR_S)) {
 		pComp->AddForce(Vector3D(0.f, -force, 0.f));
-		//sComp->SetFrame(2, 3);
 	}
 
 	if (inputMgr.IsKeyPressed(ACR_A)) {
 		pComp->AddForce(Vector3D(-force, 0.f, 0.f));
-		//sComp->PrevFrame();
 	}
 	if (inputMgr.IsKeyPressed(ACR_D)) {
 		pComp->AddForce(Vector3D(force, 0.f, 0.f));
-		//sComp->NextFrame();
 	}
 
 	if (inputMgr.IsKeyPressed(ACR_SPACE))
@@ -65,20 +59,6 @@ void ControllerComponent::Update(double deltaTime)
 		mlComp->Fire();
 	if (inputMgr.IsKeyTriggered(ACR_LSHIFT))
 		m_parent.HandleEvent(new AcryEvent(EventType::DASH));
-
-	//if (inputMgr.IsKeyPressed(ACR_Q)) {
-	//	tComp->RotateZ(100.0f * deltaTime);
-	//}
-	//if (inputMgr.IsKeyPressed(ACR_E)) {
-	//	tComp->RotateZ(-100.0f * deltaTime);
-	//}
-
-	//if (inputMgr.IsKeyPressed(ACR_R)) {
-	//	tComp->ScaleUniform(5.0f * deltaTime);
-	//}
-	//if (inputMgr.IsKeyPressed(ACR_F)) {
-	//	tComp->ScaleUniform(-5.0f * deltaTime);
-	//}
 }
 
 ControllerComponent * ControllerComponent::Clone(GameObject & parent)
@@ -104,6 +84,7 @@ void ControllerComponent::HandleEvent(AcryEvent * aEvent)
 		case EventType::KEY_PRESS:
 		{
 			KeyPressEvent * kpEvent = static_cast<KeyPressEvent*>(aEvent);
+			std::cout << kpEvent->GetKey() << std::endl;
 		}
 			break;
 	}

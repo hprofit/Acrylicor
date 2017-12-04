@@ -34,7 +34,7 @@
       ]
     },
     "weightless": true,
-    "maxSpeed": 10000
+    "maxSpeed": 300
   },
   "aiRush": {
     "direction": "forward",

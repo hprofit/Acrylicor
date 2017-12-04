@@ -254,8 +254,8 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 				GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
 				GameObjectManager::GetInstance().DestroyGameObject(other);
 			}
-			else if (otherPComp->Body().Tags().HasTag("solid")) {
-				
+			else if (otherPComp->Body().Tags().HasTag("pickup")) {
+				other->HandleEvent(new AcryEvent(EventType::PICKUP));
 			}
 		}
 		// Player Bullet on Enemy

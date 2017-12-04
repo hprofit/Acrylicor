@@ -74,5 +74,37 @@
     "frameHeight": 32,
     "rows": 0,
     "columns": 0
+  },
+  "missilePickup": {
+    "filename": "Textures/missilePickup.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "lifePickup": {
+    "filename": "Textures/lifePickup.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "doubleBarrelPickup": {
+    "filename": "Textures/doubleBarrelPickup.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "splitBarrelPickup": {
+    "filename": "Textures/splitBarrelPickup.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
   }
 }

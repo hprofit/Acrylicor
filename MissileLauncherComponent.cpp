@@ -5,6 +5,7 @@
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 #include "MissileCountChangeEvent.h"
+#include "MissileAddedEvent.h"
 #include "EventManager.h"
 
 MissileLauncherComponent::MissileLauncherComponent(GameObject & parent, int count, double rateOfFire, String missileType) :
@@ -32,18 +33,20 @@ void MissileLauncherComponent::Update(double deltaTime)
 MissileLauncherComponent * MissileLauncherComponent::Clone(GameObject & parent)
 {
 	MissileLauncherComponent* comp = new MissileLauncherComponent(*this, parent);
-	comp->_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	comp->_AddSubscriberToTracker();
+	_SubscribeToEvents(this->m_eventsToSubscribeTo);
 	return comp;
 }
 
 Component * MissileLauncherComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	return new MissileLauncherComponent(gObject,
+	MissileLauncherComponent* comp = new MissileLauncherComponent(gObject,
 		AcryJson::ParseInt(j, "missileLauncher", "count"),
 		AcryJson::ParseDouble(j, "missileLauncher", "rateOfFire"),
 		AcryJson::ParseString(j, "missileLauncher", "missile")
 	);
+	comp->_ParseEvents(j, "missileLauncher");
+	return comp;
 }
 
 void MissileLauncherComponent::Override(nlohmann::json j)
@@ -51,11 +54,20 @@ void MissileLauncherComponent::Override(nlohmann::json j)
 	m_count = AcryJson::ValueExists(j, "missileLauncher", "count") ? AcryJson::ParseInt(j, "missileLauncher", "count") : m_count;
 	m_rateOfFire = AcryJson::ValueExists(j, "missileLauncher", "rateOfFire") ? AcryJson::ParseDouble(j, "missileLauncher", "rateOfFire") : m_rateOfFire;
 	m_missileType = AcryJson::ValueExists(j, "missileLauncher", "missile") ? AcryJson::ParseString(j, "missileLauncher", "missile") : m_missileType;
+
+	_ParseEvents(j, "missileLauncher");
 }
 
 void MissileLauncherComponent::HandleEvent(AcryEvent * aEvent)
 {
-
+	switch (aEvent->Type()) {
+	case EventType::MISSILE_ADDED:
+	{
+		MissileAddedEvent* maEvent = static_cast<MissileAddedEvent*>(aEvent);
+		m_count += maEvent->Amount();
+	}
+	break;
+	}
 }
 
 void MissileLauncherComponent::LateInitialize()
