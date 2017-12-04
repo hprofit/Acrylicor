@@ -184,7 +184,7 @@
       "goalObj": {
         "goal": {
           "type": "enemiesDefeated",
-          "count": 7,
+          "count": 9,
           "events": [
             "goDestroyed"
           ]
@@ -192,59 +192,24 @@
       }
     },
 
-
+    {
+      "pickup": {
+        "physics": {
+          "position": {
+            "y": 3000
+          }
+        },
+        "sprite": {
+          "name": "doubleBarrelPickup"
+        },
+        "pickup": {
+          "type": "doubleBarrel"
+        }
+      }
+    },
 
     
     
-    {
-      "swayer": {
-        "physics": {
-          "position": {
-            "x": 300, "y": 3000
-          }
-        }
-      }
-    },
-    {
-      "swayer": {
-        "physics": {
-          "position": {
-            "x": -200, "y": 3000
-          }
-        }
-      }
-    },
-        {
-      "swayer": {
-        "physics": {
-          "position": {
-            "x": 200, "y": 2800
-          }
-        }
-      }
-    },
-    {
-      "swayer": {
-        "physics": {
-          "position": {
-            "x": -300,
-            "y": 2600
-          }
-        }
-      }
-    },
-
-
-    {
-      "drone": {
-        "physics": {
-          "position": {
-            "x": -400,
-            "y": 2600
-          }
-        }
-      }
-    },
     {
       "drone": {
         "physics": {
@@ -315,12 +280,75 @@
         }
       }
     },
+    
     {
-      "drone": {
+      "swayer": {
         "physics": {
           "position": {
-            "x": 400,
-            "y": 2200
+            "x": 300, "y": 3000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200, "y": 3000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200, "y": 2800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300, "y": 2800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200, "y": 3400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100, "y": 3400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300, "y": 3800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0, "y": 3800
           }
         }
       }

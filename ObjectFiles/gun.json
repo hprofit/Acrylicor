@@ -6,8 +6,12 @@
     }
   },
   "weapon": {
+    "type": "singleBarrel",
     "rateOfFire": 0.125,
     "bullet": "bullet",
-    "burst": 1
+    "burst": 1,
+    "events": [
+      "pickup"
+    ]
   }
 }

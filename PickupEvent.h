@@ -28,6 +28,8 @@ private:
 public:
 	PickupEvent(PICKUP_TYPE _pickup);
 	virtual ~PickupEvent();
+
+	PICKUP_TYPE PickupType() const { return pickup; }
 };
 
 #endif

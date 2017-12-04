@@ -19,18 +19,28 @@ Creation date: 11/07/17
 #include "Component.h"
 #include "AcrylicorTypedefs.h"
 
+enum class WeaponType {
+	SINGLE_BARREL = 0,
+	DOUBLE_BARREL,
+	SPLIT_BARREL
+};
+
 class WeaponComponent :
 	public Component
 {
 protected:
+	WeaponType m_weaponType;
 	double m_rateOfFire;
 	String m_bulletType;	// Type of bullet to call GameObjectManager to spawn
 	unsigned int m_burstAmount;
 	double m_timeSinceLastFired;
 
+	void _FireSingleBarrel();
+	void _FireDoubleBarrel();
+	void _FireSplitBarrel();
 public:
 	WeaponComponent() = delete;
-	WeaponComponent(GameObject& parent, double rateOfFire, String bulletType, unsigned int burstAmount = 1);
+	WeaponComponent(GameObject& parent, WeaponType weaponType, double rateOfFire, String bulletType, unsigned int burstAmount = 1);
 	WeaponComponent(const WeaponComponent& rhs) = delete;
 	WeaponComponent(const WeaponComponent& rhs, GameObject& parent);
 	WeaponComponent& operator= (WeaponComponent rhs) = delete;
@@ -41,6 +51,7 @@ public:
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
+	virtual void HandleEvent(AcryEvent * aEvent);
 
 	void Fire();
 };

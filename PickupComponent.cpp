@@ -66,10 +66,10 @@ void PickupComponent::HandleEvent(AcryEvent * aEvent)
 			EventManager::GetInstance().BroadcastEventToSubscribers(new MissileAddedEvent(3));
 			break;
 		case PICKUP_TYPE::DOUBLE_BARREL:
-			
+			EventManager::GetInstance().BroadcastEventToSubscribers(new PickupEvent(m_pickupType));
 			break;
 		case PICKUP_TYPE::SPLIT_BARREL:
-			
+			EventManager::GetInstance().BroadcastEventToSubscribers(new PickupEvent(m_pickupType));
 			break;
 		}
 

@@ -7,8 +7,8 @@
       "zRot": 0
     },
     "scale": {
-      "x": 32,
-      "y": 32,
+      "x": 48,
+      "y": 48,
       "z": 0
     }
   },
@@ -21,7 +21,7 @@
     "mass": 1,
     "body": {
       "type": "circle",
-      "radius": 16,
+      "radius": 24,
       "tags": [
         "pickup"
       ]

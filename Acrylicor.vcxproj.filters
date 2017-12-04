@@ -127,6 +127,12 @@
     <Filter Include="Source Files\TEST_FILES\Json\Objects\Enemies">
       <UniqueIdentifier>{575d20ee-15ba-45b5-9c1f-4ca88e6944cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{e62b1c12-2dd7-498a-80e3-68f82271f0ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{7e3d154d-315e-42fb-a6b3-7f7bc8b358ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -161,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="AcrylicorTypedefs.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math2D.h">
       <Filter>Header Files\Math</Filter>
@@ -204,9 +207,6 @@
     <ClInclude Include="AcrylicorAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IGameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TestGameState.h">
       <Filter>Header Files\TEST_FILES</Filter>
     </ClInclude>
@@ -224,9 +224,6 @@
     </ClInclude>
     <ClInclude Include="PhysicsManager.h">
       <Filter>Header Files\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonReader.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyPressEvent.h">
       <Filter>Header Files\Events</Filter>
@@ -321,9 +318,6 @@
     <ClInclude Include="AISeekComponent.h">
       <Filter>Header Files\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Tags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UI_ScoreComponent.h">
       <Filter>Header Files\Components\UI</Filter>
     </ClInclude>
@@ -366,9 +360,6 @@
     <ClInclude Include="LevelManager.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Subscriber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SubscriberTracker.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
@@ -381,11 +372,26 @@
     <ClInclude Include="PickupEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="PickupTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MissileAddedEvent.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Tags.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Subscriber.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupTypes.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonReader.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameState.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AcrylicorTypedefs.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -469,9 +475,6 @@
     </ClCompile>
     <ClCompile Include="PhysicsManager.cpp">
       <Filter>Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="JsonReader.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyPressEvent.cpp">
       <Filter>Source Files\Events</Filter>
@@ -560,9 +563,6 @@
     <ClCompile Include="AISeekComponent.cpp">
       <Filter>Source Files\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Tags.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UI_ScoreComponent.cpp">
       <Filter>Source Files\Components\UI</Filter>
     </ClCompile>
@@ -605,9 +605,6 @@
     <ClCompile Include="LevelManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Subscriber.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SubscriberTracker.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
@@ -621,7 +618,16 @@
       <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="MissileAddedEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonReader.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Subscriber.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Tags.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

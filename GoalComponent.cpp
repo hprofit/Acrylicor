@@ -30,7 +30,10 @@ void GoalComponent::_SetDistanceTravelled(float distance)
 
 void GoalComponent::_GoalCompleted()
 {
-	EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::NEXT_LEVEL, 2.0));
+	if (!m_goalCompleted) {
+		m_goalCompleted = true;
+		EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::NEXT_LEVEL, 2.0));
+	}
 }
 
 GoalComponent::GoalComponent(GameObject & parent) :
@@ -45,9 +48,7 @@ GoalComponent::GoalComponent(const GoalComponent & rhs, GameObject & parent) :
 
 GoalComponent::~GoalComponent(){}
 
-void GoalComponent::Update(double deltaTime)
-{
-}
+void GoalComponent::Update(double deltaTime) {}
 
 GoalComponent * GoalComponent::Clone(GameObject & parent)
 {

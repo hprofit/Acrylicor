@@ -42,7 +42,7 @@
   },
   "aiAreaOfSight": {
     "targetTag": "player",
-    "radius": 200
+    "radius": 400
   },
   "aiSeek": {
     "targetTag": "player",
