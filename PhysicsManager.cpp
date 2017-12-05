@@ -68,7 +68,6 @@ static CollisionResult AABBOnAABB(const PhysicsComponent & lhs, Vector3D lhsPos0
 
 #pragma region Reflection Methods
 
-
 #pragma region Circle on X
 static Vector3D ReflectCircleOnCircle(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
 	Circle* lhsC = static_cast<Circle*>(compToReflect.GetBodyPtr());
@@ -104,22 +103,19 @@ static Vector3D ReflectAABBOnAABB(const PhysicsComponent & compToReflect, const 
 }
 #pragma endregion
 
-
 #pragma endregion
-
 
 #pragma region Push Methods
 
-
 #pragma region Circle on X
-static Vector3D PushCircleFromCircle(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const CollisionResult& cr) {
+static Vector3D PushCircleFromCircle(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const Vector3D & poi, const CollisionResult& cr) {
 	Circle* lhsC = static_cast<Circle*>(compToPush.GetBodyPtr());
 	Circle* rhsC = static_cast<Circle*>(surface.GetBodyPtr());
 
-	return PushCircleFromCircle(compToPush.GetPrevPosition(), compToPush.GetPosition(), lhsC->m_radius, rhsC->m_radius, cr);
+	return PushCircleFromCircle(compToPush.GetPrevPosition(), compToPush.GetPosition(), lhsC->m_radius, rhsC->m_radius, poi, cr);
 }
 
-static Vector3D PushCircleFromAABB(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const CollisionResult& cr) {
+static Vector3D PushCircleFromAABB(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const Vector3D & poi, const CollisionResult& cr) {
 	Circle* lhsC = static_cast<Circle*>(compToPush.GetBodyPtr());
 	AABB* rhsC = static_cast<AABB*>(surface.GetBodyPtr());
 
@@ -129,18 +125,17 @@ static Vector3D PushCircleFromAABB(const PhysicsComponent & compToPush, const Ph
 #pragma endregion
 
 #pragma region AABB on X
-static Vector3D PushAABBFromCircle(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
-	return PushCircleFromAABB(reflectionSurface, compToReflect, cr);
+static Vector3D PushAABBFromCircle(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const Vector3D & poi, const CollisionResult& cr) {
+	return PushCircleFromAABB(surface, compToPush, poi,  cr);
 }
 
-static Vector3D PushAABBFromAABB(const PhysicsComponent & compToReflect, const PhysicsComponent & reflectionSurface, const CollisionResult& cr) {
-	AABB* lhsC = static_cast<AABB*>(compToReflect.GetBodyPtr());
-	AABB* rhsC = static_cast<AABB*>(reflectionSurface.GetBodyPtr());
+static Vector3D PushAABBFromAABB(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const Vector3D & poi, const CollisionResult& cr) {
+	AABB* lhsC = static_cast<AABB*>(compToPush.GetBodyPtr());
+	AABB* rhsC = static_cast<AABB*>(surface.GetBodyPtr());
 	// TODO: Flesh this out
 	return Vector3D();
 }
 #pragma endregion
-
 
 #pragma endregion
 
@@ -286,7 +281,7 @@ Vector3D PhysicsManager::ReflectShapeOffOtherShape(const PhysicsComponent & lhs,
 	return m_reflectionFunctions[lhs.Body().m_type][rhs.Body().m_type](lhs, rhs, cr);
 }
 
-Vector3D PhysicsManager::PushShapeOutOfOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const CollisionResult & cr)
+Vector3D PhysicsManager::PushShapeOutOfOtherShape(const PhysicsComponent & lhs, const PhysicsComponent & rhs, const Vector3D & poi, const CollisionResult & cr)
 {
-	return m_pushFunctions[lhs.Body().m_type][rhs.Body().m_type](lhs, rhs, cr);
+	return m_pushFunctions[lhs.Body().m_type][rhs.Body().m_type](lhs, rhs, poi, cr);
 }

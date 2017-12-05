@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 
 #include "Matrix4x4.h"
+#include "Math3D.h"
 
 #include "SpriteComponent.h"
 #include "ScrollingSpriteComponent.h"
@@ -85,6 +86,8 @@ void RenderManager::_RenderPhysicsBody(GameObject & camera, GameObject & gameObj
 		}
 			break;
 	}
+
+	RenderVelocity(camera, pComp->GetVelocity(), pos.getX(), pos.getY());
 }
 
 void RenderManager::_RenderSprite(SpriteComponent * sComp)
@@ -294,6 +297,8 @@ void RenderManager::RenderSquare(GameObject & camera, float width, float height,
 	SelectShaderProgram(m_debugShaderName);
 	glUseProgram(m_currentProgram->GetProgram());
 
+	glUniform4f(m_currentProgram->GetUniform("color"), 1.f, 0.f, 0.f, 1.f);
+
 	// TODO: FIX
 	glUniformMatrix4fv(m_currentProgram->GetUniform("cam_matrix"), 1, true, (float*)cComp->GetOrthographicMatrix());
 	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
@@ -346,6 +351,8 @@ void RenderManager::RenderCircle(GameObject & camera, float radius, float x, flo
 	SelectShaderProgram(m_debugShaderName);
 	glUseProgram(m_currentProgram->GetProgram());
 
+	glUniform4f(m_currentProgram->GetUniform("color"), 1.f, 0.f, 0.f, 1.f);
+
 	// TODO: FIX
 	glUniformMatrix4fv(m_currentProgram->GetUniform("cam_matrix"), 1, true, (float*)cComp->GetOrthographicMatrix());
 	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
@@ -379,9 +386,38 @@ void RenderManager::RenderCircle(GameObject & camera, float radius, float x, flo
 	}
 }
 
-void RenderManager::FrameEnd()
+void RenderManager::RenderVelocity(GameObject & camera, const Vector3D & velocity, float x, float y)
 {
+	if (!camera.Has(COMPONENT_TYPE::CAMERA) || FloatEquals(velocity.SquareLength(), 0.f))
+		return;
+	CameraComponent * cComp = static_cast<CameraComponent*>(camera.Get(COMPONENT_TYPE::CAMERA));
+	SelectShaderProgram(m_debugShaderName);
+	glUseProgram(m_currentProgram->GetProgram());
+
+	glUniform4f(m_currentProgram->GetUniform("color"), 0.f, 1.f, 0.f, 1.f);
+
+	// TODO: FIX
+	glUniformMatrix4fv(m_currentProgram->GetUniform("cam_matrix"), 1, true, (float*)cComp->GetOrthographicMatrix());
+	//glUniformMatrix4fv(m_currentProgram->GetUniform("persp_matrix"), 1, true, (float*)cComp->GetPerspectiveMatrix());
+	glUniformMatrix4fv(m_currentProgram->GetUniform("view_matrix"), 1, true, (float*)cComp->GetViewMatrix());
+
+	AcryDebugLine* dbLine = resourceMngr.DebugLine();
+	glEnableVertexAttribArray(m_currentProgram->GetAttribute("position"));
+	glBindBuffer(GL_ARRAY_BUFFER, dbLine->GetVertexBuffer());
+	glVertexAttribPointer(m_currentProgram->GetAttribute("position"), 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0); // <- load it to memory
+
+	float angle = velocity.getX() != 0 ? 
+		atanf(velocity.getY() / velocity.getX()) * RAD_TO_DEG + ((velocity.getX() / fabsf(velocity.getX()) < 0.f) ? 180.f : 0.f) :
+		(velocity.getY() / fabsf(velocity.getY())) * 90.f;
+
+	Matrix4x4 model = Matrix4x4::Translate(Vector3D(x, y, 0)) * Matrix4x4::Rotate(angle, Vector3D(0, 0, 1)) * Matrix4x4::Scale(velocity.Length(), 0.f, 0.f) * Matrix4x4::Translate(Vector3D(.5f, 0, 0));
+
+	GLint modelMatrix = m_currentProgram->GetUniform("model_matrix");
+	glUniformMatrix4fv(modelMatrix, 1, true, (float*)model);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
 }
+
+void RenderManager::FrameEnd(){}
 
 #pragma region Shaders
 void RenderManager::LoadShaderProgram(String fileName)

@@ -1,4 +1,5 @@
 #include "Math3D.h"
+#include "Matrix4x4.h"
 #include <math.h>
 #include <algorithm>
 #include "AcrylicorTypedefs.h"
@@ -362,15 +363,24 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 
 #pragma region Push Methods
 #pragma region Circle
-Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const float OtherRadius, const CollisionResult & CR)
+Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const float OtherRadius, const Vector3D & poi, const CollisionResult & CR)
 {
 	float expectedDistance = (Radius + OtherRadius);
 	//float actualDistance = Vector3D::Distance(OtherCircle, Pi);
 	float actualDistance = Vector3D::Distance(CR.rhs_poi, CR.lhs_poi);
-	float force = expectedDistance - actualDistance;
-	//force /= 2.f;
-	//return Vector3D::Normalize(Pi - OtherCircle) * (force + 1.f);
-	return Vector3D::Normalize(CR.lhs_poi - CR.rhs_poi) * (force + 1.f);
+	float offset = (expectedDistance - actualDistance);
+
+	Vector3D a = Pe - poi;
+	Vector3D b = CR.pointOfImpact - poi;
+
+	float numerator = Vector3D::Dot(a, b);
+	float denominator = sqrtf(a.SquareLength() * b.SquareLength());
+	float theta = denominator != 0.f ? acosf(numerator / denominator) : 0.f;
+	float phi = (RAD_TO_DEG * (PI - theta)) - 90.f;
+
+	return Pe + (Matrix4x4::Translate(Vector3D::Normalize(b) * offset) * Matrix4x4::Rotate(phi, Vector3D(0, 0, 1.f)) * a);
+
+	//return Vector3D::Normalize(CR.lhs_poi - CR.rhs_poi) * (offset + 1.f);
 }
 
 Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR) {

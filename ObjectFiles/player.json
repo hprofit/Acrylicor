@@ -39,7 +39,7 @@
       ]
     },
     "maxSpeed": 300,
-    "capRate": 0.9
+    "capRate": 0.95
   },
   "dash": {
     "speed": 950,

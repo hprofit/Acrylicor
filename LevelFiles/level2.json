@@ -184,7 +184,7 @@
       "goalObj": {
         "goal": {
           "type": "enemiesDefeated",
-          "count": 7,
+          "count": 9,
           "events": [
             "goDestroyed"
           ]

@@ -193,12 +193,13 @@
       }
     },
 
+
     {
       "drone": {
         "physics": {
           "position": {
             "x": -50,
-            "y": 1400
+            "y": 0
           }
         }
       }
@@ -208,77 +209,12 @@
         "physics": {
           "position": {
             "x": 50,
-            "y": 1400
+            "y": 0
           }
         }
       }
     },
-
-    {
-      "pickup": {
-        "physics": {
-          "position": {
-            "y": 200
-          }
-        },
-        "sprite": {
-          "name": "missilePickup"
-        },
-        "pickup": {
-          "type": "missile"
-        }
-      }
-    },
-    {
-      "pickup": {
-        "physics": {
-          "position": {
-            "x": 100,
-            "y": 200
-          }
-        },
-        "sprite": {
-          "name": "lifePickup"
-        },
-        "pickup": {
-          "type": "life"
-        }
-      }
-    },
-    {
-      "pickup": {
-        "physics": {
-          "position": {
-            "x": -100,
-            "y": 200
-          }
-        },
-        "sprite": {
-          "name": "doubleBarrelPickup"
-        },
-        "pickup": {
-          "type": "doubleBarrel"
-        }
-      }
-    },
-    {
-      "pickup": {
-        "physics": {
-          "position": {
-            "x": 200,
-            "y": 200
-          }
-        },
-        "sprite": {
-          "name": "splitBarrelPickup"
-        },
-        "pickup": {
-          "type": "splitBarrel"
-        }
-      }
-    },
-
-
+    
     
     {
       "UI_lives": { }

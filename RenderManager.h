@@ -70,6 +70,7 @@ public:
 
 	void RenderSquare(GameObject & camera, float width, float height, float rotate, float x, float y);
 	void RenderCircle(GameObject & camera, float radius, float x, float y);
+	void RenderVelocity(GameObject & camera, const Vector3D & velocity, float x, float y);
 
 	void FrameEnd();
 

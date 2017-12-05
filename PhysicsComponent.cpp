@@ -235,7 +235,6 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		// Enemy on Enemy -- No Pass
 		else if ((m_body->Tags().HasTag("enemy") && otherPComp->Body().Tags().HasTag("enemy")) && 
 				  m_body->Tags().HasTag("noPass")) {
-			//std::cout << m_parent.GetId() << std::endl;
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
 		}
@@ -243,7 +242,6 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		else if (m_body->Tags().HasTag("solid") && otherPComp->Body().Tags().HasTag("solid")) {
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
-			other->HandleEvent(rEvent);
 		}
 		// Player
 		else if (m_body->Tags().HasTag("player")) {
@@ -295,14 +293,15 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			GameObject * other = lhs ? contact.LHS_GO() : contact.RHS_GO();
 			PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
 
-			Vector3D pushDirection = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(
+			Vector3D newEndPos = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(
 				*this,
 				*otherPComp,
+				lhs ? contact.Collision().lhs_poi : contact.Collision().rhs_poi,
 				contact.Collision()
 			);
 			//_SetUpdatedPosition(m_position + pushDirection);
 			//SetPosition(m_position + pushDirection);
-			SetPosition(POI + pushDirection);
+			SetPosition(newEndPos);
 		}
 	}
 	break;
