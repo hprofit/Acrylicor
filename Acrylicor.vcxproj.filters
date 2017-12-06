@@ -393,6 +393,9 @@
     <ClInclude Include="AcrylicorTypedefs.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="AIBaseComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -628,6 +631,9 @@
     </ClCompile>
     <ClCompile Include="Tags.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AIBaseComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

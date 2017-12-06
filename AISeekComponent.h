@@ -17,12 +17,12 @@ Creation date: 11/22/17
 #define AI_SEEK_COMPONENT_H
 
 #include "AcrylicorTypedefs.h"
-#include "Component.h"
+#include "AIBaseComponent.h"
 
 class TransformComponent;
 
 class AISeekComponent :
-	public Component
+	public AIBaseComponent
 {
 protected:
 	GameObject* m_target;

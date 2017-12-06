@@ -366,25 +366,10 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const float OtherRadius, const Vector3D & poi, const CollisionResult & CR)
 {
 	float expectedDistance = (Radius + OtherRadius);
-	//float actualDistance = Vector3D::Distance(OtherCircle, Pi);
 	float actualDistance = Vector3D::Distance(CR.rhs_poi, CR.lhs_poi);
 	float offset = (expectedDistance - actualDistance);
 
-	Vector3D a = Pe - poi; // remaining velocity
-	Vector3D b = CR.pointOfImpact - poi; // vector to surface touch point
-
-	float numerator = Vector3D::Dot(a, b);
-	float denominator = sqrtf(a.SquareLength() * b.SquareLength());
-	float theta = denominator != 0.f ? acosf(numerator / denominator) : 0.f; // angle between a and b
-	float phi = (RAD_TO_DEG * (PI - theta)) - 90.f; // remaining angle (of 90 degree angle)
-
-	// rotate the remaining velocity to avoid further collisions, offset by enough to keep the circles outside of one another, add to the object's point of impact
-	return poi +
-		(Matrix4x4::Translate(Vector3D::Normalize(b) * offset) * 
-			Matrix4x4::Rotate(phi, Vector3D(0, 0, 1.f)) * 
-			a);
-
-	//return Vector3D::Normalize(CR.lhs_poi - CR.rhs_poi) * (offset + 1.f);
+	return Vector3D::Normalize(poi - CR.pointOfImpact) * (offset + 1.f);
 }
 
 Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius, const Vector3D& RectCenter, const float halfWidth, const float halfHeight, const CollisionResult& CR) {

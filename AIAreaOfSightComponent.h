@@ -16,13 +16,13 @@ Creation date: 11/02/17
 #ifndef AI_AREA_OF_SIGHT_COMPONENT_H
 #define AI_AREA_OF_SIGHT_COMPONENT_H
 
-#include "Component.h"
+#include "AIBaseComponent.h"
 #include "AcrylicorTypedefs.h"
 
 class TransformComponent;
 
 class AIAreaOfSightComponent :
-	public Component
+	public AIBaseComponent
 {
 private:
 	String m_tagToFind;

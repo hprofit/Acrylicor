@@ -16,11 +16,11 @@ Creation date: 11/02/17
 #ifndef AI_SWAY_COMPONENT_H
 #define AI_SWAY_COMPONENT_H
 
-#include "Component.h"
+#include "AIBaseComponent.h"
 #include "AcrylicorTypedefs.h"
 
 class AISwayComponent :
-	public Component
+	public AIBaseComponent
 {
 private:
 	float m_swayAmount;

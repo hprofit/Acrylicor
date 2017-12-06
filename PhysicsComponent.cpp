@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+#include "RenderManager.h"
+
 void PhysicsComponent::_SetUpdatedPosition(Vector3D pos)
 {
 	m_updatedPosition = pos;
@@ -289,19 +291,18 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 		if (!m_body->Tags().HasTag("stationary")) {
 			Contact contact = rEvent->GetContact();
 			bool lhs = contact.LHS_GO()->Get(COMPONENT_TYPE::PHYSICS) == this;
-			Vector3D POI = lhs ? contact.Collision().rhs_poi : contact.Collision().lhs_poi;
+			Vector3D POI = lhs ? contact.Collision().lhs_poi : contact.Collision().rhs_poi;
 			GameObject * other = lhs ? contact.LHS_GO() : contact.RHS_GO();
 			PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
 
-			Vector3D newEndPos = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(
+			Vector3D adjustment = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(
 				*this,
 				*otherPComp,
-				lhs ? contact.Collision().lhs_poi : contact.Collision().rhs_poi,
+				POI,
 				contact.Collision()
 			);
-			//_SetUpdatedPosition(m_position + pushDirection);
-			//SetPosition(m_position + pushDirection);
-			SetPosition(newEndPos);
+
+			SetPosition(m_position + adjustment);
 		}
 	}
 	break;

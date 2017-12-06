@@ -7,13 +7,13 @@
 #include <math.h>
 
 AISwayComponent::AISwayComponent(GameObject & parent, float swayAmount) :
-	Component(parent, COMPONENT_TYPE::AI_SWAY),
+	AIBaseComponent(COMPONENT_TYPE::AI_SWAY, parent),
 	m_swayAmount(swayAmount),
 	m_currX(-1.f), m_direction(1.f)
 {}
 
 AISwayComponent::AISwayComponent(const AISwayComponent & rhs, GameObject & parent) :
-	Component(parent, COMPONENT_TYPE::AI_SWAY),
+	AIBaseComponent(COMPONENT_TYPE::AI_SWAY, rhs, parent),
 	m_swayAmount(rhs.m_swayAmount),
 	m_currX(-1.f), m_direction(1.f)
 {}

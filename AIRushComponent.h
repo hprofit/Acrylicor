@@ -16,10 +16,10 @@ Creation date: 11/02/17
 #ifndef AI_RUSH_COMPONENT_H
 #define AI_RUSH_COMPONENT_H
 
-#include "Component.h"
+#include "AIBaseComponent.h"
 
 class AIRushComponent :
-	public Component
+	public AIBaseComponent
 {
 protected:
 	enum {

@@ -39,12 +39,12 @@ void AIAreaOfSightComponent::_FindNewTarget()
 }
 
 AIAreaOfSightComponent::AIAreaOfSightComponent(GameObject & parent, String tagToFind, float searchRadius) :
-	Component(parent, COMPONENT_TYPE::AI_AREA_OF_SIGHT),
+	AIBaseComponent(COMPONENT_TYPE::AI_AREA_OF_SIGHT, parent),
 	m_tagToFind(tagToFind), m_searchRadius(searchRadius), m_searchRadiusSq(searchRadius * searchRadius), m_foundTarget(false)
 {}
 
 AIAreaOfSightComponent::AIAreaOfSightComponent(const AIAreaOfSightComponent & rhs, GameObject & parent) :
-	Component(parent, COMPONENT_TYPE::AI_AREA_OF_SIGHT),
+	AIBaseComponent(COMPONENT_TYPE::AI_AREA_OF_SIGHT, rhs, parent),
 	m_tagToFind(rhs.m_tagToFind),
 	m_searchRadius(rhs.m_searchRadius),
 	m_searchRadiusSq(rhs.m_searchRadiusSq),

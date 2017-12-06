@@ -7,12 +7,12 @@
 #include "TransformComponent.h"
 
 AIRushComponent::AIRushComponent(GameObject & parent, unsigned short moveType, float speed) :
-	Component(parent, COMPONENT_TYPE::AI_RUSH),
+	AIBaseComponent(COMPONENT_TYPE::AI_RUSH, parent),
 	m_moveType(moveType), m_speed(speed)
 {}
 
 AIRushComponent::AIRushComponent(const AIRushComponent & rhs, GameObject & parent) :
-	Component(parent, COMPONENT_TYPE::AI_RUSH),
+	AIBaseComponent(COMPONENT_TYPE::AI_RUSH, rhs, parent),
 	m_moveType(rhs.m_moveType), m_speed(rhs.m_speed)
 {}
 

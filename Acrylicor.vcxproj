@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="AcrylicorAPI.h" />
     <ClInclude Include="AcrylicorTypedefs.h" />
+    <ClInclude Include="AIBaseComponent.h" />
     <ClInclude Include="AIRushComponent.h" />
     <ClInclude Include="AISeekComponent.h" />
     <ClInclude Include="AISwayComponent.h" />
@@ -218,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AcrylicorAPI.cpp" />
+    <ClCompile Include="AIBaseComponent.cpp" />
     <ClCompile Include="AIRushComponent.cpp" />
     <ClCompile Include="AISeekComponent.cpp" />
     <ClCompile Include="AISwayComponent.cpp" />

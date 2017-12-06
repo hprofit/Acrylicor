@@ -60,12 +60,12 @@ void AISeekComponent::_SeekTarget(double deltaTime)
 }
 
 AISeekComponent::AISeekComponent(GameObject & parent, String tagToFind, float maxTurnSpeed, float speed) :
-	Component(parent, COMPONENT_TYPE::AI_SEEK),
+	AIBaseComponent(COMPONENT_TYPE::AI_SEEK, parent),
 	m_tagToFind(tagToFind), m_maxTurnSpeed(maxTurnSpeed), m_speed(speed)
 {}
 
 AISeekComponent::AISeekComponent(const AISeekComponent & rhs, GameObject & parent) : 
-	Component(parent, COMPONENT_TYPE::AI_SEEK),
+	AIBaseComponent(COMPONENT_TYPE::AI_SEEK, rhs, parent),
 	m_tagToFind(rhs.m_tagToFind), m_maxTurnSpeed(rhs.m_maxTurnSpeed), m_speed(rhs.m_speed)
 {}
 

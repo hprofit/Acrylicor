@@ -38,7 +38,7 @@
   },
   "aiRush": {
     "direction": "forward",
-    "speed": 100
+    "speed": 200
   },
   "aiAreaOfSight": {
     "targetTag": "player",
@@ -47,7 +47,7 @@
   "aiSeek": {
     "targetTag": "player",
     "turnSpeed": 200,
-    "speed": 75,
+    "speed": 125,
     "events": [
       "goDestroyed"
     ]
