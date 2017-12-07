@@ -112,7 +112,7 @@ static Vector3D PushCircleFromCircle(const PhysicsComponent & compToPush, const 
 	Circle* lhsC = static_cast<Circle*>(compToPush.GetBodyPtr());
 	Circle* rhsC = static_cast<Circle*>(surface.GetBodyPtr());
 
-	return PushCircleFromCircle(compToPush.GetPrevPosition(), compToPush.GetPosition(), lhsC->m_radius, rhsC->m_radius, poi, cr);
+	return PushCircleFromCircle(lhsC->m_radius, rhsC->m_radius, poi, cr);
 }
 
 static Vector3D PushCircleFromAABB(const PhysicsComponent & compToPush, const PhysicsComponent & surface, const Vector3D & poi, const CollisionResult& cr) {

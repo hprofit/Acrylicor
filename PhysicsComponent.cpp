@@ -292,7 +292,7 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			Contact contact = rEvent->GetContact();
 			bool lhs = contact.LHS_GO()->Get(COMPONENT_TYPE::PHYSICS) == this;
 			Vector3D POI = lhs ? contact.Collision().lhs_poi : contact.Collision().rhs_poi;
-			GameObject * other = lhs ? contact.LHS_GO() : contact.RHS_GO();
+			GameObject * other = lhs ? contact.RHS_GO() : contact.LHS_GO();
 			PhysicsComponent * otherPComp = static_cast<PhysicsComponent*>(other->Get(COMPONENT_TYPE::PHYSICS));
 
 			Vector3D adjustment = PhysicsManager::GetInstance().PushShapeOutOfOtherShape(

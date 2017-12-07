@@ -363,7 +363,7 @@ Vector3D ReflectAnimatedCircleOnStaticCircle(const Vector3D& ACenterS, const Vec
 
 #pragma region Push Methods
 #pragma region Circle
-Vector3D PushCircleFromCircle(const Vector3D & Ps, const Vector3D & Pe, const float Radius, const float OtherRadius, const Vector3D & poi, const CollisionResult & CR)
+Vector3D PushCircleFromCircle(const float Radius, const float OtherRadius, const Vector3D & poi, const CollisionResult & CR)
 {
 	float expectedDistance = (Radius + OtherRadius);
 	float actualDistance = Vector3D::Distance(CR.rhs_poi, CR.lhs_poi);
@@ -377,7 +377,7 @@ Vector3D PushCircleFromRect(const Vector3D & CircleEnd, const float Radius, cons
 	Vector3D pushDir = CircleEnd - snappedPoint;
 	float pushLen = pushDir.Length();
 	float pushForce = Radius - pushLen;
-	return (pushDir / pushLen) * (pushForce + 2.f);
+	return (pushDir / pushLen) * (pushForce + .5f);
 }
 
 #pragma endregion
