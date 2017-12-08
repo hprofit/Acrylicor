@@ -26,10 +26,11 @@ private:
 	float m_swayAmount;
 	float m_currX;
 	float m_direction;
+	float m_speed;
 
 public:
 	AISwayComponent() = delete;
-	AISwayComponent(GameObject& parent, float swayAmount);
+	AISwayComponent(GameObject& parent, float swayAmount, float speed = 1.f);
 	AISwayComponent(const AISwayComponent& rhs) = delete;
 	AISwayComponent(const AISwayComponent& rhs, GameObject& parent);
 	AISwayComponent& operator= (AISwayComponent rhs) = delete;

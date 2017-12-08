@@ -18,6 +18,9 @@ Creation date: 11/02/17
 
 #include "AIBaseComponent.h"
 
+class TransformComponent;
+class PhysicsComponent;
+
 class AIRushComponent :
 	public AIBaseComponent
 {
@@ -31,6 +34,8 @@ protected:
 
 	unsigned short m_moveType;
 	float m_speed;
+	TransformComponent* m_tComp;
+	PhysicsComponent* m_pComp;
 public:
 	AIRushComponent() = delete;
 	AIRushComponent(GameObject& parent, unsigned short moveType, float speed);
@@ -44,6 +49,7 @@ public:
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
+	virtual void LateInitialize();
 };
 
 

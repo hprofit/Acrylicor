@@ -396,6 +396,12 @@
     <ClInclude Include="AIBaseComponent.h">
       <Filter>Header Files\Components\AI</Filter>
     </ClInclude>
+    <ClInclude Include="AISquareSwayComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AIFireGunComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -635,6 +641,12 @@
     <ClCompile Include="AIBaseComponent.cpp">
       <Filter>Source Files\Components\AI</Filter>
     </ClCompile>
+    <ClCompile Include="AISquareSwayComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AIFireGunComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -759,6 +771,12 @@
     </None>
     <None Include="ObjectFiles\pickup.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    </None>
+    <None Include="ObjectFiles\enemyGun.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
+    </None>
+    <None Include="ObjectFiles\bullets\enemyBullet.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
     </None>
   </ItemGroup>
 </Project>

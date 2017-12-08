@@ -1,0 +1,40 @@
+{
+  "transform": {
+    "scale": {
+      "x": 24,
+      "y": 24,
+      "z": 0
+    }
+  },
+  "sprite": {
+    "name": "bullet",
+    "frameX": 0,
+    "frameY": 0,
+    "color": {
+      "r": 1,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    }
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 1000
+  },
+  "physics": {
+    "mass": 1,
+    "body": {
+      "type": "circle",
+      "radius": 8,
+      "tags": [
+        "bullet",
+        "enemyBullet"
+      ]
+    },
+    "weightless": true,
+    "maxSpeed": 1000
+  },
+  "damage": {
+    "amount": 1
+  }
+}

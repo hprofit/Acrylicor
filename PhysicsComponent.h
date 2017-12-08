@@ -74,6 +74,7 @@ public:
 	PhysicsBody& Body() const { return *m_body; };
 	PhysicsBody* GetBodyPtr() const { return m_body; }
 
+	float GetDistanceTravelledLastFrame() const;
 	Vector3D GetPosition() const { return m_position; };
 	void SetPosition(Vector3D position);
 	Vector3D GetPrevPosition() const { return m_prevPosition; };

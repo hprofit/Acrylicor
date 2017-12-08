@@ -235,8 +235,8 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			m_parent.HandleEvent(new CollideKillZoneEvent(0.0, other));
 		}
 		// Enemy on Enemy -- No Pass
-		else if ((m_body->Tags().HasTag("enemy") && otherPComp->Body().Tags().HasTag("enemy")) && 
-				  m_body->Tags().HasTag("noPass")) {
+		else if ((m_body->Tags().HasTag("enemy") && m_body->Tags().HasTag("noPass") && 
+				otherPComp->Body().Tags().HasTag("enemy")) && m_body->Tags().HasTag("noPass")) {
 			PushFromBodyEvent * rEvent = new PushFromBodyEvent(cpEvent->GetContact());
 			m_parent.HandleEvent(rEvent);
 		}
@@ -354,6 +354,11 @@ void PhysicsComponent::SetVelocityDirection(Vector3D dir)
 void PhysicsComponent::InterpolateVelocity(Vector3D vel, float weight)
 {
 	m_velocity = m_velocity + ((vel - m_velocity) * weight);
+}
+
+float PhysicsComponent::GetDistanceTravelledLastFrame() const
+{
+	return Vector3D::Distance(m_position, m_prevPosition);
 }
 
 void PhysicsComponent::SetPosition(Vector3D position)

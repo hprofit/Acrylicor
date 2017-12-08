@@ -20,9 +20,11 @@
   { "swayer": "ObjectFiles/swayer.json" },
   { "drone": "ObjectFiles/drone.json" },
   { "sniper": "ObjectFiles/sniper.json" },
+  { "enemyGun": "ObjectFiles/enemyGun.json" },
 
   { "background": "ObjectFiles/background.json" },
   { "bullet": "ObjectFiles/bullets/bullet.json" },
+  { "enemyBullet": "ObjectFiles/bullets/enemyBullet.json" },
   { "missile": "ObjectFiles/bullets/missile.json" },
   { "killZone": "ObjectFiles/killZone.json" },
   { "boundaryBox": "ObjectFiles/boundaryBox.json" },

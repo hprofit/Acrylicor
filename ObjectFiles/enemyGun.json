@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "position": {
+      "x": 0,
+      "y": -32
+    }
+  },
+  "weapon": {
+    "type": "singleBarrel",
+    "rateOfFire": 0.125,
+    "bullet": "enemyBullet",
+    "burst": 1,
+    "events": [
+      "pickup"
+    ]
+  }
+}

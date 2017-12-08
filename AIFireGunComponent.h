@@ -2,47 +2,47 @@
 Copyright (C) 2017 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior
 written consent of DigiPen Institute of Technology is prohibited.
-File Name: ControllerComponent.h
-Purpose: Handles default input
+File Name: AIFireGunComponent.h
+Purpose: AI that will fire an attached WeaponComponent at a set interval.
 Language: C++
 Platform: Windows 8.1 / 10.0.15063.0  or  GCC 7.1.0
 Project: CS529_holdenprofit_
 Author: Holden Profit, holden.profit, 42833
-Creation date: 10/20/17
+Creation date: 12/07/17
 - End Header --------------------------------------------------------*/
 
 #pragma once
 
-#ifndef CONTROLLER_COMPONENT_H
-#define CONTROLLER_COMPONENT_H
+#ifndef AI_FIRE_GUN_COMPONENT_H
+#define AI_FIRE_GUN_COMPONENT_H
 
-#include "Component.h"
+#include "AIBaseComponent.h"
 
-class PhysicsComponent;
 class WeaponComponent;
-class MissileLauncherComponent;
 
-class ControllerComponent :
-	public Component
+class AIFireGunComponent :
+	public AIBaseComponent
 {
 protected:
-	PhysicsComponent* m_pComp;
 	WeaponComponent* m_wComp;
-	MissileLauncherComponent* m_mlComp;
 
+	float m_fireFrequency;
+	float m_timeSinceLastFire;
 public:
-	ControllerComponent() = delete;
-	ControllerComponent(GameObject& parent);
-	ControllerComponent(const ControllerComponent& rhs, GameObject& parent);
-	virtual ~ControllerComponent();
+	AIFireGunComponent() = delete;
+	AIFireGunComponent(GameObject& parent, float fireFrequency);
+	AIFireGunComponent(const AIFireGunComponent& rhs) = delete;
+	AIFireGunComponent(const AIFireGunComponent& rhs, GameObject& parent);
+	AIFireGunComponent& operator= (AIFireGunComponent rhs) = delete;
+	~AIFireGunComponent();
 
 	virtual void Update(double deltaTime);
-	virtual ControllerComponent* Clone(GameObject& parent);
+	virtual AIFireGunComponent* Clone(GameObject& parent);
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
-	virtual void HandleEvent(AcryEvent * aEvent);
 	virtual void LateInitialize();
 };
+
 
 #endif

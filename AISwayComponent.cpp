@@ -6,16 +6,18 @@
 #include "TransformComponent.h"
 #include <math.h>
 
-AISwayComponent::AISwayComponent(GameObject & parent, float swayAmount) :
+AISwayComponent::AISwayComponent(GameObject & parent, float swayAmount, float speed) :
 	AIBaseComponent(COMPONENT_TYPE::AI_SWAY, parent),
 	m_swayAmount(swayAmount),
-	m_currX(-1.f), m_direction(1.f)
+	m_currX(-1.f), m_direction(1.f),
+	m_speed(speed)
 {}
 
 AISwayComponent::AISwayComponent(const AISwayComponent & rhs, GameObject & parent) :
 	AIBaseComponent(COMPONENT_TYPE::AI_SWAY, rhs, parent),
 	m_swayAmount(rhs.m_swayAmount),
-	m_currX(-1.f), m_direction(1.f)
+	m_currX(-1.f), m_direction(1.f),
+	m_speed(rhs.m_speed)
 {}
 
 AISwayComponent::~AISwayComponent(){}
@@ -27,7 +29,7 @@ void AISwayComponent::Update(double deltaTime)
 	if (!tComp || !pComp)
 		return;
 
-	m_currX += (float)deltaTime * m_direction;
+	m_currX += (float)deltaTime * m_direction * m_speed;
 	if (m_currX >= 1.f) {
 		m_currX = 1.f;
 		m_direction = -1.f;
@@ -50,11 +52,14 @@ AISwayComponent * AISwayComponent::Clone(GameObject & parent)
 
 Component * AISwayComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	float swayAmount = AcryJson::ValueExists(j, "aiSway", "amount") ? AcryJson::ParseFloat(j, "aiSway", "amount") : 1.f;
-	return new AISwayComponent(gObject, swayAmount);
+	return new AISwayComponent(gObject, 
+		AcryJson::ParseFloat(j, "aiSway", "amount"),
+		AcryJson::ParseFloat(j, "aiSway", "speed")
+	);
 }
 
 void AISwayComponent::Override(nlohmann::json j)
 {
 	m_swayAmount = AcryJson::ValueExists(j, "aiSway", "amount") ? AcryJson::ParseFloat(j, "aiSway", "amount") : m_swayAmount;
+	m_speed = AcryJson::ValueExists(j, "aiSway", "speed") ? AcryJson::ParseFloat(j, "aiSway", "speed") : m_speed;
 }

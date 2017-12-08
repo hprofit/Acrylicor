@@ -2,6 +2,9 @@
   "tags": [
     "enemy"
   ],
+  "children": [
+    "enemyGun"
+  ],
   "transform": {
     "position": {
       "x": 0,
@@ -23,9 +26,13 @@
     "frameX": 0,
     "frameY": 0
   },
-  "aiRush": {
-    "direction": "forward",
-    "speed": 200
+  "aiSquareSway": {
+    "speed": 400,
+    "verticalDistance": 100,
+    "horizontalDistance": 300
+  },
+  "aiFireGun": {
+    "fireFrequency": 1.25
   },
   "physics": {
     "mass": 1,

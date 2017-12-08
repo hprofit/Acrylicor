@@ -1,10 +1,10 @@
 #include "AIRushComponent.h"
 #include "JsonReader.h"
 
-// Don't like TODO: fix
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
+#include <iostream>
 
 AIRushComponent::AIRushComponent(GameObject & parent, unsigned short moveType, float speed) :
 	AIBaseComponent(COMPONENT_TYPE::AI_RUSH, parent),
@@ -20,23 +20,18 @@ AIRushComponent::~AIRushComponent(){}
 
 void AIRushComponent::Update(double deltaTime)
 {
-	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
-	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
-	if (!tComp || !pComp)
-		return;
-
 	switch (m_moveType) {
 	case FORWARD:
-		pComp->InterpolateVelocity(tComp->Forward() * m_speed, .5f);
+		m_pComp->InterpolateVelocity(m_tComp->Forward() * m_speed, .5f);
 		break;
 	case LEFT:
-		pComp->InterpolateVelocity(tComp->Right() * -m_speed, .5f);
+		m_pComp->InterpolateVelocity(m_tComp->Right() * -m_speed, .5f);
 		break;
 	case RIGHT:
-		pComp->InterpolateVelocity(tComp->Right() * m_speed, .5f);
+		m_pComp->InterpolateVelocity(m_tComp->Right() * m_speed, .5f);
 		break;
 	case BACKWARD:
-		pComp->InterpolateVelocity(tComp->Forward() * -m_speed, .5f);
+		m_pComp->InterpolateVelocity(m_tComp->Forward() * -m_speed, .5f);
 		break;
 	}
 }
@@ -73,4 +68,14 @@ void AIRushComponent::Override(nlohmann::json j)
 	}
 
 	m_speed = AcryJson::ValueExists(j, "aiRush", "speed") ? AcryJson::ParseInt(j, "aiRush", "speed") : m_speed;
+}
+
+void AIRushComponent::LateInitialize()
+{
+	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	if (!m_tComp)
+		std::cout << "AISeek components require Transform components." << std::endl;
+	m_pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	if (!m_pComp)
+		std::cout << "AISeek components require PHysics components." << std::endl;
 }

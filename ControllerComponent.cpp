@@ -28,35 +28,33 @@ ControllerComponent::~ControllerComponent()
 void ControllerComponent::Update(double deltaTime)
 {
 	InputManager& inputMgr = InputManager::GetInstance();
-	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
-	SpriteComponent* sComp = static_cast<SpriteComponent*>(m_parent.Get(COMPONENT_TYPE::SPRITE));
-	WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("gun")->Get(COMPONENT_TYPE::WEAPON));
-	MissileLauncherComponent* mlComp = static_cast<MissileLauncherComponent*>(m_parent.GetChildOfType("missileLauncher")->Get(COMPONENT_TYPE::MISSILE_LAUNCHER));
-
-	if (!pComp || !sComp || !wComp)
-		return;
+	//PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	//WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("gun")->Get(COMPONENT_TYPE::WEAPON));
+	//MissileLauncherComponent* mlComp = static_cast<MissileLauncherComponent*>(m_parent.GetChildOfType("missileLauncher")->Get(COMPONENT_TYPE::MISSILE_LAUNCHER));
 
 	// TODO: HOOK THESE UP TO EVENTS
-	sComp->SetFrame(2, 2);
+	//sComp->SetFrame(2, 2);
 	float force = 10000.0f;
-	if (inputMgr.IsKeyPressed(ACR_W)) {
-		pComp->AddForce(Vector3D(0.f, force, 0.f));
-	}
-	if (inputMgr.IsKeyPressed(ACR_S)) {
-		pComp->AddForce(Vector3D(0.f, -force, 0.f));
+	if (m_pComp) {
+		if (inputMgr.IsKeyPressed(ACR_W)) {
+			m_pComp->AddForce(Vector3D(0.f, force, 0.f));
+		}
+		if (inputMgr.IsKeyPressed(ACR_S)) {
+			m_pComp->AddForce(Vector3D(0.f, -force, 0.f));
+		}
+
+		if (inputMgr.IsKeyPressed(ACR_A)) {
+			m_pComp->AddForce(Vector3D(-force, 0.f, 0.f));
+		}
+		if (inputMgr.IsKeyPressed(ACR_D)) {
+			m_pComp->AddForce(Vector3D(force, 0.f, 0.f));
+		}
 	}
 
-	if (inputMgr.IsKeyPressed(ACR_A)) {
-		pComp->AddForce(Vector3D(-force, 0.f, 0.f));
-	}
-	if (inputMgr.IsKeyPressed(ACR_D)) {
-		pComp->AddForce(Vector3D(force, 0.f, 0.f));
-	}
-
-	if (inputMgr.IsKeyPressed(ACR_SPACE))
-		wComp->Fire();
-	if (inputMgr.IsKeyTriggered(ACR_F))
-		mlComp->Fire();
+	if (inputMgr.IsKeyPressed(ACR_SPACE) && m_wComp)
+		m_wComp->Fire();
+	if (inputMgr.IsKeyTriggered(ACR_F) && m_mlComp)
+		m_mlComp->Fire();
 	if (inputMgr.IsKeyTriggered(ACR_LSHIFT))
 		m_parent.HandleEvent(new AcryEvent(EventType::DASH));
 }
@@ -88,4 +86,18 @@ void ControllerComponent::HandleEvent(AcryEvent * aEvent)
 		}
 			break;
 	}
+}
+
+void ControllerComponent::LateInitialize()
+{
+	m_pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	if (!m_pComp)
+		std::cout << "Controller components require Physics components." << std::endl;
+
+	m_wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("gun")->Get(COMPONENT_TYPE::WEAPON));
+	if (!m_wComp)
+		std::cout << "Controller components require Weapon components." << std::endl;
+	m_mlComp = static_cast<MissileLauncherComponent*>(m_parent.GetChildOfType("missileLauncher")->Get(COMPONENT_TYPE::MISSILE_LAUNCHER));
+	if (!m_pComp)
+		std::cout << "Controller components require Missile Launcher components." << std::endl;
 }
