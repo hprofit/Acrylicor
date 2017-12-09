@@ -405,11 +405,17 @@
     <ClInclude Include="AISquareSwayComponent.h">
       <Filter>Header Files\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="AIFireGunComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TimeToLiveComponent.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AIFireGunComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeComponent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -653,11 +659,17 @@
     <ClCompile Include="AISquareSwayComponent.cpp">
       <Filter>Source Files\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="AIFireGunComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TimeToLiveComponent.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AIFireGunComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeComponent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

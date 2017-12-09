@@ -199,6 +199,8 @@
     <ClInclude Include="ScrollingSpriteComponent.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="ShakeComponent.h" />
+    <ClInclude Include="ShakeEvent.h" />
     <ClInclude Include="SpawnerComponent.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="STBSurface.h" />
@@ -285,6 +287,8 @@
     <ClCompile Include="ScrollingSpriteComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="ShakeComponent.cpp" />
+    <ClCompile Include="ShakeEvent.cpp" />
     <ClCompile Include="SpawnerComponent.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Subscriber.cpp" />

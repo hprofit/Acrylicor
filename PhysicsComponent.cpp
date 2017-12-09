@@ -11,6 +11,7 @@
 #include "ReflectEvent.h"
 #include "PushFromBodyEvent.h"
 #include "CollideKillZoneEvent.h"
+#include "ShakeEvent.h"
 
 #include "GameObject.h"
 #include "TransformComponent.h"
@@ -133,7 +134,6 @@ void PhysicsComponent::Update(double deltaTime, float gravity)
 void PhysicsComponent::LateUpdate()
 {
 	m_tComp->SetPosition(m_position);
-	//m_tComp->SetPosition(m_updatedPosition);
 }
 
 PhysicsComponent * PhysicsComponent::Clone(GameObject & parent)
@@ -264,6 +264,15 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
 
 			// TODO: Bullet burst animation here
+			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
+		}
+		// Player Bullet on Enemy
+		else if (m_body->Tags().HasTag("playerMissile") && otherPComp->Body().Tags().HasTag("enemy")) {
+			DamageComponent * dComp = static_cast<DamageComponent*>(m_parent.Get(COMPONENT_TYPE::DAMAGE));
+			other->HandleEvent(new DamageEvent(0.0, dComp->Amount()));
+
+			// TODO: Missile burst animation here
+			EventManager::GetInstance().BroadcastEventToSubscribers(new ShakeEvent(1.0));
 			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
 		}
 	}

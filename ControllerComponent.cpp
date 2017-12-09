@@ -9,7 +9,8 @@
 #include "WeaponComponent.h"
 #include "MissileLauncherComponent.h"
 #include "InputManager.h"
-
+#include "EventManager.h"
+#include "ShakeEvent.h"
 #include <iostream>
 
 ControllerComponent::ControllerComponent(GameObject& parent) :
@@ -28,9 +29,6 @@ ControllerComponent::~ControllerComponent()
 void ControllerComponent::Update(double deltaTime)
 {
 	InputManager& inputMgr = InputManager::GetInstance();
-	//PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
-	//WeaponComponent* wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("gun")->Get(COMPONENT_TYPE::WEAPON));
-	//MissileLauncherComponent* mlComp = static_cast<MissileLauncherComponent*>(m_parent.GetChildOfType("missileLauncher")->Get(COMPONENT_TYPE::MISSILE_LAUNCHER));
 
 	// TODO: HOOK THESE UP TO EVENTS
 	//sComp->SetFrame(2, 2);
@@ -57,6 +55,9 @@ void ControllerComponent::Update(double deltaTime)
 		m_mlComp->Fire();
 	if (inputMgr.IsKeyTriggered(ACR_LSHIFT))
 		m_parent.HandleEvent(new AcryEvent(EventType::DASH));
+
+	if (inputMgr.IsKeyTriggered(ACR_O))
+		EventManager::GetInstance().BroadcastEventToSubscribers(new ShakeEvent(4.0));
 }
 
 ControllerComponent * ControllerComponent::Clone(GameObject & parent)

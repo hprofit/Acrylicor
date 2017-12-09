@@ -49,7 +49,8 @@ enum class EventType {
 	MISSILE_COUNT_CHANGE,
 	DASH,
 	TARGET_FOUND,
-	PICKUP
+	PICKUP,
+	SHAKE
 };
 
 class AcryEvent

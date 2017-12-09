@@ -15,5 +15,11 @@
   "camera": {
     "fov": 105,
     "type": "both"
+  },
+  "shake": {
+    "amount": 10,
+    "events": [
+      "shake"
+    ]
   }
 }

@@ -21,6 +21,8 @@ Creation date: 11/03/17
 #include "Rect3D.h"
 #include "CollisionResult.h"
 
+float GetRandomFloat(float lo, float hi);
+
 bool FloatEquals(float value, float targetValue);
 
 /*

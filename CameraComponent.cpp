@@ -2,13 +2,11 @@
 #include "JsonReader.h"
 #include "WindowManager.h"
 #include "TransformComponent.h"
+#include "ShakeEvent.h"
 
 #include "GameObjectManager.h"
 #include "GameObject.h"
-
-CameraComponent::CameraComponent(GameObject & parent) :
-	Component(parent, COMPONENT_TYPE::CAMERA, true)
-{}
+#include <iostream>
 
 CameraComponent::CameraComponent(GameObject & parent, float fov, unsigned short camType) :
 	Component(parent, COMPONENT_TYPE::CAMERA, true),
@@ -37,11 +35,9 @@ Matrix4x4 CameraComponent::_MatrixFromCameraVectors(const Vector3D & right, cons
 
 void CameraComponent::_CalcViewMatrix()
 {
-	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	Matrix4x4 rotationM = _MatrixFromCameraVectors(m_tComp->Right(), m_tComp->Up(), m_tComp->Forward());
 
-	Matrix4x4 rotationM = _MatrixFromCameraVectors(tComp->Right(), tComp->Up(), tComp->Forward());
-
-	m_viewMatrix = rotationM * Matrix4x4::Translate(-1 * tComp->GetPosition());
+	m_viewMatrix = rotationM * Matrix4x4::Translate(-1 * m_tComp->GetPosition());
 }
 
 void CameraComponent::_CalcPerspectiveMatrix()
@@ -117,6 +113,17 @@ void CameraComponent::Override(nlohmann::json j)
 void CameraComponent::RegisterWithManager()
 {
 	GameObjectManager::GetInstance().RegisterCamera(this);
+}
+
+void CameraComponent::HandleEvent(AcryEvent * aEvent)
+{
+}
+
+void CameraComponent::LateInitialize()
+{
+	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	if (!m_tComp)
+		std::cout << "Camera components require transform components." << std::endl;
 }
 
 float CameraComponent::GetFOV() const

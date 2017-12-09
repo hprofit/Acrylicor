@@ -3,8 +3,18 @@
 #include <math.h>
 #include <algorithm>
 #include "AcrylicorTypedefs.h"
+#include <random>
 
-bool FloatEquals(float value, float targetValue) 
+static std::random_device rd;
+static std::mt19937 mt(rd());
+
+float GetRandomFloat(float lo, float hi)
+{
+	std::uniform_real_distribution<float> dist(lo, hi);
+	return dist(mt);
+}
+
+bool FloatEquals(float value, float targetValue)
 {
 	return ((value >= targetValue - EPSILON) && (value <= targetValue + EPSILON));
 }

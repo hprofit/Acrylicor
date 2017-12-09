@@ -25,6 +25,8 @@ Creation date: 11/02/17
 #define CAM_PERSP	1
 #define CAM_ORTHO	2
 
+class TransformComponent;
+
 class CameraComponent :
 	public Component
 {
@@ -34,13 +36,14 @@ protected:
 	Matrix4x4 m_viewMatrix, m_perspectiveMatrix, m_orthographicMatrix;
 	unsigned short m_cameraType;
 
+	TransformComponent* m_tComp;
+
 	Matrix4x4 _MatrixFromCameraVectors(const Vector3D& right, const Vector3D& up, const Vector3D& forward);
 	void _CalcViewMatrix();
 	void _CalcPerspectiveMatrix();
 	void _CalcOrthographicMatrix();
 public:
 	CameraComponent() = delete;
-	CameraComponent(GameObject& parent);
 	CameraComponent(GameObject& parent, float fov, unsigned short camType = CAM_BOTH);
 	CameraComponent(const CameraComponent& rhs) = delete;
 	CameraComponent(const CameraComponent& rhs, GameObject& parent);
@@ -52,6 +55,8 @@ public:
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager();
+	virtual void HandleEvent(AcryEvent * aEvent);
+	virtual void LateInitialize();
 
 	float GetFOV() const;
 	float GetAspect() const;

@@ -27,9 +27,8 @@
       "type": "circle",
       "radius": 12,
       "tags": [
-        "bullet",
         "missile",
-        "playerBullet"
+        "playerMissile"
       ]
     },
     "maxSpeed": 1000
