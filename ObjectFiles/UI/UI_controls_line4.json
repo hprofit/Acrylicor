@@ -1,0 +1,19 @@
+{
+  "children": [
+  ],
+  "transform": {
+    "position": {
+      "x": -225,
+      "y": -100,
+      "z": -1
+    },
+    "scale": {
+      "x": 24,
+      "y": 24
+    }
+  },
+  "text": {
+    "font": "baseFont",
+    "text": "Space (Hold) -> Fire Gun"
+  }
+}

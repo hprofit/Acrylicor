@@ -334,6 +334,10 @@
     <None Include="ObjectFiles\tileShader.json" />
     <None Include="ObjectFiles\UI\HUD.json" />
     <None Include="ObjectFiles\UI\UI_controls.json" />
+    <None Include="ObjectFiles\UI\UI_controls_line1.json" />
+    <None Include="ObjectFiles\UI\UI_controls_line2.json" />
+    <None Include="ObjectFiles\UI\UI_controls_line3.json" />
+    <None Include="ObjectFiles\UI\UI_controls_line4.json" />
     <None Include="ObjectFiles\UI\UI_energy.json" />
     <None Include="ObjectFiles\UI\UI_lives.json" />
     <None Include="ObjectFiles\UI\UI_missiles.json" />

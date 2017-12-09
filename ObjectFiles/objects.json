@@ -13,6 +13,11 @@
   { "UI_score": "ObjectFiles/UI/UI_score.json" },
   { "UI_missiles": "ObjectFiles/UI/UI_missiles.json" },
   { "UI_energy": "ObjectFiles/UI/UI_energy.json" },
+
+  { "UI_controls_line1": "ObjectFiles/UI/UI_controls_line1.json" },
+  { "UI_controls_line2": "ObjectFiles/UI/UI_controls_line2.json" },
+  { "UI_controls_line3": "ObjectFiles/UI/UI_controls_line3.json" },
+  { "UI_controls_line4": "ObjectFiles/UI/UI_controls_line4.json" },
   { "UI_controls": "ObjectFiles/UI/UI_controls.json" },
 
   { "HUD": "ObjectFiles/UI/HUD.json" },

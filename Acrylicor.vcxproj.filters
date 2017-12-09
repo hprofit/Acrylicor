@@ -133,6 +133,9 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{7e3d154d-315e-42fb-a6b3-7f7bc8b358ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\UI\Controls">
+      <UniqueIdentifier>{b03a2d0c-eead-4a2b-afaa-9965ef73a46b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -745,9 +748,6 @@
     <None Include="ObjectFiles\gun.json">
       <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
     </None>
-    <None Include="ObjectFiles\UI\UI_controls.json">
-      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
-    </None>
     <None Include="ObjectFiles\swayer.json">
       <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
     </None>
@@ -777,6 +777,21 @@
     </None>
     <None Include="ObjectFiles\bullets\enemyBullet.json">
       <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_controls_line3.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_controls.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_controls_line1.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_controls_line2.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_controls_line4.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,19 +1,19 @@
 {
+  "children": [
+    "UI_controls_line1",
+    "UI_controls_line2",
+    "UI_controls_line3",
+    "UI_controls_line4"
+  ],
   "transform": {
     "position": {
-      "x": -300,
+      "x": 0,
       "y": 0,
       "z": -1
     },
     "scale": {
-      "x": 24,
-      "y": 24
+      "x": 0.75,
+      "y": 0.75
     }
-  },
-  "text": {
-    "font": "baseFont"
-  },
-  "uiScore": {
-    "baseMessage": "W, A, S, D -> Steer Your Ship\nLeft Shift -> Dash In The Direction You're Moving\nF -> Fire Missile"
   }
 }

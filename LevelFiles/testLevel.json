@@ -215,6 +215,9 @@
     },
     {
       "UI_energy": { }
+    },
+    {
+      "UI_controls": { }
     }
 
   ]

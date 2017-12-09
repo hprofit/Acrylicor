@@ -1,0 +1,19 @@
+{
+  "children": [
+  ],
+  "transform": {
+    "position": {
+      "x": -425,
+      "y": 0,
+      "z": -1
+    },
+    "scale": {
+      "x": 24,
+      "y": 24
+    }
+  },
+  "text": {
+    "font": "baseFont",
+    "text": "Left Shift -> Dash In The Direction You're Moving"
+  }
+}
