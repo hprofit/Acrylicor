@@ -312,13 +312,13 @@
     <None Include="ObjectFiles\background.json" />
     <None Include="ObjectFiles\boundaryBox.json" />
     <None Include="ObjectFiles\bullets\bullet.json" />
-    <None Include="ObjectFiles\bullets\enemyBullet.json" />
+    <None Include="ObjectFiles\bullets\standardEnemyBullet.json" />
     <None Include="ObjectFiles\bullets\missile.json" />
     <None Include="ObjectFiles\camera.json" />
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\drone.json" />
-    <None Include="ObjectFiles\enemyGun.json" />
+    <None Include="ObjectFiles\standardEnemyGun.json" />
     <None Include="ObjectFiles\goal.json" />
     <None Include="ObjectFiles\pickup.json" />
     <None Include="ObjectFiles\sniper.json" />

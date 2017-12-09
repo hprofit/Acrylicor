@@ -51,7 +51,7 @@ void AIFireGunComponent::Override(nlohmann::json j)
 
 void AIFireGunComponent::LateInitialize()
 {
-	m_wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("enemyGun")->Get(COMPONENT_TYPE::WEAPON));
+	m_wComp = static_cast<WeaponComponent*>(m_parent.GetChildOfType("standardEnemyGun")->Get(COMPONENT_TYPE::WEAPON));
 	if (!m_wComp)
 		std::cout << "AIFireGun components require Weapon components." << std::endl;
 }

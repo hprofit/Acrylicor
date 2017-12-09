@@ -3,7 +3,7 @@
     "enemy"
   ],
   "children": [
-    "enemyGun"
+    "standardEnemyGun"
   ],
   "transform": {
     "position": {

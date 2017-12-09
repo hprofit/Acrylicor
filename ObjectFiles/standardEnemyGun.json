@@ -8,10 +8,9 @@
   "weapon": {
     "type": "singleBarrel",
     "rateOfFire": 0.125,
-    "bullet": "enemyBullet",
+    "bullet": "standardEnemyBullet",
     "burst": 1,
     "events": [
-      "pickup"
     ]
   }
 }

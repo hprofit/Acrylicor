@@ -1,8 +1,8 @@
 {
   "transform": {
     "scale": {
-      "x": 24,
-      "y": 24,
+      "x": 20,
+      "y": 20,
       "z": 0
     }
   },
@@ -19,7 +19,7 @@
   },
   "aiRush": {
     "direction": "forward",
-    "speed": 1000
+    "speed": 150
   },
   "physics": {
     "mass": 1,
@@ -32,7 +32,7 @@
       ]
     },
     "weightless": true,
-    "maxSpeed": 1000
+    "maxSpeed": 150
   },
   "damage": {
     "amount": 1

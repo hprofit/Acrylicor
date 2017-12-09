@@ -136,6 +136,9 @@
     <Filter Include="Source Files\TEST_FILES\Json\UI\Controls">
       <UniqueIdentifier>{b03a2d0c-eead-4a2b-afaa-9965ef73a46b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\Objects\Projectile\EnemyGuns">
+      <UniqueIdentifier>{7ce1f68e-e5fa-437c-831f-7906b7d2f8b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -778,12 +781,6 @@
     <None Include="ObjectFiles\pickup.json">
       <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
-    <None Include="ObjectFiles\enemyGun.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
-    </None>
-    <None Include="ObjectFiles\bullets\enemyBullet.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile</Filter>
-    </None>
     <None Include="ObjectFiles\UI\UI_controls_line3.json">
       <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
     </None>
@@ -798,6 +795,12 @@
     </None>
     <None Include="ObjectFiles\UI\UI_controls_line4.json">
       <Filter>Source Files\TEST_FILES\Json\UI\Controls</Filter>
+    </None>
+    <None Include="ObjectFiles\standardEnemyGun.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile\EnemyGuns</Filter>
+    </None>
+    <None Include="ObjectFiles\bullets\standardEnemyBullet.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Projectile\EnemyGuns</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,15 +1,21 @@
 {
   "transform": {
     "scale": {
-      "x": 24,
-      "y": 24,
+      "x": 20,
+      "y": 20,
       "z": 0
     }
   },
   "sprite": {
     "name": "bullet",
     "frameX": 0,
-    "frameY": 0
+    "frameY": 0,
+    "color": {
+      "r": 0.5,
+      "g": 0.9,
+      "b": 1,
+      "a": 1
+    }
   },
   "aiRush": {
     "direction": "forward",
