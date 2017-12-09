@@ -405,6 +405,9 @@
     <ClInclude Include="AIFireGunComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TimeToLiveComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -649,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="AIFireGunComponent.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeToLiveComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -29,9 +29,9 @@
 #include "DashComponent.h"
 #include "GoalComponent.h"
 #include "PickupComponent.h"
+#include "TimeToLiveComponent.h"
 
-GameObjectFactory::GameObjectFactory()
-{}
+GameObjectFactory::GameObjectFactory() {}
 
 GameObjectFactory::~GameObjectFactory()
 {
@@ -73,6 +73,7 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "dash"))				gObject->Get(COMPONENT_TYPE::DASH)->Override(j);
 		else if (AcryJson::KeyIs(it, "goal"))				gObject->Get(COMPONENT_TYPE::GOAL)->Override(j);
 		else if (AcryJson::KeyIs(it, "pickup"))				gObject->Get(COMPONENT_TYPE::PICKUP)->Override(j);
+		else if (AcryJson::KeyIs(it, "ttl"))				gObject->Get(COMPONENT_TYPE::TIME_TO_LIVE)->Override(j);
 	}
 	return gObject;
 }
@@ -142,6 +143,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "dash"))				gObject->AddComponent(DashComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "goal"))				gObject->AddComponent(GoalComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "pickup"))				gObject->AddComponent(PickupComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "ttl"))				gObject->AddComponent(TimeToLiveComponent::Serialize(*gObject, j));
 
 				// Special case, hook up to parent from here
 				else if (AcryJson::KeyIs(it, "parent"))				_AttachGameObjectToParentGameObjectArchetype(j["parent"], gObject);

@@ -209,6 +209,7 @@
     <ClInclude Include="TargetFoundEvent.h" />
     <ClInclude Include="TestGameState.h" />
     <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TimeToLiveComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="UI_EnergyComponent.h" />
     <ClInclude Include="UI_ScoreComponent.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="TargetFoundEvent.cpp" />
     <ClCompile Include="TestGameState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
+    <ClCompile Include="TimeToLiveComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UI_EnergyComponent.cpp" />
     <ClCompile Include="UI_ScoreComponent.cpp" />

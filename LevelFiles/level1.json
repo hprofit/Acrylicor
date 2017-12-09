@@ -370,6 +370,13 @@
     },
     {
       "UI_energy": { }
+    },
+    {
+      "UI_controls": {
+        "ttl": {
+          "time": 5
+        }
+      }
     }
 
   ]
