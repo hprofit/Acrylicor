@@ -22,7 +22,7 @@
     }
   },
   "sprite": {
-    "name": "enemy",
+    "name": "sniper",
     "frameX": 0,
     "frameY": 0
   },

@@ -19,7 +19,7 @@
     }
   },
   "sprite": {
-    "name": "enemy",
+    "name": "swayer",
     "frameX": 0,
     "frameY": 0
   },

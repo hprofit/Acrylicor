@@ -31,8 +31,17 @@
     "rows": 0,
     "columns": 0
   },
-  "enemy": {
-    "filename": "Textures/evilShip.png",
+
+  "swayer": {
+    "filename": "Textures/swayer.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "sniper": {
+    "filename": "Textures/sniper.png",
     "alpha": true,
     "frameWidth": 32,
     "frameHeight": 32,
@@ -47,6 +56,7 @@
     "rows": 0,
     "columns": 0
   },
+
   "motherBoardBG": {
     "filename": "Textures/motherBoard.png",
     "alpha": true,
