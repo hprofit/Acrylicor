@@ -40,7 +40,7 @@ private:
 
 	GameObjectManager() = delete;
 	GameObjectManager(unsigned int maxObjects);
-	~GameObjectManager();
+	virtual ~GameObjectManager();
 
 	void _SetActiveCamera(GameObject* gObject);
 	GameObject * _AddGameObjectToList(GameObject* gameObject);

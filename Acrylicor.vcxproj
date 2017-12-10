@@ -158,6 +158,7 @@
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectFactory.h" />
+    <ClInclude Include="GameOverControllerComponent.h" />
     <ClInclude Include="GoalComponent.h" />
     <ClInclude Include="GODestroyedEvent.h" />
     <ClInclude Include="HealthComponent.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectFactory.cpp" />
+    <ClCompile Include="GameOverControllerComponent.cpp" />
     <ClCompile Include="GoalComponent.cpp" />
     <ClCompile Include="GODestroyedEvent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />

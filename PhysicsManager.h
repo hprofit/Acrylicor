@@ -21,6 +21,7 @@ Creation date: 10/27/17
 #include "PhysicsComponent.h"
 #include "Contact.h"
 #include "CollisionResult.h"
+#include "Subscriber.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -28,7 +29,8 @@ Creation date: 10/27/17
 
 class EventManager;
 
-class PhysicsManager
+class PhysicsManager : 
+	public Subscriber
 {
 private:
 	std::vector<Component *> m_physicsBodies;
@@ -42,10 +44,11 @@ private:
 	Vector3D(*m_pushFunctions[BODY_TYPE::NUM][BODY_TYPE::NUM])(const PhysicsComponent &, const PhysicsComponent &, const Vector3D &, const CollisionResult&);
 
 	PhysicsManager();
-	~PhysicsManager();
+	virtual ~PhysicsManager();
 
 	void _RemoveBody(Component * comp);
 	void _RemoveTransform(Component * comp);
+	void _RemoveAll();
 
 	void _CreateContact(GameObject* lhsGO, GameObject* rhsGO, CollisionResult collision);
 	void _ResetContacts();
@@ -60,6 +63,8 @@ public:
 		static PhysicsManager instance;
 		return instance;
 	}
+
+	virtual void HandleEvent(AcryEvent * aEvent);
 
 	void AddComponent(Component * comp);
 	void RemoveComponent(Component * comp);

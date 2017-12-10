@@ -142,6 +142,12 @@
     <Filter Include="Source Files\TEST_FILES\Json\UI\Game Over">
       <UniqueIdentifier>{25f5e53a-52fe-4c01-b2c7-a3421af75483}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Controller">
+      <UniqueIdentifier>{00080944-3bc9-469d-b35a-e390a9dfaa94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Controller">
+      <UniqueIdentifier>{348c8209-67ca-4462-b233-f5111741e82c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -205,9 +211,6 @@
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="ComponentTypes.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ControllerComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
@@ -426,6 +429,12 @@
     <ClInclude Include="AddScoreEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerComponent.h">
+      <Filter>Header Files\Components\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverControllerComponent.h">
+      <Filter>Header Files\Components\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -484,9 +493,6 @@
     </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>Source Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="ControllerComponent.cpp">
-      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files\Managers</Filter>
@@ -685,6 +691,12 @@
     </ClCompile>
     <ClCompile Include="AddScoreEvent.cpp">
       <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverControllerComponent.cpp">
+      <Filter>Source Files\Components\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerComponent.cpp">
+      <Filter>Source Files\Components\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

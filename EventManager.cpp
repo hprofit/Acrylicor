@@ -48,7 +48,7 @@ void EventManager::Subscribe(const String eType, Subscriber * subscriber)
 void EventManager::Subscribe(const EventType eType, Subscriber * subscriber)
 {
 	for (Subscriber* listener : m_listeners[eType])
-		if (listener = subscriber) return;
+		if (listener == subscriber) return;
 	m_listeners[eType].push_back(subscriber);
 }
 

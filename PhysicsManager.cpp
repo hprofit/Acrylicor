@@ -166,11 +166,12 @@ PhysicsManager::PhysicsManager() :
 
 	m_pushFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_CIRCLE] = PushAABBFromCircle;
 	m_pushFunctions[BODY_TYPE::BT_AABB][BODY_TYPE::BT_AABB] = PushAABBFromAABB;
+
+	_AddSubscriberToTracker();
+	SubscribeToEvent(EventType::UNLOAD_LEVEL);
 }
 
-PhysicsManager::~PhysicsManager()
-{
-}
+PhysicsManager::~PhysicsManager(){}
 
 void PhysicsManager::_RemoveBody(Component * comp)
 {
@@ -184,6 +185,23 @@ void PhysicsManager::_RemoveTransform(Component * comp)
 	std::vector<Component*>::iterator position = std::find(m_transforms.begin(), m_transforms.end(), comp);
 	if (position != m_transforms.end())
 		m_transforms.erase(position);
+}
+
+void PhysicsManager::_RemoveAll()
+{
+	m_physicsBodies.clear();
+	m_transforms.clear();
+}
+
+void PhysicsManager::HandleEvent(AcryEvent * aEvent)
+{
+	switch (aEvent->Type()) {
+	case EventType::UNLOAD_LEVEL:
+	{
+		_RemoveAll();
+	}
+	break;
+	}
 }
 
 void PhysicsManager::AddComponent(Component * comp)

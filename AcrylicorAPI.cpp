@@ -14,6 +14,7 @@
 #include "JsonReader.h"
 #include "Mesh.h"
 
+static EventManager& eventMngr = EventManager::GetInstance();
 static FrameRateController& frameRateCtrl = FrameRateController::GetInstance();
 static WindowManager& windowMngr = WindowManager::GetInstance();
 static RenderManager& renderMngr = RenderManager::GetInstance();
@@ -22,7 +23,6 @@ static ResourceManager& resourceMngr = ResourceManager::GetInstance();
 static GameObjectFactory& gameObjectFactory = GameObjectFactory::GetInstance();
 static GameObjectManager& gameObjectMngr = GameObjectManager::GetInstance();
 static PhysicsManager& physicsMngr = PhysicsManager::GetInstance();
-static EventManager& eventMngr = EventManager::GetInstance();
 static LevelManager& levelMngr = LevelManager::GetInstance();
 
 int Acrylicor::Initialize(String configFileName)
