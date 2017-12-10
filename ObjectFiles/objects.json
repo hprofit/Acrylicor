@@ -14,6 +14,10 @@
   { "UI_missiles": "ObjectFiles/UI/UI_missiles.json" },
   { "UI_energy": "ObjectFiles/UI/UI_energy.json" },
 
+  { "UI_gameOver_line1": "ObjectFiles/UI/UI_gameOver_line1.json" },
+  { "UI_gameOver_line2": "ObjectFiles/UI/UI_gameOver_line2.json" },
+  { "UI_gameOver": "ObjectFiles/UI/UI_gameOver.json" },
+
   { "UI_controls_line1": "ObjectFiles/UI/UI_controls_line1.json" },
   { "UI_controls_line2": "ObjectFiles/UI/UI_controls_line2.json" },
   { "UI_controls_line3": "ObjectFiles/UI/UI_controls_line3.json" },
@@ -27,6 +31,8 @@
   { "swayer": "ObjectFiles/swayer.json" },
   { "drone": "ObjectFiles/drone.json" },
   { "sniper": "ObjectFiles/sniper.json" },
+
+  { "boss": "ObjectFiles/boss.json" },
 
   { "background": "ObjectFiles/background.json" },
   { "bullet": "ObjectFiles/bullets/bullet.json" },

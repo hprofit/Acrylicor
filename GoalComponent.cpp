@@ -5,7 +5,7 @@
 
 #include "AcryEvent.h"
 #include "GODestroyedEvent.h"
-
+#include "AddScoreEvent.h"
 #include <iostream>
 
 void GoalComponent::_SetGoalEnemyCount(unsigned int enemyCount)
@@ -31,6 +31,7 @@ void GoalComponent::_SetDistanceTravelled(float distance)
 void GoalComponent::_GoalCompleted()
 {
 	if (!m_goalCompleted) {
+		std::cout << "======================== Goal reached! ========================" << std::endl;
 		m_goalCompleted = true;
 		EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::NEXT_LEVEL, 2.0));
 	}
@@ -80,29 +81,31 @@ void GoalComponent::Override(nlohmann::json j)
 void GoalComponent::HandleEvent(AcryEvent * aEvent)
 {
 	switch (aEvent->Type()) {
-	case EventType::GO_DESTROYED:
+	case EventType::ADD_SCORE:
 	{
-		GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
-		if (godEvent->GO()->Tags().HasTag("boss"))
+		//GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
+		AddScoreEvent * asEvent = static_cast<AddScoreEvent*>(aEvent);
+		if (asEvent->GO()->Tags().HasTag("boss"))
 			m_parent.HandleEvent(new AcryEvent(EventType::BOSS_DESTROYED));
-		else if (godEvent->GO()->Tags().HasTag("enemy"))
+		else if (asEvent->GO()->Tags().HasTag("enemy"))
 			m_parent.HandleEvent(new AcryEvent(EventType::ENEMY_DESTROYED));
-
 	}
 	break;
 	case EventType::BOSS_DESTROYED:
 	{
 		m_bossDestroyed = true;
-		std::cout << "Boss Destroyed: Goal reached!" << std::endl;
 		_GoalCompleted();
 	}
 	break;
 	case EventType::ENEMY_DESTROYED:
 	{
-		if (++m_currentEnemyCount >= m_enemyCount) {
-			std::cout << "======================== Enemies destroyed: Goal reached! ========================" << std::endl;
+		if (++m_currentEnemyCount >= m_enemyCount)
 			_GoalCompleted();
-		}
+	}
+	break;
+	case EventType::GAME_OVER:
+	{
+		GameObject* gObject = GameObjectManager::GetInstance().SpawnGameObject("UI_gameOver");
 	}
 	break;
 	}

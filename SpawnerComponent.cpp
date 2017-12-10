@@ -29,11 +29,7 @@ SpawnerComponent * SpawnerComponent::Clone(GameObject & parent)
 
 Component * SpawnerComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	SpawnerComponent* comp = new SpawnerComponent(gObject,
-		AcryJson::ParseString(j, "spawner", "type")
-	);
-
-	return comp;
+	return new SpawnerComponent(gObject, AcryJson::ParseString(j, "spawner", "type") );
 }
 
 void SpawnerComponent::Override(nlohmann::json j)
@@ -46,6 +42,11 @@ void SpawnerComponent::Override(nlohmann::json j)
 void SpawnerComponent::HandleEvent(AcryEvent * aEvent)
 {
 	switch (aEvent->Type()) {
+	case EventType::GAME_OVER:
+	{
+		GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
+	}
+	break;
 	case EventType::RESPAWN:
 	{
 		GameObject* gObject = GameObjectManager::GetInstance().SpawnGameObject(m_objectType);

@@ -17,6 +17,7 @@ Creation date: 12/07/17
 #define AI_FIRE_GUN_COMPONENT_H
 
 #include "AIBaseComponent.h"
+#include "AcrylicorTypedefs.h"
 
 class WeaponComponent;
 
@@ -28,9 +29,10 @@ protected:
 
 	float m_fireFrequency;
 	float m_timeSinceLastFire;
+	String m_gunType;
 public:
 	AIFireGunComponent() = delete;
-	AIFireGunComponent(GameObject& parent, float fireFrequency);
+	AIFireGunComponent(GameObject& parent, float fireFrequency, String gunType);
 	AIFireGunComponent(const AIFireGunComponent& rhs) = delete;
 	AIFireGunComponent(const AIFireGunComponent& rhs, GameObject& parent);
 	AIFireGunComponent& operator= (AIFireGunComponent rhs) = delete;

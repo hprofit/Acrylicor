@@ -44,5 +44,8 @@
   },
   "health": {
     "hp": 3
+  },
+  "score": {
+    "amount": 50
   }
 }

@@ -187,17 +187,17 @@
           "type": "enemiesDefeated",
           "count": 2,
           "events": [
-            "goDestroyed"
+            "addScore"
           ]
         }
       }
     },
 
     {
-      "sniper": {
+      "boss": {
         "physics": {
           "position": {
-            "y": 400
+            "y": 100
           }
         }
       }

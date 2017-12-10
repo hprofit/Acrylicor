@@ -2,6 +2,6 @@
   "WINDOW_WIDTH": 1200,
   "WINDOW_HEIGHT": 800,
   "WINDOW_TITLE": "Bug Blaster",
-  "DEBUG_MODE": false,
+  "DEBUG_MODE": true,
   "DEBUG_SHADER": "lineShader"
 }

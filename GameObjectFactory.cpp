@@ -31,6 +31,7 @@
 #include "PickupComponent.h"
 #include "TimeToLiveComponent.h"
 #include "ShakeComponent.h"
+#include "ScoreComponent.h"
 
 GameObjectFactory::GameObjectFactory() {}
 
@@ -76,6 +77,7 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "pickup"))				gObject->Get(COMPONENT_TYPE::PICKUP)->Override(j);
 		else if (AcryJson::KeyIs(it, "ttl"))				gObject->Get(COMPONENT_TYPE::TIME_TO_LIVE)->Override(j);
 		else if (AcryJson::KeyIs(it, "shake"))				gObject->Get(COMPONENT_TYPE::SHAKE)->Override(j);
+		else if (AcryJson::KeyIs(it, "score"))				gObject->Get(COMPONENT_TYPE::SCORE)->Override(j);
 	}
 	return gObject;
 }
@@ -147,6 +149,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "pickup"))				gObject->AddComponent(PickupComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "ttl"))				gObject->AddComponent(TimeToLiveComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "shake"))				gObject->AddComponent(ShakeComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "score"))				gObject->AddComponent(ScoreComponent::Serialize(*gObject, j));
 
 				// Special case, hook up to parent from here
 				else if (AcryJson::KeyIs(it, "parent"))				_AttachGameObjectToParentGameObjectArchetype(j["parent"], gObject);

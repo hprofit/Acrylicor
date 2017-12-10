@@ -2,6 +2,7 @@
 #include "JsonReader.h"
 
 #include "GameObject.h"
+#include "AddScoreEvent.h"
 #include "MissileCountChangeEvent.h"
 #include "TextComponent.h"
 #include <string>
@@ -22,13 +23,9 @@ UI_ScoreComponent::UI_ScoreComponent(const UI_ScoreComponent & rhs, GameObject &
 	m_score(rhs.m_score),
 	m_baseMessage(rhs.m_baseMessage) {}
 
-UI_ScoreComponent::~UI_ScoreComponent()
-{
-}
+UI_ScoreComponent::~UI_ScoreComponent(){}
 
-void UI_ScoreComponent::Update(double deltaTime)
-{
-}
+void UI_ScoreComponent::Update(double deltaTime){}
 
 UI_ScoreComponent * UI_ScoreComponent::Clone(GameObject & parent)
 {
@@ -40,12 +37,12 @@ UI_ScoreComponent * UI_ScoreComponent::Clone(GameObject & parent)
 
 Component * UI_ScoreComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	UI_ScoreComponent* uilComp = new UI_ScoreComponent(gObject,
+	UI_ScoreComponent* comp = new UI_ScoreComponent(gObject,
 		AcryJson::ParseString(j, "uiScore", "baseMessage")
 	);
-	uilComp->_ParseEvents(j, "uiScore");
+	comp->_ParseEvents(j, "uiScore");
 
-	return uilComp;
+	return comp;
 }
 
 void UI_ScoreComponent::Override(nlohmann::json j)
@@ -55,7 +52,14 @@ void UI_ScoreComponent::Override(nlohmann::json j)
 
 void UI_ScoreComponent::HandleEvent(AcryEvent * aEvent)
 {
-
+	switch (aEvent->Type()) {
+	case EventType::ADD_SCORE:
+	{
+		AddScoreEvent * asEvent = static_cast<AddScoreEvent*>(aEvent);
+		AddScore(asEvent->Score());
+	}
+	break;
+	}
 }
 
 void UI_ScoreComponent::LateInitialize()

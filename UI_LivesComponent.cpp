@@ -1,10 +1,19 @@
 #include "UI_LivesComponent.h"
 #include "JsonReader.h"
+#include "AcryEvent.h"
 #include "LifeChangeEvent.h"
-
+#include "EventManager.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
+
+void UI_LivesComponent::_HandleLifeRemoval()
+{
+	if (m_lives <= 0) {
+		EventManager::GetInstance().BroadcastEvent(new AcryEvent(EventType::GAME_OVER, 0.0));
+		m_lives = 0;
+	}
+}
 
 UI_LivesComponent::UI_LivesComponent(GameObject & parent, float scaleX, float scaleY, int lives) :
 	Component(parent, COMPONENT_TYPE::UI_LIVES),
@@ -92,9 +101,11 @@ void UI_LivesComponent::AddLives(int amt)
 void UI_LivesComponent::RemoveLife()
 {
 	--m_lives;
+	_HandleLifeRemoval();
 }
 
 void UI_LivesComponent::RemoveLives(int amt)
 { 
 	m_lives -= amt;
+	_HandleLifeRemoval();
 }

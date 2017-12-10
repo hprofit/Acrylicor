@@ -252,7 +252,7 @@ void PhysicsComponent::HandleEvent(AcryEvent * aEvent)
 				EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESPAWN, 3.0));
 
 				GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
-				GameObjectManager::GetInstance().DestroyGameObject(other);
+				//GameObjectManager::GetInstance().DestroyGameObject(other);
 			}
 			else if (otherPComp->Body().Tags().HasTag("pickup")) {
 				other->HandleEvent(new AcryEvent(EventType::PICKUP));

@@ -47,7 +47,7 @@ GameObject::GameObject(const GameObject& rhs) :
 	m_tags(rhs.m_tags)
 {
 	Activate();
-	_AddSubscriberToTracker();
+	//_AddSubscriberToTracker();
 	_CloneComponents(rhs);
 }
 
@@ -58,7 +58,7 @@ GameObject::GameObject(const GameObject & rhs, GameObject * parent) :
 	m_tags(rhs.m_tags)
 {
 	Activate();
-	_AddSubscriberToTracker();
+	//_AddSubscriberToTracker();
 	_CloneComponents(rhs);
 }
 
@@ -67,7 +67,7 @@ GameObject & GameObject::operator=(const GameObject & rhs)
 	m_tags = rhs.m_tags;
 	ClearComponents();
 	Activate();
-	_AddSubscriberToTracker();
+	//_AddSubscriberToTracker();
 	_CloneComponents(rhs);
 	return *this;
 }

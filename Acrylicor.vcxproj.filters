@@ -139,6 +139,9 @@
     <Filter Include="Source Files\TEST_FILES\Json\Objects\Projectile\EnemyGuns">
       <UniqueIdentifier>{7ce1f68e-e5fa-437c-831f-7906b7d2f8b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\UI\Game Over">
+      <UniqueIdentifier>{25f5e53a-52fe-4c01-b2c7-a3421af75483}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -415,7 +418,13 @@
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="ShakeComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AddScoreEvent.h">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -669,7 +678,13 @@
       <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="ShakeComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AddScoreEvent.cpp">
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -813,6 +828,18 @@
     </None>
     <None Include="ObjectFiles\bullets\standardEnemyBullet.json">
       <Filter>Source Files\TEST_FILES\Json\Objects\Projectile\EnemyGuns</Filter>
+    </None>
+    <None Include="ObjectFiles\boss.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_gameOver.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Game Over</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_gameOver_line1.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Game Over</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_gameOver_line2.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Game Over</Filter>
     </None>
   </ItemGroup>
 </Project>

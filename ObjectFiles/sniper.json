@@ -32,7 +32,8 @@
     "horizontalDistance": 300
   },
   "aiFireGun": {
-    "fireFrequency": 1.25
+    "fireFrequency": 1.25,
+    "gunType": "standardEnemyGun"
   },
   "physics": {
     "mass": 1,
@@ -47,5 +48,8 @@
   },
   "health": {
     "hp": 3
+  },
+  "score": {
+    "amount": 200
   }
 }

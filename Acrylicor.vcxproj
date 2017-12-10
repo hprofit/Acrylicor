@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="AcrylicorAPI.h" />
     <ClInclude Include="AcrylicorTypedefs.h" />
+    <ClInclude Include="AddScoreEvent.h" />
     <ClInclude Include="AIBaseComponent.h" />
     <ClInclude Include="AIFireGunComponent.h" />
     <ClInclude Include="AIRushComponent.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="ReflectEvent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScrollingSpriteComponent.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
@@ -224,6 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AcrylicorAPI.cpp" />
+    <ClCompile Include="AddScoreEvent.cpp" />
     <ClCompile Include="AIBaseComponent.cpp" />
     <ClCompile Include="AIFireGunComponent.cpp" />
     <ClCompile Include="AIRushComponent.cpp" />
@@ -284,6 +287,7 @@
     <ClCompile Include="ReflectEvent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScrollingSpriteComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -314,6 +318,7 @@
     <None Include="LevelFiles\Levels.json" />
     <None Include="LevelFiles\testLevel.json" />
     <None Include="ObjectFiles\background.json" />
+    <None Include="ObjectFiles\boss.json" />
     <None Include="ObjectFiles\boundaryBox.json" />
     <None Include="ObjectFiles\bullets\bullet.json" />
     <None Include="ObjectFiles\bullets\standardEnemyBullet.json" />
@@ -345,6 +350,9 @@
     <None Include="ObjectFiles\UI\UI_controls_line3.json" />
     <None Include="ObjectFiles\UI\UI_controls_line4.json" />
     <None Include="ObjectFiles\UI\UI_energy.json" />
+    <None Include="ObjectFiles\UI\UI_gameOver.json" />
+    <None Include="ObjectFiles\UI\UI_gameOver_line1.json" />
+    <None Include="ObjectFiles\UI\UI_gameOver_line2.json" />
     <None Include="ObjectFiles\UI\UI_lives.json" />
     <None Include="ObjectFiles\UI\UI_missiles.json" />
     <None Include="ObjectFiles\UI\UI_score.json" />

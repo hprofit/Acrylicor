@@ -6,6 +6,7 @@ static std::unordered_map<String, EventType> TitleMap = {
 	{ "restartLevel", EventType::RESTART_LEVEL },
 	{ "loadLevel", EventType::LOAD_LEVEL },
 	{ "unloadLevel", EventType::UNLOAD_LEVEL },
+	{ "gameOver", EventType::GAME_OVER },
 
 	{ "dataAmount", EventType::DATA_AMOUNT },
 	{ "goDestroyed", EventType::GO_DESTROYED },
@@ -33,7 +34,9 @@ static std::unordered_map<String, EventType> TitleMap = {
 	{ "dash", EventType::DASH },
 	{ "targetFound", EventType::TARGET_FOUND },
 	{ "pickup", EventType::PICKUP },
-	{ "shake", EventType::SHAKE }
+	{ "shake", EventType::SHAKE },
+	{ "score", EventType::SCORE },
+	{ "addScore", EventType::ADD_SCORE }
 };
 
 AcryEvent::AcryEvent(EventType type, double time) :

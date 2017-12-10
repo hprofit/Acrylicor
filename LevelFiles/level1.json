@@ -186,7 +186,7 @@
           "type": "enemiesDefeated",
           "count": 9,
           "events": [
-            "goDestroyed"
+            "addScore"
           ]
         }
       }

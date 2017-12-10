@@ -23,6 +23,7 @@ enum class EventType {
 	RESTART_LEVEL,
 	LOAD_LEVEL,
 	UNLOAD_LEVEL,
+	GAME_OVER,
 
 	DATA_AMOUNT,
 	GO_DESTROYED,
@@ -50,7 +51,9 @@ enum class EventType {
 	DASH,
 	TARGET_FOUND,
 	PICKUP,
-	SHAKE
+	SHAKE,
+	SCORE,
+	ADD_SCORE
 };
 
 class AcryEvent

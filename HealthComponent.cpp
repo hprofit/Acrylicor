@@ -1,8 +1,11 @@
 #include "HealthComponent.h"
 #include "JsonReader.h"
 #include "DamageEvent.h"
+#include "AddScoreEvent.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
+#include "EventManager.h"
+#include "ScoreComponent.h"
 
 HealthComponent::HealthComponent(GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::HEALTH),
@@ -16,13 +19,9 @@ HealthComponent::HealthComponent(const HealthComponent & rhs, GameObject & paren
 	Component(parent, COMPONENT_TYPE::HEALTH),
 	m_hitPoints(rhs.m_hitPoints) {}
 
-HealthComponent::~HealthComponent()
-{
-}
+HealthComponent::~HealthComponent(){}
 
-void HealthComponent::Update(double deltaTime)
-{
-}
+void HealthComponent::Update(double deltaTime){}
 
 HealthComponent * HealthComponent::Clone(GameObject & parent)
 {
@@ -52,8 +51,13 @@ void HealthComponent::HandleEvent(AcryEvent * aEvent)
 		m_hitPoints -= dpEvent->Amount();
 
 		// TODO: Event that plays death animation
-		if (m_hitPoints <= 0)
+		if (m_hitPoints <= 0) {
 			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
+
+			ScoreComponent * sComp = static_cast<ScoreComponent*>(m_parent.Get(COMPONENT_TYPE::SCORE));
+			if (sComp)
+				EventManager::GetInstance().BroadcastEventToSubscribers(new AddScoreEvent(sComp->Score(), &m_parent));
+		}
 	}
 	break;
 	}

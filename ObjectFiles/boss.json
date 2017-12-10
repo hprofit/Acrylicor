@@ -1,6 +1,10 @@
 {
   "tags": [
-    "enemy"
+    "enemy",
+    "boss"
+  ],
+  "children": [
+    "standardEnemyGun"
   ],
   "transform": {
     "position": {
@@ -13,8 +17,8 @@
       "zRot": 180
     },
     "scale": {
-      "x": 64,
-      "y": 64,
+      "x": 256,
+      "y": 256,
       "z": 0
     }
   },
@@ -27,35 +31,22 @@
     "mass": 1,
     "body": {
       "type": "circle",
-      "radius": 32,
+      "radius": 128,
       "tags": [
-        "enemy",
-        "noPass"
+        "enemy"
       ]
     },
     "weightless": true,
     "maxSpeed": 300
   },
-  "aiRush": {
-    "direction": "forward",
-    "speed": 200
-  },
-  "aiAreaOfSight": {
-    "targetTag": "player",
-    "radius": 400
-  },
-  "aiSeek": {
-    "targetTag": "player",
-    "turnSpeed": 200,
-    "speed": 125,
-    "events": [
-      "goDestroyed"
-    ]
-  },
   "health": {
-    "hp": 3
+    "hp": 300
   },
   "score": {
-    "amount": 100
+    "amount": 10000
+  },
+  "aiFireGun": {
+    "fireFrequency": 1.25,
+    "gunType": "standardEnemyGun"
   }
 }
