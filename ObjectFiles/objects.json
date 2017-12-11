@@ -31,6 +31,8 @@
   { "swayer": "ObjectFiles/swayer.json" },
   { "drone": "ObjectFiles/drone.json" },
   { "sniper": "ObjectFiles/sniper.json" },
+  { "swarm": "ObjectFiles/swarm.json" },
+  { "pod": "ObjectFiles/pod.json" },
 
   { "boss": "ObjectFiles/boss.json" },
 

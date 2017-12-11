@@ -5,8 +5,26 @@
 
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
-
+#include "Math3D.h"
 #include <iostream>
+
+void SpawnerComponent::_Spawn()
+{
+	std::cout << "Spawning <" << m_objectType << ">" << std::endl;
+	GameObject* gObject = GameObjectManager::GetInstance().SpawnGameObject(m_objectType);
+
+	PhysicsComponent* goPComp = static_cast<PhysicsComponent*>(gObject->Get(COMPONENT_TYPE::PHYSICS));
+
+	if (goPComp) {
+		goPComp->SetPosition(m_tComp->GetPosition());
+		goPComp->SetPrevPosition(m_tComp->GetPosition());
+	}
+	else {
+		TransformComponent* goTComp = static_cast<TransformComponent*>(gObject->Get(COMPONENT_TYPE::TRANSFORM));
+		if (goTComp)
+			goTComp->SetPosition(m_tComp->GetPosition());
+	}
+}
 
 SpawnerComponent::SpawnerComponent(GameObject& parent, String objectType) :
 	Component(parent, COMPONENT_TYPE::SPAWNER),
@@ -49,21 +67,54 @@ void SpawnerComponent::HandleEvent(AcryEvent * aEvent)
 	break;
 	case EventType::RESPAWN:
 	{
-		GameObject* gObject = GameObjectManager::GetInstance().SpawnGameObject(m_objectType);
-
-		TransformComponent* sTComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
-		PhysicsComponent* goPComp = static_cast<PhysicsComponent*>(gObject->Get(COMPONENT_TYPE::PHYSICS));
-
-		if (sTComp && goPComp) {
-			goPComp->SetPosition(sTComp->GetPosition());
-			goPComp->SetPrevPosition(sTComp->GetPosition());
-		}
-		else {
-			TransformComponent* goTComp = static_cast<TransformComponent*>(gObject->Get(COMPONENT_TYPE::TRANSFORM));
-			if (sTComp && goTComp)
-				goTComp->SetPosition(sTComp->GetPosition());
-		}
+		_Spawn();
+	}
+	break;
+	case EventType::SPAWN:
+	{
+		SpawnMultiple(10);
 	}
 	break;
 	}
+}
+
+void SpawnerComponent::LateInitialize()
+{
+	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	if (!m_tComp)
+		std::cout << "Spawner components require Transform components." << std::endl;
+}
+
+void SpawnerComponent::SpawnMultiple(unsigned int amount)
+{
+	std::cout << "Spawning x" << amount << " <" << m_objectType << ">" << std::endl;
+	std::vector<GameObject*> gos = std::vector<GameObject*>();
+	gos.reserve(amount);
+	for (unsigned int i = 0; i < amount; ++i)
+		gos.push_back(GameObjectManager::GetInstance().SpawnGameObject(m_objectType));
+
+	Vector3D AXIS_Z = Vector3D(0, 0, 1);
+	Vector3D pos = m_tComp->GetPosition();
+	float max = 10.0;
+	float degreeAmt = 360.f / max;
+	Matrix4x4 Position = Matrix4x4::Translate(Vector3D(pos.getX(), pos.getY(), 0));
+	Matrix4x4 Base = Matrix4x4::Translate(Vector3D(100, 0, 0));
+	int i = 0;
+
+	std::for_each(gos.begin(), gos.end(), [&Base, &degreeAmt, &Position, &AXIS_Z, &i](GameObject* go) {
+		Matrix4x4 Rot = Matrix4x4::Rotate(degreeAmt * float(i), AXIS_Z);
+		Vector3D thisPos = Position * Rot * Base * Vector3D();
+		PhysicsComponent* goPComp = static_cast<PhysicsComponent*>(go->Get(COMPONENT_TYPE::PHYSICS));
+
+		if (goPComp) {
+			goPComp->SetPosition(thisPos);
+			goPComp->SetPrevPosition(thisPos);
+		}
+		else {
+			TransformComponent* goTComp = static_cast<TransformComponent*>(go->Get(COMPONENT_TYPE::TRANSFORM));
+			if (goTComp)
+				goTComp->SetPosition(thisPos);
+		}
+		++i;
+	});
 }

@@ -15,6 +15,8 @@
 #include "AIAreaOfSightComponent.h"
 #include "AISquareSwayComponent.h"
 #include "AIFireGunComponent.h"
+#include "AISwarmComponent.h"
+#include "AISpawnOnDeathComponent.h"
 #include "WeaponComponent.h"
 #include "MissileLauncherComponent.h"
 #include "CameraComponent.h"
@@ -62,6 +64,8 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "aiAreaOfSight"))		gObject->Get(COMPONENT_TYPE::AI_AREA_OF_SIGHT)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSquareSway"))		gObject->Get(COMPONENT_TYPE::AI_SQUARE_SWAY)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiFireGun"))			gObject->Get(COMPONENT_TYPE::AI_FIRE_GUN)->Override(j);
+		else if (AcryJson::KeyIs(it, "aiSwarm"))			gObject->Get(COMPONENT_TYPE::AI_SWARM)->Override(j);
+		else if (AcryJson::KeyIs(it, "aiSpawnOnDeath"))		gObject->Get(COMPONENT_TYPE::AI_SPAWN_ON_DEATH)->Override(j);
 		else if (AcryJson::KeyIs(it, "spawner"))			gObject->Get(COMPONENT_TYPE::SPAWNER)->Override(j);
 		else if (AcryJson::KeyIs(it, "weapon"))				gObject->Get(COMPONENT_TYPE::WEAPON)->Override(j);
 		else if (AcryJson::KeyIs(it, "missileLauncher"))	gObject->Get(COMPONENT_TYPE::MISSILE_LAUNCHER)->Override(j);
@@ -135,6 +139,8 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "aiAreaOfSight"))		gObject->AddComponent(AIAreaOfSightComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiSquareSway"))		gObject->AddComponent(AISquareSwayComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiFireGun"))			gObject->AddComponent(AIFireGunComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "aiSwarm"))			gObject->AddComponent(AISwarmComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "aiSpawnOnDeath"))		gObject->AddComponent(AISpawnOnDeathComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "spawner"))			gObject->AddComponent(SpawnerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "weapon"))				gObject->AddComponent(WeaponComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "missileLauncher"))	gObject->AddComponent(MissileLauncherComponent::Serialize(*gObject, j));

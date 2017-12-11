@@ -56,6 +56,22 @@
     "rows": 0,
     "columns": 0
   },
+  "swarm": {
+    "filename": "Textures/swarm.png",
+    "alpha": true,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "rows": 0,
+    "columns": 0
+  },
+  "pod": {
+    "filename": "Textures/pod.png",
+    "alpha": true,
+    "frameWidth": 64,
+    "frameHeight": 64,
+    "rows": 0,
+    "columns": 0
+  },
 
   "motherBoardBG": {
     "filename": "Textures/motherBoard.png",

@@ -1,0 +1,46 @@
+{
+  "tags": [
+    "enemy"
+  ],
+  "transform": {
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "angle": {
+      "xRot": 0,
+      "yRot": 0,
+      "zRot": 180
+    },
+    "scale": {
+      "x": 128,
+      "y": 128,
+      "z": 0
+    }
+  },
+  "sprite": {
+    "name": "pod",
+    "frameX": 0,
+    "frameY": 0
+  },
+  "physics": {
+    "mass": 1,
+    "body": {
+      "type": "circle",
+      "radius": 64,
+      "tags": [
+        "enemy"
+      ]
+    },
+    "maxSpeed": 100
+  },
+  "health": {
+    "hp": 10
+  },
+  "score": {
+    "amount": 500
+  },
+  "spawner": {
+    "type": "swarm"
+  }
+}

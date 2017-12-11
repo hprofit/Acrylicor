@@ -435,6 +435,12 @@
     <ClInclude Include="GameOverControllerComponent.h">
       <Filter>Header Files\Components\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="AISwarmComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AISpawnOnDeathComponent.h">
+      <Filter>Header Files\Components\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -698,6 +704,12 @@
     <ClCompile Include="ControllerComponent.cpp">
       <Filter>Source Files\Components\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="AISwarmComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AISpawnOnDeathComponent.cpp">
+      <Filter>Source Files\Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -852,6 +864,15 @@
     </None>
     <None Include="ObjectFiles\UI\UI_gameOver_line2.json">
       <Filter>Source Files\TEST_FILES\Json\UI\Game Over</Filter>
+    </None>
+    <None Include="ObjectFiles\swarm.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
+    </None>
+    <None Include="ObjectFiles\pod.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects\Enemies</Filter>
+    </None>
+    <None Include="LevelFiles\testLevel2.json">
+      <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
     </None>
   </ItemGroup>
 </Project>

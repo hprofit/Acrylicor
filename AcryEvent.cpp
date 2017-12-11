@@ -28,6 +28,7 @@ static std::unordered_map<String, EventType> TitleMap = {
 	{ "lifeChange", EventType::LIFE_CHANGE },
 	{ "playerDeath", EventType::PLAYER_DEATH },
 	{ "respawn", EventType::RESPAWN },
+	{ "spawn", EventType::SPAWN },
 	{ "missileFired", EventType::MISSILE_FIRED },
 	{ "missileAdded", EventType::MISSILE_ADDED },
 	{ "missileCountChange", EventType::MISSILE_COUNT_CHANGE },

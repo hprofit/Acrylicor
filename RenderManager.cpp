@@ -365,7 +365,7 @@ void RenderManager::RenderCircle(GameObject & camera, float radius, float x, flo
 
 	Matrix4x4 ArcMatrix;
 	GLint modelMatrix = m_currentProgram->GetUniform("model_matrix");
-	float max = 180.0;
+	float max = 360.0;
 	float degreeAmt = 360.f / max;
 	Vector3D AXIS_Z = Vector3D(0, 0, 1);
 	Vector3D a = Vector3D(x, y, 0) + Vector3D(radius, 0, 0);

@@ -58,10 +58,12 @@ void ControllerComponent::Update(double deltaTime)
 
 
 	// Debug keys
-	//if (inputMgr.IsKeyTriggered(ACR_O))
-	//	EventManager::GetInstance().BroadcastEventToSubscribers(new ShakeEvent(4.0));
-	//if (inputMgr.IsKeyTriggered(ACR_R))
-	//	EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESTART_LEVEL, 0.0));
+	if (inputMgr.IsKeyTriggered(ACR_O))
+		EventManager::GetInstance().BroadcastEventToSubscribers(new ShakeEvent(4.0));
+	if (inputMgr.IsKeyTriggered(ACR_R))
+		EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESTART_LEVEL, 0.0));
+	if (inputMgr.IsKeyTriggered(ACR_P))
+		EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::SPAWN));
 }
 
 ControllerComponent * ControllerComponent::Clone(GameObject & parent)

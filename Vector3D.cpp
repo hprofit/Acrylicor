@@ -157,8 +157,10 @@ void Vector3D::Mul(const float scalar)
 
 void Vector3D::Div(const float divisor)
 {
-	if (divisor == 0.0f)
-		throw "Division by zero error!";
+	if (divisor == 0.0f) {
+		//throw "Division by zero error!";
+		return;
+	}
 	m_x /= divisor;
 	m_y /= divisor;
 	m_z /= divisor;

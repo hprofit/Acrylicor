@@ -136,7 +136,9 @@
     <ClInclude Include="AIFireGunComponent.h" />
     <ClInclude Include="AIRushComponent.h" />
     <ClInclude Include="AISeekComponent.h" />
+    <ClInclude Include="AISpawnOnDeathComponent.h" />
     <ClInclude Include="AISquareSwayComponent.h" />
+    <ClInclude Include="AISwarmComponent.h" />
     <ClInclude Include="AISwayComponent.h" />
     <ClInclude Include="AIAreaOfSightComponent.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -232,7 +234,9 @@
     <ClCompile Include="AIFireGunComponent.cpp" />
     <ClCompile Include="AIRushComponent.cpp" />
     <ClCompile Include="AISeekComponent.cpp" />
+    <ClCompile Include="AISpawnOnDeathComponent.cpp" />
     <ClCompile Include="AISquareSwayComponent.cpp" />
+    <ClCompile Include="AISwarmComponent.cpp" />
     <ClCompile Include="AISwayComponent.cpp" />
     <ClCompile Include="AIAreaOfSightComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -319,6 +323,7 @@
     <None Include="LevelFiles\level2.json" />
     <None Include="LevelFiles\Levels.json" />
     <None Include="LevelFiles\testLevel.json" />
+    <None Include="LevelFiles\testLevel2.json" />
     <None Include="ObjectFiles\background.json" />
     <None Include="ObjectFiles\boss.json" />
     <None Include="ObjectFiles\boundaryBox.json" />
@@ -329,11 +334,13 @@
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\drone.json" />
+    <None Include="ObjectFiles\pod.json" />
     <None Include="ObjectFiles\standardEnemyGun.json" />
     <None Include="ObjectFiles\goal.json" />
     <None Include="ObjectFiles\pickup.json" />
     <None Include="ObjectFiles\sniper.json" />
     <None Include="ObjectFiles\spawner.json" />
+    <None Include="ObjectFiles\swarm.json" />
     <None Include="ObjectFiles\swayer.json" />
     <None Include="ObjectFiles\gun.json" />
     <None Include="ObjectFiles\killZone.json" />

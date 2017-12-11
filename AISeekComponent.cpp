@@ -12,31 +12,6 @@
 #include <iostream>
 #include <algorithm>
 
-void AISeekComponent::_FindNewTarget()
-{
-	std::vector<GameObject*> objects = GameObjectManager::GetInstance().GetObjectsWithTag(m_tagToFind);
-	
-	if (objects.size() != 0) {
-		unsigned int i = 1;
-		Vector3D pos = m_tComp->GetPosition();
-		TransformComponent* tComp = static_cast<TransformComponent*>(objects[0]->Get(COMPONENT_TYPE::TRANSFORM));
-		float closestDistance = Vector3D::SquareDistance(tComp->GetPosition(), pos);
-		m_target = objects[0];
-		m_targetTComp = tComp;
-
-		for (i = 1; i < objects.size(); ++i) {
-			tComp = static_cast<TransformComponent*>(objects[i]->Get(COMPONENT_TYPE::TRANSFORM));
-			float distance = Vector3D::SquareDistance(tComp->GetPosition(), pos);
-			if (distance < closestDistance) {
-				m_target = objects[i];
-				m_targetTComp = tComp;
-				closestDistance = distance;
-			}
-		}
-		
-	}
-}
-
 void AISeekComponent::_SeekTarget(double deltaTime)
 {
 	if (m_target && m_target->IsActive()) {
@@ -45,7 +20,7 @@ void AISeekComponent::_SeekTarget(double deltaTime)
 		Vector3D left = m_tComp->Right() * -1;
 
 		float numerator = Vector3D::Dot(forward, distanceBetween);
-		float denominator = forward.Length() * distanceBetween.Length();
+		float denominator = distanceBetween.Length();
 		float angle = acosf(numerator / denominator); // (v dot d) / sqrt(square|v|*square|d|) = (v dot d) / (|v|*|d|), thus, reduces the amount of sqrt calls
 		
 		float direction = Vector3D::Dot(left, distanceBetween); // positive - left, negative - right
@@ -59,14 +34,14 @@ void AISeekComponent::_SeekTarget(double deltaTime)
 	}
 }
 
-AISeekComponent::AISeekComponent(GameObject & parent, String tagToFind, float maxTurnSpeed, float speed) :
+AISeekComponent::AISeekComponent(GameObject & parent, float maxTurnSpeed, float speed) :
 	AIBaseComponent(COMPONENT_TYPE::AI_SEEK, parent),
-	m_tagToFind(tagToFind), m_maxTurnSpeed(maxTurnSpeed), m_speed(speed)
+	m_maxTurnSpeed(maxTurnSpeed), m_speed(speed)
 {}
 
 AISeekComponent::AISeekComponent(const AISeekComponent & rhs, GameObject & parent) : 
 	AIBaseComponent(COMPONENT_TYPE::AI_SEEK, rhs, parent),
-	m_tagToFind(rhs.m_tagToFind), m_maxTurnSpeed(rhs.m_maxTurnSpeed), m_speed(rhs.m_speed)
+	m_maxTurnSpeed(rhs.m_maxTurnSpeed), m_speed(rhs.m_speed)
 {}
 
 AISeekComponent::~AISeekComponent(){}
@@ -88,7 +63,6 @@ AISeekComponent * AISeekComponent::Clone(GameObject & parent)
 Component * AISeekComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
 	AISeekComponent* comp = new AISeekComponent(gObject, 
-		AcryJson::ParseString(j, "aiSeek", "targetTag"), 
 		AcryJson::ParseFloat(j, "aiSeek", "turnSpeed"),
 		AcryJson::ParseFloat(j, "aiSeek", "speed")
 	);
@@ -98,7 +72,6 @@ Component * AISeekComponent::Serialize(GameObject & gObject, nlohmann::json j)
 
 void AISeekComponent::Override(nlohmann::json j)
 {
-	m_tagToFind = AcryJson::ValueExists(j, "aiSeek", "targetTag") ? AcryJson::ParseString(j, "aiSeek", "targetTag"): m_tagToFind;
 	m_maxTurnSpeed = AcryJson::ValueExists(j, "aiSeek", "turnSpeed") ? AcryJson::ParseFloat(j, "aiSeek", "turnSpeed") : m_maxTurnSpeed;
 	m_speed = AcryJson::ValueExists(j, "aiSeek", "speed") ? AcryJson::ParseFloat(j, "aiSeek", "speed") : m_speed;
 }
@@ -109,7 +82,7 @@ void AISeekComponent::HandleEvent(AcryEvent * aEvent)
 	case EventType::GO_DESTROYED:
 	{
 		GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
-		if (godEvent->GO()->Tags().HasTag(m_tagToFind))
+		if (godEvent->GO() == m_target)
 			m_target = nullptr;
 	}
 	break;

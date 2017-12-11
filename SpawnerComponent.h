@@ -19,11 +19,17 @@ Creation date: 11/15/17
 #include "Component.h"
 #include "AcrylicorTypedefs.h"
 
+class TransformComponent;
+
 class SpawnerComponent :
 	public Component
 {
 protected:
 	String m_objectType;
+
+	TransformComponent* m_tComp;
+
+	void _Spawn();
 public:
 	SpawnerComponent() = delete;
 	SpawnerComponent(GameObject& parent, String objectType);
@@ -38,6 +44,9 @@ public:
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
 	virtual void HandleEvent(AcryEvent * aEvent);
+	virtual void LateInitialize();
+
+	void SpawnMultiple(unsigned int amount);
 };
 
 #endif

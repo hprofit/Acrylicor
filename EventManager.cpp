@@ -24,7 +24,7 @@ void EventManager::Update(double deltaTime)
 	for (i = 0; i < m_events.size(); ++i) {
 		m_events[i]->DecrementTime(deltaTime);
 		if (m_events[i]->Time() <= 0.0) {
-			BroadcastEvent(m_events[i]);
+			BroadcastEventToSubscribers(m_events[i]);
 			m_events[i] = nullptr;
 		}
 	}
