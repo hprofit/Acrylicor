@@ -41,11 +41,11 @@ void ScoreComponent::Override(nlohmann::json j)
 
 void ScoreComponent::HandleEvent(AcryEvent * aEvent)
 {
-	switch (aEvent->Type()) {
-	case EventType::SCORE:
-	{
-		EventManager::GetInstance().BroadcastEventToSubscribers(new AddScoreEvent(m_scoreValue, &m_parent));
-	}
-	break;
-	}
+	//switch (aEvent->Type()) {
+	//case EventType::SCORE:
+	//{
+	//	EventManager::GetInstance().BroadcastEventToSubscribers(new AddScoreEvent(m_scoreValue, &m_parent));
+	//}
+	//break;
+	//}
 }

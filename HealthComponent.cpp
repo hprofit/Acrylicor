@@ -52,11 +52,11 @@ void HealthComponent::HandleEvent(AcryEvent * aEvent)
 
 		// TODO: Event that plays death animation
 		if (m_hitPoints <= 0) {
-			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
-
 			ScoreComponent * sComp = static_cast<ScoreComponent*>(m_parent.Get(COMPONENT_TYPE::SCORE));
-			if (sComp)
+			if (sComp) 
 				EventManager::GetInstance().BroadcastEventToSubscribers(new AddScoreEvent(sComp->Score(), &m_parent));
+
+			GameObjectManager::GetInstance().DestroyGameObject(&m_parent);
 		}
 	}
 	break;

@@ -40,6 +40,11 @@
   "score": {
     "amount": 500
   },
+  "aiSpawnOnDeath": {
+    "events": [
+      "addScore"
+    ]
+  },
   "spawner": {
     "type": "swarm"
   }

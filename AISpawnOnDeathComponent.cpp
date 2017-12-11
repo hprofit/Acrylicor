@@ -27,18 +27,17 @@ AISpawnOnDeathComponent * AISpawnOnDeathComponent::Clone(GameObject & parent)
 
 Component * AISpawnOnDeathComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	return new AISpawnOnDeathComponent(gObject);
+	AISpawnOnDeathComponent * comp = new AISpawnOnDeathComponent(gObject);
+	comp->_ParseEvents(j, "aiSpawnOnDeath");
+	return comp;
 }
 
-void AISpawnOnDeathComponent::Override(nlohmann::json j)
-{
-
-}
+void AISpawnOnDeathComponent::Override(nlohmann::json j){}
 
 void AISpawnOnDeathComponent::HandleEvent(AcryEvent * aEvent)
 {
 	switch (aEvent->Type()) {
-	case EventType::SCORE:
+	case EventType::ADD_SCORE:
 	{
 		m_sComp->SpawnMultiple(10);
 	}
