@@ -11,6 +11,11 @@
 
 void AISwarmComponent::_CalculateSwarmMovement(double deltaTime)
 {
+	Vector3D down = Vector3D(0, -1, 0);
+	Vector3D forward = m_tComp->Forward();
+	Vector3D left = m_tComp->Right() * -1;
+	Vector3D distanceBetween = Vector3D();
+
 	if (m_neighbors.size() != 0) {
 		Vector3D pos = m_tComp->GetPosition();
 		Vector3D cohesion = Vector3D();
@@ -32,42 +37,38 @@ void AISwarmComponent::_CalculateSwarmMovement(double deltaTime)
 
 
 		Vector3D swarmForce = Vector3D::Normalize(
-			(cohesion * -m_cohWeight) +
-			(separation * -m_sepWeight) +
-			(alignment * -m_aliWeight) +
-			(seek * m_seekWeight));
+			(cohesion * m_cohWeight) +
+			(separation * m_sepWeight) +
+			(alignment * m_aliWeight) +
+			(seek * m_seekWeight) +
+			(down * 1.25f));
 
-		//Vector3D forward = m_tComp->Forward();
-		//Vector3D left = m_tComp->Right() * -1;
-		//Vector3D distanceBetween = swarmForce - forward;
-		//float numerator = Vector3D::Dot(forward, distanceBetween);
-		//float denominator = distanceBetween.Length();
-		//float angle = acosf(numerator / denominator); // (v dot d) / sqrt(square|v|*square|d|) = (v dot d) / (|v|*|d|), thus, reduces the amount of sqrt calls
-
-		//float direction = Vector3D::Dot(left, distanceBetween); // positive - left, negative - right
-		//direction = direction / fabsf(direction); // -1 <-> 1
-
-		//float rotAmt = std::min(PI_4, fabsf(angle));
-		//float rotSpd = ((rotAmt / PI_4) * m_maxTurnSpeed);
-
-		//float amount = rotSpd * (float)deltaTime * direction;
-		//m_tComp->RotateZ(amount);
-
-		float angle = fabsf( atan2f(swarmForce.getY(), swarmForce.getX()) ) * RAD_TO_DEG;
-		m_tComp->SetAngleZ(angle);
-
-		m_pComp->SetVelocity(swarmForce * m_speed);
+		distanceBetween = swarmForce - forward;
 	}
 	else {
 		Vector3D seek = m_targetTComp ?
 			Vector3D::Normalize(m_targetTComp->GetPosition() - m_tComp->GetPosition()) :
 			Vector3D();
-		Vector3D force = seek.SquareLength() == 0.f ? m_tComp->Forward() : -1.f * seek;
-		m_pComp->SetVelocity(force * m_speed);
 
-		float angle = fabsf( atan2f(force.getY(), force.getX()) ) * RAD_TO_DEG;
-		m_tComp->SetAngleZ(angle);
+		Vector3D noNeighborForce = Vector3D::Normalize(
+			(seek * -m_seekWeight) +
+			(down)
+		);
+		distanceBetween = noNeighborForce - forward;
 	}
+	
+	float numerator = Vector3D::Dot(forward, distanceBetween);
+	float denominator = distanceBetween.Length();
+	float angle = acosf(numerator / denominator); // (v dot d) / sqrt(square|v|*square|d|) = (v dot d) / (|v|*|d|), thus, reduces the amount of sqrt calls
+
+	float direction = Vector3D::Dot(left, distanceBetween); // positive - left, negative - right
+	direction = direction != 0.f ? direction / fabsf(direction) : 1.f; // -1 <-> 1
+
+	float rotAmt = std::min(PI_4, fabsf(angle));
+	float rotSpd = ((rotAmt / PI_4) * m_maxTurnSpeed);
+
+	float amount = rotSpd * (float)deltaTime * direction;
+	m_tComp->RotateZ(amount);
 }
 
 void AISwarmComponent::_FindNeighbors()
@@ -121,8 +122,10 @@ AISwarmComponent::~AISwarmComponent() {}
 
 void AISwarmComponent::Update(double deltaTime)
 {
-	_FindNeighbors();
-	_CalculateSwarmMovement(deltaTime);
+	if (m_active) {
+		_FindNeighbors();
+		_CalculateSwarmMovement(deltaTime);
+	}
 }
 
 AISwarmComponent * AISwarmComponent::Clone(GameObject & parent)
@@ -163,23 +166,25 @@ void AISwarmComponent::Override(nlohmann::json j)
 
 void AISwarmComponent::HandleEvent(AcryEvent * aEvent)
 {
-	switch (aEvent->Type()) {
-	case EventType::GO_DESTROYED:
-	{
-		GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
-		if (godEvent->GO() == m_target) {
-			m_target = nullptr;
-			m_targetTComp = nullptr;
+	if (m_active) {
+		switch (aEvent->Type()) {
+		case EventType::GO_DESTROYED:
+		{
+			GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
+			if (godEvent->GO() == m_target) {
+				m_target = nullptr;
+				m_targetTComp = nullptr;
+			}
 		}
-	}
-	break;
-	case EventType::TARGET_FOUND:
-	{
-		TargetFoundEvent * tfEvent = static_cast<TargetFoundEvent*>(aEvent);
-		m_target = tfEvent->GetTarget();
-		m_targetTComp = static_cast<TransformComponent*>(m_target->Get(COMPONENT_TYPE::TRANSFORM));
-	}
-	break;
+		break;
+		case EventType::TARGET_FOUND:
+		{
+			TargetFoundEvent * tfEvent = static_cast<TargetFoundEvent*>(aEvent);
+			m_target = tfEvent->GetTarget();
+			m_targetTComp = static_cast<TransformComponent*>(m_target->Get(COMPONENT_TYPE::TRANSFORM));
+		}
+		break;
+		}
 	}
 }
 

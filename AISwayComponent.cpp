@@ -5,6 +5,7 @@
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
 #include <math.h>
+#include <iostream>
 
 AISwayComponent::AISwayComponent(GameObject & parent, float swayAmount, float speed) :
 	AIBaseComponent(COMPONENT_TYPE::AI_SWAY, parent),
@@ -24,22 +25,19 @@ AISwayComponent::~AISwayComponent(){}
 
 void AISwayComponent::Update(double deltaTime)
 {
-	TransformComponent* tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
-	PhysicsComponent* pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
-	if (!tComp || !pComp)
-		return;
+	if (m_active) {
+		m_currX += (float)deltaTime * m_direction * m_speed;
+		if (m_currX >= 1.f) {
+			m_currX = 1.f;
+			m_direction = -1.f;
+		}
+		else if (m_currX <= -1.f) {
+			m_currX = -1.f;
+			m_direction = 1.f;
+		}
 
-	m_currX += (float)deltaTime * m_direction * m_speed;
-	if (m_currX >= 1.f) {
-		m_currX = 1.f;
-		m_direction = -1.f;
+		m_pComp->InterpolateVelocity(m_tComp->Right() * asinf(m_currX) * m_swayAmount, .5f);
 	}
-	else if (m_currX <= -1.f) {
-		m_currX = -1.f;
-		m_direction = 1.f;
-	}
-
-	pComp->InterpolateVelocity(tComp->Right() * asinf(m_currX) * m_swayAmount, .5f);
 }
 
 AISwayComponent * AISwayComponent::Clone(GameObject & parent)
@@ -62,4 +60,14 @@ void AISwayComponent::Override(nlohmann::json j)
 {
 	m_swayAmount = AcryJson::ValueExists(j, "aiSway", "amount") ? AcryJson::ParseFloat(j, "aiSway", "amount") : m_swayAmount;
 	m_speed = AcryJson::ValueExists(j, "aiSway", "speed") ? AcryJson::ParseFloat(j, "aiSway", "speed") : m_speed;
+}
+
+void AISwayComponent::LateInitialize()
+{
+	m_tComp = static_cast<TransformComponent*>(m_parent.Get(COMPONENT_TYPE::TRANSFORM));
+	if (!m_tComp)
+		std::cout << "AISeek components require Transform components." << std::endl;
+	m_pComp = static_cast<PhysicsComponent*>(m_parent.Get(COMPONENT_TYPE::PHYSICS));
+	if (!m_pComp)
+		std::cout << "AISeek components require PHysics components." << std::endl;
 }

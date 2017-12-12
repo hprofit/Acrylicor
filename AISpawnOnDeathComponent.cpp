@@ -36,12 +36,14 @@ void AISpawnOnDeathComponent::Override(nlohmann::json j){}
 
 void AISpawnOnDeathComponent::HandleEvent(AcryEvent * aEvent)
 {
-	switch (aEvent->Type()) {
-	case EventType::ADD_SCORE:
-	{
-		m_sComp->SpawnMultiple(10);
-	}
-	break;
+	if (m_active) {
+		switch (aEvent->Type()) {
+		case EventType::ADD_SCORE:
+		{
+			m_sComp->SpawnMultiple(10);
+		}
+		break;
+		}
 	}
 }
 

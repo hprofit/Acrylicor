@@ -19,6 +19,9 @@ Creation date: 11/02/17
 #include "AIBaseComponent.h"
 #include "AcrylicorTypedefs.h"
 
+class TransformComponent;
+class PhysicsComponent;
+
 class AISwayComponent :
 	public AIBaseComponent
 {
@@ -27,6 +30,9 @@ private:
 	float m_currX;
 	float m_direction;
 	float m_speed;
+
+	TransformComponent* m_tComp;
+	PhysicsComponent* m_pComp;
 
 public:
 	AISwayComponent() = delete;
@@ -41,6 +47,7 @@ public:
 	static Component* Serialize(GameObject& gObject, nlohmann::json j);
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
+	virtual void LateInitialize();
 };
 
 #endif

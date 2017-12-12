@@ -134,6 +134,7 @@
     <ClInclude Include="AddScoreEvent.h" />
     <ClInclude Include="AIBaseComponent.h" />
     <ClInclude Include="AIFireGunComponent.h" />
+    <ClInclude Include="AIManagerComponent.h" />
     <ClInclude Include="AIRushComponent.h" />
     <ClInclude Include="AISeekComponent.h" />
     <ClInclude Include="AISpawnOnDeathComponent.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="AddScoreEvent.cpp" />
     <ClCompile Include="AIBaseComponent.cpp" />
     <ClCompile Include="AIFireGunComponent.cpp" />
+    <ClCompile Include="AIManagerComponent.cpp" />
     <ClCompile Include="AIRushComponent.cpp" />
     <ClCompile Include="AISeekComponent.cpp" />
     <ClCompile Include="AISpawnOnDeathComponent.cpp" />

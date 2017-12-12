@@ -3,9 +3,6 @@
     {
       "camera": { }
     },
-
-
-
     {
       "background": {
         "scrollingSprite": {
@@ -49,8 +46,6 @@
         }
       }
     },
-
-   
     {
       "boundaryBox": {
         "physics": {
@@ -107,7 +102,6 @@
         }
       }
     },
-
     {
       "killZone": {
         "physics": {
@@ -150,10 +144,6 @@
         }
       }
     },
-
-
-
-
     {
       "spawner": {
         "transform": {
@@ -169,7 +159,6 @@
         }
       }
     },
-
     {
       "player": {
         "physics": {
@@ -179,12 +168,11 @@
         }
       }
     },
-
     {
       "goalObj": {
         "goal": {
           "type": "enemiesDefeated",
-          "count": 10,
+          "count": 20,
           "events": [
             "addScore"
           ]
@@ -192,92 +180,66 @@
       }
     },
 
+
+
+
+
     {
       "swarm": {
-        "transform": {
-          "angle": {
-            "zRot": 100
-          }
-        },
-        "physics": {
-          "position": {
-            "x": 60,
-            "y": 220
-          }
-        }
-      }
-    },
-    {
-      "swarm": {
-        "transform": {
-          "angle": {
-            "zRot": 145
-          }
-        },
-        "physics": {
-          "position": {
-            "x": 0,
-            "y": 190
-          }
-        }
-      }
-    },
-    {
-      "swarm": {
-        "transform": {
-          "angle": {
-            "zRot": 200
-          }
-        },
-        "physics": {
-          "position": {
-            "x": -50,
-            "y": 200
-          }
-        }
-      }
-    },
-    {
-      "swarm": {
-        "transform": {
-          "angle": {
-            "zRot": 100
-          }
-        },
         "physics": {
           "position": {
             "x": 100,
-            "y": 180
+            "y": 620
           }
         }
       }
     },
     {
       "swarm": {
-        "transform": {
-          "angle": {
-            "zRot": 145
+        "physics": {
+          "position": {
+            "x": 50,
+            "y": 620
           }
-        },
+        }
+      }
+    },
+    {
+      "swarm": {
         "physics": {
           "position": {
             "x": 0,
-            "y": 150
+            "y": 620
           }
         }
       }
     },
     {
       "swarm": {
-        "transform": {
-          "angle": {
-            "zRot": 200
-          }
-        },
         "physics": {
           "position": {
             "x": -50,
-            "y": 250
+            "y": 620
+          }
+        }
+      }
+    },
+    {
+      "swarm": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 620
+          }
+        }
+      }
+    },
+    {
+      "swarm": {
+        "physics": {
+          "position": {
+            "x": -50,
+            "y": 700
           }
         }
       }

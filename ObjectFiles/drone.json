@@ -36,6 +36,12 @@
     "weightless": true,
     "maxSpeed": 300
   },
+  "health": {
+    "hp": 3
+  },
+  "score": {
+    "amount": 100
+  },
   "aiRush": {
     "direction": "forward",
     "speed": 200
@@ -52,10 +58,12 @@
       "goDestroyed"
     ]
   },
-  "health": {
-    "hp": 3
-  },
-  "score": {
-    "amount": 100
+  "aiManager": {
+    "components": {
+      "activate": [
+        "aiAreaOfSight",
+        "aiSeek"
+      ]
+    }
   }
 }

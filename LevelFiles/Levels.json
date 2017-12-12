@@ -5,6 +5,6 @@
     "LevelFiles/testLevel.json",
     "LevelFiles/testLevel2.json"
   ],
-  "baseLevel": 3,
-  "lastLevel": 3
+  "baseLevel": 0,
+  "lastLevel": 1
 }

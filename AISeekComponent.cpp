@@ -48,7 +48,7 @@ AISeekComponent::~AISeekComponent(){}
 
 void AISeekComponent::Update(double deltaTime)
 {
-	if (m_target && !m_target->IsDead())
+	if (m_active && m_target && !m_target->IsDead())
 		_SeekTarget(deltaTime);
 }
 
@@ -78,21 +78,23 @@ void AISeekComponent::Override(nlohmann::json j)
 
 void AISeekComponent::HandleEvent(AcryEvent * aEvent)
 {
-	switch (aEvent->Type()) {
-	case EventType::GO_DESTROYED:
-	{
-		GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
-		if (godEvent->GO() == m_target)
-			m_target = nullptr;
-	}
-	break;
-	case EventType::TARGET_FOUND:
-	{
-		TargetFoundEvent * tfEvent = static_cast<TargetFoundEvent*>(aEvent);
-		m_target = tfEvent->GetTarget();
-		m_targetTComp = static_cast<TransformComponent*>(m_target->Get(COMPONENT_TYPE::TRANSFORM));
-	}
-	break;
+	if (m_active) {
+		switch (aEvent->Type()) {
+		case EventType::GO_DESTROYED:
+		{
+			GODestroyedEvent * godEvent = static_cast<GODestroyedEvent*>(aEvent);
+			if (godEvent->GO() == m_target)
+				m_target = nullptr;
+		}
+		break;
+		case EventType::TARGET_FOUND:
+		{
+			TargetFoundEvent * tfEvent = static_cast<TargetFoundEvent*>(aEvent);
+			m_target = tfEvent->GetTarget();
+			m_targetTComp = static_cast<TransformComponent*>(m_target->Get(COMPONENT_TYPE::TRANSFORM));
+		}
+		break;
+		}
 	}
 }
 

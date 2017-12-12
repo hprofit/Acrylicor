@@ -24,10 +24,12 @@ AIFireGunComponent::~AIFireGunComponent() {}
 
 void AIFireGunComponent::Update(double deltaTime)
 {
-	m_timeSinceLastFire += deltaTime;
-	if (m_timeSinceLastFire >= m_fireFrequency) {
-		m_timeSinceLastFire = 0.f;
-		m_wComp->Fire();
+	if (m_active) {
+		m_timeSinceLastFire += deltaTime;
+		if (m_timeSinceLastFire >= m_fireFrequency) {
+			m_timeSinceLastFire = 0.f;
+			m_wComp->Fire();
+		}
 	}
 }
 

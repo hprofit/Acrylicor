@@ -23,14 +23,6 @@
     "frameX": 0,
     "frameY": 0
   },
-  "aiSway": {
-    "amount": 500,
-    "speed": 2
-  },
-  "aiRush": {
-    "direction": "forward",
-    "speed": 200
-  },
   "physics": {
     "mass": 1,
     "body": {
@@ -47,5 +39,20 @@
   },
   "score": {
     "amount": 50
+  },
+  "aiSway": {
+    "amount": 500,
+    "speed": 2
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 200
+  },
+  "aiManager": {
+    "components": {
+      "activate": [
+        "aiSway"
+      ]
+    }
   }
 }

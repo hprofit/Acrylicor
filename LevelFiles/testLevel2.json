@@ -173,7 +173,7 @@
       "goalObj": {
         "goal": {
           "type": "enemiesDefeated",
-          "count": 10,
+          "count": 11,
           "events": [
             "addScore"
           ]
@@ -186,7 +186,7 @@
         "physics": {
           "position": {
             "x": 0,
-            "y": 200
+            "y": 400
           }
         },
         "spawner": {

@@ -95,25 +95,26 @@ void SpawnerComponent::SpawnMultiple(unsigned int amount)
 
 	Vector3D AXIS_Z = Vector3D(0, 0, 1);
 	Vector3D pos = m_tComp->GetPosition();
+	float angle = m_tComp->GetAngleZ();
 	float max = 10.0;
 	float degreeAmt = 360.f / max;
 	Matrix4x4 Position = Matrix4x4::Translate(Vector3D(pos.getX(), pos.getY(), 0));
 	Matrix4x4 Base = Matrix4x4::Translate(Vector3D(100, 0, 0));
 	int i = 0;
 
-	std::for_each(gos.begin(), gos.end(), [&Base, &degreeAmt, &Position, &AXIS_Z, &i](GameObject* go) {
+	std::for_each(gos.begin(), gos.end(), [&Base, &degreeAmt, &Position, &angle, &AXIS_Z, &i](GameObject* go) {
 		Matrix4x4 Rot = Matrix4x4::Rotate(degreeAmt * float(i), AXIS_Z);
 		Vector3D thisPos = Position * Rot * Base * Vector3D();
 		PhysicsComponent* goPComp = static_cast<PhysicsComponent*>(go->Get(COMPONENT_TYPE::PHYSICS));
+		TransformComponent* goTComp = static_cast<TransformComponent*>(go->Get(COMPONENT_TYPE::TRANSFORM));
 
 		if (goPComp) {
 			goPComp->SetPosition(thisPos);
 			goPComp->SetPrevPosition(thisPos);
 		}
-		else {
-			TransformComponent* goTComp = static_cast<TransformComponent*>(go->Get(COMPONENT_TYPE::TRANSFORM));
-			if (goTComp)
-				goTComp->SetPosition(thisPos);
+		if (goTComp) {
+			goTComp->SetPosition(thisPos);
+			goTComp->SetAngleZ(angle);
 		}
 		++i;
 	});

@@ -20,19 +20,21 @@ AIRushComponent::~AIRushComponent(){}
 
 void AIRushComponent::Update(double deltaTime)
 {
-	switch (m_moveType) {
-	case FORWARD:
-		m_pComp->InterpolateVelocity(m_tComp->Forward() * m_speed, .5f);
-		break;
-	case LEFT:
-		m_pComp->InterpolateVelocity(m_tComp->Right() * -m_speed, .5f);
-		break;
-	case RIGHT:
-		m_pComp->InterpolateVelocity(m_tComp->Right() * m_speed, .5f);
-		break;
-	case BACKWARD:
-		m_pComp->InterpolateVelocity(m_tComp->Forward() * -m_speed, .5f);
-		break;
+	if (m_active) {
+		switch (m_moveType) {
+		case FORWARD:
+			m_pComp->InterpolateVelocity(m_tComp->Forward() * m_speed, .5f);
+			break;
+		case LEFT:
+			m_pComp->InterpolateVelocity(m_tComp->Right() * -m_speed, .5f);
+			break;
+		case RIGHT:
+			m_pComp->InterpolateVelocity(m_tComp->Right() * m_speed, .5f);
+			break;
+		case BACKWARD:
+			m_pComp->InterpolateVelocity(m_tComp->Forward() * -m_speed, .5f);
+			break;
+		}
 	}
 }
 

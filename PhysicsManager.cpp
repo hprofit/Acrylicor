@@ -224,16 +224,16 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 {
 	_ResetContacts();
 
-	unsigned int i = 0;
 	// Update Physics Bodies
-	for (i = 0; i < m_physicsBodies.size(); ++i) {
-		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive())
-			m_physicsBodies[i]->Update(deltaTime);
-	}
+	std::for_each(m_physicsBodies.begin(), m_physicsBodies.end(), [&deltaTime](Component* body) {
+		if (body && body->m_parent.IsActive())
+			body->Update(deltaTime);
+	});
 
 
 	// Check for collisions
 	CollisionResult cr;
+	unsigned int i = 0;
 	for (i = 0; i < m_physicsBodies.size(); ++i) {
 		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive()) {
 			PhysicsComponent* lhs = static_cast<PhysicsComponent*>(m_physicsBodies[i]);
@@ -254,23 +254,23 @@ void PhysicsManager::UpdatePhysics(double deltaTime)
 	}
 
 	// Process contacts
-	for (i = 0; i < m_contacts.size(); ++i) {
-		CollideEvent * cEvent = new CollideEvent(*m_contacts[i]);
-		m_contacts[i]->LHS_GO()->HandleEvent(cEvent);
-		m_contacts[i]->RHS_GO()->HandleEvent(cEvent);
-	}
+	std::for_each(m_contacts.begin(), m_contacts.end(), [](Contact* contact) {
+		CollideEvent * cEvent = new CollideEvent(*contact);
+		contact->LHS_GO()->HandleEvent(cEvent);
+		contact->RHS_GO()->HandleEvent(cEvent);
+	});
 
 	// Update Physics Bodies
-	for (i = 0; i < m_physicsBodies.size(); ++i) {
-		if (m_physicsBodies[i] && m_physicsBodies[i]->m_parent.IsActive())
-			m_physicsBodies[i]->LateUpdate();
-	}
+	std::for_each(m_physicsBodies.begin(), m_physicsBodies.end(), [](Component* body) {
+		if (body && body->m_parent.IsActive())
+			body->LateUpdate();
+	});
 
 	// Update Transforms
-	for (i = 0; i < m_transforms.size(); ++i) {
-		if (m_transforms[i] && m_transforms[i]->m_parent.IsActive())
-			m_transforms[i]->Update(deltaTime);
-	}
+	std::for_each(m_transforms.begin(), m_transforms.end(), [&deltaTime](Component* transform) {
+		if (transform && transform->m_parent.IsActive())
+			transform->Update(deltaTime);
+	});
 }
 
 void PhysicsManager::_CreateContact(GameObject* lhsGO, GameObject* rhsGO, CollisionResult collision)

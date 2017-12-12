@@ -26,15 +26,6 @@
     "frameX": 0,
     "frameY": 0
   },
-  "aiSquareSway": {
-    "speed": 400,
-    "verticalDistance": 100,
-    "horizontalDistance": 300
-  },
-  "aiFireGun": {
-    "fireFrequency": 1.25,
-    "gunType": "standardEnemyGun"
-  },
   "physics": {
     "mass": 1,
     "body": {
@@ -51,5 +42,29 @@
   },
   "score": {
     "amount": 200
+  },
+  "aiSquareSway": {
+    "speed": 400,
+    "verticalDistance": 100,
+    "horizontalDistance": 300
+  },
+  "aiFireGun": {
+    "fireFrequency": 1.25,
+    "gunType": "standardEnemyGun"
+  },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 200
+  },
+  "aiManager": {
+    "components": {
+      "activate": [
+        "aiSquareSway",
+        "aiFireGun"
+      ],
+      "deactivate": [
+        "aiRush"
+      ]
+    }
   }
 }

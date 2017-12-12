@@ -156,6 +156,33 @@ namespace AcryJson {
 		return false;
 	}
 
+	std::vector<String> ParseStringList(const json j, String first)
+	{
+		if (j.find(first) != j.end())
+			return j[first];
+		return std::vector<String>();
+	}
+
+	std::vector<String> ParseStringList(const json j, String first, String second)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end())
+				return j[first][second];
+		}
+		return std::vector<String>();
+	}
+
+	std::vector<String> ParseStringList(const json j, String first, String second, String third)
+	{
+		if (j.find(first) != j.end()) {
+			if (j[first].find(second) != j[first].end()) {
+				if (j[first][second].find(third) != j[first][second].end())
+					return j[first][second][third];
+			}
+		}
+		return std::vector<String>();
+	}
+
 	Vector2D ParseVector2D(const json j, String first, String second)
 	{
 		if (j.find(first) != j.end()) {

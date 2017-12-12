@@ -20,6 +20,7 @@ Creation date: 10/29/17
 #include "AcrylicorTypedefs.h"
 #include "Vector2D.h"
 #include "Vector3D.h"
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -51,6 +52,10 @@ namespace AcryJson {
 	bool ParseBool(const json j, String);
 	bool ParseBool(const json j, String, String);
 	bool ParseBool(const json j, String, String, String);
+
+	std::vector<String> ParseStringList(const json j, String);
+	std::vector<String> ParseStringList(const json j, String, String);
+	std::vector<String> ParseStringList(const json j, String, String, String);
 
 	Vector2D ParseVector2D(const json j, String, String);
 	

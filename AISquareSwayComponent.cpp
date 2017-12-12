@@ -55,19 +55,21 @@ AISquareSwayComponent::~AISquareSwayComponent() {}
 
 void AISquareSwayComponent::Update(double deltaTime)
 {
-	m_currentDistanceTravelled += m_pComp->GetDistanceTravelledLastFrame();
-	_HandleDirectionChange();
+	if (m_active) {
+		m_currentDistanceTravelled += m_pComp->GetDistanceTravelledLastFrame();
+		_HandleDirectionChange();
 
-	switch (m_currentDirection) {
-	case FORWARD:
-		m_pComp->InterpolateVelocity(m_tComp->Forward() * m_speed, .5f);
-		break;
-	case LEFT:
-		m_pComp->InterpolateVelocity(m_tComp->Right() * -m_speed, .5f);
-		break;
-	case RIGHT:
-		m_pComp->InterpolateVelocity(m_tComp->Right() * m_speed, .5f);
-		break;
+		switch (m_currentDirection) {
+		case FORWARD:
+			m_pComp->InterpolateVelocity(m_tComp->Forward() * m_speed, .5f);
+			break;
+		case LEFT:
+			m_pComp->InterpolateVelocity(m_tComp->Right() * -m_speed, .5f);
+			break;
+		case RIGHT:
+			m_pComp->InterpolateVelocity(m_tComp->Right() * m_speed, .5f);
+			break;
+		}
 	}
 }
 

@@ -40,12 +40,23 @@
   "score": {
     "amount": 500
   },
+  "spawner": {
+    "type": "swarm"
+  },
   "aiSpawnOnDeath": {
     "events": [
       "addScore"
     ]
   },
-  "spawner": {
-    "type": "swarm"
+  "aiRush": {
+    "direction": "forward",
+    "speed": 200
+  },
+  "aiManager": {
+    "components": {
+      "activate": [
+        "aiSpawnOnDeath"
+      ]
+    }
   }
 }

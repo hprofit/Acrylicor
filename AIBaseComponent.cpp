@@ -3,7 +3,7 @@
 
 
 AIBaseComponent::AIBaseComponent(COMPONENT_TYPE type, GameObject & parent) :
-	Component(parent, type), m_active(false)
+	Component(parent, type), m_active(true)
 {}
 
 AIBaseComponent::AIBaseComponent(COMPONENT_TYPE type, const AIBaseComponent & rhs, GameObject & parent) :

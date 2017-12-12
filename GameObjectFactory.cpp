@@ -9,6 +9,7 @@
 #include "PhysicsComponent.h"
 #include "ControllerComponent.h"
 #include "GameOverControllerComponent.h"
+#include "AIManagerComponent.h"
 #include "AISwayComponent.h"
 #include "AIRushComponent.h"
 #include "AISeekComponent.h"
@@ -58,6 +59,7 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "controller"))			gObject->Get(COMPONENT_TYPE::CONTROLLER)->Override(j);
 		else if (AcryJson::KeyIs(it, "gameOverController"))	gObject->Get(COMPONENT_TYPE::GAME_OVER_CONTROLLER)->Override(j);
 		else if (AcryJson::KeyIs(it, "physics"))			gObject->Get(COMPONENT_TYPE::PHYSICS)->Override(j);
+		else if (AcryJson::KeyIs(it, "aiManager"))			gObject->Get(COMPONENT_TYPE::AI_MANAGER)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSway"))				gObject->Get(COMPONENT_TYPE::AI_SWAY)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiRush"))				gObject->Get(COMPONENT_TYPE::AI_RUSH)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSeek"))				gObject->Get(COMPONENT_TYPE::AI_SEEK)->Override(j);
@@ -133,6 +135,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "controller"))			gObject->AddComponent(ControllerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "gameOverController"))	gObject->AddComponent(GameOverControllerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "physics"))			gObject->AddComponent(PhysicsComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "aiManager"))			gObject->AddComponent(AIManagerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiSway"))				gObject->AddComponent(AISwayComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiRush"))				gObject->AddComponent(AIRushComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiSeek"))				gObject->AddComponent(AISeekComponent::Serialize(*gObject, j));

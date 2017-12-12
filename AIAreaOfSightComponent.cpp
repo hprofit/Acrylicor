@@ -55,7 +55,8 @@ AIAreaOfSightComponent::~AIAreaOfSightComponent() {}
 
 void AIAreaOfSightComponent::Update(double deltaTime)
 {
-	_FindNewTarget();
+	if (m_active)
+		_FindNewTarget();
 }
 
 AIAreaOfSightComponent * AIAreaOfSightComponent::Clone(GameObject & parent)
@@ -86,8 +87,7 @@ void AIAreaOfSightComponent::Override(nlohmann::json j)
 	}
 }
 
-void AIAreaOfSightComponent::HandleEvent(AcryEvent * aEvent)
-{}
+void AIAreaOfSightComponent::HandleEvent(AcryEvent * aEvent){}
 
 void AIAreaOfSightComponent::LateInitialize()
 {

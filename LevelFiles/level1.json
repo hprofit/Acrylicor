@@ -3,9 +3,6 @@
     {
       "camera": { }
     },
-
-
-
     {
       "background": {
         "scrollingSprite": {
@@ -49,8 +46,6 @@
         }
       }
     },
-
-
     {
       "boundaryBox": {
         "physics": {
@@ -107,9 +102,6 @@
         }
       }
     },
-
-
-
     {
       "killZone": {
         "physics": {
@@ -151,9 +143,6 @@
         }
       }
     },
-
-
-
     {
       "spawner": {
         "transform": {
@@ -169,7 +158,6 @@
         }
       }
     },
-
     {
       "player": {
         "physics": {
@@ -192,6 +180,7 @@
       }
     },
 
+
     {
       "pickup": {
         "physics": {
@@ -209,43 +198,12 @@
     },
 
     
-    
     {
       "drone": {
         "physics": {
           "position": {
-            "x": -300,
-            "y": 2550
-          }
-        }
-      }
-    },
-    {
-      "drone": {
-        "physics": {
-          "position": {
-            "x": -200,
-            "y": 2500
-          }
-        }
-      }
-    },
-    {
-      "drone": {
-        "physics": {
-          "position": {
-            "x": -100,
-            "y": 2450
-          }
-        }
-      }
-    },
-    {
-      "drone": {
-        "physics": {
-          "position": {
-            "x": 0,
-            "y": 2400
+            "x": 300,
+            "y": 2250
           }
         }
       }
@@ -264,8 +222,8 @@
       "drone": {
         "physics": {
           "position": {
-            "x": 200,
-            "y": 2300
+            "x": -100,
+            "y": 2450
           }
         }
       }
@@ -274,31 +232,14 @@
       "drone": {
         "physics": {
           "position": {
-            "x": 300,
-            "y": 2250
+            "x": -300,
+            "y": 2550
           }
         }
       }
     },
+
     
-    {
-      "swayer": {
-        "physics": {
-          "position": {
-            "x": 300, "y": 3000
-          }
-        }
-      }
-    },
-    {
-      "swayer": {
-        "physics": {
-          "position": {
-            "x": -200, "y": 3000
-          }
-        }
-      }
-    },
     {
       "swayer": {
         "physics": {
@@ -313,6 +254,24 @@
         "physics": {
           "position": {
             "x": -300, "y": 2800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300, "y": 3000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200, "y": 3000
           }
         }
       }
@@ -354,8 +313,84 @@
       }
     },
 
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -150,
+            "y": 4500
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": -50,
+            "y": 4500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 50, "y": 4500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 150,
+            "y": 4500
+          }
+        }
+      }
+    },
 
-
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 150,
+            "y": 5000
+          }
+        }
+      }
+    },
+    {
+      "drone": {
+        "physics": {
+          "position": {
+            "x": 50,
+            "y": 5000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -50, "y": 5000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -150, "y": 5000
+          }
+        }
+      }
+    },
 
 
     

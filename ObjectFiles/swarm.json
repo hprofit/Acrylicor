@@ -11,7 +11,7 @@
     "angle": {
       "xRot": 0,
       "yRot": 0,
-      "zRot": 0
+      "zRot": 180
     },
     "scale": {
       "x": 32,
@@ -46,16 +46,28 @@
     "speed": 200,
     "turnSpeed": 200,
     "viewDistance": 300,
-    "cohesion": 0.99,
+    "cohesion": 1,
     "separation": 1,
-    "alignment": 0.95,
+    "alignment": 1,
     "seek": 1.5,
     "events": [
       "goDestroyed"
     ]
   },
+  "aiRush": {
+    "direction": "forward",
+    "speed": 200
+  },
   "aiAreaOfSight": {
     "targetTag": "player",
     "radius": 300
+  },
+  "aiManager": {
+    "components": {
+      "activate": [
+        "aiAreaOfSight",
+        "aiSwarm"
+      ]
+    }
   }
 }
