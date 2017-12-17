@@ -1,16 +1,18 @@
 #include "AISpawnOnDeathComponent.h"
 #include "JsonReader.h"
-
+#include "AddScoreEvent.h"
 #include "GameObject.h"
 #include "SpawnerComponent.h"
 #include <iostream>
 
-AISpawnOnDeathComponent::AISpawnOnDeathComponent(GameObject & parent) :
-	AIBaseComponent(COMPONENT_TYPE::AI_SPAWN_ON_DEATH, parent)
+AISpawnOnDeathComponent::AISpawnOnDeathComponent(GameObject & parent, int amount) :
+	AIBaseComponent(COMPONENT_TYPE::AI_SPAWN_ON_DEATH, parent),
+	m_amount(amount)
 {}
 
 AISpawnOnDeathComponent::AISpawnOnDeathComponent(const AISpawnOnDeathComponent & rhs, GameObject & parent) :
-	AIBaseComponent(COMPONENT_TYPE::AI_SPAWN_ON_DEATH, rhs, parent)
+	AIBaseComponent(COMPONENT_TYPE::AI_SPAWN_ON_DEATH, rhs, parent),
+	m_amount(rhs.m_amount)
 {}
 
 AISpawnOnDeathComponent::~AISpawnOnDeathComponent() {}
@@ -27,12 +29,15 @@ AISpawnOnDeathComponent * AISpawnOnDeathComponent::Clone(GameObject & parent)
 
 Component * AISpawnOnDeathComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	AISpawnOnDeathComponent * comp = new AISpawnOnDeathComponent(gObject);
+	AISpawnOnDeathComponent * comp = new AISpawnOnDeathComponent(gObject, AcryJson::ParseInt(j, "aiSpawnOnDeath", "amount"));
 	comp->_ParseEvents(j, "aiSpawnOnDeath");
 	return comp;
 }
 
-void AISpawnOnDeathComponent::Override(nlohmann::json j){}
+void AISpawnOnDeathComponent::Override(nlohmann::json j)
+{
+	m_amount = AcryJson::ValueExists(j, "aiSpawnOnDeath", "amount") ? AcryJson::ParseInt(j, "aiSpawnOnDeath", "amount") : m_amount;
+}
 
 void AISpawnOnDeathComponent::HandleEvent(AcryEvent * aEvent)
 {
@@ -40,7 +45,9 @@ void AISpawnOnDeathComponent::HandleEvent(AcryEvent * aEvent)
 		switch (aEvent->Type()) {
 		case EventType::ADD_SCORE:
 		{
-			m_sComp->SpawnMultiple(10);
+			AddScoreEvent* asEvent = static_cast<AddScoreEvent*>(aEvent);
+			if (asEvent->GO()->GetId() == m_parent.GetId())
+				m_sComp->SpawnMultiple(m_amount);
 		}
 		break;
 		}

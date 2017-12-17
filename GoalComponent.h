@@ -38,12 +38,12 @@ protected:
 
 	bool m_bossDestroyed;
 
-	float m_distanceTravelled;
-	float m_currentDistanceTravelled;
+	double m_distanceTravelled;
+	double m_currentDistanceTravelled;
 
 	void _SetGoalEnemyCount(unsigned int enemyCount);
 	void _SetGoalBossDestroyed();
-	void _SetDistanceTravelled(float distance);
+	void _SetDistanceTravelled(double distance);
 
 	void _GoalCompleted();
 public:

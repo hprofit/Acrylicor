@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "position": {
+      "x": -225,
+      "y": 0,
+      "z": -1
+    },
+    "scale": {
+      "x": 30,
+      "y": 30
+    }
+  },
+  "text": {
+    "font": "baseFont",
+    "text": "Mission Cleared!!!"
+  }
+}

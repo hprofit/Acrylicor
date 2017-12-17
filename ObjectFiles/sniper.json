@@ -45,11 +45,11 @@
   },
   "aiSquareSway": {
     "speed": 400,
-    "verticalDistance": 100,
+    "verticalDistance": 150,
     "horizontalDistance": 300
   },
   "aiFireGun": {
-    "fireFrequency": 1.25,
+    "fireFrequency": 1.5,
     "gunType": "standardEnemyGun"
   },
   "aiRush": {

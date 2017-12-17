@@ -21,7 +21,7 @@ void GoalComponent::_SetGoalBossDestroyed()
 	m_bossDestroyed = false;
 }
 
-void GoalComponent::_SetDistanceTravelled(float distance)
+void GoalComponent::_SetDistanceTravelled(double distance)
 {
 	m_goalType = GOAL_TYPE::DISTANCE_TRAVELLED;
 	m_distanceTravelled = distance;
@@ -31,9 +31,9 @@ void GoalComponent::_SetDistanceTravelled(float distance)
 void GoalComponent::_GoalCompleted()
 {
 	if (!m_goalCompleted) {
-		std::cout << "======================== Goal reached! ========================" << std::endl;
+		GameObject* gObject = GameObjectManager::GetInstance().SpawnGameObject("UI_stage_clear");
 		m_goalCompleted = true;
-		EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::NEXT_LEVEL, 2.0));
+		EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::NEXT_LEVEL, 3.0));
 	}
 }
 
@@ -49,7 +49,15 @@ GoalComponent::GoalComponent(const GoalComponent & rhs, GameObject & parent) :
 
 GoalComponent::~GoalComponent(){}
 
-void GoalComponent::Update(double deltaTime) {}
+void GoalComponent::Update(double deltaTime) 
+{
+	if (m_goalType == GOAL_TYPE::DISTANCE_TRAVELLED) {
+		m_currentDistanceTravelled += deltaTime;
+		//std::cout << m_currentDistanceTravelled << std::endl;
+		if (m_currentDistanceTravelled >= m_distanceTravelled)
+			_GoalCompleted();
+	}
+}
 
 GoalComponent * GoalComponent::Clone(GameObject & parent)
 {
@@ -72,7 +80,7 @@ void GoalComponent::Override(nlohmann::json j)
 	else if (type == "boss")
 		_SetGoalBossDestroyed();
 	else if (type == "distance")
-		_SetDistanceTravelled(AcryJson::ParseFloat(j, "goal", "distance"));
+		_SetDistanceTravelled(AcryJson::ParseDouble(j, "goal", "distance"));
 
 	_ParseEvents(j, "goal");
 	_SubscribeToEvents(this->m_eventsToSubscribeTo);

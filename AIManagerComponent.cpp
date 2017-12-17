@@ -74,7 +74,7 @@ void AIManagerComponent::LateInitialize()
 {
 	std::unordered_map<String, COMPONENT_TYPE> aiTypes = {
 		{ "aiAreaOfSight", COMPONENT_TYPE::AI_AREA_OF_SIGHT },
-		{ "aiFireFun", COMPONENT_TYPE::AI_FIRE_GUN },
+		{ "aiFireGun", COMPONENT_TYPE::AI_FIRE_GUN },
 		{ "aiRush", COMPONENT_TYPE::AI_RUSH },
 		{ "aiSeek", COMPONENT_TYPE::AI_SEEK },
 		{ "aiSpawnOnDeath", COMPONENT_TYPE::AI_SPAWN_ON_DEATH },

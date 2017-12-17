@@ -167,15 +167,12 @@
         }
       }
     },
-
     {
       "goalObj": {
         "goal": {
-          "type": "enemiesDefeated",
-          "count": 9,
-          "events": [
-            "addScore"
-          ]
+          "distance": 50,
+          "type": "distance",
+          "events": [ ]
         }
       }
     },
@@ -185,11 +182,12 @@
       "pickup": {
         "physics": {
           "position": {
-            "y": 3000
+            "y": 2200
           }
         },
         "sprite": {
           "name": "doubleBarrelPickup"
+
         },
         "pickup": {
           "type": "doubleBarrel"
@@ -289,7 +287,18 @@
       "swayer": {
         "physics": {
           "position": {
-            "x": -100, "y": 3400
+            "x": -100,
+            "y": 3400
+          }
+        }
+      }
+    },
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200, "y": 3800
           }
         }
       }
@@ -298,7 +307,8 @@
       "swayer": {
         "physics": {
           "position": {
-            "x": 300, "y": 3800
+            "x": -100,
+            "y": 3800
           }
         }
       }
@@ -308,6 +318,25 @@
         "physics": {
           "position": {
             "x": 0, "y": 3800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 3800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200, "y": 3800
           }
         }
       }
@@ -352,6 +381,25 @@
         }
       }
     },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 250, "y": 4500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 350,
+            "y": 4500
+          }
+        }
+      }
+    },
 
     {
       "drone": {
@@ -386,14 +434,760 @@
       "swayer": {
         "physics": {
           "position": {
-            "x": -150, "y": 5000
+            "x": -150,
+            "y": 5000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -250, "y": 5000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -350, "y": 5000
           }
         }
       }
     },
 
 
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 5500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 5600
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 5700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0, "y": 5800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0,
+            "y": 5900
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 0, "y": 6000
+          }
+        }
+      }
+    },
     
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 5500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 5600
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 5700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100, "y": 5800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 5900
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100, "y": 6000
+          }
+        }
+      }
+    },
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 5500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 5600
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 5700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100, "y": 5800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 5900
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100, "y": 6000
+          }
+        }
+      }
+    },
+
+
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 6100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 6200
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 6300
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300, "y": 6400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 6500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -300,
+            "y": 6600
+          }
+        }
+      }
+    },
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 6100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 6200
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 6300
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200, "y": 6400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200,
+            "y": 6500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -200, "y": 6600
+          }
+        }
+      }
+    },
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 6100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 6200
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 6300
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100, "y": 6400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100,
+            "y": 6500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -100, "y": 6600
+          }
+        }
+      }
+    },
+
+    
+    
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 6700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 6800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 6900
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300, "y": 7000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 7100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 300,
+            "y": 7200
+          }
+        }
+      }
+    },
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 6700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 6800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 6900
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200, "y": 7000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200,
+            "y": 7100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 200, "y": 7200
+          }
+        }
+      }
+    },
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 6700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 6800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 6900
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100, "y": 7000
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100,
+            "y": 7100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 100, "y": 7200
+          }
+        }
+      }
+    },
+
+    
+
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 7500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 7650
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 7800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 7950
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 8100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500,
+            "y": 8250
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 8400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 8550
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 8700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": -500, "y": 8850
+          }
+        }
+      }
+    },
+
+
+
+    
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 7500
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 7650
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 7800
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 7950
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 8100
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500,
+            "y": 8250
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 8400
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 8550
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 8700
+          }
+        }
+      }
+    },
+    {
+      "swayer": {
+        "physics": {
+          "position": {
+            "x": 500, "y": 8850
+          }
+        }
+      }
+    },
+
+
+
     {
       "UI_lives": { }
     },

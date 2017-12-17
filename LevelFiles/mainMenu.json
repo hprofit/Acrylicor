@@ -1,0 +1,53 @@
+{
+  "objects": [
+    {
+      "camera": { }
+    },
+    {
+      "background": {
+        "scrollingSprite": {
+          "color": {
+            "r": 0.5,
+            "g": 0,
+            "b": 0.75,
+            "a": 1
+          }
+        }
+      }
+    },
+    {
+      "background": {
+        "transform": {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "scale": {
+            "x": 1600,
+            "y": 900
+          }
+        },
+        "scrollingSprite": {
+          "name": "motherBoardTransparentBG",
+          "frameX": 0,
+          "frameY": 0,
+          "tileX": 5,
+          "tileY": 2.5,
+          "scrollSpeedX": 0,
+          "scrollSpeedY": -0.6,
+          "shader": "scrollingTileShader",
+          "color": {
+            "r": 0.25,
+            "g": 0,
+            "b": 0.5,
+            "a": 1
+          }
+        }
+      }
+    }
+
+
+
+  ]
+}

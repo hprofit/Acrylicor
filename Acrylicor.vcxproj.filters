@@ -444,6 +444,12 @@
     <ClInclude Include="AIManagerComponent.h">
       <Filter>Header Files\Components\AI</Filter>
     </ClInclude>
+    <ClInclude Include="MainMenuControllerComponent.h">
+      <Filter>Header Files\Components\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_MainMenuComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix3x3.cpp">
@@ -716,6 +722,12 @@
     <ClCompile Include="AIManagerComponent.cpp">
       <Filter>Source Files\Components\AI</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenuControllerComponent.cpp">
+      <Filter>Source Files\Components\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_MainMenuComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectFiles\config.json">
@@ -879,6 +891,15 @@
     </None>
     <None Include="LevelFiles\testLevel2.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_stage_clear.json">
+      <Filter>Source Files\TEST_FILES\Json\UI</Filter>
+    </None>
+    <None Include="LevelFiles\mainMenu.json">
+      <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
+    </None>
+    <None Include="ObjectFiles\mainMenuPlayer.json">
+      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
     </None>
   </ItemGroup>
 </Project>

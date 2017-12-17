@@ -1,10 +1,11 @@
 {
   "levels": [
+    "LevelFiles/mainMenu.json",
     "LevelFiles/level1.json",
     "LevelFiles/level2.json",
     "LevelFiles/testLevel.json",
     "LevelFiles/testLevel2.json"
   ],
   "baseLevel": 0,
-  "lastLevel": 1
+  "lastLevel": 2
 }

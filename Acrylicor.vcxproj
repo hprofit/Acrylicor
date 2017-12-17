@@ -178,6 +178,7 @@
     <ClInclude Include="LineSegment2D.h" />
     <ClInclude Include="LineSegment3D.h" />
     <ClInclude Include="LoadLevelEvent.h" />
+    <ClInclude Include="MainMenuControllerComponent.h" />
     <ClInclude Include="Math2D.h" />
     <ClInclude Include="Math3D.h" />
     <ClInclude Include="Matrix.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="TimeToLiveComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="UI_EnergyComponent.h" />
+    <ClInclude Include="UI_MainMenuComponent.h" />
     <ClInclude Include="UI_ScoreComponent.h" />
     <ClInclude Include="UI_LivesComponent.h" />
     <ClInclude Include="UI_MissilesComponent.h" />
@@ -273,6 +275,7 @@
     <ClCompile Include="LineSegment3D.cpp" />
     <ClCompile Include="LoadLevelEvent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenuControllerComponent.cpp" />
     <ClCompile Include="Math2D.cpp" />
     <ClCompile Include="Math3D.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -312,6 +315,7 @@
     <ClCompile Include="TimeToLiveComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UI_EnergyComponent.cpp" />
+    <ClCompile Include="UI_MainMenuComponent.cpp" />
     <ClCompile Include="UI_ScoreComponent.cpp" />
     <ClCompile Include="UI_LivesComponent.cpp" />
     <ClCompile Include="UI_MissilesComponent.cpp" />
@@ -324,6 +328,7 @@
     <None Include="LevelFiles\level1.json" />
     <None Include="LevelFiles\level2.json" />
     <None Include="LevelFiles\Levels.json" />
+    <None Include="LevelFiles\mainMenu.json" />
     <None Include="LevelFiles\testLevel.json" />
     <None Include="LevelFiles\testLevel2.json" />
     <None Include="ObjectFiles\background.json" />
@@ -336,6 +341,7 @@
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\drone.json" />
+    <None Include="ObjectFiles\mainMenuPlayer.json" />
     <None Include="ObjectFiles\pod.json" />
     <None Include="ObjectFiles\standardEnemyGun.json" />
     <None Include="ObjectFiles\goal.json" />
@@ -367,6 +373,7 @@
     <None Include="ObjectFiles\UI\UI_lives.json" />
     <None Include="ObjectFiles\UI\UI_missiles.json" />
     <None Include="ObjectFiles\UI\UI_score.json" />
+    <None Include="ObjectFiles\UI\UI_stage_clear.json" />
     <None Include="Shaders\defaultFragShader.frag" />
     <None Include="Shaders\defaultVertShader.vert" />
     <None Include="Shaders\lineShader.frag" />

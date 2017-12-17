@@ -24,10 +24,12 @@ class AISpawnOnDeathComponent :
 	public AIBaseComponent
 {
 protected:
+	int m_amount;
+
 	SpawnerComponent* m_sComp;
 public:
 	AISpawnOnDeathComponent() = delete;
-	AISpawnOnDeathComponent(GameObject& parent);
+	AISpawnOnDeathComponent(GameObject& parent, int amount);
 	AISpawnOnDeathComponent(const AISpawnOnDeathComponent& rhs) = delete;
 	AISpawnOnDeathComponent(const AISpawnOnDeathComponent& rhs, GameObject& parent);
 	AISpawnOnDeathComponent& operator= (AISpawnOnDeathComponent rhs) = delete;

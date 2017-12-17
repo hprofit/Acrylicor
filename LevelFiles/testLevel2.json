@@ -185,7 +185,22 @@
       "pod": {
         "physics": {
           "position": {
-            "x": 0,
+            "x": -400,
+            "y": 400
+          }
+        },
+        "spawner": {
+          "events": [
+            "spawn"
+          ]
+        }
+      }
+    },
+    {
+      "pod": {
+        "physics": {
+          "position": {
+            "x": 400,
             "y": 400
           }
         },
