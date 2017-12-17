@@ -151,6 +151,11 @@ GameObject * GameObject::GetChildOfType(String type) const
 	return nullptr;
 }
 
+std::vector<GameObject*> GameObject::GetChildren() const
+{
+	return m_children;
+}
+
 bool GameObject::Has(COMPONENT_TYPE type)
 {
 	return m_components[type] != NULL;

@@ -26,18 +26,17 @@ class UI_MainMenuComponent :
 	public Component
 {
 protected:
-	enum class MENU_OPTION {
+	enum MENU_OPTION {
 		START = 0,
 		EXIT
 	};
-	String m_baseMessage;
+	unsigned int m_currOption;
 
-	std::vector<TextComponent*> m_teComp;
+	std::vector<TextComponent*> m_textComponents;
 
-	void _SetText() const;
 public:
 	UI_MainMenuComponent() = delete;
-	UI_MainMenuComponent(GameObject& parent, String baseMessage);
+	UI_MainMenuComponent(GameObject& parent);
 	UI_MainMenuComponent(const UI_MainMenuComponent& rhs) = delete;
 	UI_MainMenuComponent(const UI_MainMenuComponent& rhs, GameObject& parent);
 	UI_MainMenuComponent& operator= (UI_MainMenuComponent rhs) = delete;
@@ -50,6 +49,10 @@ public:
 	virtual void RegisterWithManager() {};
 	virtual void HandleEvent(AcryEvent * aEvent);
 	virtual void LateInitialize();
+
+	virtual void NextOption();
+	virtual void PrevOption();
+	virtual void Select();
 };
 
 #endif

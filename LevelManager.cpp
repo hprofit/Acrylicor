@@ -93,5 +93,5 @@ void LevelManager::LoadNextLevel()
 	if (++m_currentLevel <= m_lastLevel)
 		LoadLevel(m_levels[m_currentLevel]);
 	else
-		std::cout << "Congratulations!" << std::endl;
+		LoadLevel(m_levels[0]);
 }

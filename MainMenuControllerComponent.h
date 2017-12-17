@@ -18,9 +18,14 @@ Creation date: 12/16/17
 
 #include "Component.h"
 
+class UI_MainMenuComponent;
+
 class MainMenuControllerComponent :
 	public Component
 {
+protected:
+	UI_MainMenuComponent* m_mmComp;
+
 public:
 	MainMenuControllerComponent() = delete;
 	MainMenuControllerComponent(GameObject& parent);
@@ -33,6 +38,7 @@ public:
 	virtual void Override(nlohmann::json j);
 	virtual void RegisterWithManager() {};
 	virtual void HandleEvent(AcryEvent * aEvent);
+	virtual void LateInitialize();
 };
 
 #endif

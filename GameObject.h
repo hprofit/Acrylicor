@@ -86,6 +86,7 @@ public:
 		return m_parent;
 	}
 	GameObject * GetChildOfType(String type) const;
+	std::vector<GameObject*> GetChildren() const;
 
 	bool Has(COMPONENT_TYPE type);
 	Component* Get(COMPONENT_TYPE type);

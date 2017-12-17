@@ -15,6 +15,10 @@
   { "UI_energy": "ObjectFiles/UI/UI_energy.json" },
   { "UI_stage_clear": "ObjectFiles/UI/UI_stage_clear.json" },
 
+  { "UI_mainMenu_line1": "ObjectFiles/UI/UI_mainMenu_line1.json" },
+  { "UI_mainMenu_line2": "ObjectFiles/UI/UI_mainMenu_line2.json" },
+  { "UI_mainMenu": "ObjectFiles/UI/UI_mainMenu.json" },
+
   { "UI_gameOver_line1": "ObjectFiles/UI/UI_gameOver_line1.json" },
   { "UI_gameOver_line2": "ObjectFiles/UI/UI_gameOver_line2.json" },
   { "UI_gameOver": "ObjectFiles/UI/UI_gameOver.json" },

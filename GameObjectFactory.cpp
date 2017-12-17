@@ -9,6 +9,7 @@
 #include "PhysicsComponent.h"
 #include "ControllerComponent.h"
 #include "GameOverControllerComponent.h"
+#include "MainMenuControllerComponent.h"
 #include "AIManagerComponent.h"
 #include "AISwayComponent.h"
 #include "AIRushComponent.h"
@@ -29,6 +30,7 @@
 #include "UI_MissilesComponent.h"
 #include "UI_ScoreComponent.h"
 #include "UI_EnergyComponent.h"
+#include "UI_MainMenuComponent.h"
 #include "KillZoneComponent.h"
 #include "DashComponent.h"
 #include "GoalComponent.h"
@@ -58,6 +60,7 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "text"))				gObject->Get(COMPONENT_TYPE::TEXT)->Override(j);
 		else if (AcryJson::KeyIs(it, "controller"))			gObject->Get(COMPONENT_TYPE::CONTROLLER)->Override(j);
 		else if (AcryJson::KeyIs(it, "gameOverController"))	gObject->Get(COMPONENT_TYPE::GAME_OVER_CONTROLLER)->Override(j);
+		else if (AcryJson::KeyIs(it, "mainMenuController"))	gObject->Get(COMPONENT_TYPE::MAIN_MENU_CONTROLLER)->Override(j);
 		else if (AcryJson::KeyIs(it, "physics"))			gObject->Get(COMPONENT_TYPE::PHYSICS)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiManager"))			gObject->Get(COMPONENT_TYPE::AI_MANAGER)->Override(j);
 		else if (AcryJson::KeyIs(it, "aiSway"))				gObject->Get(COMPONENT_TYPE::AI_SWAY)->Override(j);
@@ -79,6 +82,7 @@ GameObject * GameObjectFactory::_SpawnObjectWithOverrides(String objectType, jso
 		else if (AcryJson::KeyIs(it, "uiMissiles"))			gObject->Get(COMPONENT_TYPE::UI_MISSILES)->Override(j);
 		else if (AcryJson::KeyIs(it, "uiScore"))			gObject->Get(COMPONENT_TYPE::UI_SCORE)->Override(j);
 		else if (AcryJson::KeyIs(it, "uiEnergy"))			gObject->Get(COMPONENT_TYPE::UI_ENERGY)->Override(j);
+		else if (AcryJson::KeyIs(it, "uiMainMenu"))			gObject->Get(COMPONENT_TYPE::UI_MAIN_MENU)->Override(j);
 		else if (AcryJson::KeyIs(it, "killZone"))			gObject->Get(COMPONENT_TYPE::KILL_ZONE)->Override(j);
 		else if (AcryJson::KeyIs(it, "dash"))				gObject->Get(COMPONENT_TYPE::DASH)->Override(j);
 		else if (AcryJson::KeyIs(it, "goal"))				gObject->Get(COMPONENT_TYPE::GOAL)->Override(j);
@@ -134,6 +138,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "text"))				gObject->AddComponent(TextComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "controller"))			gObject->AddComponent(ControllerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "gameOverController"))	gObject->AddComponent(GameOverControllerComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "mainMenuController"))	gObject->AddComponent(MainMenuControllerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "physics"))			gObject->AddComponent(PhysicsComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiManager"))			gObject->AddComponent(AIManagerComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "aiSway"))				gObject->AddComponent(AISwayComponent::Serialize(*gObject, j));
@@ -155,6 +160,7 @@ GameObject * GameObjectFactory::LoadGameObjectFromFile(String fileName, String o
 				else if (AcryJson::KeyIs(it, "uiMissiles"))			gObject->AddComponent(UI_MissilesComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "uiScore"))			gObject->AddComponent(UI_ScoreComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "uiEnergy"))			gObject->AddComponent(UI_EnergyComponent::Serialize(*gObject, j));
+				else if (AcryJson::KeyIs(it, "uiMainMenu"))			gObject->AddComponent(UI_MainMenuComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "killZone"))			gObject->AddComponent(KillZoneComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "dash"))				gObject->AddComponent(DashComponent::Serialize(*gObject, j));
 				else if (AcryJson::KeyIs(it, "goal"))				gObject->AddComponent(GoalComponent::Serialize(*gObject, j));

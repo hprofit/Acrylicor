@@ -1,29 +1,39 @@
 #include "UI_MainMenuComponent.h"
 #include "JsonReader.h"
 
+#include "LevelManager.h"
 #include "GameObject.h"
 #include "TextComponent.h"
 #include <string>
+#include <vector>
+#include <iostream>
 
-void UI_MainMenuComponent::_SetText() const
-{
-	TextComponent * tComp = static_cast<TextComponent*>(m_parent.Get(COMPONENT_TYPE::TEXT));
-	tComp->SetText(m_baseMessage);
-}
 
-UI_MainMenuComponent::UI_MainMenuComponent(GameObject & parent, String baseMessage) :
+UI_MainMenuComponent::UI_MainMenuComponent(GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::UI_MAIN_MENU),
-	m_score(0),
-	m_baseMessage(baseMessage) {}
+	m_currOption(0)
+{}
 
 UI_MainMenuComponent::UI_MainMenuComponent(const UI_MainMenuComponent & rhs, GameObject & parent) :
 	Component(parent, COMPONENT_TYPE::UI_MAIN_MENU),
-	m_score(rhs.m_score),
-	m_baseMessage(rhs.m_baseMessage) {}
+	m_currOption(rhs.m_currOption)
+{}
 
 UI_MainMenuComponent::~UI_MainMenuComponent() {}
 
-void UI_MainMenuComponent::Update(double deltaTime) {}
+void UI_MainMenuComponent::Update(double deltaTime) 
+{
+	unsigned int index = 0;
+	std::for_each(m_textComponents.begin(), m_textComponents.end(), [this, &index](TextComponent* tComp) {
+		String text = tComp->Text();
+		if (index == m_currOption)
+			text[0] = '>';
+		else
+			text[0] = ' ';
+		tComp->SetText(text);
+		++index;
+	});
+}
 
 UI_MainMenuComponent * UI_MainMenuComponent::Clone(GameObject & parent)
 {
@@ -35,50 +45,44 @@ UI_MainMenuComponent * UI_MainMenuComponent::Clone(GameObject & parent)
 
 Component * UI_MainMenuComponent::Serialize(GameObject & gObject, nlohmann::json j)
 {
-	UI_MainMenuComponent* comp = new UI_MainMenuComponent(gObject,
-		AcryJson::ParseString(j, "uiScore", "baseMessage")
-	);
-	comp->_ParseEvents(j, "uiScore");
+	UI_MainMenuComponent* comp = new UI_MainMenuComponent(gObject);
+	comp->_ParseEvents(j, "uiMainMenu");
 
 	return comp;
 }
 
-void UI_MainMenuComponent::Override(nlohmann::json j)
-{
-	m_baseMessage = AcryJson::ValueExists(j, "uiScore", "baseMessage") ? AcryJson::ParseString(j, "uiScore", "baseMessage") : m_baseMessage;
-}
+void UI_MainMenuComponent::Override(nlohmann::json j){}
 
-void UI_MainMenuComponent::HandleEvent(AcryEvent * aEvent)
-{
-	switch (aEvent->Type()) {
-	case EventType::ADD_SCORE:
-	{
-		AddScoreEvent * asEvent = static_cast<AddScoreEvent*>(aEvent);
-		AddScore(asEvent->Score());
-	}
-	break;
-	}
-}
+void UI_MainMenuComponent::HandleEvent(AcryEvent * aEvent){}
 
 void UI_MainMenuComponent::LateInitialize()
 {
-	_SetText();
+	std::vector<GameObject*> children = m_parent.GetChildren();
+
+	std::for_each(children.begin(), children.end(), [this](GameObject* go) {
+		m_textComponents.push_back(static_cast<TextComponent*>(go->Get(COMPONENT_TYPE::TEXT)));
+	});
 }
 
-void UI_MainMenuComponent::AddScore(int amt)
+void UI_MainMenuComponent::NextOption()
 {
-	m_score += amt;
-	_SetText();
+	if (++m_currOption >= m_textComponents.size())
+		m_currOption = 0;
 }
 
-void UI_MainMenuComponent::RemoveScore(int amt)
+void UI_MainMenuComponent::PrevOption()
 {
-	m_score -= amt;
-	_SetText();
+	if (--m_currOption >= m_textComponents.size())
+		m_currOption = m_textComponents.size() - 1;
 }
 
-void UI_MainMenuComponent::SetScore(int amt)
+void UI_MainMenuComponent::Select()
 {
-	m_score = amt;
-	_SetText();
+	switch (m_currOption) {
+	case MENU_OPTION::START:
+		LevelManager::GetInstance().LoadNextLevel();
+		break;
+	case MENU_OPTION::EXIT:
+		break;
+	}
 }

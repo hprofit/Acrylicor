@@ -1,0 +1,19 @@
+{
+  "children": [
+  ],
+  "transform": {
+    "position": {
+      "x": -250,
+      "y": -50,
+      "z": -1
+    },
+    "scale": {
+      "x": 24,
+      "y": 24
+    }
+  },
+  "text": {
+    "font": "baseFont",
+    "text": "  Quit Game"
+  }
+}

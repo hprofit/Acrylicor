@@ -341,7 +341,6 @@
     <None Include="ObjectFiles\config.json" />
     <None Include="ObjectFiles\defaultShader.json" />
     <None Include="ObjectFiles\drone.json" />
-    <None Include="ObjectFiles\mainMenuPlayer.json" />
     <None Include="ObjectFiles\pod.json" />
     <None Include="ObjectFiles\standardEnemyGun.json" />
     <None Include="ObjectFiles\goal.json" />
@@ -371,6 +370,9 @@
     <None Include="ObjectFiles\UI\UI_gameOver_line1.json" />
     <None Include="ObjectFiles\UI\UI_gameOver_line2.json" />
     <None Include="ObjectFiles\UI\UI_lives.json" />
+    <None Include="ObjectFiles\UI\UI_mainMenu.json" />
+    <None Include="ObjectFiles\UI\UI_mainMenu_line1.json" />
+    <None Include="ObjectFiles\UI\UI_mainMenu_line2.json" />
     <None Include="ObjectFiles\UI\UI_missiles.json" />
     <None Include="ObjectFiles\UI\UI_score.json" />
     <None Include="ObjectFiles\UI\UI_stage_clear.json" />

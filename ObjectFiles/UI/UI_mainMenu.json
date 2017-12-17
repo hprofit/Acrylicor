@@ -1,0 +1,19 @@
+{
+  "children": [
+    "UI_mainMenu_line1",
+    "UI_mainMenu_line2"
+  ],
+  "transform": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -1
+    },
+    "scale": {
+      "x": 0.75,
+      "y": 0.75
+    }
+  },
+  "uiMainMenu": { },
+  "mainMenuController": { }
+}

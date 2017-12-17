@@ -148,6 +148,9 @@
     <Filter Include="Header Files\Components\Controller">
       <UniqueIdentifier>{348c8209-67ca-4462-b233-f5111741e82c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TEST_FILES\Json\UI\Main Menu">
+      <UniqueIdentifier>{a1c3f3d1-f3f7-4a25-90f4-255c6c952406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix3x3.h">
@@ -448,7 +451,7 @@
       <Filter>Header Files\Components\Controller</Filter>
     </ClInclude>
     <ClInclude Include="UI_MainMenuComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -726,7 +729,7 @@
       <Filter>Source Files\Components\Controller</Filter>
     </ClCompile>
     <ClCompile Include="UI_MainMenuComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -898,8 +901,14 @@
     <None Include="LevelFiles\mainMenu.json">
       <Filter>Source Files\TEST_FILES\Json\Levels</Filter>
     </None>
-    <None Include="ObjectFiles\mainMenuPlayer.json">
-      <Filter>Source Files\TEST_FILES\Json\Objects</Filter>
+    <None Include="ObjectFiles\UI\UI_mainMenu_line2.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Main Menu</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_mainMenu_line1.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Main Menu</Filter>
+    </None>
+    <None Include="ObjectFiles\UI\UI_mainMenu.json">
+      <Filter>Source Files\TEST_FILES\Json\UI\Main Menu</Filter>
     </None>
   </ItemGroup>
 </Project>

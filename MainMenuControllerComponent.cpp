@@ -4,13 +4,8 @@
 #include "KeyPressEvent.h"
 
 #include "GameObject.h"
-#include "PhysicsComponent.h"
-#include "SpriteComponent.h"
-#include "WeaponComponent.h"
-#include "MissileLauncherComponent.h"
+#include "UI_MainMenuComponent.h"
 #include "InputManager.h"
-#include "EventManager.h"
-#include "ShakeEvent.h"
 #include <iostream>
 
 MainMenuControllerComponent::MainMenuControllerComponent(GameObject& parent) :
@@ -29,11 +24,11 @@ void MainMenuControllerComponent::Update(double deltaTime)
 	InputManager& inputMgr = InputManager::GetInstance();
 
 	if (inputMgr.IsKeyTriggered(ACR_W))
-		EventManager::GetInstance().BroadcastEventToSubscribers(new ShakeEvent(4.0));
-	if (inputMgr.IsKeyTriggered(ACR_D))
-		EventManager::GetInstance().AddDelayedEvent(new AcryEvent(EventType::RESTART_LEVEL, 0.0));
+		m_mmComp->PrevOption();
+	if (inputMgr.IsKeyTriggered(ACR_S))
+		m_mmComp->NextOption();
 	if (inputMgr.IsKeyTriggered(ACR_SPACE))
-		EventManager::GetInstance().BroadcastEventToSubscribers(new AcryEvent(EventType::SPAWN));
+		m_mmComp->Select();
 }
 
 MainMenuControllerComponent * MainMenuControllerComponent::Clone(GameObject & parent)
@@ -63,4 +58,11 @@ void MainMenuControllerComponent::HandleEvent(AcryEvent * aEvent)
 	}
 	break;
 	}
+}
+
+void MainMenuControllerComponent::LateInitialize()
+{
+	m_mmComp = static_cast<UI_MainMenuComponent*>(m_parent.Get(COMPONENT_TYPE::UI_MAIN_MENU));
+	if (!m_mmComp)
+		std::cout << "MainMenuController components require UI_MainMenu components." << std::endl;
 }
